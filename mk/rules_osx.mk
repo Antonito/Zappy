@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:05:54 2017 Antoine Baché
-## Last update Fri Jun 23 14:06:03 2017 Antoine Baché
+## Last update Fri Jun 23 14:27:53 2017 Antoine Baché
 ##
 
 MAIN_OBJ_DIR=	$(ROOT_DIR)/obj/
@@ -16,9 +16,10 @@ PRECOMPILED_OBJ=$(PRECOMPILED_HEADER:%.hpp=%.hpp.pch)
 else
 PRECOMPILED_OBJ=$(PRECOMPILED_HEADER:%.hpp=%.hpp.gch)
 endif
+OBJ_C=		$(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 OBJ_CPP=	$(SRC:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 OBJ_MM=		$(SRC:$(SRC_DIR)%.mm=$(OBJ_DIR)%.o)
-OBJ=		$(filter %.o, $(OBJ_CPP) $(OBJ_MM))
+OBJ=		$(filter %.o, $(OBJ_C) $(OBJ_CPP) $(OBJ_MM))
 OBJ_DIR_LIST=	$(DIR_LIST:$(SRC_DIR)%=$(OBJ_DIR)%)
 
 NAME_EXTENSION=	$(suffix $(NAME))
@@ -42,6 +43,11 @@ else
 		$(ECHO) "$(WHITE)[$(GREEN)OK$(WHITE)] Linked $(CYAN)"$(NAME)"\n$(CLEAR)" || \
 		$(ECHO) "$(WHITE)[$(RED)KO$(WHITE)] Linked $(CYAN)"$(NAME)"\n$(CLEAR)"
 endif
+
+$(OBJ_DIR)%.o:	$(SRC_DIR)%.c
+		@$(CC) $(CFLAGS) -c -o $@ $< && \
+		$(ECHO) "$(WHITE)[$(GREEN)OK$(WHITE)] Compiled "$<"\n$(CLEAR)" || \
+		$(ECHO) "$(WHITE)[$(RED)KO$(WHITE)] Compiled "$<"\n$(CLEAR)"
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.mm
 ifeq ($(CXX),clang++)

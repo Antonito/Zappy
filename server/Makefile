@@ -5,6 +5,8 @@ MK_COMMON_DIR=	./../mk/
 # Definitions for Makefile
 NAME=		$(ROOT_DIR)/zappy_server
 
+LOCAL_COMP_CFLAGS=
+
 LOCAL_COMP_FLAGS=
 
 LOCAL_LINK_FLAGS=
