@@ -347,3 +347,6 @@ build/.license_keys
 #confiug file
 *.ini
 cmake-build-debug/*
+
+zappy_ai
+zappy_server
