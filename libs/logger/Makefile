@@ -3,7 +3,7 @@ MK_DIR=		./mk/
 MK_COMMON_DIR=	./../../mk/
 
 # Definitions for Makefile
-NAME=		$(ROOT_DIR)/build/lizappy_logger.a
+NAME=		$(ROOT_DIR)/build/libzappy_logger.a
 
 LOCAL_COMP_FLAGS= -Wno-global-constructors -Wno-exit-time-destructors
 

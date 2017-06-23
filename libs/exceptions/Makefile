@@ -3,7 +3,7 @@ MK_DIR=		./mk/
 MK_COMMON_DIR=	./../../mk/
 
 # Definitions for Makefile
-NAME=		$(ROOT_DIR)/build/lizappy_exceptions.a
+NAME=		$(ROOT_DIR)/build/libzappy_exceptions.a
 
 LOCAL_COMP_FLAGS=	-O2
 
