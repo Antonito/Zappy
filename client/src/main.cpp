@@ -94,7 +94,7 @@ int main(int ac, char **av, char **env)
 	                        << "\" is an invalid port value" << std::endl;
 	  return (EXIT_FAILURE);
 	}
-      port = static_cast<std::int16_t>(portValue);
+      port = static_cast<std::uint16_t>(portValue);
 
       name = opt.getArg("-n");
       machine = opt.getArg("-h");
