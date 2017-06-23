@@ -28,7 +28,11 @@ HEADER=
 # Project's files
 
 
-SRC_FILES=	main.c
+SRC_FILES=	main.c			\
+		parse.c			\
+		argvs_func.c		\
+		argvs_func_freq.c	\
+		socket.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 
