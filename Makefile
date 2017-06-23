@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:00:58 2017 Antoine Baché
-## Last update Fri Jun 23 14:15:12 2017 Antoine Baché
+## Last update Fri Jun 23 14:32:22 2017 Antoine Baché
 ##
 
 MK_DIR=			./mk/
@@ -41,6 +41,12 @@ RULES=			all		\
 			fclean		\
 			re		\
 			infos
+
+zappy_ai:
+			@$(MAKE) $(PROJECT_DIR)client
+
+zappy_server:
+			@$(MAKE) $(PROJECT_DIR)server
 
 no_rule:
 			@$(foreach path, $(PROJECTS_PATH),		\
