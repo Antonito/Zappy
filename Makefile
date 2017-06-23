@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:00:58 2017 Antoine Baché
-## Last update Fri Jun 23 21:47:11 2017 Antoine Baché
+## Last update Fri Jun 23 21:48:12 2017 Antoine Baché
 ##
 
 MK_DIR=			./mk/
@@ -22,9 +22,9 @@ LIB_DIR=		./libs/
 
 LIBS=			exceptions	\
 			logger		\
+			clogger		\
 			network		\
-			option		\
-			network
+			option
 
 PROJECTS_PATH=		$(addprefix $(LIB_DIR), $(LIBS))		\
 			$(addprefix $(PROJECT_DIR), $(PROJECTS))
