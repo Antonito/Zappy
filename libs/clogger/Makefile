@@ -3,9 +3,13 @@ MK_DIR=		./mk/
 MK_COMMON_DIR=	./../../mk/
 
 # Definitions for Makefile
-NAME=		$(ROOT_DIR)/build/libzappy_network.a
+NAME=		$(ROOT_DIR)/build/libzappy_clogger.a
 
-LOCAL_COMP_FLAGS=	-O2
+LOCAL_DEBUG_CFLAGS=
+
+LOCAL_COMP_CFLAGS=
+
+LOCAL_COMP_FLAGS=
 
 LOCAL_LINK_FLAGS=
 
@@ -19,20 +23,17 @@ SRC_DIR=	./src/
 
 INCLUDE_DIR=	./include/
 
-DIR_LIST=	$(SRC_DIR)				\
-		$(ROOT_DIR)/libs/exceptions/include/	\
-		$(ROOT_DIR)/libs/logger/include/	\
-		$(ROOT_DIR)/libs/packet/include/
+DIR_LIST=	$(SRC_DIR)
 
-HEADER=		network_stdafx.hpp
+HEADER=
 
 # Project's files
 
-SRC_FILES=	ASocket.cpp		\
-		TCPSocket.cpp		\
-		UDPSocket.cpp
+
+SRC_FILES=	clogger.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
+
 
 INC_DIR=	$(DIR_LIST:$(SRC_DIR)%=$(INCLUDE_DIR)%)
 

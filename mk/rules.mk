@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:05:32 2017 Antoine Baché
-## Last update Fri Jun 23 14:13:11 2017 Antoine Baché
+## Last update Fri Jun 23 18:54:14 2017 Antoine Baché
 ##
 
 MAIN_OBJ_DIR=	$(ROOT_DIR)/obj/
@@ -31,7 +31,7 @@ ifeq ($(NAME_EXTENSION),.a)
 		$(ECHO) "$(WHITE)[$(GREEN)OK$(WHITE)] Generated $(CYAN)"$(NAME)"\n$(CLEAR)" || \
 		$(ECHO) "$(WHITE)[$(RED)KO$(WHITE)] Generated $(CYAN)"$(NAME)"\n$(CLEAR)"
 else
-		@$(CXX) $(OBJ) -o $(NAME) $(LDFLAGS) && \
+		@$(LD) $(OBJ) -o $(NAME) $(LDFLAGS) && \
 		$(ECHO) "$(WHITE)[$(GREEN)OK$(WHITE)] Linked $(CYAN)"$(NAME)"\n$(CLEAR)" || \
 		$(ECHO) "$(WHITE)[$(RED)KO$(WHITE)] Linked $(CYAN)"$(NAME)"\n$(CLEAR)"
 endif

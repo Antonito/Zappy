@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:59:51 2017 Antoine Baché
-** Last update Fri Jun 23 17:20:01 2017 Antoine Baché
+** Last update Fri Jun 23 21:37:32 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_LIST
@@ -33,5 +33,9 @@ void	zappy_for_each_client(t_zappy_client_list_manager *list,
 			      void *data,
 			      void (*func)(t_zappy_client const * const,
 					   void *data));
+int32_t	zappy_client_add(t_zappy_client_list_manager * const list);
+int32_t	zappy_client_remove(t_zappy_client_list_manager * const list,
+			    t_zappy_client const * const data);
+void	zappy_client_purify_list(t_zappy_client_list_manager * const list);
 
 #endif /* !ZAPPY_CLIENT_LIST */

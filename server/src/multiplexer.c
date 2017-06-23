@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Fri Jun 23 17:21:34 2017 Antoine Baché
+** Last update Fri Jun 23 17:56:23 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -16,7 +16,7 @@ static void	zappy_multiplexer_add_client(t_zappy_client const *
 					     const cli,
 					     t_zappy_multiplexer * const data)
 {
-  assert(cli && data && cli->net.sock != -1);
+  assert(cli->net.sock != -1);
   if (cli->net.sock > data->max_sock)
     {
       data->max_sock = cli->net.sock;
@@ -33,23 +33,32 @@ static void	zappy_multiplexer_add_client_wrap(t_zappy_client const *
 						  const cli,
 						  void * const data)
 {
+  assert(cli && data);
   zappy_multiplexer_add_client(cli, (t_zappy_multiplexer * const)data);
 }
 
-static void	zappy_multiplexer_clients(t_zappy_client_list_manager *
+static void	zappy_multiplexer_clients(int32_t const server_sock,
+					  t_zappy_client_list_manager *
 					  const clients,
 					  t_zappy_multiplexer * const data)
 {
   FD_SET(STDIN_FILENO, &data->readfds);
   data->max_sock = STDIN_FILENO;
+  FD_SET(server_sock, &data->readfds);
+  if (server_sock > data->max_sock)
+    {
+      data->max_sock = server_sock;
+    }
   zappy_for_each_client(clients, data, &zappy_multiplexer_add_client_wrap);
 }
 
-int32_t		zappy_multiplexer(t_zappy_client_list_manager * const clients,
+int32_t		zappy_multiplexer(int32_t const server_sock,
+				  t_zappy_client_list_manager * const clients,
 				  t_zappy_multiplexer * const data)
 {
   int32_t	rc;
 
+  assert(server_sock != -1);
   errno = EINTR;
   rc = -1;
   while (rc == -1 && errno == EINTR)
@@ -57,7 +66,7 @@ int32_t		zappy_multiplexer(t_zappy_client_list_manager * const clients,
       FD_ZERO(&data->readfds);
       FD_ZERO(&data->writefds);
       FD_ZERO(&data->exceptfds);
-      zappy_multiplexer_clients(clients, data);
+      zappy_multiplexer_clients(server_sock, clients, data);
       rc = select(data->max_sock + 1, &data->readfds, &data->writefds,
 		  &data->exceptfds, &data->tv);
     }
