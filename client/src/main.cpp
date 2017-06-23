@@ -46,6 +46,7 @@ int main(int ac, char **av, char **env)
       opt.setOptionName("-n", "--name");
       opt.setOptionName("-h", "--machine", "localhost");
       opt.setOptionName("-help", "--help", true);
+      opt.setOptionName("-0", "--no-gui", true);
 
       nope::log::Log(Info) << "Parsing the options";
 
@@ -66,6 +67,7 @@ int main(int ac, char **av, char **env)
   std::uint16_t port;
   std::string   name;
   std::string   machine;
+  bool          nogui;
 
   // Get the args from the parser
   try
@@ -98,6 +100,7 @@ int main(int ac, char **av, char **env)
 
       name = opt.getArg("-n");
       machine = opt.getArg("-h");
+      nogui = opt.isEnabled("-0");
     }
   catch (nope::option::OptionException const &e)
     {
@@ -120,6 +123,7 @@ int main(int ac, char **av, char **env)
       nope::log::Log(Info) << "\tport\t" << port;
       nope::log::Log(Info) << "\tname\t" << name;
       nope::log::Log(Info) << "\tmachine\t" << machine;
+      nope::log::Log(Info) << "\tno-gui\t" << std::boolalpha << nogui;
     }
   catch (std::exception const &e)
     {
