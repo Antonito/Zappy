@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:46:10 2017 Antoine Baché
-** Last update Fri Jun 23 17:55:09 2017 Antoine Baché
+** Last update Sat Jun 24 00:31:07 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MULTIPLEXER_H_
@@ -22,6 +22,10 @@
 */
 typedef struct s_zappy	t_zappy;
 
+/*
+** Datas needed to multiplex connections.
+** Currently, those datas are useful with select(2)
+*/
 typedef struct		s_zappy_multiplexer
 {
   t_sock		max_sock;
@@ -29,12 +33,20 @@ typedef struct		s_zappy_multiplexer
   fd_set		writefds;
   fd_set		exceptfds;
   struct timeval	tv;
+  struct timeval	tv_ref;
 }			t_zappy_multiplexer;
 
+/*
+** Multiplex the connection
+*/
 int32_t			zappy_multiplexer(int32_t const server_sock,
 					  t_zappy_client_list_manager *
 					  const clients,
 					  t_zappy_multiplexer * const data);
+
+/*
+** Treat Input/Output of the server
+*/
 void			zappy_io(t_zappy * const data);
 
 #endif /* ZAPPY_MULTIPLEXER_H_ */

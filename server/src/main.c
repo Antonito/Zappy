@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Fri Jun 23 21:25:12 2017 Antoine Baché
+** Last update Fri Jun 23 22:23:07 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -40,6 +40,7 @@ static int32_t	zappy(t_zappy * const data)
   int32_t	rc;
 
   rc = zappy_create_socket(data->conf.port, &data->net);
+  data->multiplex.tv_ref.tv_sec = 5;
   if (rc)
     {
       LOG(LOG_ERROR, "Cannot create socket.");

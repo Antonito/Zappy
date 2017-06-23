@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:00:58 2017 Antoine Baché
-## Last update Fri Jun 23 21:48:12 2017 Antoine Baché
+## Last update Sat Jun 24 00:56:56 2017 Antoine Baché
 ##
 
 MK_DIR=			./mk/
@@ -23,6 +23,7 @@ LIB_DIR=		./libs/
 LIBS=			exceptions	\
 			logger		\
 			clogger		\
+			cqueue		\
 			network		\
 			option
 

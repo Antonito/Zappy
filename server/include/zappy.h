@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:55 2017 Antoine Baché
-** Last update Fri Jun 23 17:34:41 2017 Antoine Baché
+** Last update Sat Jun 24 00:24:32 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_H_
@@ -16,6 +16,10 @@
 #include "zappy_multiplexer.h"
 #include "zappy_client_list.h"
 
+/*
+** Main structure of the server
+** See the corresponding header files
+*/
 typedef struct			s_zappy
 {
   t_zappy_config		conf;

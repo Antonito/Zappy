@@ -5,11 +5,12 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Fri Jun 23 17:56:23 2017 Antoine Baché
+** Last update Fri Jun 23 22:22:10 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <errno.h>
+#include <string.h>
 #include "zappy_multiplexer.h"
 
 static void	zappy_multiplexer_add_client(t_zappy_client const *
@@ -67,6 +68,7 @@ int32_t		zappy_multiplexer(int32_t const server_sock,
       FD_ZERO(&data->writefds);
       FD_ZERO(&data->exceptfds);
       zappy_multiplexer_clients(server_sock, clients, data);
+      memcpy(&data->tv, &data->tv_ref, sizeof(data->tv));
       rc = select(data->max_sock + 1, &data->readfds, &data->writefds,
 		  &data->exceptfds, &data->tv);
     }

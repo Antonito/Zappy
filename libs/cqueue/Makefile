@@ -1,9 +1,9 @@
 # Makefile dependencies directory
 MK_DIR=		./mk/
-MK_COMMON_DIR=	./../mk/
+MK_COMMON_DIR=	./../../mk/
 
 # Definitions for Makefile
-NAME=		$(ROOT_DIR)/zappy_server
+NAME=		$(ROOT_DIR)/build/libzappy_cqueue.a
 
 LOCAL_DEBUG_CFLAGS=
 
@@ -11,13 +11,11 @@ LOCAL_COMP_CFLAGS=
 
 LOCAL_COMP_FLAGS=
 
-LOCAL_LINK_FLAGS=	-L$(ROOT_DIR)/build/ -lzappy_clogger
+LOCAL_LINK_FLAGS=
 
 LOCAL_DEBUG_FLAGS=
 
 include $(MK_COMMON_DIR)colors.mk $(MK_COMMON_DIR)defs.mk
-
-LD=			$(CC)
 
 # Project's directories
 
@@ -25,33 +23,21 @@ SRC_DIR=	./src/
 
 INCLUDE_DIR=	./include/
 
-DIR_LIST=	$(SRC_DIR)		\
-		$(SRC_DIR)/state
+DIR_LIST=	$(SRC_DIR)
 
 HEADER=
 
 # Project's files
 
 
-SRC_FILES=	argvs_func.c		\
-		argvs_func_freq.c	\
-		cleanup.c		\
-		client.c		\
-		client_manager.c	\
-		io.c			\
-		logic.c			\
-		main.c			\
-		multiplexer.c		\
-		parse.c			\
-		server.c		\
-		socket.c		\
-		state/auth.c
+SRC_FILES=	getter.c	\
+		capacity.c	\
+		modifier.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 
-INC_DIR=	$(DIR_LIST:$(SRC_DIR)%=$(INCLUDE_DIR)%)		\
-		$(ROOT_DIR)/libs/clogger/include/
+INC_DIR=	$(DIR_LIST:$(SRC_DIR)%=$(INCLUDE_DIR)%)
 
 PRECOMPILED_HEADER= $(addprefix $(INCLUDE_DIR),$(HEADER))
 

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:42:53 2017 Antoine Baché
-** Last update Fri Jun 23 21:39:26 2017 Antoine Baché
+** Last update Sat Jun 24 00:32:19 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_SERVER_H_
@@ -18,7 +18,14 @@
 */
 typedef struct s_zappy	t_zappy;
 
+/*
+** Server's loop
+*/
 int32_t			zappy_server(t_zappy * const data);
+
+/*
+** Accept a client on the server
+*/
 void			zappy_server_accept(t_zappy * const data);
 
 #endif /* !ZAPPY_SERVER_H_ */

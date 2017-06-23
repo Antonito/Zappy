@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:52:46 2017 Antoine Baché
-** Last update Fri Jun 23 14:54:47 2017 Antoine Baché
+** Last update Sat Jun 24 00:29:57 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CONFIG_H_
@@ -13,6 +13,9 @@
 
 #include <stdint.h>
 
+/*
+** Basic configuration informations
+*/
 typedef struct		s_zappy_config
 {
   uint16_t		port;
