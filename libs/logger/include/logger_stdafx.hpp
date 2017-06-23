@@ -3,8 +3,8 @@
 // are changed infrequently
 //
 
-#ifndef LOGGER_STDAFX_HPP_
-#define LOGGER_STDAFX_HPP_
+#ifndef NOPE_LOGGER_STDAFX_HPP_
+#define NOPE_LOGGER_STDAFX_HPP_
 
 #include "logger_targetver.h"
 
@@ -20,4 +20,4 @@
 #include "LogSink.hpp"
 #include "Logger.hpp"
 
-#endif // !LOGGER_STDAFX_HPP_
+#endif // !NOPE_LOGGER_STDAFX_HPP_

@@ -1,5 +1,5 @@
-#ifndef NOPE_LOGGER_TARGETVER_H_
-#define NOPE_LOGGER_TARGETVER_H_
+#ifndef NOPE_OPTION_TARGETVER_H_
+#define NOPE_OPTION_TARGETVER_H_
 
 // Including SDKDDKVer.h defines the highest available Windows platform.
 
@@ -11,4 +11,4 @@
 #include <SDKDDKVer.h>
 #endif
 
-#endif // !NOPE_LOGGER_TARGETVER_H_
+#endif // !NOPE_OPTION_TARGETVER_H_

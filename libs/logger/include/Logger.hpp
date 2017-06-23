@@ -1,5 +1,5 @@
-#ifndef LOGGER_HPP_
-#define LOGGER_HPP_
+#ifndef NOPE_LOGGER_HPP_
+#define NOPE_LOGGER_HPP_
 
 #include <chrono>
 #include <string>
@@ -47,7 +47,7 @@ namespace nope
 
       void flush(LogMessage const &) const;
 
-      static void start(std::string const &filename);
+      static void start(std::string const &filename, bool enableStandardOutput = true);
 
       static LogLevel logLevel;
       static const std::chrono::time_point<std::chrono::high_resolution_clock,
@@ -116,4 +116,4 @@ namespace nope
 #define Log(logger) logger
 #endif
 
-#endif // !LOGGER_HPP_
+#endif // !NOPE_LOGGER_HPP_

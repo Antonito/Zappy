@@ -3,17 +3,17 @@
 // are changed infrequently
 //
 
-#ifndef ZAPPY_AI_STDAFX_HPP_
-#define ZAPPY_AI_STDAFX_HPP_
+#ifndef NOPE_OPTION_STDAFX_HPP_
+#define NOPE_OPTION_STDAFX_HPP_
 
-#ifdef _WIN32
-#include "targetver.h"
+#include "option_targetver.h"
+
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
-#endif                      // !_WIN32
 
-#include <exception>
+#include <cstring>
 
-#include "Logger.hpp"
+#include "Option.hpp"
 #include "OptionParser.hpp"
+#include "OptionException.hpp"
 
-#endif // !ZAPPY_AI_STDAFX_HPP_
+#endif // !NOPE_OPTION_STDAFX_HPP_

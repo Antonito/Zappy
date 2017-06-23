@@ -76,20 +76,27 @@ namespace nope
 #endif
     }
 
-    void Logger::start(std::string const &filename)
+    void Logger::start(std::string const &filename, bool enableStandardOutput)
     {
-      LogSink console = LogSink::makeOstream(std::cout);
-      LogSink file = LogSink::makeFile(filename);
+      if (enableStandardOutput)
+	{
+	  LogSink console = LogSink::makeOstream(std::cout);
 
-      Trace.addSink(console);
-      Debug.addSink(console);
-      Info.addSink(console);
-      Warning.addSink(console);
-      Error.addSink(console);
+	  Trace.addSink(console);
+	  Debug.addSink(console);
+	  Info.addSink(console);
+	  Warning.addSink(console);
+	  Error.addSink(console);
+	}
 
-      Debug.addSink(file);
-      Warning.addSink(file);
-      Error.addSink(file);
+      if (filename != "")
+	{
+	  LogSink file = LogSink::makeFile(filename);
+
+	  Debug.addSink(file);
+	  Warning.addSink(file);
+	  Error.addSink(file);
+	}
     }
 
     std::ostream &operator<<(std::ostream &os, LogLevel level)

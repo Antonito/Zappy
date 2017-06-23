@@ -1,5 +1,5 @@
-#ifndef LOGSINK_HPP_
-#define LOGSINK_HPP_
+#ifndef NOPE_LOGSINK_HPP_
+#define NOPE_LOGSINK_HPP_
 
 #include <string>
 #include <iostream>
@@ -35,4 +35,4 @@ namespace nope
   }
 }
 
-#endif // !LOGSINK_HPP_
+#endif // !NOPE_LOGSINK_HPP_

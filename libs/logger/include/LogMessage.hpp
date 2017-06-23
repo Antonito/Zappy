@@ -1,5 +1,5 @@
-#ifndef LOGMESSAGE_HPP_
-#define LOGMESSAGE_HPP_
+#ifndef NOPE_LOGMESSAGE_HPP_
+#define NOPE_LOGMESSAGE_HPP_
 
 #include <chrono>
 #include <string>
@@ -60,4 +60,4 @@ namespace nope
 #endif
   }
 }
-#endif // !LOGMESSAGE_HPP_
+#endif // !NOPE_LOGMESSAGE_HPP_
