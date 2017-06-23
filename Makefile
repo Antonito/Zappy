@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:00:58 2017 Antoine Baché
-## Last update Fri Jun 23 14:32:22 2017 Antoine Baché
+## Last update Fri Jun 23 21:47:11 2017 Antoine Baché
 ##
 
 MK_DIR=			./mk/
@@ -23,7 +23,8 @@ LIB_DIR=		./libs/
 LIBS=			exceptions	\
 			logger		\
 			network		\
-			option
+			option		\
+			network
 
 PROJECTS_PATH=		$(addprefix $(LIB_DIR), $(LIBS))		\
 			$(addprefix $(PROJECT_DIR), $(PROJECTS))
@@ -42,12 +43,6 @@ RULES=			all		\
 			fclean		\
 			re		\
 			infos
-
-zappy_ai:
-			@$(MAKE) $(PROJECT_DIR)client
-
-zappy_server:
-			@$(MAKE) $(PROJECT_DIR)server
 
 no_rule:
 			@$(foreach path, $(PROJECTS_PATH),		\
@@ -80,6 +75,12 @@ $(foreach _rule, $(RULES), $(addsuffix -$(_rule),$(LIBS))):
 			$(eval _proj := $(@:%-$(_rule)=%))
 			@$(ECHO) "$(YELLOW)$(LIB_DIR)$(_proj)/ :$(CLEAR)\n"
 			@$(MAKE) $(ARGS) $(LIB_DIR)$(_proj) $(_rule);
+
+zappy_ai:
+			@$(MAKE) $(PROJECT_DIR)client
+
+zappy_server:
+			@$(MAKE) $(PROJECT_DIR)server
 
 .PHONY: no_rule all $(RULES) $(PROJECTS) $(foreach _rule, $(RULES), $(addsuffix -$(_rule),$(PROJECTS))) \
 	$(LIBS) $(foreach _rule, $(RULES), $(addsuffix -$(_rule),$(LIBS)))

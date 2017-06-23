@@ -15,6 +15,8 @@ LOCAL_DEBUG_FLAGS=
 
 include $(MK_COMMON_DIR)colors.mk $(MK_COMMON_DIR)defs.mk
 
+LD=		$(CXX)
+
 ifeq ($(CXX), clang++)
 CXXFLAGS+=
 
