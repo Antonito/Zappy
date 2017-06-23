@@ -27,16 +27,16 @@ int main(int ac, char **av, char **env)
     }
 
   // Create the option parser
-  zappy::OptionParser opt;
+  nope::option::OptionParser opt;
 
   // Parse the options
   try
     {
       opt.parse(ac, av);
     }
-  catch (nope::OptionException const &e)
+  catch (nope::option::OptionException const &e)
     {
-      std::cerr << "Invalid option:" << opt.getLastError() << std::endl;
+      std::cerr << "Invalid option:" << e.what() << std::endl;
       return (EXIT_FAILURE);
     }
   catch (std::exception const &e)
@@ -46,18 +46,11 @@ int main(int ac, char **av, char **env)
       return (EXIT_FAILURE);
     }
 
-  // Check if it's "help" command
-  if (opt.isHelp())
-    {
-      std::cout << opt.getUsage() << std::endl;
-      return (EXIT_SUCCESS);
-    }
-
   // Get the args from the parser
   try
     {
     }
-  catch (nope::OptionException const &e)
+  catch (nope::option::OptionException const &e)
     {
       std::cerr << "Error while getting arguments: " << e.what();
       return (EXIT_FAILURE);

@@ -5,19 +5,17 @@ namespace nope
   namespace option
   {
     OptionParser::OptionParser()
-        : m_args(), m_options(), m_help(), m_isHelp(false)
+        : m_args(), m_options()
     {
     }
 
     OptionParser::OptionParser(OptionParser const &that)
-        : m_args(), m_options(that.m_options), m_help(that.m_help),
-          m_isHelp(false)
+        : m_args(), m_options(that.m_options)
     {
     }
 
     OptionParser::OptionParser(OptionParser &&that)
-        : m_args(), m_options(std::move(that.m_options)),
-          m_help(std::move(that.m_help)), m_isHelp(std::move(that.m_isHelp))
+        : m_args(), m_options(std::move(that.m_options))
     {
     }
 
@@ -31,8 +29,6 @@ namespace nope
 	return (*this);
       m_args = that.m_args;
       m_options = that.m_options;
-      m_help = that.m_help;
-      m_isHelp = that.m_isHelp;
       return (*this);
     }
 
@@ -42,8 +38,6 @@ namespace nope
 	return (*this);
       m_args = std::move(that.m_args);
       m_options = std::move(that.m_options);
-      m_help = std::move(that.m_help);
-      m_isHelp = std::move(that.m_isHelp);
       return (*this);
     }
 
@@ -66,13 +60,6 @@ namespace nope
                                      std::string const &defaultValue)
     {
       m_options.emplace_back(shortName, fullName, defaultValue);
-    }
-
-    void OptionParser::setHelpOption(std::string const &shortName,
-                                     std::string const &fullName)
-    {
-      m_help.first = shortName;
-      m_help.second = fullName;
     }
 
     void OptionParser::parse(int numberOfArgs, char **args)
@@ -107,11 +94,6 @@ namespace nope
 	                            m_args[index]);
 	    }
 	}
-    }
-
-    bool OptionParser::isHelp() const
-    {
-      return (m_isHelp);
     }
 
     std::string const &OptionParser::getArg(std::string const &arg) const
