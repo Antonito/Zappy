@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Fri Jun 23 15:02:19 2017 Lucas Troncy
+** Last update Fri Jun 23 15:06:01 2017 Lucas Troncy
 */
 
 #include "zappy.h"
@@ -23,8 +23,8 @@ int		main(int ac, char **av)
   t_zappy	zap = {};
 
   ret = 0;
-  if (zappy_parse_args(ac - 1,
-		       (char const * const *)av + 1, &zap.conf))
+  if (zappy_parse_args(ac,
+		       (char const * const *)av, &zap.conf))
     {
       ret = zappy();
     }
