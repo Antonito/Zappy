@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:04:56 2017 Antoine Baché
-## Last update Fri Jun 23 14:12:02 2017 Antoine Baché
+## Last update Fri Jun 23 16:30:27 2017 Antoine Baché
 ##
 
 # Commands definitions
@@ -61,7 +61,8 @@ endif
 
 endif
 
-CFLAGS+=	-std=$(C_VER) -W -Wall -Wextra $(LOCAL_COMP_CFLAGS)
+CFLAGS+=	-std=$(C_VER) -W -Wall -Wextra $(LOCAL_COMP_CFLAGS)		\
+		$(addprefix -I, $(INC_DIR))
 
 CXXFLAGS+=	-std=$(CPP_VER) -W -Wall -Wextra -Weffc++  -Wcomment 		\
 		-Wmain -Wpointer-arith -Wreturn-type -Wstrict-aliasing 		\
