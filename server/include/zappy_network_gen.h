@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 15:12:38 2017 Antoine Baché
-** Last update Fri Jun 23 16:06:32 2017 Antoine Baché
+** Last update Fri Jun 23 16:42:03 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_NETWORK_GEN_H_
@@ -24,7 +24,9 @@
 #include <arpa/inet.h>
 #define closesocket(s) close(s)
 
-// Uniform type declarations
+/*
+** Uniform type declarations
+*/
 typedef int32_t			t_sock;
 typedef struct sockaddr_in	t_sockaddr_in;
 typedef struct sockaddr		t_sockaddr;
@@ -34,7 +36,9 @@ typedef ssize_t			t_ssize;
 
 #elif defined(_WIN32)
 
-// Prevent inclusion of winsock.h in windows.h
+/*
+** Prevent inclusion of winsock.h in windows.h
+*/
 #ifndef _WINSOCKAPI_
 #define _WINSOCKAPI_
 #endif
@@ -42,9 +46,15 @@ typedef ssize_t			t_ssize;
 #include <windows.h>
 #include <winsock2.h>
 #include <Ws2tcpip.h>
-#pragma comment(lib, "ws2_32.lib") // Link with ws2_32.lib
 
-// Uniform type declarations
+/*
+** Link with ws2_32.lib
+*/
+#pragma comment(lib, "ws2_32.lib")
+
+/*
+** Uniform type declarations
+*/
 typedef SOCKET		t_sock;
 typedef SOCKADDR_IN	t_sockaddr_in;
 typedef SOCKADDR	t_sockaddr;
