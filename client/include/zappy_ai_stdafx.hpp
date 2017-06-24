@@ -13,14 +13,15 @@
 
 #include <exception>
 #include <utility>
+#include <iostream>
 
 #include "Logger.hpp"
 #include "OptionParser.hpp"
 #include "OptionException.hpp"
 
+#include "Player.hpp"
 #include "GraphicClient.hpp"
 #include "GameMap.hpp"
 #include "Tile.hpp"
-#include "Player.hpp"
 
 #endif // !ZAPPY_AI_STDAFX_HPP_

@@ -25,6 +25,7 @@ namespace zappy
 	  {
 	    if (event.type == sf::Event::Closed)
 	      {
+		execCommand();
 		m_win.close();
 		nope::log::Log(Debug) << "Closing the window";
 	      }
@@ -250,7 +251,7 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Debug) << "Received tile content (" << x << ", " << y
-                          << ") [" << food << ", " linemate << ", "
+                          << ") [" << food << ", " << linemate << ", "
                           << deraumere << ", " << sibur << ", " << mendiane
                           << ", " << phiras << ", " << thystame << ']';
     // TODO: set the actual values
@@ -285,7 +286,7 @@ namespace zappy
     // clang-format off
     nope::log::Log(Info) << "A new player connected:"
                             "\n\tId:\t\t" << playerId
-			 << "\n\tPosition:\t(" << x << ", " << y ")"
+			 << "\n\tPosition:\t(" << x << ", " << y << ")"
 			    "\n\tOrientation:\t" << orientation
                          << "\n\tLevel:\t\t" << level
 			 << "\n\tTeam:\t\t" << team;
@@ -343,10 +344,10 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Debug) << "Received player " << playerId << " inventory: ("
-                          << x << ", " << y << ") [" << food << ", " linemate
-                          << ", " << deraumere << ", " << sibur << ", "
-                          << mendiane << ", " << phiras << ", " << thystame
-                          << ']';
+                          << x << ", " << y << ") [" << food << ", "
+                          << linemate << ", " << deraumere << ", " << sibur
+                          << ", " << mendiane << ", " << phiras << ", "
+                          << thystame << ']';
 
     // TODO: set the actual values
   }

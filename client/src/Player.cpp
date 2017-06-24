@@ -35,4 +35,24 @@ namespace zappy
       return (*this);
     return (*this);
   }
+
+  std::ostream &operator<<(std::ostream &os, Player::Orientation const &o)
+  {
+    switch (o)
+      {
+      case zappy::Player::Orientation::North:
+	os << "North";
+	break;
+      case zappy::Player::Orientation::East:
+	os << "East";
+	break;
+      case zappy::Player::Orientation::South:
+	os << "South";
+	break;
+      case zappy::Player::Orientation::West:
+	os << "West";
+	break;
+      }
+    return (os);
+  }
 }

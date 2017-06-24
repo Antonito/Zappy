@@ -1,6 +1,8 @@
 #ifndef ZAPPY_PLAYER_HPP_
 #define ZAPPY_PLAYER_HPP_
 
+#include <ostream>
+
 namespace zappy
 {
   class Player
@@ -12,6 +14,7 @@ namespace zappy
       East = 2,
       South = 3,
       West = 4
+
     };
 
     Player();
@@ -24,6 +27,7 @@ namespace zappy
 
   private:
   };
+  std::ostream &operator<<(std::ostream &, Player::Orientation const &);
 }
 
 #endif // !ZAPPY_PLAYER_HPP_
