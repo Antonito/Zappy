@@ -43,14 +43,47 @@ namespace zappy
     (void)command;
   }
 
-  bool GraphicClient::receiveCommand(std::string &command)
+  bool GraphicClient::receiveCommand(std::string &command, std::string &args)
   {
-    // TODO: implement
-    (void)command;
-
     using first_t = std::string;
     using second_t = void (GraphicClient::*)(std::string const &);
 
+    // TODO: replace this line by the network input
+    std::string cmd = "msz 12 14\n";
+
+    if (cmd.length() == 0)
+      {
+	return (false);
+      }
+
+    // Some validity checks
+    if (cmd.length() < 4)
+      {
+	throw std::invalid_argument("Invalid command (command is too short)");
+      }
+
+    if (cmd[3] != '\n' && cmd[3] != ' ')
+      {
+	throw std::invalid_argument("Invalid command (invalid character)");
+      }
+
+    if (cmd.back() != '\n')
+      {
+	throw std::invalid_argument(
+	    "Invalid command (not terminated by a newline character)");
+      }
+
+    // Remove the '\n'
+    cmd.erase(cmd.begin() + cmd.length());
+
+    prefix = cmd.substr(0, 3);
+    command = cmd.substr(4);
+
+    return (true);
+  }
+
+  bool GraphicClient::execCommand()
+  {
 // Disable warning about exit time destructor for this static array
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -88,6 +121,21 @@ namespace zappy
 #pragma clang diagnostic pop
 #endif // !__clang__
 
+    std::string prefix;
+    std::string args;
+
+    if (receiveCommand(prefix, args))
+      {
+	for (std::pair<first_t, second_t> const &p : funcs)
+	  {
+	    if (prefix == p.first)
+	      {
+		(this->*func.second)(args);
+		return (true);
+	      }
+	  }
+	throw std::invalid_argument("Unknown command");
+      }
     return (false);
   }
 

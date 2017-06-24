@@ -33,6 +33,8 @@ namespace zappy
     void sendCommand(std::string const &command);
     bool receiveCommand(std::string &command);
 
+    bool execCommand();
+
     //
     // Send command
     //
