@@ -18,5 +18,8 @@
 #include "OptionException.hpp"
 
 #include "GraphicClient.hpp"
+#include "GameMap.hpp"
+#include "Tile.hpp"
+#include "Player.hpp"
 
 #endif // !ZAPPY_AI_STDAFX_HPP_

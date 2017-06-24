@@ -39,7 +39,10 @@ HEADER=		zappy_ai_stdafx.hpp
 
 
 SRC_FILES=	main.cpp				\
-		GraphicClient.cpp
+		GraphicClient.cpp			\
+		GameMap.cpp				\
+		Player.cpp				\
+		Tile.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

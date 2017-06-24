@@ -5,6 +5,11 @@
 #include "GameMap.hpp"
 #include "Player.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif // !__clang__
+
 namespace zappy
 {
   class GraphicClient
@@ -31,15 +36,15 @@ namespace zappy
     //
     // Send command
     //
-    void askMapSize() const;
-    void askTileContent(std::size_t x, std::size_t y) const;
-    void askMapContent() const;
-    void askTeamNames() const;
-    void askPlayerPosition(std::size_t playerId) const;
-    void askPlayerLevel(std::size_t playerId) const;
-    void askPlayerInventory(std::size_t playerId) const;
-    void askTimeUnit() const;
-    void askTimeUnitModification(std::size_t unit) const;
+    void askMapSize();
+    void askTileContent(std::size_t x, std::size_t y);
+    void askMapContent();
+    void askTeamNames();
+    void askPlayerPosition(std::size_t playerId);
+    void askPlayerLevel(std::size_t playerId);
+    void askPlayerInventory(std::size_t playerId);
+    void askTimeUnit();
+    void askTimeUnitModification(std::size_t unit);
 
     //
     // Received command
@@ -89,5 +94,9 @@ namespace zappy
     std::vector<Player> m_players;
   };
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif // !__clang__
 
 #endif // !ZAPPY_GRAPHICCLIENT_HPP_
