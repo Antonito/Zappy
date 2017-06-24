@@ -5,12 +5,13 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Fri Jun 23 22:22:10 2017 Antoine Baché
+** Last update Sat Jun 24 13:56:50 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
+#include "clogger.h"
 #include "zappy_multiplexer.h"
 
 static void	zappy_multiplexer_add_client(t_zappy_client const *
@@ -35,6 +36,7 @@ static void	zappy_multiplexer_add_client_wrap(t_zappy_client const *
 						  void * const data)
 {
   assert(cli && data);
+  LOG(LOG_DEBUG, "Monitoring client #%d", cli->id);
   zappy_multiplexer_add_client(cli, (t_zappy_multiplexer * const)data);
 }
 

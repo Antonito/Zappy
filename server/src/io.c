@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:40:19 2017 Antoine Baché
-** Last update Fri Jun 23 22:31:05 2017 Antoine Baché
+** Last update Sat Jun 24 13:54:58 2017 Antoine Baché
 */
 
 #include "clogger.h"
@@ -18,6 +18,7 @@ static void     zappy_io_client(t_zappy_client * const cli,
 {
   t_zappy	*data;
 
+  LOG(LOG_DEBUG, "Checking I/O of client #%d", cli->id);
   data = _data;
   if (cli->connected && FD_ISSET(cli->net.sock, &data->multiplex.readfds))
     {

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Sat Jun 24 12:44:04 2017 Antoine Baché
+** Last update Sat Jun 24 14:42:13 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -15,6 +15,7 @@
 #include <errno.h>
 #include "clogger.h"
 #include "zappy_client_list.h"
+#include "zappy_cleanup.h"
 
 void			zappy_for_each_client(t_zappy_client_list_manager *
 					      list,
@@ -33,6 +34,7 @@ void			zappy_for_each_client(t_zappy_client_list_manager *
   while (i < list->nb_clients)
     {
       func(&cli->data, data);
+      cli = cli->next;
       ++i;
     }
 }
@@ -54,6 +56,7 @@ void			_zappy_for_each_client(t_zappy_client_list_manager *
   while (i < list->nb_clients)
     {
       func(&cli->data, data);
+      cli = cli->next;
       ++i;
     }
 }
@@ -92,17 +95,53 @@ int32_t			zappy_client_add(t_zappy_client_list_manager *
 
 int32_t			zappy_client_remove(t_zappy_client_list_manager *
 					    const list,
-					    t_zappy_client const *
-					    const data)
+					    t_zappy_client_list *
+					    const cur)
 {
-  // TODO
-  (void)list, (void)data;
+  LOG(LOG_INFO, "Disconnecting client %d", cur->data.id);
+  assert(list && cur);
+  assert(list->nb_clients > 0);
+  if (cur->prev)
+    {
+      assert(cur->prev->next == cur);
+      cur->prev->next = cur->next;
+    }
+  else
+    list->list = cur->next;
+  if (cur->next)
+    {
+      assert(cur->next->prev == cur);
+      cur->next->prev = cur->prev;
+    }
+  zappy_cleanup_client(&cur->data);
+  free(cur);
+  --list->nb_clients;
+  assert(list->nb_clients >= 0);
   return (0);
 }
 
 void			zappy_client_purify_list(t_zappy_client_list_manager *
 						 const list)
 {
-  // TODO: Remove all disconnected clients
-  (void)list;
+  int32_t		i;
+  t_zappy_client_list	*cur;
+  t_zappy_client_list	*tmp;
+
+  LOG(LOG_DEBUG, "Purifying client list...");
+  i = 0;
+  cur = list->list;
+  while (i < list->nb_clients)
+    {
+      tmp = cur->next;
+      LOG(LOG_DEBUG, "Checking client %d", cur->data.id);
+      if (cur->data.connected == false)
+	{
+	  zappy_client_remove(list, cur);
+	}
+      else
+	{
+	  ++i;
+	}
+      cur = tmp;
+    }
 }

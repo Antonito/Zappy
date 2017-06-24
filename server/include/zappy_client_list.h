@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:59:51 2017 Antoine Baché
-** Last update Sat Jun 24 00:29:23 2017 Antoine Baché
+** Last update Sat Jun 24 14:22:37 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_LIST
@@ -62,7 +62,7 @@ int32_t	zappy_client_add(t_zappy_client_list_manager * const list,
 ** Remove a client from the list
 */
 int32_t	zappy_client_remove(t_zappy_client_list_manager * const list,
-			    t_zappy_client const * const data);
+			    t_zappy_client_list * const data);
 
 /*
 ** Remove all disconnected clients from the list

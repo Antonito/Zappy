@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:47:23 2017 Antoine Baché
-** Last update Sat Jun 24 12:22:27 2017 Antoine Baché
+** Last update Sat Jun 24 14:02:12 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -36,12 +36,9 @@ t_cqueue		*cqueue_push(t_cqueue **self, void * const data)
 
 t_cqueue		*cqueue_pop(t_cqueue **self)
 {
-  t_cqueue		*elem;
-
   assert(self);
   if (*self)
     {
-      elem = *self;
       *self = (*self)->next;
       if (*self)
 	(*self)->prev = NULL;

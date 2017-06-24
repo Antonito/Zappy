@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 12:06:12 2017 Antoine Baché
-** Last update Sat Jun 24 12:17:33 2017 Antoine Baché
+** Last update Sat Jun 24 12:54:07 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -21,6 +21,7 @@ int32_t		zappy_network_write(t_zappy_socket const * const sock,
   char const	*buff;
 
   assert(sock && data);
+  assert(len > 0);
   total = 0;
   buff = data;
   while (total != len)
@@ -41,7 +42,25 @@ int32_t		zappy_network_write(t_zappy_socket const * const sock,
 int32_t		zappy_network_read(t_zappy_socket const * const sock,
 				   void *data, int32_t const len)
 {
+  int32_t	ret;
+  int32_t	total;
+  char		*buff;
+
   assert(sock && data);
-  (void)sock, (void)data, (void)len;
-  return (0);
+  assert(len > 0);
+  buff = data;
+  total = 0;
+  while (total != len)
+    {
+      errno = EINTR;
+      ret = -1;
+      while (errno == EINTR && ret == -1)
+	ret = read(sock->sock, buff + total, len - total);
+      if (ret == -1 || ret == 0)
+	{
+	  return (ret);
+	}
+      total += ret;
+    }
+  return (total);
 }

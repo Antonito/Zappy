@@ -7,7 +7,7 @@ NAME=		$(ROOT_DIR)/zappy_server
 
 LOCAL_DEBUG_CFLAGS=
 
-LOCAL_COMP_CFLAGS=
+LOCAL_COMP_CFLAGS=	-D_GNU_SOURCE
 
 LOCAL_COMP_FLAGS=
 
@@ -37,6 +37,7 @@ HEADER=
 SRC_FILES=	argvs_func.c		\
 		argvs_func_freq.c	\
 		cleanup.c		\
+		cleanup_client.c	\
 		client.c		\
 		client_manager.c	\
 		io.c			\
