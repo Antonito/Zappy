@@ -110,7 +110,7 @@ int main(int ac, char **av, char **env)
     }
   catch (std::exception const &e)
     {
-      nope::log::Log(Error) << "Fatal error: " << e.what() << std::endl;
+      nope::log::Log(Error) << e.what() << std::endl;
       return (EXIT_FAILURE);
     }
 
@@ -124,10 +124,20 @@ int main(int ac, char **av, char **env)
       nope::log::Log(Info) << "\tname\t" << name;
       nope::log::Log(Info) << "\tmachine\t" << machine;
       nope::log::Log(Info) << "\tno-gui\t" << std::boolalpha << nogui;
+
+      // TODO: LAUNCH AI HERE IN ANOTHER THREAD
+
+      if (nogui == false)
+	{
+	  zappy::GraphicClient graphic(1280, 720, "Pyzza", port, name,
+	                               machine);
+
+	  graphic.launch();
+	}
     }
   catch (std::exception const &e)
     {
-      nope::log::Log(Error) << "Fatal error: " << e.what() << std::endl;
+      nope::log::Log(Error) << e.what() << std::endl;
       return (EXIT_FAILURE);
     }
 

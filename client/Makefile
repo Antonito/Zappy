@@ -9,7 +9,10 @@ LOCAL_COMP_FLAGS=
 
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\
-			-lzappy_option
+			-lzappy_option				\
+			-lsfml-graphics				\
+			-lsfml-window				\
+			-lsfml-system
 
 LOCAL_DEBUG_FLAGS=
 
@@ -35,7 +38,8 @@ HEADER=		zappy_ai_stdafx.hpp
 # Project's files
 
 
-SRC_FILES=	main.cpp
+SRC_FILES=	main.cpp				\
+		GraphicClient.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

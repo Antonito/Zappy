@@ -17,4 +17,6 @@
 #include "OptionParser.hpp"
 #include "OptionException.hpp"
 
+#include "GraphicClient.hpp"
+
 #endif // !ZAPPY_AI_STDAFX_HPP_
