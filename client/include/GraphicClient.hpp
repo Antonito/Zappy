@@ -80,6 +80,7 @@ namespace zappy
     static Player::Orientation parseOrientation(std::istringstream &is);
     static std::string parseTeamName(std::istringstream &is);
     static std::string parseMessage(std::istringstream &is);
+    static void checkEmpty)std::istringstream const &is);
 
     // Window
     sf::RenderWindow m_win;

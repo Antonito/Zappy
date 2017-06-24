@@ -120,6 +120,10 @@ namespace zappy
   void GraphicClient::mapSize(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t x = parseInt(is);
+    std::size_t y = parseInt(is);
+    checkEmpty(is);
   }
 
   void GraphicClient::mapContent(std::string const &data)
@@ -322,5 +326,13 @@ namespace zappy
   std::string GraphicClient::parseMessage(std::istringstream &is)
   {
     return (is.str());
+  }
+
+  void GraphicClient::checkEmpty(std::istringstream const &is)
+  {
+    if (is)
+      {
+	throw std::invalid_argument("Too many argument for this command");
+      }
   }
 }
