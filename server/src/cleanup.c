@@ -5,13 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 21:07:21 2017 Antoine Baché
-** Last update Fri Jun 23 21:17:10 2017 Antoine Baché
+** Last update Sat Jun 24 14:17:30 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
 #include "clogger.h"
 #include "zappy_cleanup.h"
+#include "zappy_message.h"
 
 void			zappy_cleanup_config(t_zappy_config * const conf)
 {
@@ -37,17 +38,6 @@ void			zappy_cleanup_multiplexer(t_zappy_multiplexer *
   LOG(LOG_DEBUG, "Cleaning multiplexer");
   assert(multiplex);
   (void)multiplex;
-}
-
-static void		zappy_cleanup_client(t_zappy_client * const cli)
-{
-  LOG(LOG_DEBUG, "Cleaning single client");
-  assert(cli);
-  if (cli->net.sock > 0)
-    {
-      closesocket(cli->net.sock);
-      cli->net.sock = -1;
-    }
 }
 
 void			zappy_cleanup_clients(t_zappy_client_list_manager *

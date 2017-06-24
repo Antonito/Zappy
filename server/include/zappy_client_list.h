@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:59:51 2017 Antoine Baché
-** Last update Fri Jun 23 21:37:32 2017 Antoine Baché
+** Last update Sat Jun 24 14:22:37 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_LIST
@@ -16,6 +16,9 @@
 
 typedef struct s_zappy_client_list	t_zappy_client_list;
 
+/*
+** Double linked list of clients
+*/
 struct					s_zappy_client_list
 {
   t_zappy_client			data;
@@ -23,19 +26,47 @@ struct					s_zappy_client_list
   t_zappy_client_list			*prev;
 };
 
+/*
+** Client list meta-datas, allows a better handling of them
+*/
 typedef struct				s_zappy_client_list_manager
 {
   t_zappy_client_list			*list;
   int32_t				nb_clients;
 }					t_zappy_client_list_manager;
 
+/*
+** const forearch
+*/
 void	zappy_for_each_client(t_zappy_client_list_manager *list,
 			      void *data,
 			      void (*func)(t_zappy_client const * const,
 					   void *data));
-int32_t	zappy_client_add(t_zappy_client_list_manager * const list);
+
+/*
+** Non-const version of the foreach
+*/
+void	_zappy_for_each_client(t_zappy_client_list_manager *list,
+			       void *data,
+			       void (*func)(t_zappy_client * const,
+					    void *data));
+
+/*
+** Add a client to the list
+*/
+int32_t	zappy_client_add(t_zappy_client_list_manager * const list,
+			 t_sock const socket,
+			 t_sockaddr_in *addr, socklen_t len);
+
+/*
+** Remove a client from the list
+*/
 int32_t	zappy_client_remove(t_zappy_client_list_manager * const list,
-			    t_zappy_client const * const data);
+			    t_zappy_client_list * const data);
+
+/*
+** Remove all disconnected clients from the list
+*/
 void	zappy_client_purify_list(t_zappy_client_list_manager * const list);
 
 #endif /* !ZAPPY_CLIENT_LIST */
