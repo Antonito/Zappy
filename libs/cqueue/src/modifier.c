@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:47:23 2017 Antoine Baché
-** Last update Sat Jun 24 00:56:20 2017 Antoine Baché
+** Last update Sat Jun 24 12:22:27 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -43,8 +43,8 @@ t_cqueue		*cqueue_pop(t_cqueue **self)
     {
       elem = *self;
       *self = (*self)->next;
-      (*self)->prev = NULL;
-      free(elem);
+      if (*self)
+	(*self)->prev = NULL;
     }
   return (*self);
 }

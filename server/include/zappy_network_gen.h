@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 15:12:38 2017 Antoine Baché
-** Last update Sat Jun 24 00:31:54 2017 Antoine Baché
+** Last update Sat Jun 24 12:09:52 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_NETWORK_GEN_H_
@@ -50,6 +50,7 @@ typedef ssize_t			t_ssize;
 #include <windows.h>
 #include <winsock2.h>
 #include <Ws2tcpip.h>
+#include <io.h>
 
 /*
 ** Link with ws2_32.lib

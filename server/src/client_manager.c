@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Fri Jun 23 23:38:05 2017 Antoine Baché
+** Last update Sat Jun 24 12:44:04 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -74,6 +74,8 @@ int32_t			zappy_client_add(t_zappy_client_list_manager *
       return (1);
     }
   zappy_client_fill(&elem->data, socket, addr, len);
+  elem->data.id = list->nb_clients;
+  zappy_client_print(&elem->data, "New client");
   tmp = list->list;
   while (tmp && tmp->next)
     tmp = tmp->next;
@@ -84,8 +86,6 @@ int32_t			zappy_client_add(t_zappy_client_list_manager *
       tmp->next = elem;
       elem->prev = tmp;
     }
-  LOG(LOG_INFO, "New client #%d: %s", list->nb_clients,
-      inet_ntoa(addr->sin_addr));
   ++list->nb_clients;
   return (0);
 }

@@ -11,7 +11,8 @@ LOCAL_COMP_CFLAGS=
 
 LOCAL_COMP_FLAGS=
 
-LOCAL_LINK_FLAGS=	-L$(ROOT_DIR)/build/ -lzappy_clogger
+LOCAL_LINK_FLAGS=	-L$(ROOT_DIR)/build/ -lzappy_clogger	\
+			-lzappy_cqueue
 
 LOCAL_DEBUG_FLAGS=
 
@@ -41,7 +42,9 @@ SRC_FILES=	argvs_func.c		\
 		io.c			\
 		logic.c			\
 		main.c			\
+		message.c		\
 		multiplexer.c		\
+		network.c		\
 		parse.c			\
 		server.c		\
 		socket.c		\
@@ -51,7 +54,8 @@ SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 
 INC_DIR=	$(DIR_LIST:$(SRC_DIR)%=$(INCLUDE_DIR)%)		\
-		$(ROOT_DIR)/libs/clogger/include/
+		$(ROOT_DIR)/libs/clogger/include/		\
+		$(ROOT_DIR)/libs/cqueue/include/
 
 PRECOMPILED_HEADER= $(addprefix $(INCLUDE_DIR),$(HEADER))
 
