@@ -5,12 +5,16 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 15:12:38 2017 Antoine Baché
-** Last update Fri Jun 23 16:42:03 2017 Antoine Baché
+** Last update Sat Jun 24 12:09:52 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_NETWORK_GEN_H_
 #define ZAPPY_NETWORK_GEN_H_
 
+/*
+** This file provides abstraction that allows
+** network to work on MacOS (BSD), Linux and Windows.
+*/
 #include <stddef.h>
 #include <stdint.h>
 
@@ -46,6 +50,7 @@ typedef ssize_t			t_ssize;
 #include <windows.h>
 #include <winsock2.h>
 #include <Ws2tcpip.h>
+#include <io.h>
 
 /*
 ** Link with ws2_32.lib
