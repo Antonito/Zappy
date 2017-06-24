@@ -2,6 +2,8 @@
 #define ZAPPY_GRAPHICCLIENT_HPP_
 
 #include <SFML/Graphics.hpp>
+#include "GameMap.hpp"
+#include "Player.hpp"
 
 namespace zappy
 {
@@ -25,7 +27,7 @@ namespace zappy
   private:
     void sendCommand(std::string const &command);
     bool receiveCommand(std::string &command);
-    
+
     //
     // Send command
     //
@@ -66,6 +68,13 @@ namespace zappy
     void serverMessage(std::string const &data);
     void unknownCommand(std::string const &data);
     void badParameter(std::string const &data);
+
+    // Command parsing methods
+    static std::size_t parseInt(std::istringstream &is);
+    static std::size_t parsePlayerId(std::istringstream &is);
+    static Player::Orientation parseOrientation(std::istringstream &is);
+    static std::string parseTeamName(std::istringstream &is);
+    static std::string parseMessage(std::istringstream &is);
 
     // Window
     sf::RenderWindow m_win;
