@@ -236,4 +236,91 @@ namespace zappy
   {
     std::istringstream is(data);
   }
+
+  //
+  // Command parsing
+  //
+
+  std::size_t GraphicClient::parseInt(std::istringstream &is)
+  {
+    std::size_t res = 0;
+    char        c;
+
+    if (!is || is.peek(c) == ' ')
+      {
+	throw std::invalid_argument("Invalid character (expected a digit)");
+      }
+
+    while (is.get(c) && c != ' ')
+      {
+	if (std::isdigit(c) == false)
+	  {
+	    throw std::invalid_argument(
+	        "Invalid character (expected a digit)");
+	  }
+	res = 10 * res + c - '0';
+      }
+    return (res);
+  }
+
+  std::size_t GraphicClient::parsePlayerId(std::istringstream &is)
+  {
+    std::size_t res = 0;
+    char        c;
+
+    if (!is || !is.get(c) || c != '#')
+      {
+	throw std::invalid_argument("Invalid character (expected a '#')");
+      }
+
+    while (is.get(c) && c != ' ')
+      {
+	if (std::isdigit(c) == false)
+	  {
+	    throw std::invalid_argument(
+	        "Invalid character (expected a digit)");
+	  }
+	res = 10 * res + c - '0';
+      }
+
+    if (c == ' ')
+      {
+	is.unget();
+      }
+    return (res);
+  }
+
+  Player::Orientation GraphicClient::parseOrientation(std::istringstream &is)
+  {
+    std::size_t orientation = parseInt(is);
+
+    if (orientation < 1 || orientation > 4)
+      {
+	throw std::invalid_argument("Invalid orientation");
+      }
+    return (static_cast<Player::Orientation>(orientation));
+  }
+
+  std::string GraphicClient::parseTeamName(std::istringstream &is)
+  {
+    std::string res;
+    char        c;
+
+    if (!is || is.peek(c) == ' ')
+      {
+	throw std::invalid_argument("Invalid character (expected a digit)");
+      }
+
+    while (is.get(c) && c != ' ')
+      {
+	res += c;
+      }
+
+    return (res);
+  }
+
+  std::string GraphicClient::parseMessage(std::istringstream &is)
+  {
+    return (is.str());
+  }
 }
