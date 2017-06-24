@@ -26,6 +26,7 @@ namespace zappy
 	    if (event.type == sf::Event::Closed)
 	      {
 		m_win.close();
+		nope::log::Log(Debug) << "Closing the window";
 	      }
 	  }
 	m_win.clear();
@@ -145,6 +146,7 @@ namespace zappy
 
   void GraphicClient::askMapSize()
   {
+    nope::log::Log(Info) << "Requesting the map size";
     sendCommand("msz\n");
   }
 
@@ -152,17 +154,21 @@ namespace zappy
   {
     std::stringstream ss;
 
+    nope::log::Log(Debug) << "Requesting a tile content (" << x << ", " << y
+                          << ')';
     ss << "bct " << x << ' ' << y << '\n';
     sendCommand(ss.str());
   }
 
   void GraphicClient::askMapContent()
   {
+    nope::log::Log(Debug) << "Requesting the map content";
     sendCommand("mct\n");
   }
 
   void GraphicClient::askTeamNames()
   {
+    nope::log::Log(Info) << "Requesting the team names";
     sendCommand("tna\n");
   }
 
@@ -170,6 +176,8 @@ namespace zappy
   {
     std::stringstream ss;
 
+    nope::log::Log(Debug) << "Requesting a player position (" << playerId
+                          << ')';
     ss << "ppo #" << playerId << '\n';
     sendCommand(ss.str());
   }
@@ -178,6 +186,7 @@ namespace zappy
   {
     std::stringstream ss;
 
+    nope::log::Log(Debug) << "Requesting a player level (" << playerId << ')';
     ss << "plv #" << playerId << '\n';
     sendCommand(ss.str());
   }
@@ -186,12 +195,15 @@ namespace zappy
   {
     std::stringstream ss;
 
+    nope::log::Log(Debug) << "Requesting a player inventory (" << playerId
+                          << ')';
     ss << "pin #" << playerId << '\n';
     sendCommand(ss.str());
   }
 
   void GraphicClient::askTimeUnit()
   {
+    nope::log::Log(Info) << "Requesting the time unit";
     sendCommand("sgt\n");
   }
 
@@ -199,6 +211,7 @@ namespace zappy
   {
     std::stringstream ss;
 
+    nope::log::Log(Info) << "Requesting a time unit change to " << unit;
     ss << "sst " << unit << '\n';
     sendCommand(ss.str());
   }
@@ -215,6 +228,7 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Info) << "Received map size (" << x << ", " << y << ')';
     // TODO: set the actual values
   }
 
@@ -235,6 +249,10 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Debug) << "Received tile content (" << x << ", " << y
+                          << ") [" << food << ", " linemate << ", "
+                          << deraumere << ", " << sibur << ", " << mendiane
+                          << ", " << phiras << ", " << thystame << ']';
     // TODO: set the actual values
   }
 
@@ -245,6 +263,8 @@ namespace zappy
     std::string name = parseTeamName(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Info) << "Received a team name: " << name;
 
     // TODO: set the actual values
   }
@@ -262,6 +282,15 @@ namespace zappy
 
     checkEmpty(is);
 
+    // clang-format off
+    nope::log::Log(Info) << "A new player connected:"
+                            "\n\tId:\t\t" << playerId
+			 << "\n\tPosition:\t(" << x << ", " << y ")"
+			    "\n\tOrientation:\t" << orientation
+                         << "\n\tLevel:\t\t" << level
+			 << "\n\tTeam:\t\t" << team;
+    // clang-format on
+
     // TODO: set the actual values
   }
 
@@ -276,6 +305,9 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Debug) << "Received player " << playerId << " position: ("
+                          << x << ", " << y << ") (" << orientation << ")";
+
     // TODO: set the actual values
   }
 
@@ -285,6 +317,9 @@ namespace zappy
 
     std::size_t playerId = parsePlayerId(is);
     std::size_t level = parseInt(is);
+
+    nope::log::Log(Debug) << "Received player " << playerId
+                          << " level: " << level;
 
     // TODO: set the actual values
   }
@@ -307,6 +342,12 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Debug) << "Received player " << playerId << " inventory: ("
+                          << x << ", " << y << ") [" << food << ", " linemate
+                          << ", " << deraumere << ", " << sibur << ", "
+                          << mendiane << ", " << phiras << ", " << thystame
+                          << ']';
+
     // TODO: set the actual values
   }
 
@@ -317,6 +358,9 @@ namespace zappy
     std::size_t playerId = parsePlayerId(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Debug) << "Player " << playerId
+                          << " explused others players";
 
     // TODO: set the actual values
   }
@@ -329,6 +373,10 @@ namespace zappy
     std::string message = parseMessage(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Debug) << "Player " << playerId
+                          << " broadcasted the following message:\n\""
+                          << message << '\"';
 
     // TODO: set the actual values
   }
@@ -353,6 +401,19 @@ namespace zappy
 
     checkEmpty(is);
 
+    // Create a scope to log the message imediatly after
+    {
+      nope::log::LogMessage msg = nope::log::Log(Debug);
+
+      msg << "Player " << playerId << " launched incantation in (" << x << ", "
+          << y << ") for " << otherPlayers[0];
+
+      for (std::size_t i = 1; i < otherPlayers.size(); ++i)
+	{
+	  msg << ", " << otherPlayers[i];
+	}
+    }
+
     // TODO: set the actual values
   }
 
@@ -362,9 +423,12 @@ namespace zappy
 
     std::size_t x = parseInt(is);
     std::size_t y = parseInt(is);
-    std::size_t level = parseInt(is);
+    std::size_t result = parseInt(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Debug) << "End of the incantation in (" << x << ", " << y
+                          << "), result is " << result;
 
     // TODO: set the actual values
   }
@@ -376,6 +440,8 @@ namespace zappy
     std::size_t playerId = parsePlayerId(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Debug) << "Player " << playerId << " layed an egg";
 
     // TODO: set the actual values
   }
@@ -389,6 +455,9 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Debug) << "Player " << playerId << " droped a resource ("
+                          << resource << ')';
+
     // TODO: set the actual values
   }
 
@@ -401,6 +470,9 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Debug) << "Player " << playerId << " took a resource ("
+                          << resource << ')';
+
     // TODO: set the actual values
   }
 
@@ -411,6 +483,8 @@ namespace zappy
     std::size_t playerId = parsePlayerId(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Info) << "Player " << playerId << " starved";
 
     // TODO: set the actual values
   }
@@ -426,6 +500,9 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Debug) << "The egg " << eggId << " was layed by the player "
+                          << playerId << " in (" << x << ", " << y << ')';
+
     // TODO: set the actual values
   }
 
@@ -436,6 +513,8 @@ namespace zappy
     std::size_t eggId = parsePlayerId(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Debug) << "The egg " << eggId << " hatched";
 
     // TODO: set the actual values
   }
@@ -448,6 +527,8 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Info) << "A player connected for the egg " << eggId;
+
     // TODO: set the actual values
   }
 
@@ -458,6 +539,8 @@ namespace zappy
     std::size_t eggId = parsePlayerId(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Info) << "The hatched egg " << eggId << " starved";
 
     // TODO: set the actual values
   }
@@ -470,6 +553,8 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Info) << "The time unit is now " << unit;
+
     // TODO: set the actual values
   }
 
@@ -480,6 +565,8 @@ namespace zappy
     std::size_t winner = parseInt(is);
 
     checkEmpty(is);
+
+    nope::log::Log(Info) << "End of the game, winner team is " << winner;
 
     // TODO: set the actual values
   }
@@ -492,6 +579,8 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Info) << "Server message: " << message;
+
     // TODO: set the actual values
   }
 
@@ -501,6 +590,8 @@ namespace zappy
 
     checkEmpty(is);
 
+    nope::log::Log(Warning) << "The server received an unknown command";
+
     // TODO: set the actual values
   }
 
@@ -509,6 +600,8 @@ namespace zappy
     std::istringstream is(data);
 
     checkEmpty(is);
+
+    nope::log::Log(Warning) << "The server received a bad command parameter";
 
     // TODO: set the actual values
   }
