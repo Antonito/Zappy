@@ -31,7 +31,7 @@ namespace zappy
 
   private:
     void sendCommand(std::string const &command);
-    bool receiveCommand(std::string &command);
+    bool receiveCommand(std::string &command, std::string &args);
 
     bool execCommand();
 

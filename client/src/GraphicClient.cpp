@@ -45,9 +45,6 @@ namespace zappy
 
   bool GraphicClient::receiveCommand(std::string &command, std::string &args)
   {
-    using first_t = std::string;
-    using second_t = void (GraphicClient::*)(std::string const &);
-
     // TODO: replace this line by the network input
     std::string cmd = "msz 12 14\n";
 
@@ -74,16 +71,19 @@ namespace zappy
       }
 
     // Remove the '\n'
-    cmd.erase(cmd.begin() + cmd.length());
+    cmd.pop_back();
 
-    prefix = cmd.substr(0, 3);
-    command = cmd.substr(4);
+    command = cmd.substr(0, 3);
+    args = cmd.substr(4);
 
     return (true);
   }
 
   bool GraphicClient::execCommand()
   {
+    using first_t = std::string;
+    using second_t = void (GraphicClient::*)(std::string const &);
+
 // Disable warning about exit time destructor for this static array
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -121,16 +121,16 @@ namespace zappy
 #pragma clang diagnostic pop
 #endif // !__clang__
 
-    std::string prefix;
+    std::string command;
     std::string args;
 
-    if (receiveCommand(prefix, args))
+    if (receiveCommand(command, args))
       {
 	for (std::pair<first_t, second_t> const &p : funcs)
 	  {
-	    if (prefix == p.first)
+	    if (command == p.first)
 	      {
-		(this->*func.second)(args);
+		(this->*p.second)(args);
 		return (true);
 	      }
 	  }
