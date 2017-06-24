@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:46:10 2017 Antoine Baché
-** Last update Sat Jun 24 00:31:07 2017 Antoine Baché
+** Last update Sat Jun 24 15:02:56 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MULTIPLEXER_H_
@@ -28,12 +28,13 @@ typedef struct s_zappy	t_zappy;
 */
 typedef struct		s_zappy_multiplexer
 {
+  struct timeval	tv;
+  struct timeval	tv_ref;
   t_sock		max_sock;
   fd_set		readfds;
   fd_set		writefds;
   fd_set		exceptfds;
-  struct timeval	tv;
-  struct timeval	tv_ref;
+  uint8_t		padding[4];
 }			t_zappy_multiplexer;
 
 /*

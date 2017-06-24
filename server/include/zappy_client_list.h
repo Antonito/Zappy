@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:59:51 2017 Antoine Baché
-** Last update Sat Jun 24 14:22:37 2017 Antoine Baché
+** Last update Sat Jun 24 15:01:59 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_LIST
@@ -33,6 +33,7 @@ typedef struct				s_zappy_client_list_manager
 {
   t_zappy_client_list			*list;
   int32_t				nb_clients;
+  uint8_t				paddingp[4];
 }					t_zappy_client_list_manager;
 
 /*

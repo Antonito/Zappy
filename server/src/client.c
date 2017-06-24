@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sat Jun 24 14:32:59 2017 Antoine Baché
+** Last update Sat Jun 24 15:14:41 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -22,7 +22,7 @@ static t_zappy_client_state_handle const zappy_state_hand[] =
     { &zappy_cli_state_auth_r, &zappy_cli_state_auth_w }
   };
 
-#if (__STDC_VERSION >= 201112L) && defined static_assert
+#if (__STDC_VERSION__ >= 201112L) && defined static_assert
 _Static_assert(sizeof(zappy_state_hand) / sizeof(zappy_state_hand[0]) ==
 	       NB_CLI_STATE, "Invalid number of client state");
 #endif

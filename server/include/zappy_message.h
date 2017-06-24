@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 11:39:52 2017 Antoine Baché
-** Last update Sat Jun 24 12:02:44 2017 Antoine Baché
+** Last update Sat Jun 24 14:58:06 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MESSAGE_H_
@@ -32,6 +32,7 @@ typedef struct		s_zappy_message
 {
   char			*msg;
   int32_t		len;
+  uint8_t		padding[4];
 }			t_zappy_message;
 
 t_zappy_message_action	zappy_message_read(t_zappy_socket const * const,

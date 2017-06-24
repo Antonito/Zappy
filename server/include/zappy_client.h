@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:58:03 2017 Antoine Baché
-** Last update Sat Jun 24 13:12:49 2017 Antoine Baché
+** Last update Sat Jun 24 15:00:38 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_H_
@@ -42,13 +42,14 @@ typedef enum		e_zappy_client_state
 */
 typedef struct		s_zappy_client
 {
-  t_zappy_socket	net;
-  bool			can_write;
-  bool			connected;
-  t_zappy_client_state	state;
   t_cqueue		*input_queue;
   t_cqueue		*output_queue;
+  t_zappy_socket	net;
   int32_t		id;
+  t_zappy_client_state	state;
+  bool			can_write;
+  bool			connected;
+  uint8_t		padding[2];
 }			t_zappy_client;
 
 /*

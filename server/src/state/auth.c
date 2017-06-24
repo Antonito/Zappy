@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:19:33 2017 Antoine Baché
-** Last update Sat Jun 24 14:33:05 2017 Antoine Baché
+** Last update Sat Jun 24 15:23:20 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -44,7 +44,7 @@ void			zappy_cli_state_auth_w(t_zappy_client * const cli,
   if (cur)
     {
       cur->len = sizeof("WELCOME\n") - 1;
-      cur->msg = strndup("WELCOME\n", cur->len + 1);
+      cur->msg = strndup("WELCOME\n", (size_t)cur->len + 1);
       if (cur->msg && cqueue_push(&cli->output_queue, cur))
 	{
 	  cli->can_write = false;

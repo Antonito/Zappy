@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 11:54:37 2017 Antoine Baché
-** Last update Sat Jun 24 14:38:19 2017 Antoine Baché
+** Last update Sat Jun 24 15:22:52 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,11 +14,11 @@
 #include "zappy_message.h"
 #include "zappy_network.h"
 
-t_zappy_message_action		zappy_message_fill(t_zappy_message *data,
+static t_zappy_message_action   zappy_message_fill(t_zappy_message *data,
 						   char *buff)
 {
   ++data->len;
-  data->msg = realloc(data->msg, data->len);
+  data->msg = realloc(data->msg, (size_t)data->len);
   if (!data->msg)
     return (MSG_DISCONNECT);
   memcpy(data->msg + data->len - 1, &buff, 1);
