@@ -12,6 +12,7 @@
 #endif                      // !_WIN32
 
 #include <exception>
+#include <utility>
 
 #include "Logger.hpp"
 #include "OptionParser.hpp"

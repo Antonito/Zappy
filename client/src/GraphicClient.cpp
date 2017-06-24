@@ -47,6 +47,47 @@ namespace zappy
   {
     // TODO: implement
     (void)command;
+
+    using first_t = std::string;
+    using second_t = void (GraphicClient::*)(std::string const &);
+
+// Disable warning about exit time destructor for this static array
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif // !__clang__
+
+    static std::array<std::pair<first_t, second_t>, 24> funcs = {
+        {{"msz", &GraphicClient::mapSize},
+         {"bct", &GraphicClient::tileContent},
+         {"tna", &GraphicClient::teamNames},
+         {"pnw", &GraphicClient::newPlayer},
+         {"ppo", &GraphicClient::playerPosition},
+         {"plv", &GraphicClient::playerLevel},
+         {"pin", &GraphicClient::playerInventory},
+         {"pex", &GraphicClient::eject},
+         {"pbc", &GraphicClient::broadcast},
+         {"pic", &GraphicClient::launchIncantation},
+         {"pie", &GraphicClient::endOfIncantation},
+         {"pfk", &GraphicClient::layAnEgg},
+         {"pdr", &GraphicClient::dropResource},
+         {"pgr", &GraphicClient::takeResource},
+         {"pdi", &GraphicClient::starved},
+         {"enw", &GraphicClient::eggLayed},
+         {"eht", &GraphicClient::eggHatching},
+         {"ebo", &GraphicClient::playerConnectedForEgg},
+         {"edi", &GraphicClient::hatchedEggStarved},
+         {"sgt", &GraphicClient::timeUnit},
+         {"seg", &GraphicClient::endOfGame},
+         {"smg", &GraphicClient::serverMessage},
+         {"suc", &GraphicClient::unknownCommand},
+         {"sbp", &GraphicClient::badParameter}}};
+
+// Re-enable the warning
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif // !__clang__
+
     return (false);
   }
 
@@ -399,7 +440,7 @@ namespace zappy
   {
     std::istringstream is(data);
 
-    std::string message = parseMessage(data);
+    std::string message = parseMessage(is);
 
     checkEmpty(is);
 
@@ -433,7 +474,7 @@ namespace zappy
     std::size_t res = 0;
     char        c;
 
-    if (!is || is.peek(c) == ' ')
+    if (!is || is.peek() == ' ')
       {
 	throw std::invalid_argument("Invalid character (expected a digit)");
       }
@@ -445,7 +486,7 @@ namespace zappy
 	    throw std::invalid_argument(
 	        "Invalid character (expected a digit)");
 	  }
-	res = 10 * res + c - '0';
+	res = 10 * res + static_cast<std::size_t>(c - '0');
       }
     return (res);
   }
@@ -467,7 +508,7 @@ namespace zappy
 	    throw std::invalid_argument(
 	        "Invalid character (expected a digit)");
 	  }
-	res = 10 * res + c - '0';
+	res = 10 * res + static_cast<std::size_t>(c - '0');
       }
 
     if (c == ' ')
@@ -493,7 +534,7 @@ namespace zappy
     std::string res;
     char        c;
 
-    if (!is || is.peek(c) == ' ')
+    if (!is || is.peek() == ' ')
       {
 	throw std::invalid_argument("Invalid character (expected a digit)");
       }
