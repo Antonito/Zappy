@@ -50,13 +50,13 @@ namespace zappy
     // Received command
     //
     void mapSize(std::string const &data);
-    void mapContent(std::string const &data);
+    void tileContent(std::string const &data);
     void teamNames(std::string const &data);
     void newPlayer(std::string const &data);
     void playerPosition(std::string const &data);
     void playerLevel(std::string const &data);
     void playerInventory(std::string const &data);
-    void ejected(std::string const &data);
+    void eject(std::string const &data);
     void broadcast(std::string const &data);
     void launchIncantation(std::string const &data);
     void endOfIncantation(std::string const &data);
@@ -80,7 +80,7 @@ namespace zappy
     static Player::Orientation parseOrientation(std::istringstream &is);
     static std::string parseTeamName(std::istringstream &is);
     static std::string parseMessage(std::istringstream &is);
-    static void checkEmpty)std::istringstream const &is);
+    static void checkEmpty(std::istringstream const &is);
 
     // Window
     sf::RenderWindow m_win;

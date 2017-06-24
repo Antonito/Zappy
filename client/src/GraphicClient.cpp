@@ -123,122 +123,305 @@ namespace zappy
 
     std::size_t x = parseInt(is);
     std::size_t y = parseInt(is);
+
     checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
-  void GraphicClient::mapContent(std::string const &data)
+  void GraphicClient::tileContent(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t x = parseInt(is);
+    std::size_t y = parseInt(is);
+
+    std::size_t food = parseInt(is);
+    std::size_t linemate = parseInt(is);
+    std::size_t deraumere = parseInt(is);
+    std::size_t sibur = parseInt(is);
+    std::size_t mendiane = parseInt(is);
+    std::size_t phiras = parseInt(is);
+    std::size_t thystame = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::teamNames(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::string name = parseTeamName(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::newPlayer(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t         playerId = parsePlayerId(is);
+    std::size_t         x = parseInt(is);
+    std::size_t         y = parseInt(is);
+    Player::Orientation orientation = parseOrientation(is);
+    std::size_t         level = parseInt(is);
+    std::string         team = parseTeamName(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::playerPosition(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t         playerId = parsePlayerId(is);
+    std::size_t         x = parseInt(is);
+    std::size_t         y = parseInt(is);
+    Player::Orientation orientation = parseOrientation(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::playerLevel(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+    std::size_t level = parseInt(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::playerInventory(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+    std::size_t x = parseInt(is);
+    std::size_t y = parseInt(is);
+
+    std::size_t food = parseInt(is);
+    std::size_t linemate = parseInt(is);
+    std::size_t deraumere = parseInt(is);
+    std::size_t sibur = parseInt(is);
+    std::size_t mendiane = parseInt(is);
+    std::size_t phiras = parseInt(is);
+    std::size_t thystame = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
-  void GraphicClient::ejected(std::string const &data)
+  void GraphicClient::eject(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::broadcast(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+    std::string message = parseMessage(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::launchIncantation(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t x = parseInt(is);
+    std::size_t y = parseInt(is);
+    std::size_t level = parseInt(is);
+    std::size_t playerId = parsePlayerId(is);
+
+    std::vector<std::size_t> otherPlayers;
+
+    otherPlayers.push_back(parsePlayerId(is));
+
+    while (is)
+      {
+	otherPlayers.push_back(parsePlayerId(is));
+      }
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::endOfIncantation(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t x = parseInt(is);
+    std::size_t y = parseInt(is);
+    std::size_t level = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::layAnEgg(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::dropResource(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+    std::size_t resource = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::takeResource(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+    std::size_t resource = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::starved(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t playerId = parsePlayerId(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::eggLayed(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t eggId = parsePlayerId(is);
+    std::size_t playerId = parsePlayerId(is);
+    std::size_t x = parseInt(is);
+    std::size_t y = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::eggHatching(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t eggId = parsePlayerId(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::playerConnectedForEgg(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t eggId = parsePlayerId(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::hatchedEggStarved(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t eggId = parsePlayerId(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::timeUnit(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t unit = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::endOfGame(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::size_t winner = parseInt(is);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::serverMessage(std::string const &data)
   {
     std::istringstream is(data);
+
+    std::string message = parseMessage(data);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::unknownCommand(std::string const &data)
   {
     std::istringstream is(data);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   void GraphicClient::badParameter(std::string const &data)
   {
     std::istringstream is(data);
+
+    checkEmpty(is);
+
+    // TODO: set the actual values
   }
 
   //
