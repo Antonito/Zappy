@@ -96,4 +96,103 @@ namespace zappy
     ss << "sst " << unit << '\n';
     sendCommand(ss.str());
   }
+
+  //
+  // Received command
+  //
+  void GraphicClient::mapSize(std::string const &data)
+  {
+  }
+
+  void GraphicClient::mapContent(std::string const &data)
+  {
+  }
+
+  void GraphicClient::teamNames(std::string const &data)
+  {
+  }
+
+  void GraphicClient::newPlayer(std::string const &data)
+  {
+  }
+
+  void GraphicClient::playerPosition(std::string const &data)
+  {
+  }
+
+  void GraphicClient::playerLevel(std::string const &data)
+  {
+  }
+
+  void GraphicClient::playerInventory(std::string const &data)
+  {
+  }
+
+  void GraphicClient::ejected(std::string const &data)
+  {
+  }
+
+  void GraphicClient::broadcast(std::string const &data)
+  {
+  }
+
+  void GraphicClient::launchIncantation(std::string const &data)
+  {
+  }
+
+  void GraphicClient::endOfIncantation(std::string const &data)
+  {
+  }
+
+  void GraphicClient::layAnEgg(std::string const &data)
+  {
+  }
+
+  void GraphicClient::dropResource(std::string const &data)
+  {
+  }
+
+  void GraphicClient::takeResource(std::string const &data)
+  {
+  }
+
+  void GraphicClient::starved(std::string const &data)
+  {
+  }
+
+  void GraphicClient::eggLayed(std::string const &data)
+  {
+  }
+
+  void GraphicClient::eggHatching(std::string const &data)
+  {
+  }
+
+  void GraphicClient::playerConnectedForEgg(std::string const &data)
+  {
+  }
+
+  void GraphicClient::hatchedEggStarved(std::string const &data)
+  {
+  }
+
+  void GraphicClient::timeUnit(std::string const &data)
+  {
+  }
+
+  void GraphicClient::endOfGame(std::string const &data)
+  {
+  }
+
+  void GraphicClient::serverMessage(std::string const &data)
+  {
+  }
+
+  void GraphicClient::unknownCommand(std::string const &data)
+  {
+  }
+
+  void GraphicClient::badParameter(std::string const &data)
+  {
+  }
 }
