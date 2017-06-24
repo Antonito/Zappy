@@ -32,4 +32,68 @@ namespace zappy
 	m_win.display();
       }
   }
+
+  //
+  // Sending commands
+  //
+
+  void GraphicClient::askMapSize() const
+  {
+    sendCommand("msz\n");
+  }
+
+  void GraphicClient::askTileContent(std::size_t x, std::size_t y) const
+  {
+    std::stringstream ss;
+
+    ss << "bct " << x << ' ' << y << '\n';
+    sendCommand(ss.str());
+  }
+
+  void GraphicClient::askMapContent() const
+  {
+    sendCommand("mct\n");
+  }
+
+  void GraphicClient::askTeamNames() const
+  {
+    sendCommand("tna\n");
+  }
+
+  void GraphicClient::askPlayerPosition(std::size_t playerId) const
+  {
+    std::stringstream ss;
+
+    ss << "ppo #" << playerId << '\n';
+    sendCommand(ss.str());
+  }
+
+  void GraphicClient::askPlayerLevel(std::size_t playerId) const
+  {
+    std::stringstream ss;
+
+    ss << "plv #" << playerId << '\n';
+    sendCommand(ss.str());
+  }
+
+  void GraphicClient::askPlayerInventory(std::size_t playerId) const
+  {
+    std::stringstream ss;
+
+    ss << "pin #" << playerId << '\n';
+    sendCommand(ss.str());
+  }
+
+  void GraphicClient::askTimeUnit() const
+  {
+    sendCommand("sgt\n");
+  }
+
+  void GraphicClient::askTimeUnitModification(std::size_t unit) const
+  {
+    std::stringstream ss;
+
+    ss << "sst " << unit << '\n';
+    sendCommand(ss.str());
+  }
 }
