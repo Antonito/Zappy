@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Sun Jun 25 21:20:10 2017 Antoine Baché
+** Last update Sun Jun 25 21:26:47 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -21,6 +21,11 @@
 #include "zappy_client_cmd.h"
 #include "zappy_color.h"
 #include "zappy_message.h"
+
+#if defined __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
 
 static t_zappy_client_cmd const	zappy_client_commands[] =
   {
@@ -134,3 +139,7 @@ void			zappy_cli_state_conn_w(t_zappy_client * const cli,
     }
   cli->connected = false;
 }
+
+#if defined __clang__
+#pragma clang diagnostic pop
+#endif

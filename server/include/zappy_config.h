@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:52:46 2017 Antoine Baché
-** Last update Sun Jun 25 21:03:13 2017 Antoine Baché
+** Last update Sun Jun 25 21:25:00 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CONFIG_H_
@@ -24,7 +24,7 @@ typedef struct		s_zappy_config
   int32_t		world_height;
   int32_t		freq;
   uint16_t		port;
-  uint8_t		padding[6];
+  uint8_t		padding[2];
 }			t_zappy_config;
 
 #endif /* !ZAPPY_CONFIG_H_ */
