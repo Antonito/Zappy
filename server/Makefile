@@ -64,6 +64,7 @@ SRC_FILES=	alloc.c				\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\
+		team_manager.c			\
 		state/auth.c			\
 		state/connect.c			\
 		state/resp.c			\

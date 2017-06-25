@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Sun Jun 25 18:29:50 2017 Antoine Baché
+** Last update Sun Jun 25 21:20:10 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -60,7 +60,7 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
   while (i < CMD_ERR)
     {
       if (!memcmp(buff, zappy_client_commands[i].cmd,
-		  zappy_client_commands[i].len) ||
+		  (size_t)zappy_client_commands[i].len) ||
 	  sscanf(buff, zappy_client_commands[i].cmd, res->buff))
 	{
 	  res->callback = zappy_client_commands[i].handle;
@@ -95,19 +95,35 @@ void			zappy_cli_state_conn_r(t_zappy_client * const cli,
     }
 }
 
+static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
+						    t_zappy_message * const
+						    data)
+{
+  assert(cli && data);
+  data->len = sizeof("ko\n") - 1;
+  data->msg = strdup("ko\n");
+  cli->connected = false;
+}
+
 void			zappy_cli_state_conn_w(t_zappy_client * const cli,
 					       t_zappy * const data)
 {
   t_zappy_message	*cur;
   char			buff[1024];
+  int32_t		ret;
 
-  cur = zappy_alloc_message();
-  if (cur)
+  if ((cur = zappy_alloc_message()))
     {
-      // TODO
-      cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", 0,
-			  data->conf.world_width, data->conf.world_height);
-      cur->msg = strdup(buff);
+      ret = zappy_team_manager_add_client(cli->game.team_name, cli,
+					  &data->conf.teams);
+      if (ret != -1)
+	{
+	  cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", ret,
+			      data->conf.world_width, data->conf.world_height);
+	  cur->msg = strdup(buff);
+	}
+      else
+	zappy_cli_state_conn_w_fail(cli, cur);
       if (cur->msg && cqueue_push(&cli->output_queue, cur))
 	{
 	  cli->can_write = false;

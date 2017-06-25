@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sun Jun 25 18:29:05 2017 Antoine Baché
+** Last update Sun Jun 25 18:45:19 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -15,6 +15,7 @@
 #include "zappy.h"
 #include "zappy_alloc.h"
 #include "zappy_client.h"
+#include "zappy_color.h"
 #include "zappy_message.h"
 #include "zappy_client_state.h"
 
@@ -98,5 +99,5 @@ void		zappy_client_except(t_zappy_client * const cli,
 {
   (void)data;
   cli->connected = false;
-  LOG(LOG_WARNING, "Client #%d got exception.", cli->id);
+  LOG(LOG_WARNING, RED_BOLD_INTENS"Client #%d got exception."CLEAR, cli->id);
 }
