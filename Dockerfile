@@ -11,7 +11,7 @@ MAINTAINER Troncy Lucas <lucas.troncy@epitech.eu>
 # Install
 RUN echo '[Installing basic packages]'
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y build-essential apt-utils software-properties-common
+RUN apt-get install -y build-essential apt-utils software-properties-common curl sudo
 RUN echo '[Installing npm]'
 RUN apt-get install -y npm
 RUN echo '[Installing nodejs]'
