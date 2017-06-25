@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Sat Jun 24 16:12:37 2017 Antoine Baché
+** Last update Sat Jun 24 20:24:27 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -14,6 +14,7 @@
 #include "clogger.h"
 #include "zappy_server.h"
 #include "zappy_cleanup.h"
+#include "zappy_alloc.h"
 #include "zappy.h"
 
 t_logger	g_log;
@@ -27,6 +28,7 @@ static void	zappy_exit_cleanup(void)
   zappy_cleanup_socket(&zap.net);
   zappy_cleanup_multiplexer(&zap.multiplex);
   zappy_cleanup_clients(&zap.clients);
+  zappy_alloc_deinit();
   LOG(LOG_INFO, "Leaving Zappy server");
 }
 
@@ -66,7 +68,8 @@ int		main(int ac, char **av)
 #endif
   memset(&zap, 0, sizeof(zap));
   LOG(LOG_INFO, "Starting Zappy server");
-  if (atexit(zappy_exit_cleanup) == -1 ||
+  if (zappy_alloc_init() ||
+      atexit(zappy_exit_cleanup) == -1 ||
       signal(SIGINT, &zappy_signal_handler) == SIG_ERR)
     {
       return (84);

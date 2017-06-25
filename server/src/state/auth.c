@@ -5,33 +5,32 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:19:33 2017 Antoine Baché
-** Last update Sat Jun 24 15:23:20 2017 Antoine Baché
+** Last update Sun Jun 25 16:21:33 2017 Antoine Baché
 */
 
 #include <stdlib.h>
 #include <string.h>
 #include "clogger.h"
 #include "cqueue.h"
+#include "zappy_alloc.h"
 #include "zappy_client.h"
 #include "zappy_client_state.h"
 #include "zappy_message.h"
 
 void			zappy_cli_state_auth_r(t_zappy_client * const cli,
-					       t_zappy * const data)
+					       t_zappy * const data,
+					       char const * const msg)
 {
-  t_cqueue		*to_treat;
-
-  to_treat = cqueue_get_front(cli->input_queue);
-  if (to_treat)
+  (void)data;
+  cli->game.team_name = strdup(msg);
+  if (!cli)
     {
-      LOG(LOG_DEBUG, "Got message %p from input_queue", to_treat);
-      // TODO: analyze
-      (void)data;
-      cqueue_pop(&cli->input_queue);
-      zappy_message_clean(to_treat->data);
-      free(to_treat->data);
-      free(to_treat);
+      cli->connected = false;
+      return ;
     }
+  LOG(LOG_DEBUG, "Team name %s\n", cli->game.team_name);
+  cli->state = CLI_CONNECTED;
+  cli->can_write = true;
 }
 
 void			zappy_cli_state_auth_w(t_zappy_client * const cli,
@@ -40,7 +39,7 @@ void			zappy_cli_state_auth_w(t_zappy_client * const cli,
   t_zappy_message	*cur;
 
   (void)data;
-  cur = malloc(sizeof(*cur));
+  cur = zappy_alloc_message();
   if (cur)
     {
       cur->len = sizeof("WELCOME\n") - 1;
@@ -51,7 +50,7 @@ void			zappy_cli_state_auth_w(t_zappy_client * const cli,
 	  return ;
 	}
       free(cur->msg);
-      free(cur);
+      zappy_free_message(cur);
     }
   cli->connected = false;
 }

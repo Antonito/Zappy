@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 17:09:41 2017 Antoine Baché
-** Last update Sat Jun 24 17:14:54 2017 Antoine Baché
+** Last update Sat Jun 24 18:49:14 2017 Antoine Baché
 */
 
 #ifndef CMEMPOOL_H_
@@ -24,5 +24,6 @@ struct		s_cmempool
 
 t_cmempool	*cmempool_create(uint32_t const block_size,
 				 uint32_t const block_nb);
+void		cmempool_destroy(t_cmempool **pool);
 
 #endif /* !CMEMPOOL_H_ */

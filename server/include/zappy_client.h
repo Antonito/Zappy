@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:58:03 2017 Antoine Baché
-** Last update Sat Jun 24 15:00:38 2017 Antoine Baché
+** Last update Sun Jun 25 16:02:43 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_H_
@@ -13,7 +13,9 @@
 
 #include <stdbool.h>
 #include "cqueue.h"
+#include "zappy_client_game.h"
 #include "zappy_socket.h"
+#include "zappy_ring_buffer.h"
 
 /*
 ** Forward declaration of t_zappy
@@ -27,6 +29,8 @@ typedef struct s_zappy	t_zappy;
 typedef enum		e_zappy_client_state
   {
     CLI_AUTHENTICATING	= 0,
+    CLI_CONNECTED,
+    CLI_RESPONSE,
     NB_CLI_STATE
   }			t_zappy_client_state;
 
@@ -39,18 +43,24 @@ typedef enum		e_zappy_client_state
 ** input_queue  -> data received from the server
 ** output_queue -> data to be sent to the server
 ** id           -> client identifier
+** buff         -> ring buffer
 */
-typedef struct		s_zappy_client
+typedef struct		s_zappy_client	t_zappy_client;
+
+struct			s_zappy_client
 {
   t_cqueue		*input_queue;
   t_cqueue		*output_queue;
+  t_zappy_ring_buffer	buff;
+  t_zappy_client_game	game;
   t_zappy_socket	net;
   int32_t		id;
   t_zappy_client_state	state;
   bool			can_write;
   bool			connected;
-  uint8_t		padding[2];
-}			t_zappy_client;
+  bool			graphical;
+  uint8_t		padding[1];
+};
 
 /*
 ** Initialize a client

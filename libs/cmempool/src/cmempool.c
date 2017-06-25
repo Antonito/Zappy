@@ -5,17 +5,12 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 17:18:34 2017 Antoine Baché
-** Last update Sat Jun 24 17:37:15 2017 Antoine Baché
+** Last update Sat Jun 24 18:49:02 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
 #include "cmempool_private.h"
-
-static t_cmempool_priv	*cmempool_to_cmempool_priv(t_cmempool * const self)
-{
-  return ((t_cmempool_priv *)(((uintptr_t)self) - sizeof(*self)));
-}
 
 static void		cmempool_free_wrap(t_cmempool * const self,
 					   void * const ptr)
@@ -23,7 +18,7 @@ static void		cmempool_free_wrap(t_cmempool * const self,
   t_cmempool_priv	*pool;
 
   assert(self);
-  pool = cmempool_to_cmempool_priv(self);
+  pool = (t_cmempool_priv *)self;
   cmempool_free(pool, ptr);
 }
 
@@ -32,7 +27,7 @@ static void		*cmempool_malloc_wrap(t_cmempool * const self)
   t_cmempool_priv	*pool;
 
   assert(self);
-  pool = cmempool_to_cmempool_priv(self);
+  pool = (t_cmempool_priv *)self;
   return (cmempool_malloc(pool));
 }
 
@@ -41,7 +36,7 @@ static void		*cmempool_calloc_wrap(t_cmempool * const self)
   t_cmempool_priv	*pool;
 
   assert(self);
-  pool = cmempool_to_cmempool_priv(self);
+  pool = (t_cmempool_priv *)self;
   return (cmempool_calloc(pool));
 }
 
@@ -62,10 +57,21 @@ t_cmempool		*cmempool_create(uint32_t const block_size,
   elem->free_block_nb = block_nb;
   elem->begin = calloc(1, sizeof(uint8_t) * elem->size);
   elem->next = elem->begin;
-  if (elem->begin)
+  if (!elem->begin)
     {
       free(elem);
       return (NULL);
     }
+  assert(elem == (t_cmempool_priv *)&elem->pub);
   return (&elem->pub);
+}
+
+void			cmempool_destroy(t_cmempool **pool)
+{
+  t_cmempool_priv	*elem;
+
+  elem = (t_cmempool_priv *)*pool;
+  free(elem->begin);
+  free(elem);
+  *pool = NULL;
 }

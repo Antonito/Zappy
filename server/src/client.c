@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sat Jun 24 15:14:41 2017 Antoine Baché
+** Last update Sun Jun 25 16:49:06 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -13,26 +13,22 @@
 #include <string.h>
 #include "clogger.h"
 #include "zappy.h"
+#include "zappy_alloc.h"
 #include "zappy_client.h"
 #include "zappy_message.h"
 #include "zappy_client_state.h"
 
 static t_zappy_client_state_handle const zappy_state_hand[] =
   {
-    { &zappy_cli_state_auth_r, &zappy_cli_state_auth_w }
+    { &zappy_cli_state_auth_r, &zappy_cli_state_auth_w },
+    { &zappy_cli_state_conn_r, &zappy_cli_state_conn_w },
+    { &zappy_cli_state_resp_r, &zappy_cli_state_resp_w }
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert
 _Static_assert(sizeof(zappy_state_hand) / sizeof(zappy_state_hand[0]) ==
 	       NB_CLI_STATE, "Invalid number of client state");
 #endif
-
-void		zappy_client_print(t_zappy_client const * const cli,
-				   char const * const msg)
-{
-  LOG(LOG_INFO, "%s #%d: %s", msg, cli->id,
-      inet_ntoa(cli->net.addr.sin_addr));
-}
 
 void		zappy_client_fill(t_zappy_client * const cli,
 				  t_sock const sock,
@@ -56,14 +52,19 @@ void		zappy_client_fill(t_zappy_client * const cli,
 void		zappy_client_read(t_zappy_client * const cli,
 				  t_zappy * const data)
 {
-  t_zappy_message	*msg;
+  int32_t		msg_len;
+  char			buff[4096];
 
   assert(cli->state < NB_CLI_STATE);
-  if (zappy_message_read(&cli->net, &msg) == MSG_SUCCESS)
+  if (zappy_message_read(&cli->net, &cli->buff) == MSG_SUCCESS)
     {
-      if (cqueue_push(&cli->input_queue, msg))
+      msg_len = zappy_ring_buffer_has_cmd(&cli->buff);
+      if (msg_len > 0 && (size_t)msg_len < sizeof(buff))
 	{
-	  zappy_state_hand[cli->state].read(cli, data);
+	  memset(buff, 0, sizeof(buff));
+	  zappy_ring_buffer_read(&cli->buff, (uint8_t *)buff, msg_len);
+	  buff[msg_len - 1] = '\0';
+	  zappy_state_hand[cli->state].read(cli, data, buff);
 	  return ;
 	}
     }
@@ -85,8 +86,8 @@ void		zappy_client_write(t_zappy_client * const cli,
       zappy_message_write(&cli->net, to_send->data);
       cqueue_pop(&cli->output_queue);
       zappy_message_clean(to_send->data);
-      free(to_send->data);
-      free(to_send);
+      zappy_free_message(to_send->data);
+      zappy_free_cqueue(to_send);
     }
 }
 

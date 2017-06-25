@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 11:39:52 2017 Antoine Baché
-** Last update Sat Jun 24 14:58:06 2017 Antoine Baché
+** Last update Sat Jun 24 23:01:29 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MESSAGE_H_
@@ -16,7 +16,12 @@
 /*
 ** Forward declaration of t_zappy_socket
 */
-typedef struct	s_zappy_socket	t_zappy_socket;
+typedef struct	s_zappy_socket		t_zappy_socket;
+
+/*
+** Forward declaration of t_zappy_ring_buffer
+*/
+typedef struct	s_zappy_ring_buffer	t_zappy_ring_buffer;
 
 typedef enum		e_zappy_message_action
   {
@@ -36,7 +41,7 @@ typedef struct		s_zappy_message
 }			t_zappy_message;
 
 t_zappy_message_action	zappy_message_read(t_zappy_socket const * const,
-					   t_zappy_message **data);
+					   t_zappy_ring_buffer * const);
 t_zappy_message_action	zappy_message_write(t_zappy_socket const * const,
 					    t_zappy_message const *
 					    const data);

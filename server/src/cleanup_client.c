@@ -5,13 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 14:16:40 2017 Antoine Baché
-** Last update Sat Jun 24 14:30:14 2017 Antoine Baché
+** Last update Sun Jun 25 13:42:59 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
 #include "clogger.h"
 #include "cqueue.h"
+#include "zappy_alloc.h"
 #include "zappy_cleanup.h"
 #include "zappy_message.h"
 
@@ -24,8 +25,8 @@ void			zappy_cleanup_cqueue(t_cqueue **queue)
       to_clean = cqueue_get_front(*queue);
       cqueue_pop(queue);
       zappy_message_clean(to_clean->data);
-      free(to_clean->data);
-      free(to_clean);
+      zappy_free_message(to_clean->data);
+      zappy_free_cqueue(to_clean);
     }
 }
 
@@ -38,6 +39,8 @@ void			zappy_cleanup_client(t_zappy_client * const cli)
       closesocket(cli->net.sock);
       cli->net.sock = -1;
     }
+  free(cli->game.team_name);
+  cli->game.team_name = NULL;
   zappy_cleanup_cqueue(&cli->input_queue);
   zappy_cleanup_cqueue(&cli->output_queue);
 }

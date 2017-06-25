@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 18:02:48 2017 Antoine Baché
-** Last update Sat Jun 24 15:13:55 2017 Antoine Baché
+** Last update Sat Jun 24 21:25:40 2017 Antoine Baché
 */
 
 #ifndef CLOGGER_H_
@@ -19,7 +19,11 @@
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 #endif
 
+#if defined CLOGGER_NO_LOG
+#define LOG(...)
+#else
 #define LOG(lvl, fmt, ...) g_log.log(&g_log, lvl, fmt, ##__VA_ARGS__)
+#endif
 
 #if defined __clang__
 #pragma clang diagnostic pop
