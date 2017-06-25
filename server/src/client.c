@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sun Jun 25 18:45:19 2017 Antoine Baché
+** Last update Sun Jun 25 21:45:35 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,6 +48,7 @@ void		zappy_client_fill(t_zappy_client * const cli,
   cli->can_write = true;
   cli->connected = true;
   cli->state = CLI_AUTHENTICATING;
+  zappy_client_game_init(cli);
 }
 
 void		zappy_client_read(t_zappy_client * const cli,

@@ -1,10 +1,11 @@
 ## TODO:
 
+-> case sensitive
+
 -> Tri de l'input_queue par remaining_time
 -> Update remaining_time
 
 -> Placement joueur
--> Gestion d'equipes
 -> Gestion ticks
 -> Son
 -> Vision
