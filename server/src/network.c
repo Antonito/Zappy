@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 12:06:12 2017 Antoine Baché
-** Last update Sat Jun 24 23:01:56 2017 Antoine Baché
+** Last update Sun Jun 25 17:59:38 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -36,6 +36,7 @@ int32_t		zappy_network_write(t_zappy_socket const * const sock,
 	  return (ret);
 	}
       total += ret;
+      assert(total <= len);
     }
   return (total);
 }

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Sun Jun 25 16:49:25 2017 Antoine Baché
+** Last update Sun Jun 25 18:29:50 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -19,21 +19,24 @@
 #include "zappy_client_state.h"
 #include "zappy_client_serial.h"
 #include "zappy_client_cmd.h"
+#include "zappy_color.h"
 #include "zappy_message.h"
 
 static t_zappy_client_cmd const	zappy_client_commands[] =
   {
-    { &zappy_client_cmd_inventory, "inventory", 1, 0 },
-    { &zappy_client_cmd_forward, "forward", 7, 0 },
-    { &zappy_client_cmd_broadcast, "broadcast %[^\n]", 7, 0 },
-    { &zappy_client_cmd_look, "look", 7, 0 },
-    { &zappy_client_cmd_right, "right", 7, 0 },
-    { &zappy_client_cmd_left, "left", 7, 0 },
-    { &zappy_client_cmd_take, "take %s", 7, 0 },
-    { &zappy_client_cmd_set, "set %s", 7, 0 },
-    { &zappy_client_cmd_eject, "eject", 7, 0 },
-    { &zappy_client_cmd_fork, "fork", 42, 0 },
-    { &zappy_client_cmd_incantation, "incantation", 300, 0 },
+    { &zappy_client_cmd_inventory, "inventory", 1, sizeof("inventory") },
+    { &zappy_client_cmd_forward, "forward", 7, sizeof("forward") },
+    { &zappy_client_cmd_broadcast, "broadcast %[^\n]", 7,
+      sizeof("broadcast ") - 1 },
+    { &zappy_client_cmd_look, "look", 7, sizeof("look") },
+    { &zappy_client_cmd_right, "right", 7, sizeof("right") },
+    { &zappy_client_cmd_left, "left", 7, sizeof("left") },
+    { &zappy_client_cmd_take, "take %s", 7, sizeof("take ") - 1 },
+    { &zappy_client_cmd_set, "set %s", 7, sizeof("set ") - 1 },
+    { &zappy_client_cmd_eject, "eject", 7, sizeof("eject") },
+    { &zappy_client_cmd_fork, "fork", 42, sizeof("fork") },
+    { &zappy_client_cmd_incantation, "incantation", 300,
+      sizeof("incantation") },
     { &zappy_client_cmd_err, NULL, 0, 0 }
   };
 
@@ -49,14 +52,16 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 {
   int32_t		i;
 
-  LOG(LOG_DEBUG, "Treating message: %s", buff);
+  LOG(LOG_DEBUG, "Treating message: "CYAN_BOLD_INTENS"%s"CLEAR, buff);
   (void)data;
   i = 0;
   res->callback = zappy_client_commands[CMD_ERR].handle;
   res->remaining_time = zappy_client_commands[CMD_ERR].time_limit;
   while (i < CMD_ERR)
     {
-      if (sscanf(buff, zappy_client_commands[i].cmd, res->buff))
+      if (!memcmp(buff, zappy_client_commands[i].cmd,
+		  zappy_client_commands[i].len) ||
+	  sscanf(buff, zappy_client_commands[i].cmd, res->buff))
 	{
 	  res->callback = zappy_client_commands[i].handle;
 	  res->remaining_time = zappy_client_commands[i].time_limit;
@@ -80,7 +85,8 @@ void			zappy_cli_state_conn_r(t_zappy_client * const cli,
       nb_requ = cqueue_get_size(cli->input_queue);
       if (nb_requ >= 10)
 	{
-	  LOG(LOG_WARNING, "Already has 10 request from client %d", cli->id);
+	  LOG(LOG_WARNING, RED_BOLD_INTENS
+	      "Already has 10 request from client %d"CLEAR, cli->id);
 	  return ;
 	}
       resp = zappy_alloc_serial();

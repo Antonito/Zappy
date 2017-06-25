@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sun Jun 25 16:49:06 2017 Antoine Baché
+** Last update Sun Jun 25 18:29:05 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -64,6 +64,8 @@ void		zappy_client_read(t_zappy_client * const cli,
 	  memset(buff, 0, sizeof(buff));
 	  zappy_ring_buffer_read(&cli->buff, (uint8_t *)buff, msg_len);
 	  buff[msg_len - 1] = '\0';
+	  if (msg_len - 2 > 0 && buff[msg_len - 2] == '\r')
+	    buff[msg_len - 2] = '\0';
 	  zappy_state_hand[cli->state].read(cli, data, buff);
 	  return ;
 	}
