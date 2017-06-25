@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:13:06 2017 Antoine Baché
-** Last update Sun Jun 25 12:52:13 2017 Antoine Baché
+** Last update Sun Jun 25 18:12:33 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_CMD_H_
@@ -55,7 +55,7 @@ typedef struct			s_zappy_client_cmd
 					  char const * const arg);
   char const			*cmd;
   int32_t			time_limit;
-  int32_t			padding;
+  int32_t			len;
 }				t_zappy_client_cmd;
 
 /*

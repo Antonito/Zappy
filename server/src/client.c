@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sun Jun 25 16:49:06 2017 Antoine Baché
+** Last update Sun Jun 25 18:45:19 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -15,6 +15,7 @@
 #include "zappy.h"
 #include "zappy_alloc.h"
 #include "zappy_client.h"
+#include "zappy_color.h"
 #include "zappy_message.h"
 #include "zappy_client_state.h"
 
@@ -64,6 +65,8 @@ void		zappy_client_read(t_zappy_client * const cli,
 	  memset(buff, 0, sizeof(buff));
 	  zappy_ring_buffer_read(&cli->buff, (uint8_t *)buff, msg_len);
 	  buff[msg_len - 1] = '\0';
+	  if (msg_len - 2 > 0 && buff[msg_len - 2] == '\r')
+	    buff[msg_len - 2] = '\0';
 	  zappy_state_hand[cli->state].read(cli, data, buff);
 	  return ;
 	}
@@ -96,5 +99,5 @@ void		zappy_client_except(t_zappy_client * const cli,
 {
   (void)data;
   cli->connected = false;
-  LOG(LOG_WARNING, "Client #%d got exception.", cli->id);
+  LOG(LOG_WARNING, RED_BOLD_INTENS"Client #%d got exception."CLEAR, cli->id);
 }

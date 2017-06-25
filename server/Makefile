@@ -52,6 +52,7 @@ SRC_FILES=	alloc.c				\
 		client.c			\
 		client_manager.c		\
 		client_utils.c			\
+		elevation.c			\
 		io.c				\
 		logic.c				\
 		main.c				\
@@ -63,6 +64,7 @@ SRC_FILES=	alloc.c				\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\
+		team_manager.c			\
 		state/auth.c			\
 		state/connect.c			\
 		state/resp.c			\

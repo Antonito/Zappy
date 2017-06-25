@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Sun Jun 25 16:46:10 2017 Antoine Baché
+** Last update Sun Jun 25 21:12:53 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -27,10 +27,10 @@ typedef struct			s_zappy_client_game
 {
   char				*team_name;
   t_zappy_client_inventory	inv;
+  int32_t			team_id;
   int32_t			x;
   int32_t			y;
   int32_t			level;
-  uint8_t			padding[4];
 }				t_zappy_client_game;
 
 #endif /* !ZAPPY_CLIENT_GAME_H_ */

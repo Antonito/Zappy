@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Sat Jun 24 14:42:13 2017 Antoine Baché
+** Last update Sun Jun 25 18:21:27 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,6 +14,7 @@
 #include <string.h>
 #include <errno.h>
 #include "clogger.h"
+#include "zappy_color.h"
 #include "zappy_client_list.h"
 #include "zappy_cleanup.h"
 
@@ -78,7 +79,7 @@ int32_t			zappy_client_add(t_zappy_client_list_manager *
     }
   zappy_client_fill(&elem->data, socket, addr, len);
   elem->data.id = list->nb_clients;
-  zappy_client_print(&elem->data, "New client");
+  zappy_client_print(&elem->data, YELLOW_BOLD_INTENS"New client"CLEAR);
   tmp = list->list;
   while (tmp && tmp->next)
     tmp = tmp->next;
@@ -98,7 +99,8 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
 					    t_zappy_client_list *
 					    const cur)
 {
-  LOG(LOG_INFO, "Disconnecting client %d", cur->data.id);
+  LOG(LOG_INFO, YELLOW_BOLD_INTENS"Disconnecting client %d"
+      CLEAR, cur->data.id);
   assert(list && cur);
   assert(list->nb_clients > 0);
   if (cur->prev)

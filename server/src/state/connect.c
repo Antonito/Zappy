@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Sun Jun 25 16:49:25 2017 Antoine Baché
+** Last update Sun Jun 25 21:26:47 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -19,21 +19,29 @@
 #include "zappy_client_state.h"
 #include "zappy_client_serial.h"
 #include "zappy_client_cmd.h"
+#include "zappy_color.h"
 #include "zappy_message.h"
+
+#if defined __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
 
 static t_zappy_client_cmd const	zappy_client_commands[] =
   {
-    { &zappy_client_cmd_inventory, "inventory", 1, 0 },
-    { &zappy_client_cmd_forward, "forward", 7, 0 },
-    { &zappy_client_cmd_broadcast, "broadcast %[^\n]", 7, 0 },
-    { &zappy_client_cmd_look, "look", 7, 0 },
-    { &zappy_client_cmd_right, "right", 7, 0 },
-    { &zappy_client_cmd_left, "left", 7, 0 },
-    { &zappy_client_cmd_take, "take %s", 7, 0 },
-    { &zappy_client_cmd_set, "set %s", 7, 0 },
-    { &zappy_client_cmd_eject, "eject", 7, 0 },
-    { &zappy_client_cmd_fork, "fork", 42, 0 },
-    { &zappy_client_cmd_incantation, "incantation", 300, 0 },
+    { &zappy_client_cmd_inventory, "inventory", 1, sizeof("inventory") },
+    { &zappy_client_cmd_forward, "forward", 7, sizeof("forward") },
+    { &zappy_client_cmd_broadcast, "broadcast %[^\n]", 7,
+      sizeof("broadcast ") - 1 },
+    { &zappy_client_cmd_look, "look", 7, sizeof("look") },
+    { &zappy_client_cmd_right, "right", 7, sizeof("right") },
+    { &zappy_client_cmd_left, "left", 7, sizeof("left") },
+    { &zappy_client_cmd_take, "take %s", 7, sizeof("take ") - 1 },
+    { &zappy_client_cmd_set, "set %s", 7, sizeof("set ") - 1 },
+    { &zappy_client_cmd_eject, "eject", 7, sizeof("eject") },
+    { &zappy_client_cmd_fork, "fork", 42, sizeof("fork") },
+    { &zappy_client_cmd_incantation, "incantation", 300,
+      sizeof("incantation") },
     { &zappy_client_cmd_err, NULL, 0, 0 }
   };
 
@@ -49,14 +57,16 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 {
   int32_t		i;
 
-  LOG(LOG_DEBUG, "Treating message: %s", buff);
+  LOG(LOG_DEBUG, "Treating message: "CYAN_BOLD_INTENS"%s"CLEAR, buff);
   (void)data;
   i = 0;
   res->callback = zappy_client_commands[CMD_ERR].handle;
   res->remaining_time = zappy_client_commands[CMD_ERR].time_limit;
   while (i < CMD_ERR)
     {
-      if (sscanf(buff, zappy_client_commands[i].cmd, res->buff))
+      if (!memcmp(buff, zappy_client_commands[i].cmd,
+		  (size_t)zappy_client_commands[i].len) ||
+	  sscanf(buff, zappy_client_commands[i].cmd, res->buff))
 	{
 	  res->callback = zappy_client_commands[i].handle;
 	  res->remaining_time = zappy_client_commands[i].time_limit;
@@ -80,7 +90,8 @@ void			zappy_cli_state_conn_r(t_zappy_client * const cli,
       nb_requ = cqueue_get_size(cli->input_queue);
       if (nb_requ >= 10)
 	{
-	  LOG(LOG_WARNING, "Already has 10 request from client %d", cli->id);
+	  LOG(LOG_WARNING, RED_BOLD_INTENS
+	      "Already has 10 request from client %d"CLEAR, cli->id);
 	  return ;
 	}
       resp = zappy_alloc_serial();
@@ -89,19 +100,35 @@ void			zappy_cli_state_conn_r(t_zappy_client * const cli,
     }
 }
 
+static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
+						    t_zappy_message * const
+						    data)
+{
+  assert(cli && data);
+  data->len = sizeof("ko\n") - 1;
+  data->msg = strdup("ko\n");
+  cli->connected = false;
+}
+
 void			zappy_cli_state_conn_w(t_zappy_client * const cli,
 					       t_zappy * const data)
 {
   t_zappy_message	*cur;
   char			buff[1024];
+  int32_t		ret;
 
-  cur = zappy_alloc_message();
-  if (cur)
+  if ((cur = zappy_alloc_message()))
     {
-      // TODO
-      cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", 0,
-			  data->conf.world_width, data->conf.world_height);
-      cur->msg = strdup(buff);
+      ret = zappy_team_manager_add_client(cli->game.team_name, cli,
+					  &data->conf.teams);
+      if (ret != -1)
+	{
+	  cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", ret,
+			      data->conf.world_width, data->conf.world_height);
+	  cur->msg = strdup(buff);
+	}
+      else
+	zappy_cli_state_conn_w_fail(cli, cur);
       if (cur->msg && cqueue_push(&cli->output_queue, cur))
 	{
 	  cli->can_write = false;
@@ -112,3 +139,7 @@ void			zappy_cli_state_conn_w(t_zappy_client * const cli,
     }
   cli->connected = false;
 }
+
+#if defined __clang__
+#pragma clang diagnostic pop
+#endif
