@@ -50,6 +50,7 @@ SRC_FILES=	alloc.c				\
 		cleanup.c			\
 		cleanup_client.c		\
 		client.c			\
+		client_game.c			\
 		client_manager.c		\
 		client_utils.c			\
 		elevation.c			\

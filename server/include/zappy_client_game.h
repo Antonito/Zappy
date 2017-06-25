@@ -5,13 +5,18 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Sun Jun 25 21:12:53 2017 Antoine Baché
+** Last update Mon Jun 26 00:03:19 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
 #define ZAPPY_CLIENT_GAME_H_
 
 #include <stdint.h>
+
+/*
+** Forward declaration of t_zappy_client
+*/
+typedef struct			s_zappy_client	t_zappy_client;
 
 typedef struct			s_zappy_client_inventory
 {
@@ -21,6 +26,7 @@ typedef struct			s_zappy_client_inventory
   int32_t			mendiane;
   int32_t			phiras;
   int32_t			thystame;
+  int32_t			food;
 }				t_zappy_client_inventory;
 
 typedef struct			s_zappy_client_game
@@ -31,6 +37,10 @@ typedef struct			s_zappy_client_game
   int32_t			x;
   int32_t			y;
   int32_t			level;
+  int32_t			vision;
 }				t_zappy_client_game;
+
+void				zappy_client_game_init(t_zappy_client *
+						       const cli);
 
 #endif /* !ZAPPY_CLIENT_GAME_H_ */
