@@ -12,7 +12,8 @@ LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_option				\
 			-lsfml-graphics				\
 			-lsfml-window				\
-			-lsfml-system
+			-lsfml-system				\
+			-lGLEW
 
 LOCAL_DEBUG_FLAGS=
 

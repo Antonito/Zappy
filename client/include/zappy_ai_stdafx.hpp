@@ -14,8 +14,13 @@
 #include <exception>
 #include <utility>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <cctype>
 
 #include "Logger.hpp"
 #include "OptionParser.hpp"
