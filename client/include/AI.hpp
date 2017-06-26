@@ -57,28 +57,27 @@ namespace ai
     void initAction();
     void send(std::string const &msg);
 
-    Value starving();
-    Value receiveMsg();
-    Value missingStones();
-    Value missingPlayers();
-    Value setRecipe();
-    Value incant();
-    Value foodOnCase();
-    Value CollectFood();
-    Value findFood();
-    Value moveToFood();
-    Value checkLevel();
-    Value moveToTeammate();
-    Value arrived();
-    Value fixRecipe();
-    Value stoneOnCase();
-    Value collectStone();
-    Value findStone();
-    Value moveStone();
-    Value troll();
+    Value starving((State state = State::NO_CHANGE));
+    Value receiveMsg((State state = State::NO_CHANGE));
+    Value missingStone((State state = State::NO_CHANGE));
+    Value missingPlayer((State state = State::NO_CHANGE));
+    Value setRecipe((State state = State::NO_CHANGE));
+    Value incant((State state = State::NO_CHANGE));
+    Value foodOnCase((State state = State::NO_CHANGE));
+    Value collectFood((State state = State::NO_CHANGE));
+    Value findFood((State state = State::NO_CHANGE));
+    Value moveToFood((State state = State::NO_CHANGE));
+    Value checkLevel((State state = State::NO_CHANGE));
+    Value moveToTeammate((State state = State::NO_CHANGE));
+    Value arrived((State state = State::NO_CHANGE));
+    Value fixRecipe((State state = State::NO_CHANGE));
+    Value stoneOnCase((State state = State::NO_CHANGE));
+    Value collectStone((State state = State::NO_CHANGE));
+    Value findStone((State state = State::NO_CHANGE));
+    Value moveToStone((State state = State::NO_CHANGE));
+    Value troll((State state = State::NO_CHANGE));
 
-    std::vector<State, State (AI::*)(State state = State::NO_CHANGE)>
-        m_actionForState;
+    std::map<State, State (AI::*)(State)> m_actionForState;
   };
 }
 
