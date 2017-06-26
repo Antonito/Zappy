@@ -49,6 +49,7 @@ SRC_FILES=	alloc.c				\
 		argvs_func_freq.c		\
 		cleanup.c			\
 		cleanup_client.c		\
+		cleanup_map.c			\
 		client.c			\
 		client_game.c			\
 		client_manager.c		\
@@ -62,6 +63,7 @@ SRC_FILES=	alloc.c				\
 		multiplexer.c			\
 		network.c			\
 		parse.c				\
+		resource.c			\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\

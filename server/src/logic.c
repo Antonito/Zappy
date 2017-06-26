@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Sun Jun 25 17:45:02 2017 Antoine Baché
+** Last update Mon Jun 26 10:51:46 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -44,6 +44,7 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
       && !cli->graphical)
     {
       zappy_logic_client(cli, data);
+      // TODO: remove 1 food every 126 ticks
     }
 }
 

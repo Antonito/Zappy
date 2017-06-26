@@ -5,34 +5,28 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Mon Jun 26 00:03:19 2017 Antoine Baché
+** Last update Mon Jun 26 13:13:58 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
 #define ZAPPY_CLIENT_GAME_H_
 
 #include <stdint.h>
+#include "zappy_resource.h"
+
+#define ZAPPY_CLIENT_GAME_DEFAULT_LEVEL		(1)
+#define ZAPPY_CLIENT_GAME_DEFAULT_VISION	(1)
+#define ZAPPY_CLIENT_GAME_DEFAULT_FOOD		(10)
 
 /*
 ** Forward declaration of t_zappy_client
 */
 typedef struct			s_zappy_client	t_zappy_client;
 
-typedef struct			s_zappy_client_inventory
-{
-  int32_t			linemate;
-  int32_t			deraumere;
-  int32_t			sibur;
-  int32_t			mendiane;
-  int32_t			phiras;
-  int32_t			thystame;
-  int32_t			food;
-}				t_zappy_client_inventory;
-
 typedef struct			s_zappy_client_game
 {
   char				*team_name;
-  t_zappy_client_inventory	inv;
+  int32_t			inv[NB_RESOURCE];
   int32_t			team_id;
   int32_t			x;
   int32_t			y;
