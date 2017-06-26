@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 12:46:33 2017 Antoine Baché
-** Last update Mon Jun 26 13:21:31 2017 Antoine Baché
+** Last update Mon Jun 26 19:07:30 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -25,6 +25,12 @@ static char const	*zappy_resource_table[] =
     "phiras",
     "thystame"
   };
+
+char const		*zappy_get_resource_by_id(t_zappy_resource const res)
+{
+  assert(res < NB_RESOURCE);
+  return (zappy_resource_table[res]);
+}
 
 void			zappy_resource_spawn(t_zappy_resource const res,
 					     t_zappy_map * const map)

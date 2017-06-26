@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Mon Jun 26 11:21:39 2017 Antoine Baché
+** Last update Mon Jun 26 19:36:37 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -30,6 +30,7 @@ static void	zappy_exit_cleanup(void)
   zappy_cleanup_multiplexer(&zap.multiplex);
   zappy_cleanup_clients(&zap.clients);
   zappy_cleanup_map(&zap.map);
+  zappy_cleanup_admin(&zap.admin);
   zappy_alloc_deinit();
   LOG(LOG_INFO, "Leaving Zappy server");
 }
@@ -46,7 +47,8 @@ static int32_t	zappy(t_zappy * const data)
   int32_t	rc;
 
   srand((unsigned int)time(NULL));
-  if (zappy_create_map(&data->map, &data->conf))
+  if (zappy_create_map(&data->map, &data->conf) ||
+      zappy_start_admin(data))
     return (84);
   rc = zappy_create_socket(data->conf.port, &data->net);
   data->multiplex.tv_ref.tv_sec = 5;
