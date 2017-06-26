@@ -5,7 +5,7 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:49:08 2017 Lucas Troncy
-** Last update Fri Jun 23 20:51:00 2017 Antoine Baché
+** Last update Mon Jun 26 10:40:28 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -26,7 +26,12 @@ int32_t		argv_freq(int32_t i, char const * const * const av,
       argv_help(i, av, data);
       return (1);
     }
-  data->freq = (int32_t)atoi(av[i + 1]);
+  data->freq = (int32_t)strtol(av[i + 1], NULL, 10);
+  if (data->freq <= 0)
+    {
+      LOG(LOG_ERROR, "Invalid freq");
+      return (1);
+    }
   LOG(LOG_DEBUG, "Found %d", data->freq);
   return (0);
 }

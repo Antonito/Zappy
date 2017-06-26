@@ -49,10 +49,13 @@ SRC_FILES=	alloc.c				\
 		argvs_func_freq.c		\
 		cleanup.c			\
 		cleanup_client.c		\
+		cleanup_map.c			\
 		client.c			\
+		client_for_each.c		\
 		client_game.c			\
 		client_manager.c		\
-		client_utils.c			\
+		client_move.c			\
+		client_rotate.c			\
 		elevation.c			\
 		io.c				\
 		logic.c				\
@@ -62,6 +65,7 @@ SRC_FILES=	alloc.c				\
 		multiplexer.c			\
 		network.c			\
 		parse.c				\
+		resource.c			\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\
@@ -80,6 +84,7 @@ SRC_FILES=	alloc.c				\
 		client_cmd/eject.c		\
 		client_cmd/fork.c		\
 		client_cmd/incantation.c	\
+		client_cmd/connect_nbr.c	\
 		client_cmd/err.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))

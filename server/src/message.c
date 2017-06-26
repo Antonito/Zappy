@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 11:54:37 2017 Antoine Baché
-** Last update Sun Jun 25 17:59:30 2017 Antoine Baché
+** Last update Mon Jun 26 10:11:05 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -44,6 +44,8 @@ t_zappy_message_action		zappy_message_write(t_zappy_socket const *
   int32_t			offset;
 
   assert(sock && data);
+  assert((data->len > 0 && data->msg) ||
+	 (data-> len == 0 && !data->msg));
   ret = MSG_SUCCESS;
   offset = 0;
   while (offset != data->len)

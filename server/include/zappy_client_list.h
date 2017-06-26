@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:59:51 2017 Antoine Baché
-** Last update Sat Jun 24 15:01:59 2017 Antoine Baché
+** Last update Mon Jun 26 15:14:03 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_LIST
@@ -55,7 +55,7 @@ void	_zappy_for_each_client(t_zappy_client_list_manager *list,
 /*
 ** Add a client to the list
 */
-int32_t	zappy_client_add(t_zappy_client_list_manager * const list,
+int32_t	zappy_client_add(t_zappy * const data,
 			 t_sock const socket,
 			 t_sockaddr_in *addr, socklen_t len);
 

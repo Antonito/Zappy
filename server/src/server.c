@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:44:36 2017 Antoine Baché
-** Last update Sun Jun 25 21:45:11 2017 Antoine Baché
+** Last update Mon Jun 26 15:13:39 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -34,7 +34,7 @@ void		zappy_server_accept(t_zappy * const data)
     }
   if (ret >= 0)
     {
-      zappy_client_add(&data->clients, ret, &sin, len);
+      zappy_client_add(data, ret, &sin, len);
     }
 }
 
