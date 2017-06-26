@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 18:02:48 2017 Antoine Baché
-** Last update Fri Jun 23 19:38:52 2017 Antoine Baché
+** Last update Sat Jun 24 21:25:40 2017 Antoine Baché
 */
 
 #ifndef CLOGGER_H_
@@ -14,7 +14,20 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#if defined __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#endif
+
+#if defined CLOGGER_NO_LOG
+#define LOG(...)
+#else
 #define LOG(lvl, fmt, ...) g_log.log(&g_log, lvl, fmt, ##__VA_ARGS__)
+#endif
+
+#if defined __clang__
+#pragma clang diagnostic pop
+#endif
 
 typedef struct s_logger	t_logger;
 
@@ -38,6 +51,7 @@ struct			s_logger
 				      FILE *stream);
   FILE			*stream;
   t_clogger_level	level;
+  uint8_t		padding[4];
 };
 
 void			clogger_init(t_logger * const self);

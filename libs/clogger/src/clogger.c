@@ -5,13 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 18:08:11 2017 Antoine Baché
-** Last update Fri Jun 23 19:46:57 2017 Antoine Baché
+** Last update Sat Jun 24 15:11:30 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdarg.h>
 #include <time.h>
 #include "clogger.h"
+#include "clogger_priv.h"
 
 static char const *	level_str[] =
   {
@@ -21,6 +22,7 @@ static char const *	level_str[] =
     "ERROR"
   };
 
+CLOGGER_PRINT_ARG
 static int32_t	clogger_print_msg(FILE * const stream,
 				  t_clogger_level const level,
 				  char const * const fmt,
@@ -50,6 +52,7 @@ static int32_t	clogger_print_msg(FILE * const stream,
   return (ret);
 }
 
+CLOGGER_PRINT_ARG
 static int32_t	clogger_log(t_logger * const self,
 			    t_clogger_level const lvl,
 			    char const * const fmt, ...)

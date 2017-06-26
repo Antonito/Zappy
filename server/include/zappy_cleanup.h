@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 21:02:59 2017 Antoine Baché
-** Last update Sat Jun 24 14:20:21 2017 Antoine Baché
+** Last update Sun Jun 25 19:54:57 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLEANUP_H_
@@ -15,6 +15,7 @@
 #include "zappy_socket.h"
 #include "zappy_multiplexer.h"
 #include "zappy_client_list.h"
+#include "zappy_team_manager.h"
 
 /*
 ** Cleanup functions
@@ -24,6 +25,7 @@ void	zappy_cleanup_config(t_zappy_config * const conf);
 void	zappy_cleanup_socket(t_zappy_socket * const net);
 void	zappy_cleanup_multiplexer(t_zappy_multiplexer * const multiplex);
 void	zappy_cleanup_clients(t_zappy_client_list_manager * const clients);
+void	zappy_cleanup_teams(t_zappy_team_manager * const teams);
 void    zappy_cleanup_client(t_zappy_client * const cli);
 void	zappy_cleanup_cqueue(t_cqueue **queue);
 

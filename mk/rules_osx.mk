@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:05:54 2017 Antoine Baché
-## Last update Fri Jun 23 14:27:53 2017 Antoine Baché
+## Last update Sat Jun 24 14:52:10 2017 Antoine Baché
 ##
 
 MAIN_OBJ_DIR=	$(ROOT_DIR)/obj/
@@ -89,8 +89,10 @@ $(MAIN_OBJ_DIR) $(OBJ_DIR_LIST):
 all:		$(NAME)
 
 infos:
-		@$(ECHO) "$(CYAN)Compiler:\t\t$(CXX)\n"
-		@$(ECHO) "Compilation Flags:\t$(CXXFLAGS)\n"
+		@$(ECHO) "$(CYAN)C++ Compiler:\t\t$(CXX)\n"
+		@$(ECHO) "C++ Compilation Flags:\t$(CXXFLAGS)\n"
+		@$(ECHO) "C Compiler:\t\t$(CC)\n"
+		@$(ECHO) "C Compilation Flags:\t$(CFLAGS)\n"
 ifeq ($(NAME_EXTENSION),.a)
 		@$(ECHO) "Library Generation:\t$(RANLIB)\n$(CLEAR)"
 else

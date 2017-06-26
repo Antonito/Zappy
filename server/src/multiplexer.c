@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Sat Jun 24 13:56:50 2017 Antoine Baché
+** Last update Sat Jun 24 23:40:44 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -45,13 +45,8 @@ static void	zappy_multiplexer_clients(int32_t const server_sock,
 					  const clients,
 					  t_zappy_multiplexer * const data)
 {
-  FD_SET(STDIN_FILENO, &data->readfds);
-  data->max_sock = STDIN_FILENO;
   FD_SET(server_sock, &data->readfds);
-  if (server_sock > data->max_sock)
-    {
-      data->max_sock = server_sock;
-    }
+  data->max_sock = server_sock;
   zappy_for_each_client(clients, data, &zappy_multiplexer_add_client_wrap);
 }
 

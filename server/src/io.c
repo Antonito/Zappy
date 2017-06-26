@@ -5,9 +5,10 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:40:19 2017 Antoine Baché
-** Last update Sat Jun 24 13:54:58 2017 Antoine Baché
+** Last update Sun Jun 25 15:49:17 2017 Antoine Baché
 */
 
+#include <assert.h>
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_server.h"
@@ -18,6 +19,7 @@ static void     zappy_io_client(t_zappy_client * const cli,
 {
   t_zappy	*data;
 
+  assert(cli && _data);
   LOG(LOG_DEBUG, "Checking I/O of client #%d", cli->id);
   data = _data;
   if (cli->connected && FD_ISSET(cli->net.sock, &data->multiplex.readfds))
@@ -41,5 +43,4 @@ void		zappy_io(t_zappy * const data)
       zappy_server_accept(data);
     }
   _zappy_for_each_client(&data->clients, data, &zappy_io_client);
-  zappy_client_purify_list(&data->clients);
 }

@@ -5,19 +5,21 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Fri Jun 23 22:23:07 2017 Antoine Baché
+** Last update Sun Jun 25 20:21:00 2017 Antoine Baché
 */
 
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 #include "clogger.h"
 #include "zappy_server.h"
 #include "zappy_cleanup.h"
+#include "zappy_alloc.h"
 #include "zappy.h"
 
 t_logger	g_log;
 
-static t_zappy	zap = {};
+static t_zappy	zap;
 
 static void	zappy_exit_cleanup(void)
 {
@@ -26,9 +28,11 @@ static void	zappy_exit_cleanup(void)
   zappy_cleanup_socket(&zap.net);
   zappy_cleanup_multiplexer(&zap.multiplex);
   zappy_cleanup_clients(&zap.clients);
+  zappy_alloc_deinit();
   LOG(LOG_INFO, "Leaving Zappy server");
 }
 
+ZAPPY_NORETURN
 static void	zappy_signal_handler(int sig)
 {
   (void)sig;
@@ -62,8 +66,10 @@ int		main(int ac, char **av)
 #else
   g_log.set_level(&g_log, LOG_INFO);
 #endif
+  memset(&zap, 0, sizeof(zap));
   LOG(LOG_INFO, "Starting Zappy server");
-  if (atexit(zappy_exit_cleanup) == -1 ||
+  if (zappy_alloc_init() ||
+      atexit(zappy_exit_cleanup) == -1 ||
       signal(SIGINT, &zappy_signal_handler) == SIG_ERR)
     {
       return (84);
