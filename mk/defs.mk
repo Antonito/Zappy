@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:04:56 2017 Antoine Baché
-## Last update Fri Jun 23 18:54:41 2017 Antoine Baché
+## Last update Sat Jun 24 15:03:51 2017 Antoine Baché
 ##
 
 # Commands definitions
@@ -75,6 +75,10 @@ CXXFLAGS+=	-std=$(CPP_VER) -W -Wall -Wextra -Weffc++  -Wcomment 		\
 		$(LOCAL_COMP_FLAGS)
 
 LDFLAGS+=	$(LOCAL_LINK_FLAGS)
+
+ifeq ($(CC),clang)
+CFLAGS+=	-Weverything
+endif
 
 ifeq ($(CXX),clang++)
 CXXFLAGS+=	-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic 	\

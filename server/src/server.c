@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:44:36 2017 Antoine Baché
-** Last update Fri Jun 23 22:59:53 2017 Antoine Baché
+** Last update Sun Jun 25 21:45:11 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -14,6 +14,7 @@
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_logic.h"
+#include "zappy_server.h"
 
 void		zappy_server_accept(t_zappy * const data)
 {
@@ -22,6 +23,7 @@ void		zappy_server_accept(t_zappy * const data)
   int32_t	ret;
 
   errno = EINTR;
+  len = 0;
   ret = -1;
   LOG(LOG_DEBUG, "Accepting new connection...");
   while (ret == -1 && errno == EINTR)
@@ -34,12 +36,6 @@ void		zappy_server_accept(t_zappy * const data)
     {
       zappy_client_add(&data->clients, ret, &sin, len);
     }
-}
-
-void		zappy_server_disconnect(t_zappy * const data,
-					t_zappy_client * cli)
-{
-  (void)data, (void)cli;
 }
 
 int32_t		zappy_server(t_zappy * const data)
@@ -62,5 +58,4 @@ int32_t		zappy_server(t_zappy * const data)
 	}
       zappy_logic(data);
     }
-  return (0);
 }

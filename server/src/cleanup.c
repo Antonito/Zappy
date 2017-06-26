@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 21:07:21 2017 Antoine Baché
-** Last update Sat Jun 24 14:17:30 2017 Antoine Baché
+** Last update Sun Jun 25 20:20:11 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,7 +18,7 @@ void			zappy_cleanup_config(t_zappy_config * const conf)
 {
   LOG(LOG_DEBUG, "Cleaning conf");
   assert(conf);
-  (void)conf;
+  free(conf->teams.team);
 }
 
 void			zappy_cleanup_socket(t_zappy_socket * const net)
