@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Mon Jun 26 13:13:58 2017 Antoine Baché
+** Last update Mon Jun 26 14:02:32 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -23,6 +23,15 @@
 */
 typedef struct			s_zappy_client	t_zappy_client;
 
+typedef enum			e_zappy_client_orientation
+  {
+    CLI_NORTH			= 0,
+    CLI_EAST,
+    CLI_SOUTH,
+    CLI_WEST,
+    NB_ORIENTATION
+  }				t_zappy_client_orientation;
+
 typedef struct			s_zappy_client_game
 {
   char				*team_name;
@@ -32,9 +41,15 @@ typedef struct			s_zappy_client_game
   int32_t			y;
   int32_t			level;
   int32_t			vision;
+  t_zappy_client_orientation	orientation;
+  uint8_t			padding[4];
 }				t_zappy_client_game;
 
 void				zappy_client_game_init(t_zappy_client *
 						       const cli);
+void				zappy_client_rotate_left(t_zappy_client_game *
+							 const);
+void				zappy_client_rotate_right(t_zappy_client_game *
+							  const);
 
 #endif /* !ZAPPY_CLIENT_GAME_H_ */

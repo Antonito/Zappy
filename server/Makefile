@@ -53,6 +53,7 @@ SRC_FILES=	alloc.c				\
 		client.c			\
 		client_game.c			\
 		client_manager.c		\
+		client_rotate.c			\
 		client_utils.c			\
 		elevation.c			\
 		io.c				\
