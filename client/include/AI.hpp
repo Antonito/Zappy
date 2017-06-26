@@ -56,6 +56,11 @@ namespace ai
   private:
     void initAction();
     void send(std::string const &msg);
+    void move(std::int32_t x, std::int32_t y);
+    std::int32_t look(std::string const &object);
+    std::pair<std::int32_t> const direction(std::int32_t caseNumber);
+    std::array<std::int32_t, 6> const diff(std::array<std::int32_t, 6> old,
+                                           std::array<std::int32_t, 6> newTab);
 
     Value starving((State state = State::NO_CHANGE));
     Value receiveMsg((State state = State::NO_CHANGE));

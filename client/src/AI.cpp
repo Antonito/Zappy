@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  static const std::map<State, std::array<State, Value::NB_VALUE>>
+  static const std::map<State, std::array<State, Value : AI:: : NB_VALUE> AI::>
       transitionTable = {
           {STARVING,
            {FOOD_ON_CASE, RECEIVE_MSG, NO_CHANGE, NO_CHANGE, MISSING_STONE,
@@ -101,81 +101,107 @@ namespace ai
 
   void AI::send(std::string const &msg)
   {
+    // broadcast msg to all player
   }
 
-  Value starving(State state)
+  void AI::move(std::int32_t x, std::int32_t y)
+  {
+    // move from cur position to (curX + x, curY + y)
+  }
+
+  std::int32_t AI::look(std::string const &object)
+  {
+    // look
+    // check if object is in vision
+    // return case number of the object , -1 if no object found
+  }
+
+  std::pair<std::int32_t> const AI::direction(std::int32_t caseNumber)
+  {
+    // calculate x, y from the number of the case
+    // return {x,y}
+  }
+
+  std::array<std::int32_t, 6> const
+      AI::diff(std::array<std::int32_t, 6> old,
+               std::array<std::int32_t, 6> newTab)
+  {
+    // compare array old and new
+  }
+
+  Value AI::starving(State state)
   {
   }
 
-  Value receiveMsg(State state)
+  Value AI::receiveMsg(State state)
   {
   }
 
-  Value missingStone(State state)
+  Value AI::missingStone(State state)
   {
   }
 
-  Value missingPlayer(State state)
+  Value AI::missingPlayer(State state)
   {
   }
 
-  Value setRecipe(State state)
+  Value AI::setRecipe(State state)
   {
   }
 
-  Value incant(State state)
+  Value AI::incant(State state)
   {
   }
 
-  Value foodOnCase(State state)
+  Value AI::foodOnCase(State state)
   {
   }
 
-  Value collectFood(State state)
+  Value AI::collectFood(State state)
   {
   }
 
-  Value findFood(State state)
+  Value AI::findFood(State state)
   {
   }
 
-  Value moveToFood(State state)
+  Value AI::moveToFood(State state)
   {
   }
 
-  Value checkLevel(State state)
+  Value AI::checkLevel(State state)
   {
   }
 
-  Value moveToTeammate(State state)
+  Value AI::moveToTeammate(State state)
   {
   }
 
-  Value arrived(State state)
+  Value AI::arrived(State state)
   {
   }
 
-  Value fixRecipe(State state)
+  Value AI::fixRecipe(State state)
   {
   }
 
-  Value stoneOnCase(State state)
+  Value AI::stoneOnCase(State state)
   {
   }
 
-  Value collectStone(State state)
+  Value AI::collectStone(State state)
   {
   }
 
-  Value findStone(State state)
+  Value AI::findStone(State state)
   {
   }
 
-  Value moveToStone(State state)
+  Value AI::moveToStone(State state)
   {
   }
 
-  Value troll(State state)
+  Value AI::troll(State state)
   {
   }
 }
