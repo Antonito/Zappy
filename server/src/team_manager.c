@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Sun Jun 25 21:14:58 2017 Antoine Baché
+** Last update Mon Jun 26 09:48:50 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -72,4 +72,12 @@ int32_t		zappy_team_manager_add_client(char const * const teamname,
 	}
     }
   return (-1);
+}
+
+int32_t		zappy_team_manager_get_space(int32_t const ndx,
+					     t_zappy_team_manager const *
+					     const man)
+{
+  assert(ndx < man->nb_teams);
+  return (man->nb_client_per_team - man->team[ndx].nb_players);
 }

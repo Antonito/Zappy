@@ -80,6 +80,7 @@ SRC_FILES=	alloc.c				\
 		client_cmd/eject.c		\
 		client_cmd/fork.c		\
 		client_cmd/incantation.c	\
+		client_cmd/connect_nbr.c	\
 		client_cmd/err.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))

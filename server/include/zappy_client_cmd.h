@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:13:06 2017 Antoine Baché
-** Last update Sun Jun 25 18:12:33 2017 Antoine Baché
+** Last update Mon Jun 26 09:41:52 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_CMD_H_
@@ -28,7 +28,8 @@ typedef struct	s_zappy_client	t_zappy_client;
 */
 typedef enum			e_zappy_client_cmd_list
   {
-    CMD_INVENTORY		= 0,
+    CMD_CONNECT_NBR		= 0,
+    CMD_INVENTORY,
     CMD_FORWARD,
     CMD_BROADCAST,
     CMD_LOOK,
@@ -97,5 +98,8 @@ void	zappy_client_cmd_take(t_zappy_client * const cli,
 void	zappy_client_cmd_err(t_zappy_client * const cli,
 			     t_zappy * const data,
 			     char const * const arg);
+void	zappy_client_cmd_connect_nbr(t_zappy_client * const cli,
+				     t_zappy * const data,
+				     char const * const arg);
 
 #endif /* !ZAPPY_CLIENT_CMD_H_ */
