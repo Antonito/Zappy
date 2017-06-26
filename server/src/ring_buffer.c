@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 21:55:49 2017 Antoine Baché
-** Last update Sun Jun 25 13:15:51 2017 Antoine Baché
+** Last update Mon Jun 26 22:06:02 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -13,11 +13,12 @@
 #include "zappy_ring_buffer.h"
 
 void		zappy_ring_buffer_write(t_zappy_ring_buffer * const buf,
-					uint8_t const * const data,
+					void const * const _data,
 					int32_t const size)
 {
   int32_t	i;
   int32_t const	max = ZAPPY_RING_BUFFER_SIZE;
+  uint8_t const	*data = _data;
 
   assert(buf && data);
   i = 0;
@@ -41,11 +42,12 @@ void		zappy_ring_buffer_write(t_zappy_ring_buffer * const buf,
 }
 
 void		zappy_ring_buffer_read(t_zappy_ring_buffer * const buf,
-				       uint8_t * const data,
+				       void * const _data,
 				       int32_t const size)
 {
   int32_t	i;
   int32_t const	max = ZAPPY_RING_BUFFER_SIZE;
+  uint8_t	*data = _data;
 
   assert(buf && data);
   i = 0;

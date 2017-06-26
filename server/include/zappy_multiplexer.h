@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:46:10 2017 Antoine Baché
-** Last update Sun Jun 25 20:22:56 2017 Antoine Baché
+** Last update Mon Jun 26 19:49:17 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MULTIPLEXER_H_
@@ -20,7 +20,12 @@
 /*
 ** Forward declaration of t_zappy
 */
-typedef struct s_zappy	t_zappy;
+typedef struct	s_zappy		t_zappy;
+
+/*
+** Forward declaration of t_zappy_admin
+*/
+typedef struct	s_zappy_admin	t_zappy_admin;
 
 /*
 ** Datas needed to multiplex connections.
@@ -41,6 +46,7 @@ typedef struct		s_zappy_multiplexer
 ** Multiplex the connection
 */
 int32_t			zappy_multiplexer(int32_t const server_sock,
+					  t_zappy_admin * const admin,
 					  t_zappy_client_list_manager *
 					  const clients,
 					  t_zappy_multiplexer * const data);

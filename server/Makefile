@@ -41,7 +41,10 @@ HEADER=
 # Project's files
 
 
-SRC_FILES=	alloc.c				\
+SRC_FILES=	admin.c				\
+		admin_cmd.c			\
+		admin_io.c			\
+		alloc.c				\
 		alloc_message.c			\
 		alloc_queue.c			\
 		alloc_serial.c			\
@@ -50,6 +53,7 @@ SRC_FILES=	alloc.c				\
 		cleanup.c			\
 		cleanup_client.c		\
 		cleanup_map.c			\
+		cleanup_admin.c			\
 		client.c			\
 		client_for_each.c		\
 		client_game.c			\
@@ -70,6 +74,7 @@ SRC_FILES=	alloc.c				\
 		server.c			\
 		socket.c			\
 		team_manager.c			\
+		vision.c			\
 		state/auth.c			\
 		state/connect.c			\
 		state/resp.c			\

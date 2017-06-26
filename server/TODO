@@ -1,5 +1,7 @@
 ## TODO:
 
+-> Team parsing
+
 -> Tri de l'input_queue par remaining_time
 -> Update remaining_time
 
@@ -10,5 +12,5 @@
 
 -> Client graphique
 
--> Socket d'administration
+-> authentification socketa admin
 -> openSSL
