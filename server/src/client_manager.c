@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Mon Jun 26 15:16:52 2017 Antoine Baché
+** Last update Mon Jun 26 21:44:35 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -46,7 +46,7 @@ int32_t			zappy_client_add(t_zappy * const data,
 {
   t_zappy_client_list	*elem;
 
-  assert(list && socket > 0 && addr);
+  assert(data && socket > 0 && addr);
   if (!(elem = calloc(1, sizeof(*elem))))
     {
       LOG(LOG_WARNING, "Cannot accept client: %s [%s]",

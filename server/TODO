@@ -12,7 +12,5 @@
 
 -> Client graphique
 
--> Socket d'administration
-   	  -> Acceptation client / deconnexion
-	  -> quelques commandes
+-> authentification socketa admin
 -> openSSL

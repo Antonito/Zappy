@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:32:28 2017 Antoine Baché
-** Last update Mon Jun 26 19:35:53 2017 Antoine Baché
+** Last update Mon Jun 26 21:34:31 2017 Antoine Baché
 */
 
 #include "clogger.h"
@@ -15,4 +15,5 @@ void		zappy_cleanup_admin(t_zappy_admin * const admin)
 {
   LOG(LOG_DEBUG, "Cleaning administration tool");
   zappy_cleanup_socket(&admin->sock);
+  zappy_cleanup_socket(&admin->client);
 }

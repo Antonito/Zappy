@@ -42,6 +42,8 @@ HEADER=
 
 
 SRC_FILES=	admin.c				\
+		admin_cmd.c			\
+		admin_io.c			\
 		alloc.c				\
 		alloc_message.c			\
 		alloc_queue.c			\
