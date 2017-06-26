@@ -1,6 +1,8 @@
 #ifndef AI_HPP_
 #define AI_HPP_
 
+#include <map>
+
 namespace ai
 {
   enum class Value : std::int8_t
@@ -83,6 +85,8 @@ namespace ai
     Value troll((State state = State::NO_CHANGE));
 
     std::map<State, State (AI::*)(State)> m_actionForState;
+    std::int32_t foodUnit;
+    std::array<char, 512> lastUnknownMsg;
   };
 }
 
