@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Mon Jun 26 14:02:32 2017 Antoine Baché
+** Last update Mon Jun 26 15:18:04 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -19,9 +19,20 @@
 #define ZAPPY_CLIENT_GAME_DEFAULT_FOOD		(10)
 
 /*
+** Forward declaration of t_zappy
+*/
+typedef struct			s_zappy		t_zappy;
+
+/*
 ** Forward declaration of t_zappy_client
 */
 typedef struct			s_zappy_client	t_zappy_client;
+
+
+/*
+** Forward declaration of t_zappy_map
+*/
+typedef struct			s_zappy_map	t_zappy_map;
 
 typedef enum			e_zappy_client_orientation
   {
@@ -45,11 +56,15 @@ typedef struct			s_zappy_client_game
   uint8_t			padding[4];
 }				t_zappy_client_game;
 
-void				zappy_client_game_init(t_zappy_client *
+void				zappy_client_game_init(t_zappy * const,
+						       t_zappy_client *
 						       const cli);
 void				zappy_client_rotate_left(t_zappy_client_game *
 							 const);
 void				zappy_client_rotate_right(t_zappy_client_game *
 							  const);
+void				zappy_client_forward(t_zappy_client_game *
+						     const cli,
+						     t_zappy_map * const map);
 
 #endif /* !ZAPPY_CLIENT_GAME_H_ */

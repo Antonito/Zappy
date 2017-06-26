@@ -51,10 +51,11 @@ SRC_FILES=	alloc.c				\
 		cleanup_client.c		\
 		cleanup_map.c			\
 		client.c			\
+		client_for_each.c		\
 		client_game.c			\
 		client_manager.c		\
+		client_move.c			\
 		client_rotate.c			\
-		client_utils.c			\
 		elevation.c			\
 		io.c				\
 		logic.c				\
