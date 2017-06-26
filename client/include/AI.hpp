@@ -19,13 +19,12 @@ namespace ai
   enum class State : std::int8_t
   {
     NO_CHANGE = -1,
+    DEAD,
     STARVING,
     RECEIVE_MSG,
     MISSING_STONE,
     MISSING_PLAYER,
-    SEND_GO_AWAY,
-    SEND_COME,
-    SET_OBJECT,
+    SET_RECIPE,
     INCANT,
     FOOD_ON_CASE,
     COLLECT_FOOD,
@@ -34,7 +33,7 @@ namespace ai
     LEVEL,
     MOVE_TO_TEAMMATE,
     ARRIVED,
-    SEND_READY,
+    FIX_RECIPE,
     STONE_ON_CASE,
     COLLECT_STONE,
     FIND_STONE,
@@ -56,6 +55,27 @@ namespace ai
 
   private:
     void initAction();
+    void send(std::string const &msg);
+
+    Value starving();
+    Value receiveMsg();
+    Value missingStones();
+    Value missingPlayers();
+    Value setRecipe();
+    Value incant();
+    Value foodOnCase();
+    Value CollectFood();
+    Value findFood();
+    Value moveToFood();
+    Value checkLevel();
+    Value moveToTeammate();
+    Value arrived();
+    Value fixRecipe();
+    Value stoneOnCase();
+    Value collectStone();
+    Value findStone();
+    Value moveStone();
+    Value troll();
 
     std::vector<State, State (AI::*)(State state = State::NO_CHANGE)>
         m_actionForState;
