@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:00 2017 Antoine Baché
-** Last update Fri Jun 23 19:55:26 2017 Antoine Baché
+** Last update Mon Jun 26 10:38:34 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -56,6 +56,7 @@ int32_t			zappy_parse_args(int const ac,
   data->port = 4242;
   data->world_height = 15;
   data->world_width = 15;
+  data->freq = 100;
   if (check_argvs(ac, av, data))
     {
       LOG(LOG_DEBUG, "Error during argument's parsing");
