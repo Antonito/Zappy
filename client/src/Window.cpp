@@ -34,10 +34,10 @@ namespace zappy
 
   void Window::clear()
   {
-    m_win.clear();
+    m_win.setActive();
   }
 
-  void Window::draw(Drawable const &target)
+  void Window::draw(Mesh const &)
   {
     // TODO: implement
   }

@@ -2,6 +2,7 @@
 #define ZAPPY_PLAYER_HPP_
 
 #include <ostream>
+#include "Window.hpp"
 
 namespace zappy
 {
@@ -25,8 +26,11 @@ namespace zappy
     Player &operator=(Player const &);
     Player &operator=(Player &&);
 
+    void renderOn(Window &window) const;
+
   private:
   };
+
   std::ostream &operator<<(std::ostream &, Player::Orientation const &);
 }
 

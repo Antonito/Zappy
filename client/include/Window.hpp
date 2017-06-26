@@ -3,7 +3,7 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "Drawable.hpp"
+#include "Mesh.hpp"
 
 namespace zappy
 {
@@ -32,7 +32,7 @@ namespace zappy
     //
     void setClearColor(); // TODO: define the arguments
     void clear();
-    void draw(Drawable const &target);
+    void draw(Mesh const &mesh);
     void display();
 
   private:

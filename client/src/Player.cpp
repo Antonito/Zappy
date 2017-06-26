@@ -36,6 +36,11 @@ namespace zappy
     return (*this);
   }
 
+  void Player::renderOn(Window &) const
+  {
+    // TODO: implement
+  }
+
   std::ostream &operator<<(std::ostream &os, Player::Orientation const &o)
   {
     switch (o)

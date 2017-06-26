@@ -28,7 +28,8 @@ namespace zappy
 	  }
 
 	// Execute at most "maxCommand" commands
-	constexpr std::size_t maxCommand = 50 std::size_t i = 0;
+	constexpr std::size_t maxCommand = 50;
+	std::size_t           i = 0;
 
 	while (i < maxCommand && this->execCommand())
 	  {
@@ -38,15 +39,27 @@ namespace zappy
 	// Clear the window
 	m_win.clear();
 
-	m_win.draw(m_map);
+	m_map.renderOn(m_win);
 
 	for (Player const &player : m_players)
 	  {
-	    m_win.draw(player);
+	    player.renderOn(m_win);
 	  }
 
 	// Display the window
 	m_win.display();
+      }
+  }
+
+  //
+  // Event
+  //
+  void GraphicClient::dispatch(sf::Event const &e)
+  {
+    if (e.type == sf::Event::Closed)
+      {
+	m_win.close();
+	return;
       }
   }
 
@@ -421,8 +434,8 @@ namespace zappy
     {
       nope::log::LogMessage msg = nope::log::Log(Debug);
 
-      msg << "Player " << playerId << " launched incantation in (" << x << ", "
-          << y << ") for " << otherPlayers[0];
+      msg << "Player " << playerId << " launched incantation level " << level
+          << " in (" << x << ", " << y << ") for " << otherPlayers[0];
 
       for (std::size_t i = 1; i < otherPlayers.size(); ++i)
 	{

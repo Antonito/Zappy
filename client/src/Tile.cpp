@@ -35,4 +35,9 @@ namespace zappy
       return (*this);
     return (*this);
   }
+
+  void Tile::renderOn(Window &) const
+  {
+    // TODO: implement
+  }
 }

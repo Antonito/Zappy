@@ -2,6 +2,7 @@
 #define ZAPPY_GAMEMAP_HPP_
 
 #include <vector>
+#include "Window.hpp"
 #include "Tile.hpp"
 
 namespace zappy
@@ -16,6 +17,8 @@ namespace zappy
 
     GameMap &operator=(GameMap const &);
     GameMap &operator=(GameMap &&);
+
+    void renderOn(Window &window) const;
 
   private:
     std::vector<Tile> m_tiles;

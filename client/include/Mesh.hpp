@@ -1,7 +1,14 @@
 #ifndef ZAPPY_MESH_HPP_
 #define ZAPPY_MESH_HPP_
 
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include "Model.hpp"
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif // !__clang__
 
 namespace zappy
 {
@@ -9,13 +16,18 @@ namespace zappy
   {
   public:
     Mesh() = delete;
-    Mesh(Model const &);
+    Mesh(Model const &    model,
+         glm::vec3 const &position = glm::vec3(0.0, 0.0, 0.0),
+         glm::vec3 const &scale = glm::vec3(1.0, 1.0, 1.0),
+         glm::quat const &rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0)));
     Mesh(Mesh const &);
     Mesh(Mesh &&);
-    ~Mesh();
+    virtual ~Mesh();
 
     Mesh &operator=(Mesh const &) = delete;
     Mesh &operator=(Mesh &&) = delete;
+
+    Model const &model() const;
 
     glm::vec3 const &position() const;
     glm::vec3 const &scale() const;
@@ -44,13 +56,17 @@ namespace zappy
   private:
     void updateDataFromFullTransform();
 
-    Model const &m_model;
-    glm::vec3    m_position;
-    glm::vec3    m_scale;
-    glm::quat    m_rotation;
-    glm::mat4    m_fullTransform;
-    bool         m_fullTransformIsUpToDate;
+    Model const &     m_model;
+    glm::vec3         m_position;
+    glm::vec3         m_scale;
+    glm::quat         m_rotation;
+    mutable glm::mat4 m_fullTransform;
+    mutable bool      m_fullTransformIsUpToDate;
   };
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif // !__clang__
 
 #endif // !ZAPPY_MESH_HPP_

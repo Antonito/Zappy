@@ -15,6 +15,8 @@
 #include <utility>
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "Logger.hpp"
 #include "OptionParser.hpp"
 #include "OptionException.hpp"

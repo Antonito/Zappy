@@ -42,7 +42,10 @@ SRC_FILES=	main.cpp				\
 		GraphicClient.cpp			\
 		GameMap.cpp				\
 		Player.cpp				\
-		Tile.cpp
+		Tile.cpp				\
+		Mesh.cpp				\
+		Model.cpp				\
+		Window.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

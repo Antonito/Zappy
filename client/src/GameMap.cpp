@@ -33,4 +33,12 @@ namespace zappy
     m_tiles = std::move(that.m_tiles);
     return (*this);
   }
+
+  void GameMap::renderOn(Window &window) const
+  {
+    for (Tile const &tile : m_tiles)
+      {
+	tile.renderOn(window);
+      }
+  }
 }
