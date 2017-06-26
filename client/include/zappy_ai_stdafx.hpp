@@ -16,5 +16,6 @@
 #include "Logger.hpp"
 #include "OptionParser.hpp"
 #include "OptionException.hpp"
+#include "AI.hpp"
 
 #endif // !ZAPPY_AI_STDAFX_HPP_
