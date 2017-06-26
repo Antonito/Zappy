@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameMap.hpp"
 #include "Player.hpp"
+#include "Window.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -30,6 +31,14 @@ namespace zappy
     void launch();
 
   private:
+    //
+    // Event
+    //
+    void dispatch(sf::Event const &e);
+
+    //
+    // Network
+    //
     void sendCommand(std::string const &command);
     bool receiveCommand(std::string &command, std::string &args);
 
@@ -85,7 +94,7 @@ namespace zappy
     static void checkEmpty(std::istringstream const &is);
 
     // Window
-    sf::RenderWindow m_win;
+    Window m_win;
 
     // Basic infos
     std::uint16_t m_port;

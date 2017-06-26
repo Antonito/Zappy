@@ -6,8 +6,8 @@ namespace zappy
                                std::string const &windowName,
                                std::uint16_t port, std::string const &name,
                                std::string const &machine)
-      : m_win(sf::VideoMode(width, height), windowName), m_port(port),
-        m_name(name), m_machine(machine), m_map(), m_players()
+      : m_win(width, height, windowName), m_port(port), m_name(name),
+        m_machine(machine), m_map(), m_players()
   {
   }
 
@@ -19,18 +19,33 @@ namespace zappy
   {
     while (m_win.isOpen())
       {
+	// Manage user inputs
 	sf::Event event;
 
 	while (m_win.pollEvent(event))
 	  {
-	    if (event.type == sf::Event::Closed)
-	      {
-		execCommand();
-		m_win.close();
-		nope::log::Log(Debug) << "Closing the window";
-	      }
+	    this->dispatch(event);
 	  }
+
+	// Execute at most "maxCommand" commands
+	constexpr std::size_t maxCommand = 50 std::size_t i = 0;
+
+	while (i < maxCommand && this->execCommand())
+	  {
+	    ++i;
+	  }
+
+	// Clear the window
 	m_win.clear();
+
+	m_win.draw(m_map);
+
+	for (Player const &player : m_players)
+	  {
+	    m_win.draw(player);
+	  }
+
+	// Display the window
 	m_win.display();
       }
   }
