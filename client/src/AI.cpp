@@ -113,9 +113,25 @@ namespace ai
     // broadcast msg to all player
   }
 
-  void AI::move(std::int32_t x, std::int32_t y)
+  void AI::move(std::pair<std::int32_t, std::int32_t> coord)
   {
-    // move from cur position to (curX + x, curY + y)
+    for (std::int32_t y = 0; y < coord.second(); ++y)
+    {
+      //send_command("Forward");
+    }
+    if (coord.first() > 0)
+    {
+      //send_command("Right")
+    }
+    else
+    {
+      //send_command("Right")
+    }
+    for (std::int32_t x = 0; x < coord.first(); ++x)
+    {
+      //send_command("Forward");
+    }
+    //TODO : check for X 'ok' from server
   }
 
   std::int32_t AI::look(std::string const &object)
@@ -125,17 +141,28 @@ namespace ai
     // return case number of the object , -1 if no object found
   }
 
-  std::pair<std::int32_t> const AI::direction(std::int32_t caseNumber)
+  std::pair<std::int32_t, std::int32_t> const AI::direction(std::int32_t caseNumber)
   {
-    // calculate x, y from the number of the case
-    // return {x,y}
+    int32_t x = 0, y = 0, mid = 0;
+
+    for (caseNumber > mid + y; ++y)
+    {
+      mid += 2 * y;
+    }
+    x = caseNumber - mid;
+    return ({x, y});
   }
 
   std::array<std::int32_t, 6> const
       AI::diff(std::array<std::int32_t, 6> old,
                std::array<std::int32_t, 6> newTab)
   {
-    // compare array old and new
+    std::array<std::int32_t, 6> res;
+    for (int i = 0; i < 6; ++i)
+    {
+      res[i] = newTab[i] - old[i];
+    }
+    return (res);
   }
 
   Value AI::starving(State state)
