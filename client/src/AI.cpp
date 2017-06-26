@@ -63,12 +63,23 @@ namespace ai
             NO_CHANGE, NO_CHANGE, NO_CHANGE}},
   };
 
-  AI::AI() : m_actionForState();
+  static const std::array<std::pair<std::int32_t, std::array<std::int32_t, 6>, 7>
+    recipes = {
+      {1, {1, 0, 0, 0, 0, 0}},
+      {2, {1, 1, 1, 0, 0, 0}},
+      {2, {2, 0, 1, 0, 2, 0}},
+      {4, {1, 1, 2, 0, 1, 0}},
+      {4, {1, 2, 1, 3, 0, 0}},
+      {6, {1, 2, 3, 0, 1, 0}},
+      {6, {2, 2, 2, 2, 2, 1}},
+    };
+
+  AI::AI() : m_actionForState(), foodUnit(0);
   {
     initAction();
   }
 
-  AI::AI(AI const &that) : m_actionForState(that.m_actionForState)
+  AI::AI(AI const &that) : m_actionForState(that.m_actionForState), foodUnit(that.foodUnit);
   {
   }
 
@@ -105,6 +116,19 @@ namespace ai
 
   Value starving(State state)
   {
+    if (foodUnit < NB_FOOD_MIN)
+    {
+      return (YES);
+    }
+    else if (foodUnit < NB_FOOD_NORMAL)
+    {
+      //TODO : set different starving state
+      return (YES);
+    }
+    else
+    {
+      return (NO);
+    }
   }
 
   Value receiveMsg(State state)
@@ -177,5 +201,16 @@ namespace ai
 
   Value troll(State state)
   {
+    std::int32_t number = std::rand() % 5;
+
+    if (number == 0)
+    {
+      //TODO :send same message to troll others
+      return (YES);
+    }
+    else
+    {
+      return (NO);
+    }
   }
 }
