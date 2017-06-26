@@ -432,7 +432,8 @@ namespace zappy
 
     // Create a scope to log the message imediatly after
     {
-      nope::log::LogMessage msg = nope::log::Log(Debug);
+      // Auto needed because it can be LogMessage or EmptyLogger
+      auto &&msg = nope::log::Log(Debug);
 
       msg << "Player " << playerId << " launched incantation level " << level
           << " in (" << x << ", " << y << ") for " << otherPlayers[0];
