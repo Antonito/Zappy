@@ -2,6 +2,12 @@
 #define AI_HPP_
 
 #include <map>
+#include <queue>
+#include <array>
+#include "TCPSocket.hpp"
+
+#define NB_FOOD_MIN (5)
+#define NB_FOOD_NORMAL (7)
 
 namespace ai
 {
@@ -47,8 +53,8 @@ namespace ai
   class AI
   {
   public:
-    AI();
-    AI(AI const &);
+    explicit AI(std::string ip, std::uint16_t port);
+    AI(AI const &) = delete;
     AI(AI const &&) = delete;
     ~AI();
 
@@ -56,37 +62,45 @@ namespace ai
     AI &operator=(AI const &&) = delete;
 
   private:
+    std::int32_t checkActivity(fd_set &readfds, fd_set &writefds);
+    std::int32_t treatIncomingData();
+    std::int32_t treatOutcomingData();
+    std::int32_t loop();
+
     void initAction();
     void send(std::string const &msg);
-    void move(std::int32_t x, std::int32_t y);
+    void move(std::pair<std::int32_t, std::int32_t> coord);
     std::int32_t look(std::string const &object);
-    std::pair<std::int32_t> const direction(std::int32_t caseNumber);
+    std::pair<std::int32_t, std::int32_t> const direction(std::int32_t caseNumber);
     std::array<std::int32_t, 6> const diff(std::array<std::int32_t, 6> old,
                                            std::array<std::int32_t, 6> newTab);
 
-    Value starving((State state = State::NO_CHANGE));
-    Value receiveMsg((State state = State::NO_CHANGE));
-    Value missingStone((State state = State::NO_CHANGE));
-    Value missingPlayer((State state = State::NO_CHANGE));
-    Value setRecipe((State state = State::NO_CHANGE));
-    Value incant((State state = State::NO_CHANGE));
-    Value foodOnCase((State state = State::NO_CHANGE));
-    Value collectFood((State state = State::NO_CHANGE));
-    Value findFood((State state = State::NO_CHANGE));
-    Value moveToFood((State state = State::NO_CHANGE));
-    Value checkLevel((State state = State::NO_CHANGE));
-    Value moveToTeammate((State state = State::NO_CHANGE));
-    Value arrived((State state = State::NO_CHANGE));
-    Value fixRecipe((State state = State::NO_CHANGE));
-    Value stoneOnCase((State state = State::NO_CHANGE));
-    Value collectStone((State state = State::NO_CHANGE));
-    Value findStone((State state = State::NO_CHANGE));
-    Value moveToStone((State state = State::NO_CHANGE));
-    Value troll((State state = State::NO_CHANGE));
+    Value starving(ai::State state = ai::State::NO_CHANGE);
+    Value receiveMsg(ai::State state = State::NO_CHANGE);
+    Value missingStone(ai::State state = State::NO_CHANGE);
+    Value missingPlayer(ai::State state = State::NO_CHANGE);
+    Value setRecipe(ai::State state = State::NO_CHANGE);
+    Value incant(ai::State state = State::NO_CHANGE);
+    Value foodOnCase(ai::State state = State::NO_CHANGE);
+    Value collectFood(ai::State state = State::NO_CHANGE);
+    Value findFood(ai::State state = State::NO_CHANGE);
+    Value moveToFood(ai::State state = State::NO_CHANGE);
+    Value checkLevel(ai::State state = State::NO_CHANGE);
+    Value moveToTeammate(ai::State state = State::NO_CHANGE);
+    Value arrived(ai::State state = State::NO_CHANGE);
+    Value fixRecipe(ai::State state = State::NO_CHANGE);
+    Value stoneOnCase(ai::State state = State::NO_CHANGE);
+    Value collectStone(ai::State state = State::NO_CHANGE);
+    Value findStone(ai::State state = State::NO_CHANGE);
+    Value moveToStone(ai::State state = State::NO_CHANGE);
+    Value troll(ai::State state = State::NO_CHANGE);
 
     std::map<State, State (AI::*)(State)> m_actionForState;
-    std::int32_t foodUnit;
-    std::array<char, 512> lastUnknownMsg;
+    std::int32_t m_foodUnit;
+    std::array<char, 512> m_lastUnknownMsg;
+    network::TCPSocket m_sock;
+    std::queue<std::array<char, 512> > m_cmdToSend;
+    std::queue<std::array<char, 512> > m_cmdToRecv;
   };
 }
 

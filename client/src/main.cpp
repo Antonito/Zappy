@@ -64,6 +64,13 @@ int main(int ac, char **av, char **env)
   // Launch the client
   try
     {
+#if defined(GRAPHIC)
+      std::cout << "launching graphical client" << std::endl;
+#else
+      std::cout << "launching cli client" << std::endl;
+      ai::AI ai("127.0.0.1", 4242);
+      //ai.run();
+#endif
     }
   catch (std::exception const &e)
     {
