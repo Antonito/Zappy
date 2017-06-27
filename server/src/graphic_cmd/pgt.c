@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 22:51:47 2017 Antoine Baché
+** Last update Wed Jun 28 00:28:49 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -42,6 +42,7 @@ void			zappy_graph_pgt(t_zappy_client * const cli,
 	{
 	  cli->state = CLI_RESPONSE;
 	  cli->can_write = true;
+	  return ;
 	}
       free(msg->msg);
       zappy_free_message(msg);

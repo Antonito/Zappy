@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 22:47:26 2017 Antoine Baché
+** Last update Wed Jun 28 00:29:17 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -18,6 +18,7 @@
 #include "zappy_graphic.h"
 #include "zappy_message.h"
 
+// TODO: norme
 void			zappy_graph_pin(t_zappy_client * const cli,
 					t_zappy_graph_arg *g,
 					t_zappy *data,
@@ -44,6 +45,7 @@ void			zappy_graph_pin(t_zappy_client * const cli,
 	{
 	  cli->state = CLI_RESPONSE;
 	  cli->can_write = true;
+	  return ;
 	}
       free(msg->msg);
       zappy_free_message(msg);

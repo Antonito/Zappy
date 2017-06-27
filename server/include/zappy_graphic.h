@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:16:39 2017 Antoine Baché
-** Last update Tue Jun 27 22:57:12 2017 Antoine Baché
+** Last update Wed Jun 28 00:00:43 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_GRAPHIC_H_
@@ -148,6 +148,7 @@ void	zappy_graph_bct(t_zappy_client * const cli,
 /*
 ** Management functions
 */
+void	zappy_graph_connect(t_zappy_client *cli, t_zappy *data);
 void	zappy_graph_send(t_zappy_graph_arg *g,
 			 t_zappy * data,
 			 char const * const arg,

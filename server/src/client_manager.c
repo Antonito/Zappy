@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Tue Jun 27 22:05:36 2017 Antoine Baché
+** Last update Wed Jun 28 01:18:56 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,6 +18,7 @@
 #include "zappy_color.h"
 #include "zappy_client_list.h"
 #include "zappy_cleanup.h"
+#include "zappy_graphic.h"
 
 static void		zappy_client_add_list(t_zappy_client_list_manager *
 					      const list,
@@ -96,6 +97,24 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
   return (0);
 }
 
+static void		zappy_client_rm_wrap(t_zappy_client_list_manager *
+					     const list,
+					     t_zappy_client_list *cur,
+					     t_zappy * const data)
+{
+  t_zappy_graph_arg	g;
+
+  --data->map.data[cur->data.game.y][cur->data.game.x].nb_players;
+  data->map.data[cur->data.game.y][cur->data.game.x].
+    player[cur->data.id] = NULL;
+  zappy_client_remove(list, cur, data);
+  if (cur->data.state >= CLI_CONNECTED)
+    {
+      g = (t_zappy_graph_arg){ &cur->data, 0, 0 };
+      zappy_graph_send(&g, data, NULL, &zappy_graph_pdi);
+    }
+}
+
 void			zappy_client_purify_list(t_zappy_client_list_manager *
 						 const list,
 						 t_zappy * const data)
@@ -113,7 +132,7 @@ void			zappy_client_purify_list(t_zappy_client_list_manager *
       LOG(LOG_DEBUG, "Checking client %d", cur->data.id);
       if (cur->data.connected == false)
 	{
-	  zappy_client_remove(list, cur, data);
+	  zappy_client_rm_wrap(list, cur, data);
 	}
       else
 	{

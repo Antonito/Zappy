@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Mon Jun 26 13:32:10 2017 Antoine Baché
+** Last update Tue Jun 27 23:14:18 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -18,6 +18,7 @@
 #include "zappy_client_cmd.h"
 #include "zappy_message.h"
 #include "zappy_resource.h"
+#include "zappy_graphic.h"
 
 static int32_t	zappy_client_cmd_set_check(t_zappy_client *
 					   const cli,
@@ -42,9 +43,24 @@ static int32_t	zappy_client_cmd_set_check(t_zappy_client *
   return (0);
 }
 
-void		zappy_client_cmd_set(t_zappy_client * const cli,
-				     t_zappy * const data,
-				     char const * const arg)
+static void		zappy_client_set_graph(t_zappy_client * const cli,
+					       t_zappy * const data,
+					       char const * const arg,
+					       t_zappy_resource res)
+{
+  t_zappy_graph_arg	g;
+
+  g = (t_zappy_graph_arg){ cli, res, 0 };
+  zappy_graph_send(&g, data, arg, &zappy_graph_pdr);
+  zappy_graph_send(&g, data, arg, &zappy_graph_pin);
+  g = (t_zappy_graph_arg){ &data->map.data[cli->game.y][cli->game.x],
+			   res, 0 };
+  zappy_graph_send(&g, data, arg, &zappy_graph_bct);
+}
+
+void			zappy_client_cmd_set(t_zappy_client * const cli,
+					     t_zappy * const data,
+					     char const * const arg)
 {
   t_zappy_message	*msg;
   t_zappy_resource	res;
@@ -60,6 +76,7 @@ void		zappy_client_cmd_set(t_zappy_client * const cli,
 	msg->msg = strdup("ko\n");
       if (msg->msg && cqueue_push(&cli->output_queue, msg))
 	{
+	  zappy_client_set_graph(cli, data, arg, res);
 	  cli->state = CLI_RESPONSE;
 	  cli->can_write = true;
 	  return ;

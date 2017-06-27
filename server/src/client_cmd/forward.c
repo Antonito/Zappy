@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Tue Jun 27 22:34:48 2017 Antoine Baché
+** Last update Tue Jun 27 23:00:23 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -25,6 +25,7 @@ void			zappy_client_cmd_forward(t_zappy_client * const cli,
 						 char const * const arg)
 {
   t_zappy_message	*msg;
+  t_zappy_graph_arg	g;
 
   (void)arg;
   (void)data;
@@ -37,6 +38,8 @@ void			zappy_client_cmd_forward(t_zappy_client * const cli,
       if (msg->msg && cqueue_push(&cli->output_queue, msg))
 	{
 	  zappy_client_forward(&cli->game, cli->id, &data->map);
+	  g = (t_zappy_graph_arg){ cli, 0, 0 };
+	  zappy_graph_send(&g, data, arg, &zappy_graph_ppo);
 	  cli->state = CLI_RESPONSE;
 	  cli->can_write = true;
 	  return ;

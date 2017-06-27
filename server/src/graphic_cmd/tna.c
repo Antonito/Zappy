@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 20:50:17 2017 Antoine Baché
+** Last update Wed Jun 28 00:39:05 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -25,6 +25,8 @@ static void		zappy_graph_tna_single(t_zappy_team const * const t,
   t_zappy_message	*msg;
   char			buff[4096];
 
+  if (!memcmp(t->name, "GRAPHIC", sizeof("GRAPHIC")))
+    return ;
   msg = zappy_alloc_message();
   if (msg)
     {
@@ -36,6 +38,7 @@ static void		zappy_graph_tna_single(t_zappy_team const * const t,
 	{
 	  cli->state = CLI_RESPONSE;
 	  cli->can_write = true;
+	  return ;
 	}
       free(msg->msg);
       zappy_free_message(msg);
