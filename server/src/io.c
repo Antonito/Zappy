@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:40:19 2017 Antoine Baché
-** Last update Sun Jun 25 15:49:17 2017 Antoine Baché
+** Last update Mon Jun 26 21:44:50 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -41,6 +41,21 @@ void		zappy_io(t_zappy * const data)
   if (FD_ISSET(data->net.sock, &data->multiplex.readfds))
     {
       zappy_server_accept(data);
+    }
+  if (FD_ISSET(data->admin.sock.sock, &data->multiplex.readfds))
+    {
+      zappy_admin_accept(data);
+    }
+  if (data->admin.client.sock != -1)
+    {
+      if (FD_ISSET(data->admin.client.sock, &data->multiplex.readfds))
+	{
+	  zappy_admin_read(data);
+	}
+      if (FD_ISSET(data->admin.client.sock, &data->multiplex.writefds))
+	{
+	  zappy_admin_write(data);
+	}
     }
   _zappy_for_each_client(&data->clients, data, &zappy_io_client);
 }

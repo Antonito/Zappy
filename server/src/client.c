@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sun Jun 25 21:45:35 2017 Antoine Baché
+** Last update Mon Jun 26 15:18:12 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -32,15 +32,13 @@ _Static_assert(sizeof(zappy_state_hand) / sizeof(zappy_state_hand[0]) ==
 #endif
 
 void		zappy_client_fill(t_zappy_client * const cli,
-				  t_sock const sock,
+				  t_zappy * const data,
 				  t_sockaddr_in * const addr,
 				  socklen_t const len)
 {
   socklen_t	min_len;
 
   assert(cli);
-  memset(cli, 0, sizeof(*cli));
-  cli->net.sock = sock;
   min_len = (socklen_t)sizeof(cli->net.addr);
   if (min_len > len)
     min_len = len;
@@ -48,7 +46,7 @@ void		zappy_client_fill(t_zappy_client * const cli,
   cli->can_write = true;
   cli->connected = true;
   cli->state = CLI_AUTHENTICATING;
-  zappy_client_game_init(cli);
+  zappy_client_game_init(data, cli);
 }
 
 void		zappy_client_read(t_zappy_client * const cli,
