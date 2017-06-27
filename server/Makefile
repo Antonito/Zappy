@@ -34,7 +34,8 @@ INCLUDE_DIR=	./include/
 
 DIR_LIST=	$(SRC_DIR)		\
 		$(SRC_DIR)state		\
-		$(SRC_DIR)client_cmd
+		$(SRC_DIR)client_cmd	\
+		$(SRC_DIR)graphic_cmd
 
 HEADER=
 
@@ -92,7 +93,31 @@ SRC_FILES=	admin.c				\
 		client_cmd/fork.c		\
 		client_cmd/incantation.c	\
 		client_cmd/connect_nbr.c	\
-		client_cmd/err.c
+		client_cmd/err.c		\
+		graphic_cmd/msz.c		\
+		graphic_cmd/bct.c		\
+		graphic_cmd/tna.c		\
+		graphic_cmd/pnw.c		\
+		graphic_cmd/ppo.c		\
+		graphic_cmd/plv.c		\
+		graphic_cmd/pin.c		\
+		graphic_cmd/pex.c		\
+		graphic_cmd/pbc.c		\
+		graphic_cmd/pic.c		\
+		graphic_cmd/pie.c		\
+		graphic_cmd/pfk.c		\
+		graphic_cmd/pdr.c		\
+		graphic_cmd/pgt.c		\
+		graphic_cmd/pdi.c		\
+		graphic_cmd/enw.c		\
+		graphic_cmd/eht.c		\
+		graphic_cmd/ebo.c		\
+		graphic_cmd/edi.c		\
+		graphic_cmd/sgt.c		\
+		graphic_cmd/seg.c		\
+		graphic_cmd/smg.c		\
+		graphic_cmd/suc.c		\
+		graphic_cmd/sbp.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 
