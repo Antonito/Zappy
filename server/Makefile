@@ -42,6 +42,7 @@ HEADER=
 
 
 SRC_FILES=	admin.c				\
+		admin_auth.c			\
 		admin_cmd.c			\
 		admin_io.c			\
 		alloc.c				\
@@ -65,6 +66,7 @@ SRC_FILES=	admin.c				\
 		logic.c				\
 		main.c				\
 		map.c				\
+		map_case.c			\
 		message.c			\
 		multiplexer.c			\
 		network.c			\

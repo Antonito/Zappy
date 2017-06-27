@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:27:51 2017 Antoine Baché
-** Last update Mon Jun 26 22:48:48 2017 Antoine Baché
+** Last update Mon Jun 26 23:35:35 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_CMD_H_
@@ -23,6 +23,8 @@ typedef enum		e_zappy_admin_cmd_list
     ADM_HELP		= 0,
     ADM_STOP,
     ADM_INFO,
+    ADM_INC,
+    ADM_DEC,
     NB_ADM_CMD
   }			t_zappy_admin_cmd_list;
 
@@ -45,5 +47,7 @@ typedef struct		s_zappy_admin_cmd
 void			zappy_admin_cmd_help(t_zappy * const data);
 void			zappy_admin_cmd_stop(t_zappy * const data);
 void			zappy_admin_cmd_info(t_zappy * const data);
+void			zappy_admin_cmd_inc_freq(t_zappy * const data);
+void			zappy_admin_cmd_dec_freq(t_zappy * const data);
 
 #endif /* !ZAPPY_ADMIN_CMD_H_ */

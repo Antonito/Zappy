@@ -1,16 +1,13 @@
 ## TODO:
 
--> Team parsing
-
 -> Tri de l'input_queue par remaining_time
 -> Update remaining_time
 
 -> Gestion ticks
 -> Son
--> Vision
 -> elevation
 
--> Client graphique
+-> Vision [ A TESTER ]
 
--> authentification socketa admin
+-> Client graphique
 -> openSSL
