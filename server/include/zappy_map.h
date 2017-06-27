@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 01:22:04 2017 Antoine Baché
-** Last update Mon Jun 26 15:38:50 2017 Antoine Baché
+** Last update Tue Jun 27 10:19:56 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MAP_H_
@@ -36,7 +36,9 @@ typedef struct			s_zappy_map
   int32_t			height;
 }				t_zappy_map;
 
-int32_t	zappy_create_map(t_zappy_map * const map,
-			 t_zappy_config const * const conf);
+int32_t			zappy_create_map(t_zappy_map * const map,
+					 t_zappy_config const * const conf);
+t_zappy_map_case const	*zappy_get_map_case(t_zappy_map const * const,
+					    int32_t x, int32_t y);
 
 #endif /* !ZAPPY_MAP_H_ */
