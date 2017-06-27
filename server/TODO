@@ -2,8 +2,9 @@
 
 -> Tri de l'input_queue par remaining_time
 -> Update remaining_time
-
 -> Gestion ticks
+-> Fork
+
 -> Son
 -> elevation
 
