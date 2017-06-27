@@ -77,40 +77,43 @@ namespace ai
     void send(std::string const &msg);
     void move(std::pair<std::int32_t, std::int32_t> coord);
     std::int32_t look(std::string const &object);
-    std::pair<std::int32_t, std::int32_t> const direction(std::int32_t caseNumber);
+    std::pair<std::int32_t, std::int32_t> const
+        direction(std::int32_t caseNumber);
     std::array<std::int32_t, 6> const diff(std::array<std::int32_t, 6> old,
                                            std::array<std::int32_t, 6> newTab);
 
-    Value starving(ai::State state = ai::State::NO_CHANGE);
-    Value receiveMsg(ai::State state = State::NO_CHANGE);
-    Value missingStone(ai::State state = State::NO_CHANGE);
-    Value missingPlayer(ai::State state = State::NO_CHANGE);
-    Value setRecipe(ai::State state = State::NO_CHANGE);
-    Value incant(ai::State state = State::NO_CHANGE);
-    Value foodOnCase(ai::State state = State::NO_CHANGE);
-    Value collectFood(ai::State state = State::NO_CHANGE);
-    Value findFood(ai::State state = State::NO_CHANGE);
-    Value moveToFood(ai::State state = State::NO_CHANGE);
-    Value checkLevel(ai::State state = State::NO_CHANGE);
-    Value moveToTeammate(ai::State state = State::NO_CHANGE);
-    Value arrived(ai::State state = State::NO_CHANGE);
-    Value fixRecipe(ai::State state = State::NO_CHANGE);
-    Value stoneOnCase(ai::State state = State::NO_CHANGE);
-    Value collectStone(ai::State state = State::NO_CHANGE);
-    Value findStone(ai::State state = State::NO_CHANGE);
-    Value moveToStone(ai::State state = State::NO_CHANGE);
-    Value troll(ai::State state = State::NO_CHANGE);
+    Value starving(Value value = Value::YES);
+    Value receiveMsg(Value value = Value::YES);
+    Value missingStone(Value value = Value::YES);
+    Value missingPlayer(Value value = Value::YES);
+    Value setRecipe(Value value = Value::YES);
+    Value incant(Value value = Value::YES);
+    Value foodOnCase(Value value = Value::YES);
+    Value collectFood(Value value = Value::YES);
+    Value findFood(Value value = Value::YES);
+    Value moveToFood(Value value = Value::YES);
+    Value checkLevel(Value value = Value::YES);
+    Value moveToTeammate(Value value = Value::YES);
+    Value arrived(Value value = Value::YES);
+    Value fixRecipe(Value value = Value::YES);
+    Value stoneOnCase(Value value = Value::YES);
+    Value collectStone(Value value = Value::YES);
+    Value findStone(Value value = Value::YES);
+    Value moveToStone(Value value = Value::YES);
+    Value troll(Value value = Value::YES);
 
-    std::map<State, Value (AI::*)(State)> m_actionForState;
+    std::map<State, Value (AI::*)(Value)> m_actionForState;
     std::int32_t m_foodUnit;
     std::array<char, 512> m_lastUnknownMsg;
     network::TCPSocket m_sock;
-    std::queue<std::array<char, 512> > m_cmdToSend;
-    std::queue<std::array<char, 512> > m_cmdToRecv;
+    std::queue<std::array<char, 512>> m_cmdToSend;
+    std::queue<std::array<char, 512>> m_cmdToRecv;
+    State m_curState;
+    Value m_curValue;
   };
 }
 
-#if defined (__clang__)
+#if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
 

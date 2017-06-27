@@ -2,82 +2,108 @@
 
 namespace ai
 {
-  static const std::map<State, std::array<State, static_cast<std::int32_t>(Value::NB_VALUE)> >
+  static const std::map<
+      State, std::array<State, static_cast<std::int32_t>(Value::NB_VALUE)>>
       transitionTable = {
           {State::STARVING,
-            {{State::FOOD_ON_CASE, State::RECEIVE_MSG, State::NO_CHANGE, State::NO_CHANGE, State::MISSING_STONE,
-            State::MISSING_PLAYER, State::RECEIVE_MSG, State::NO_CHANGE}}},
+           {{State::FOOD_ON_CASE, State::RECEIVE_MSG, State::NO_CHANGE,
+             State::NO_CHANGE, State::MISSING_STONE, State::MISSING_PLAYER,
+             State::RECEIVE_MSG, State::NO_CHANGE}}},
           {State::RECEIVE_MSG,
-           {{State::NO_CHANGE, State::MISSING_STONE, State::LEVEL, State::MISSING_STONE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::MISSING_STONE}}},
+           {{State::NO_CHANGE, State::MISSING_STONE, State::LEVEL,
+             State::MISSING_STONE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::MISSING_STONE}}},
           {State::MISSING_STONE,
-            {{State::STONE_ON_CASE, State::MISSING_PLAYER, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::STONE_ON_CASE, State::MISSING_PLAYER, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::MISSING_PLAYER,
-            {{State::NO_CHANGE, State::SET_RECIPE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::NO_CHANGE, State::SET_RECIPE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::SET_RECIPE,
-            {{State::INCANT, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::INCANT, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::INCANT,
-            {{State::STARVING, State::MISSING_STONE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::STARVING, State::MISSING_STONE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::FOOD_ON_CASE,
-            {{State::COLLECT_FOOD, State::FIND_FOOD, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::COLLECT_FOOD, State::FIND_FOOD, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::COLLECT_FOOD,
-            {{State::STARVING, State::FOOD_ON_CASE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::STARVING, State::FOOD_ON_CASE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::FIND_FOOD,
-            {{State::MOVE_TO_FOOD, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::MOVE_TO_FOOD, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::MOVE_TO_FOOD,
-            {{State::FOOD_ON_CASE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::FOOD_ON_CASE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::LEVEL,
-            {{State::MOVE_TO_TEAMMATE, State::MISSING_STONE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::MOVE_TO_TEAMMATE, State::MISSING_STONE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::MOVE_TO_TEAMMATE,
-            {{State::ARRIVED, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::ARRIVED, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::ARRIVED,
-            {{State::FIX_RECIPE, State::STARVING, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::STARVING, State::NO_CHANGE}}},
+           {{State::FIX_RECIPE, State::STARVING, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::STARVING, State::NO_CHANGE}}},
           {State::FIX_RECIPE,
-            {{State::ARRIVED, State::ARRIVED, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::ARRIVED, State::ARRIVED, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::STONE_ON_CASE,
-            {{State::COLLECT_STONE, State::FIND_STONE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::COLLECT_STONE, State::FIND_STONE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::COLLECT_STONE,
-            {{State::STARVING, State::STONE_ON_CASE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::STARVING, State::STONE_ON_CASE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::FIND_STONE,
-            {{State::MOVE_TO_STONE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::STARVING,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::MOVE_TO_STONE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::STARVING, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::MOVE_TO_STONE,
-            {{State::STONE_ON_CASE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE, State::STARVING,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::STONE_ON_CASE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::STARVING, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
           {State::TROLL,
-            {{State::MISSING_STONE, State::MISSING_STONE, State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-            State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
+           {{State::MISSING_STONE, State::MISSING_STONE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
-  /*static const std::array <
-      std::pair<std::int32_t, std::array<std::int32_t, 6> >, 7> recipes = {{
-      {1, {{1, 0, 0, 0, 0, 0}}}, {2, {{1, 1, 1, 0, 0, 0}}},
-      {2, {{2, 0, 1, 0, 2, 0}}}, {4, {{1, 1, 2, 0, 1, 0}}},
-      {4, {{1, 2, 1, 3, 0, 0}}}, {6, {{1, 2, 3, 0, 1, 0}}},
-      {6, {{2, 2, 2, 2, 2, 1}}},
-  }};*/
+  static const std::array<std::pair<std::int32_t, std::array<std::int32_t, 6>>,
+                          7>
+      recipes = {{
+          {1, {{1, 0, 0, 0, 0, 0}}},
+          {2, {{1, 1, 1, 0, 0, 0}}},
+          {2, {{2, 0, 1, 0, 2, 0}}},
+          {4, {{1, 1, 2, 0, 1, 0}}},
+          {4, {{1, 2, 1, 3, 0, 0}}},
+          {6, {{1, 2, 3, 0, 1, 0}}},
+          {6, {{2, 2, 2, 2, 2, 1}}},
+      }};
 
-  AI::AI(std::string ip, std::uint16_t port) : m_actionForState(), m_foodUnit(0),
-  m_sock(port, ip, true, network::ASocket::BLOCKING)
+  AI::AI(std::string ip, std::uint16_t port)
+      : m_actionForState(), m_foodUnit(0),
+        m_sock(port, ip, true, network::ASocket::BLOCKING),
+        m_curState(State::STARVING), m_curValue(Value::YES)
   {
     if (!m_sock.openConnection())
-    {
-      throw std::exception();
-    }
+      {
+	throw std::exception();
+      }
     initAction();
   }
 
@@ -94,26 +120,26 @@ namespace ai
 
       // Check file descriptors
       do
-      {
-        FD_ZERO(&readfds);
-        FD_ZERO(&writefds);
-        tv.tv_sec = 2;
-        tv.tv_usec = 0;
+	{
+	  FD_ZERO(&readfds);
+	  FD_ZERO(&writefds);
+	  tv.tv_sec = 2;
+	  tv.tv_usec = 0;
 
-        // Add Game Server's socket
-        maxFd = m_sock.getSocket();
-        if (!m_cmdToSend.empty())
-        {
-          FD_SET(maxFd, &writefds);
-        }
-        else
-        {
-          FD_SET(maxFd, &readfds);
-        }
+	  // Add Game Server's socket
+	  maxFd = m_sock.getSocket();
+	  if (!m_cmdToSend.empty())
+	    {
+	      FD_SET(maxFd, &writefds);
+	    }
+	  else
+	    {
+	      FD_SET(maxFd, &readfds);
+	    }
 
-        // Loop over gameServers
-        rc = select(maxFd + 1, &readfds, &writefds, nullptr, &tv);
-      }
+	  // Loop over gameServers
+	  rc = select(maxFd + 1, &readfds, &writefds, nullptr, &tv);
+	}
       while (rc == -1 && errno == EINTR);
       return (rc);
     }
@@ -121,32 +147,35 @@ namespace ai
 
   std::int32_t AI::loop()
   {
+    // TODO : CHECK DEAD
     while (1)
-    {
-      fd_set readfds, writefds;
+      {
+	fd_set readfds, writefds;
 
-      std::int32_t const rc = checkActivity(readfds, writefds);
-      if (rc < 0)
-      {
-        std::cerr << "log -> select failed :/" << std::endl;
-        return (1);
+	std::int32_t const rc = checkActivity(readfds, writefds);
+	if (rc < 0)
+	  {
+	    std::cerr << "log -> select failed :/" << std::endl;
+	    return (1);
+	  }
+	else if (rc > 0)
+	  {
+	    if (FD_ISSET(m_sock.getSocket(), &readfds))
+	      {
+		// TODO : real check for split \n commands
+		if (treatIncomingData())
+		  return (1);
+	      }
+	    else if (FD_ISSET(m_sock.getSocket(), &writefds))
+	      {
+		if (treatOutcomingData())
+		  return (1);
+	      }
+	  }
+	Value (AI::*funcptr)(Value) = m_actionForState[m_curState];
+	m_curValue = (this->*funcptr)(m_curValue);
+	m_curState = transitionTable[m_curState][m_curValue];
       }
-      else if (rc > 0)
-      {
-        if (FD_ISSET(m_sock.getSocket(), &readfds))
-        {
-          //TODO : real check for split \n commands
-          if (treatIncomingData())
-            return (1);
-        }
-        else if (FD_ISSET(m_sock.getSocket(), &writefds))
-        {
-          if (treatOutcomingData())
-            return (1);
-        }
-      }
-      //TODO : manage state Here
-    }
   }
 
   std::int32_t AI::treatIncomingData()
@@ -156,26 +185,27 @@ namespace ai
 
     len = ::read(m_sock.getSocket(), &tmp, 511);
     if (len < 0)
-    {
-      std::cerr << "log -> read failed" << std::endl;
-      return (1);
-    }
+      {
+	std::cerr << "log -> read failed" << std::endl;
+	return (1);
+      }
     else if (len == 0)
-    {
-      std::cerr << "No more communication with the server :/" << std::endl;
-    }
+      {
+	std::cerr << "No more communication with the server :/" << std::endl;
+      }
     else
-    {
-      tmp[static_cast<std::size_t>(len)] = 0;
-      m_cmdToRecv.push(std::move(tmp));
-    }
+      {
+	tmp[static_cast<std::size_t>(len)] = 0;
+	m_cmdToRecv.push(std::move(tmp));
+      }
     return (0);
   }
 
   std::int32_t AI::treatOutcomingData()
   {
-    //TODO :
-    //::write(m_sock.getSocket(), m_cmdToSend.front(), std::strlen(m_cmdToSend.front().data));
+    // TODO :
+    //::write(m_sock.getSocket(), m_cmdToSend.front(),
+    // std::strlen(m_cmdToSend.front().data));
     m_cmdToSend.pop();
     return (0);
   }
@@ -211,22 +241,23 @@ namespace ai
   void AI::move(std::pair<std::int32_t, std::int32_t> coord)
   {
     for (std::int32_t y = 0; y < coord.second; ++y)
-    {
-      //send_command("Forward");
-    }
+      {
+	m_cmdToSend.push("Forward\n");
+	// send_command("Forward");
+      }
     if (coord.first > 0)
-    {
-      //send_command("Right")
-    }
+      {
+	// send_command("Right")
+      }
     else
-    {
-      //send_command("Right")
-    }
+      {
+	// send_command("Right")
+      }
     for (std::int32_t x = 0; x < coord.first; ++x)
-    {
-      //send_command("Forward");
-    }
-    //TODO : check for X 'ok' from server
+      {
+	// send_command("Forward");
+      }
+    // TODO : check for X 'ok' from server
   }
 
   std::int32_t AI::look(std::string const &object)
@@ -236,128 +267,129 @@ namespace ai
     // return case number of the object , -1 if no object found
   }
 
-  std::pair<std::int32_t, std::int32_t> const AI::direction(std::int32_t caseNumber)
+  std::pair<std::int32_t, std::int32_t> const
+      AI::direction(std::int32_t caseNumber)
   {
     int32_t x = 0, y = 0, mid = 0;
 
     for (y = 0; caseNumber > mid + y; ++y)
-    {
-      mid += 2 * y;
-    }
+      {
+	mid += 2 * y;
+      }
     x = caseNumber - mid;
     std::pair<std::int32_t, std::int32_t> res = {x, y};
     return (res);
   }
 
   std::array<std::int32_t, 6> const
-    AI::diff(std::array<std::int32_t, 6> old,
-        std::array<std::int32_t, 6> newTab)
-    {
-      std::array<std::int32_t, 6> res{};
-      for (std::size_t i = 0; i < 6; ++i)
+      AI::diff(std::array<std::int32_t, 6> old,
+               std::array<std::int32_t, 6> newTab)
+  {
+    std::array<std::int32_t, 6> res{};
+    for (std::size_t i = 0; i < 6; ++i)
       {
-        res[i] = newTab[i] - old[i];
+	res[i] = newTab[i] - old[i];
       }
-      return (res);
-    }
+    return (res);
+  }
 
-  Value AI::starving(ai::State state)
+  Value AI::starving(Value value)
   {
     if (m_foodUnit < NB_FOOD_MIN)
-    {
-      return (Value::YES);
-    }
+      {
+	return (Value::YES);
+      }
     else if (m_foodUnit < NB_FOOD_NORMAL)
-    {
-      // TODO : set different starving state
-      return (Value::YES);
-    }
+      {
+	// TODO : set different starving state
+	return (Value::YES);
+      }
     else
-    {
-      return (Value::NO);
-    }
+      {
+	return (Value::NO);
+      }
   }
 
-  Value AI::receiveMsg(ai::State state)
+  Value AI::receiveMsg(Value value)
   {
   }
 
-  Value AI::missingStone(ai::State state)
+  Value AI::missingStone(Value value)
   {
   }
 
-  Value AI::missingPlayer(ai::State state)
+  Value AI::missingPlayer(Value value)
   {
   }
 
-  Value AI::setRecipe(ai::State state)
+  Value AI::setRecipe(Value value)
   {
   }
 
-  Value AI::incant(ai::State state)
+  Value AI::incant(Value value)
   {
   }
 
-  Value AI::foodOnCase(ai::State state)
+  Value AI::foodOnCase(Value value)
   {
   }
 
-  Value AI::collectFood(ai::State state)
+  Value AI::collectFood(Value value)
   {
   }
 
-  Value AI::findFood(ai::State state)
+  Value AI::findFood(Value value)
   {
   }
 
-  Value AI::moveToFood(ai::State state)
+  Value AI::moveToFood(Value value)
   {
   }
 
-  Value AI::checkLevel(ai::State state)
+  Value AI::checkLevel(Value value)
   {
   }
 
-  Value AI::moveToTeammate(ai::State state)
+  Value AI::moveToTeammate(Value value)
   {
   }
 
-  Value AI::arrived(ai::State state)
+  Value AI::arrived(Value value)
   {
   }
 
-  Value AI::fixRecipe(ai::State state)
+  Value AI::fixRecipe(Value value)
   {
   }
 
-  Value AI::stoneOnCase(ai::State state)
+  Value AI::stoneOnCase(Value value)
   {
   }
 
-  Value AI::collectStone(ai::State state)
+  Value AI::collectStone(Value value)
   {
   }
 
-  Value AI::findStone(ai::State state)
+  Value AI::findStone(Value value)
   {
   }
 
-  Value AI::moveToStone(ai::State state)
+  Value AI::moveToStone(Value value)
   {
   }
 
-  Value AI::troll(ai::State state)
+  Value AI::troll(Value value)
   {
     std::int32_t number = std::rand() % 5;
 
     if (number == 0)
-    {
-      // TODO :send same message to troll others
-      return (Value::YES);
-    }
+      {
+	// TODO :send same message to troll others
+	return (Value::YES);
+      }
     else
-    {
-      return (Value::NO);
-    }
+      {
+	return (Value::NO);
+      }
   }
 }
