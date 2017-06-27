@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Tue Jun 27 14:07:29 2017 Antoine Baché
+** Last update Tue Jun 27 15:19:47 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -35,8 +35,8 @@ static void		zappy_client_look_add_res(t_zappy_client_vision
       l = 0;
       while (l < vision->map[i].res[j])
 	{
-	  strncat(buff, " ", 4096);
-	  strncat(buff, res, 4096);
+	  strncat(buff, " ", (4096 * 3) - 1);
+	  strncat(buff, res, (4096 * 3) - 1);
 	  ++l;
 	}
       ++j;
@@ -49,18 +49,19 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
 {
   int32_t		i;
   int32_t		max;
-  char			buff[4096];
+  char			buff[4096 * 3];
   int32_t		j;
 
-  assert(msg && vision);
+  assert(msg && vision && vision->nb_lines > 0);
   memset(buff, 0, sizeof(buff));
-  max = ZAPPY_VISION_GET_SIZE(vision->nb_lines);
+  max = ZAPPY_VISION_GET_SIZE(vision->nb_lines - 1);
   i = 0;
   strncat(buff, "[", sizeof(buff) - 1);
   while (i < max)
     {
       j = 0;
-      strncat(buff, ",", sizeof(buff) - 1);
+      if (i != 0)
+	strncat(buff, ",", sizeof(buff) - 1);
       while (j < vision->map[i].players)
 	{
 	  strncat(buff, " player", sizeof(buff) - 1);
@@ -69,7 +70,7 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
       zappy_client_look_add_res(vision, i, buff);
       ++i;
     }
-  strncat(buff, "]", sizeof(buff) - 1);
+  strncat(buff, "]\n", sizeof(buff) - 1);
   msg->len = (int32_t)strlen(buff);
   msg->msg = strdup(buff);
 }
