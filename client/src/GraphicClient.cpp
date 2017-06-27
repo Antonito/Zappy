@@ -17,11 +17,33 @@ namespace zappy
 
   void GraphicClient::launch()
   {
-    Model  test = Model::fromObj("./models/cube.obj");
-    Mesh   cube(test);
     Shader shader("./shaders/test");
+    // Model  test = Model::fromObj("./models/cube.obj");
 
+    std::vector<glm::vec3> points = {
+        {-0.5, -1.0, -0.5}, {0.0, 1.0, 0.5}, {0.5, -1.0, -0.5}};
+    std::vector<std::uint32_t> index = {0, 1, 2};
+
+    Model test2(IndicesElement<glm::vec3>(points, index),
+                IndicesElement<glm::vec2>(), IndicesElement<glm::vec3>());
+    Mesh cube(test2);
+
+    m_win.setClearColor(0.1, 0.1, 0.2, 1.0);
     shader.bind();
+
+    //     std::vector<GLfloat> pts = {-1.0f, -1.0f, 0.0f,
+    //    1.0f, -1.0f, 0.0f,
+    //    0.0f,  1.0f, 0.0f};
+
+    //     GLuint vertexbuf;
+
+    //     glGenBuffers(1, &vertexbuf);
+
+    //     glBindBuffer(GL_ARRAY_BUFFER, vertexbuf);
+
+    //     glBufferData(GL_ARRAY_BUFFER, pts.size() * sizeof(pts[0]), &pts[0],
+    //     GL_STATIC_DRAW);
+
     while (m_win.isOpen())
       {
 	// Manage user inputs
@@ -44,14 +66,25 @@ namespace zappy
 	// Clear the window
 	m_win.clear();
 
-	m_map.renderOn(m_win);
+	// m_map.renderOn(m_win);
 
-	for (Player const &player : m_players)
-	  {
-	    player.renderOn(m_win);
-	  }
+	// for (Player const &player : m_players)
+	//   {
+	//     player.renderOn(m_win);
+	//   }
 
-	m_win.draw(cube);
+	// glEnableVertexAttribArray(0);
+
+	// glBindBuffer(GL_ARRAY_BUFFER, vertexbuf);
+
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+	// glDrawArrays(GL_TRIANGLES, 0, 3);
+	// glDisableVertexAttribArray(0);
+
+	// m_win.draw(cube);
+
+	cube.model().render();
 
 	// Display the window
 	m_win.display();
@@ -83,7 +116,7 @@ namespace zappy
   bool GraphicClient::receiveCommand(std::string &command, std::string &args)
   {
     // TODO: replace this line by the network input
-    std::string cmd = "msz 12 14\n";
+    std::string cmd = "";
 
     if (cmd.length() == 0)
       {

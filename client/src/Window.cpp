@@ -5,10 +5,16 @@ namespace zappy
   Window::Window(unsigned int width, unsigned int height,
                  std::string const &name)
       : m_win(sf::VideoMode(width, height), name, sf::Style::Close,
-              sf::ContextSettings(24, 8, 0, 4, 5, 0))
+              sf::ContextSettings(24, 8, 0, 3, 3, 0))
   {
     glewExperimental = GL_TRUE;
     glewInit();
+
+    glClearDepth(100000.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
   }
 
   Window::~Window()
@@ -30,19 +36,20 @@ namespace zappy
     m_win.close();
   }
 
-  void Window::setClearColor()
+  void Window::setClearColor(float r, float g, float b, float a)
   {
-    // TODO: implement
+    glClearColor(r, g, b, a);
   }
 
   void Window::clear()
   {
     m_win.setActive();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  void Window::draw(Mesh const &)
+  void Window::draw(Mesh const &mesh)
   {
-    // TODO: implement
+    mesh.model().render();
   }
 
   void Window::display()

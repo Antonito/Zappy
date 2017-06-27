@@ -13,7 +13,10 @@ LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lsfml-graphics				\
 			-lsfml-window				\
 			-lsfml-system				\
-			-lGLEW
+			-lGLEW					\
+			-lGL					\
+			-lglut					\
+			-lGLU
 
 LOCAL_DEBUG_FLAGS=
 

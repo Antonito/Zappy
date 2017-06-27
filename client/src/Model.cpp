@@ -5,8 +5,7 @@ namespace zappy
   Model::Model(IndicesElement<glm::vec3> const &vertices,
                IndicesElement<glm::vec2> const &uv,
                IndicesElement<glm::vec3> const &normals)
-      : m_vertices(vertices), m_uv(uv), m_normals(normals), m_vao(),
-        m_buffersId()
+      : m_vertices(vertices), m_uv(uv), m_normals(normals), m_vao(), m_vbos()
   {
     this->init();
   }
@@ -15,15 +14,14 @@ namespace zappy
                IndicesElement<glm::vec2> &&uv,
                IndicesElement<glm::vec3> &&normals)
       : m_vertices(std::move(vertices)), m_uv(std::move(uv)),
-        m_normals(std::move(normals)), m_vao(), m_buffersId()
+        m_normals(std::move(normals)), m_vao(), m_vbos()
   {
-    nope::log::Log(Debug) << "Debug #5";
     this->init();
   }
 
   Model::Model(Model const &that)
       : m_vertices(that.m_vertices), m_uv(that.m_uv),
-        m_normals(that.m_normals), m_vao(), m_buffersId()
+        m_normals(that.m_normals), m_vao(), m_vbos()
   {
     this->init();
   }
@@ -31,12 +29,12 @@ namespace zappy
   Model::Model(Model &&that)
       : m_vertices(std::move(that.m_vertices)), m_uv(std::move(that.m_uv)),
         m_normals(std::move(that.m_normals)), m_vao(std::move(that.m_vao)),
-        m_buffersId(std::move(that.m_buffersId))
+        m_vbos(std::move(that.m_vbos))
   {
-    m_vao = 0;
+    that.m_vao = 0;
     for (std::size_t i = 0; i < NB_BUFFER; ++i)
       {
-	m_buffersId[i] = 0;
+	that.m_vbos[i] = 0;
       }
   }
 
@@ -63,12 +61,12 @@ namespace zappy
     m_uv = std::move(that.m_uv);
     m_normals = std::move(that.m_normals);
     m_vao = std::move(that.m_vao);
-    m_buffersId = std::move(that.m_buffersId);
+    m_vbos = std::move(that.m_vbos);
 
     that.m_vao = 0;
     for (std::size_t i = 0; i < NB_BUFFER; ++i)
       {
-	that.m_buffersId[i] = 0;
+	that.m_vbos[i] = 0;
       }
     return (*this);
   }
@@ -214,75 +212,93 @@ namespace zappy
     return (m_normals);
   }
 
+  void Model::render() const
+  {
+    glBindVertexArray(m_vao);
+
+    glDrawArrays(GL_TRIANGLES, 0, m_vertices.indices.size());
+
+    glBindVertexArray(0);
+  }
+
   void Model::init()
   {
-    nope::log::Log(Debug) << "Debug #1";
+    std::vector<glm::vec3> vert = {
+        {-0.5, -1.0, -0.5}, {0.0, -1.0, 0.5}, {0.5, -1.0, -0.5}};
+
+//     vert.reserve(m_vertices.indices.size());
+//     for (GLuint id : m_vertices.indices)
+//       {
+// 	vert.push_back(m_vertices.elements[id]);
+//       }
     // Generate and bind the vao
+
     glGenVertexArrays(1, &m_vao);
-    nope::log::Log(Debug) << "Debug #2";
     glBindVertexArray(m_vao);
-    nope::log::Log(Debug) << "Debug #3";
 
     //
     // Vertex
     //
-    glGenBuffers(NB_BUFFER, m_buffersId.data());
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[VERTEX]);
-    glBufferData(GL_ARRAY_BUFFER,
-                 m_vertices.elements.size() * sizeof(m_vertices.elements[0]),
-                 &m_vertices.elements[0], GL_STATIC_DRAW);
+
+    glGenBuffers(1, &m_vbos[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbos[VERTEX]);
+    glBufferData(GL_ARRAY_BUFFER, vert.size() * sizeof(vert[0]), &vert[0],
+                 GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // Vertex indices
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[VERTEX_IDX]);
-    glBufferData(GL_ARRAY_BUFFER,
-                 m_vertices.indices.size() * sizeof(m_vertices.indices[0]),
-                 &m_vertices.indices[0], GL_STATIC_DRAW);
+    //     // Vertex indices
+    //     glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[VERTEX_IDX]);
+    //     glBufferData(GL_ARRAY_BUFFER,
+    //                  m_vertices.indices.size() *
+    //                  sizeof(m_vertices.indices[0]),
+    //                  &m_vertices.indices[0], GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
+    //     glEnableVertexAttribArray(1);
+    //     glVertexAttribPointer(1, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
 
-    //
-    // UV
-    //
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[UV]);
-    glBufferData(GL_ARRAY_BUFFER,
-                 m_uv.elements.size() * sizeof(m_uv.elements[0]),
-                 &m_uv.elements[0], GL_STATIC_DRAW);
+    //     //
+    //     // UV
+    //     //
+    //     glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[UV]);
+    //     glBufferData(GL_ARRAY_BUFFER,
+    //                  m_uv.elements.size() * sizeof(m_uv.elements[0]),
+    //                  &m_uv.elements[0], GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    //     glEnableVertexAttribArray(2);
+    //     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // UV indices
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[UV_IDX]);
-    glBufferData(GL_ARRAY_BUFFER,
-                 m_uv.indices.size() * sizeof(m_uv.indices[0]),
-                 &m_uv.indices[0], GL_STATIC_DRAW);
+    //     // UV indices
+    //     glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[UV_IDX]);
+    //     glBufferData(GL_ARRAY_BUFFER,
+    //                  m_uv.indices.size() * sizeof(m_uv.indices[0]),
+    //                  &m_uv.indices[0], GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
+    //     glEnableVertexAttribArray(3);
+    //     glVertexAttribPointer(3, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
 
-    //
-    // Normals
-    //
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[NORMAL]);
-    glBufferData(GL_ARRAY_BUFFER,
-                 m_normals.elements.size() * sizeof(m_normals.elements[0]),
-                 &m_normals.elements[0], GL_STATIC_DRAW);
+    //     //
+    //     // Normals
+    //     //
+    //     glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[NORMAL]);
+    //     glBufferData(GL_ARRAY_BUFFER,
+    //                  m_normals.elements.size() *
+    //                  sizeof(m_normals.elements[0]),
+    //                  &m_normals.elements[0], GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(4);
-    glVertexAttribPointer(4, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
+    //     glEnableVertexAttribArray(4);
+    //     glVertexAttribPointer(4, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
 
-    // Normals indices
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[NORMAL_IDX]);
-    glBufferData(GL_ARRAY_BUFFER,
-                 m_normals.indices.size() * sizeof(m_normals.indices[0]),
-                 &m_normals.indices[0], GL_STATIC_DRAW);
+    //     // Normals indices
+    //     glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[NORMAL_IDX]);
+    //     glBufferData(GL_ARRAY_BUFFER,
+    //                  m_normals.indices.size() *
+    //                  sizeof(m_normals.indices[0]),
+    //                  &m_normals.indices[0], GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(5);
-    glVertexAttribPointer(5, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
+    //     glEnableVertexAttribArray(5);
+    //     glVertexAttribPointer(5, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
 
     // Unbind the vao
     glBindVertexArray(0);

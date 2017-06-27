@@ -30,7 +30,7 @@ namespace zappy
     //
     // Draw methods
     //
-    void setClearColor(); // TODO: define the arguments
+    void setClearColor(float r, float g, float b, float a);
     void clear();
     void draw(Mesh const &mesh);
     void display();

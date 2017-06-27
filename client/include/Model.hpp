@@ -38,6 +38,8 @@ namespace zappy
     IndicesElement<glm::vec2> const &uv() const;
     IndicesElement<glm::vec3> const &normals() const;
 
+    void render() const;
+
   private:
     void init();
 
@@ -60,7 +62,7 @@ namespace zappy
     // Vertex Array Object
     GLuint m_vao;
 
-    std::array<GLuint, NB_BUFFER> m_buffersId;
+    std::array<GLuint, NB_BUFFER> m_vbos;
   };
 }
 

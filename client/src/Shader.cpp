@@ -49,6 +49,7 @@ namespace zappy
 
   void Shader::bind()
   {
+    glUseProgram(m_program);
   }
 
   GLuint Shader::loadShader(std::string const &filename, GLenum type)
