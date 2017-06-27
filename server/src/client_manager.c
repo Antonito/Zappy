@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Tue Jun 27 15:57:11 2017 Antoine Baché
+** Last update Tue Jun 27 18:26:36 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -55,8 +55,8 @@ int32_t			zappy_client_add(t_zappy * const data,
     }
   memset(&elem->data, 0, sizeof(t_zappy_client));
   elem->data.net.sock = socket;
-  zappy_client_fill(&elem->data, data, addr, len);
   elem->data.id = data->clients.nb_clients;
+  zappy_client_fill(&elem->data, data, addr, len);
   LOG(LOG_INFO, YELLOW_BOLD_INTENS"%s #%d: %s"CLEAR, "New client",
       elem->data.id,
       inet_ntoa(elem->data.net.addr.sin_addr));

@@ -5,10 +5,11 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:25:22 2017 Antoine Baché
-** Last update Mon Jun 26 13:14:36 2017 Antoine Baché
+** Last update Tue Jun 27 19:40:27 2017 Antoine Baché
 */
 
 #include <assert.h>
+#include "zappy.h"
 #include "zappy_client.h"
 #include "zappy_client_game.h"
 #include "zappy_elevation.h"
@@ -45,13 +46,45 @@ static bool	zappy_elevation_check_table(int32_t const * const inv,
   return (true);
 }
 
+static bool	zappy_elevation_check_lvl(int32_t const cur_lvl,
+					  int32_t const nb_players,
+					  t_zappy_client_game const *
+					  const cli,
+					  t_zappy_client_game * const *players)
+{
+  int32_t	i;
+  int32_t	found;
+
+  assert(cur_lvl > 0);
+  i = 0;
+  found = 0;
+  while (i < nb_players)
+    {
+      if (players[i] && players[i] != cli && players[i]->level == cur_lvl)
+	{
+	  ++found;
+	}
+      ++i;
+    }
+  if (found != elevation_table[cur_lvl - 1].nb_player)
+    return (false);
+  return (true);
+}
+
 bool		zappy_elevation_check(t_zappy_client * const cli,
 				      t_zappy *data)
 {
+  int32_t	x;
+  int32_t	y;
+
   assert(cli && data);
-  (void)data;
   if (!zappy_elevation_check_table(cli->game.inv, cli->game.level))
     return (false);
-  // TODO: check number of player and their levels
-  return (true);
+  x = cli->game.x;
+  y = cli->game.y;
+  return (zappy_elevation_check_lvl(cli->game.level,
+				    data->conf.teams.nb_teams *
+				    data->conf.teams.nb_client_per_team,
+				    &cli->game,
+				    data->map.data[y][x].player));
 }
