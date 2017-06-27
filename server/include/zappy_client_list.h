@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:59:51 2017 Antoine Baché
-** Last update Mon Jun 26 15:14:03 2017 Antoine Baché
+** Last update Tue Jun 27 15:54:59 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_LIST
@@ -13,6 +13,11 @@
 
 #include <stdint.h>
 #include "zappy_client.h"
+
+/*
+** Forward declaration of t_zappy
+*/
+typedef struct s_zappy			t_zappy;
 
 typedef struct s_zappy_client_list	t_zappy_client_list;
 
@@ -63,11 +68,13 @@ int32_t	zappy_client_add(t_zappy * const data,
 ** Remove a client from the list
 */
 int32_t	zappy_client_remove(t_zappy_client_list_manager * const list,
-			    t_zappy_client_list * const data);
+			    t_zappy_client_list * const cur,
+			    t_zappy * const data);
 
 /*
 ** Remove all disconnected clients from the list
 */
-void	zappy_client_purify_list(t_zappy_client_list_manager * const list);
+void	zappy_client_purify_list(t_zappy_client_list_manager * const list,
+				 t_zappy * const data);
 
 #endif /* !ZAPPY_CLIENT_LIST */

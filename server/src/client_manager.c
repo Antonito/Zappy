@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Mon Jun 26 21:44:35 2017 Antoine Baché
+** Last update Tue Jun 27 15:57:11 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -67,11 +67,12 @@ int32_t			zappy_client_add(t_zappy * const data,
 int32_t			zappy_client_remove(t_zappy_client_list_manager *
 					    const list,
 					    t_zappy_client_list *
-					    const cur)
+					    const cur,
+					    t_zappy * const data)
 {
   LOG(LOG_INFO, YELLOW_BOLD_INTENS"Disconnecting client %d"
       CLEAR, cur->data.id);
-  assert(list && cur);
+  assert(list && cur && data);
   assert(list->nb_clients > 0);
   if (cur->prev)
     {
@@ -85,6 +86,9 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
       assert(cur->next->prev == cur);
       cur->next->prev = cur->prev;
     }
+  if (cur->data.game.team_name)
+    zappy_team_manager_delete_client(cur->data.game.team_name,
+				     &data->conf.teams);
   zappy_cleanup_client(&cur->data);
   free(cur);
   --list->nb_clients;
@@ -93,7 +97,8 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
 }
 
 void			zappy_client_purify_list(t_zappy_client_list_manager *
-						 const list)
+						 const list,
+						 t_zappy * const data)
 {
   int32_t		i;
   t_zappy_client_list	*cur;
@@ -108,7 +113,7 @@ void			zappy_client_purify_list(t_zappy_client_list_manager *
       LOG(LOG_DEBUG, "Checking client %d", cur->data.id);
       if (cur->data.connected == false)
 	{
-	  zappy_client_remove(list, cur);
+	  zappy_client_remove(list, cur, data);
 	}
       else
 	{

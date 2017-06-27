@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Tue Jun 27 14:58:52 2017 Antoine Baché
+** Last update Tue Jun 27 15:47:57 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -60,6 +60,23 @@ t_zappy_team	*zappy_team_manager_get_team_by_name(char const * const name,
       ++i;
     }
   return (NULL);
+}
+
+void		zappy_team_manager_delete_client(char const *
+						 const name,
+						 t_zappy_team_manager *
+						 const man)
+{
+  t_zappy_team	*team;
+
+  assert(name && man);
+  LOG(LOG_INFO, "Removing client from team %s", name);
+  team = zappy_team_manager_get_team_by_name(name, man);
+  if (team)
+    {
+      assert(team->nb_players > 0);
+      --team->nb_players;
+    }
 }
 
 int32_t		zappy_team_manager_add_client(char const * const teamname,

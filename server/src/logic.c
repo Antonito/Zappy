@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Mon Jun 26 10:51:46 2017 Antoine Baché
+** Last update Tue Jun 27 15:55:25 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -52,5 +52,5 @@ void			zappy_logic(t_zappy * const data)
 {
   LOG(LOG_DEBUG, "Processing Game Logic");
   _zappy_for_each_client(&data->clients, data, &zappy_logic_client_wrap);
-  zappy_client_purify_list(&data->clients);
+  zappy_client_purify_list(&data->clients, data);
 }
