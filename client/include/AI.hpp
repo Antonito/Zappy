@@ -6,6 +6,11 @@
 #include <array>
 #include "TCPSocket.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
+
 #define NB_FOOD_MIN (5)
 #define NB_FOOD_NORMAL (7)
 
@@ -103,5 +108,9 @@ namespace ai
     std::queue<std::array<char, 512> > m_cmdToRecv;
   };
 }
+
+#if defined (__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif // !AI_HPP_

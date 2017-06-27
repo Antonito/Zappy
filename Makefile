@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:00:58 2017 Antoine Baché
-## Last update Sat Jun 24 17:07:17 2017 Antoine Baché
+## Last update Tue Jun 27 13:50:44 2017 Lucas Troncy
 ##
 
 MK_DIR=			./mk/
@@ -34,7 +34,9 @@ PROJECTS_PATH=		$(addprefix $(LIB_DIR), $(LIBS))		\
 # Some useful variables
 DEBUG=			no
 
-ARGS=			DEBUG=$(DEBUG) -s --warn-undefined-variables -C
+SANITIZER=		yes
+
+ARGS=			DEBUG=$(DEBUG) SANITIZER=$(SANITIZER) -s --warn-undefined-variables -C
 
 CURRENT_DIR=		${PWD}
 

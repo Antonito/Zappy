@@ -12,10 +12,25 @@
 #endif                      // !_WIN32
 
 #include <exception>
+#include <utility>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <cctype>
 
 #include "Logger.hpp"
 #include "OptionParser.hpp"
 #include "OptionException.hpp"
 #include "AI.hpp"
+
+#include "Player.hpp"
+#include "GraphicClient.hpp"
+#include "GameMap.hpp"
+#include "Tile.hpp"
+#include "Shader.hpp"
 
 #endif // !ZAPPY_AI_STDAFX_HPP_

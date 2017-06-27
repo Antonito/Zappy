@@ -6,12 +6,18 @@ MK_COMMON_DIR=	./../mk/
 NAME=		$(ROOT_DIR)/zappy_ai
 
 LOCAL_COMP_FLAGS=	-Wno-exit-time-destructors		\
-			-Wno-global-constructors
+			-Wno-global-constructors		\
+			-I/opt/X11/include/
 
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\
 			-lzappy_option				\
-			-lzappy_network
+			-lzappy_network				\
+			-lzappy_exceptions			\
+			-lsfml-graphics				\
+			-lsfml-window				\
+			-lsfml-system				\
+			-lGLEW
 
 LOCAL_DEBUG_FLAGS=
 
@@ -36,9 +42,16 @@ HEADER=		zappy_ai_stdafx.hpp
 
 # Project's files
 
-
-SRC_FILES=	main.cpp					\
-		AI.cpp
+SRC_FILES=	main.cpp				\
+		AI.cpp					\
+		GraphicClient.cpp			\
+		GameMap.cpp				\
+		Player.cpp				\
+		Tile.cpp				\
+		Mesh.cpp				\
+		Model.cpp				\
+		Window.cpp				\
+		Shader.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 
