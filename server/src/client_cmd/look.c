@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Mon Jun 26 19:12:21 2017 Antoine Baché
+** Last update Tue Jun 27 14:07:29 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -19,6 +19,30 @@
 #include "zappy_client_vision.h"
 #include "zappy_message.h"
 
+static void		zappy_client_look_add_res(t_zappy_client_vision
+						  const * const vision,
+						  int32_t const i,
+						  char buff[4096])
+{
+  char const		*res;
+  int32_t		j;
+  int32_t		l;
+
+  j = 0;
+  while (j < NB_RESOURCE)
+    {
+      res = zappy_get_resource_by_id(j);
+      l = 0;
+      while (l < vision->map[i].res[j])
+	{
+	  strncat(buff, " ", 4096);
+	  strncat(buff, res, 4096);
+	  ++l;
+	}
+      ++j;
+    }
+}
+
 static void		zappy_client_look_build(t_zappy_message * const msg,
 						t_zappy_client_vision
 						const * const vision)
@@ -26,29 +50,28 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
   int32_t		i;
   int32_t		max;
   char			buff[4096];
-  char const		*res;
-  size_t		len;
-  int			j;
+  int32_t		j;
 
   assert(msg && vision);
   memset(buff, 0, sizeof(buff));
   max = ZAPPY_VISION_GET_SIZE(vision->nb_lines);
   i = 0;
-  // TODO: Code, strcat
+  strncat(buff, "[", sizeof(buff) - 1);
   while (i < max)
     {
       j = 0;
-      while (j < NB_RESOURCE)
+      strncat(buff, ",", sizeof(buff) - 1);
+      while (j < vision->map[i].players)
 	{
-	  res = zappy_get_resource_by_id(vision->map[i].res[j]);
-	  len = strlen(res);
-	  strncat(buff, res, len);
+	  strncat(buff, " player", sizeof(buff) - 1);
 	  ++j;
 	}
+      zappy_client_look_add_res(vision, i, buff);
       ++i;
     }
-  (void)msg;
-  // TODO: Analyze vision's data
+  strncat(buff, "]", sizeof(buff) - 1);
+  msg->len = (int32_t)strlen(buff);
+  msg->msg = strdup(buff);
 }
 
 void			zappy_client_cmd_look(t_zappy_client * const cli,
