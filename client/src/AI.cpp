@@ -174,7 +174,8 @@ namespace ai
 	  }
 	Value (AI::*funcptr)(Value) = m_actionForState[m_curState];
 	m_curValue = (this->*funcptr)(m_curValue);
-	m_curState = transitionTable.at(m_curState)[static_cast<std::size_t>(m_curValue)];
+	m_curState = transitionTable.at(
+	    m_curState)[static_cast<std::size_t>(m_curValue)];
       }
   }
 
@@ -243,19 +244,19 @@ namespace ai
     for (std::int32_t y = 0; y < coord.second; ++y)
       {
 	m_cmdToSend.push("Forward\n");
-	// send_command("Forward");
       }
+    // TODO : check for Y 'ok' from server
     if (coord.first > 0)
       {
-	// send_command("Right")
+	m_cmdToSend.push("Right\n");
       }
     else
       {
-	// send_command("Right")
+	m_cmdToSend.push("Left\n");
       }
     for (std::int32_t x = 0; x < coord.first; ++x)
       {
-	// send_command("Forward");
+	m_cmdToSend.push("Forward\n");
       }
     // TODO : check for X 'ok' from server
   }
@@ -265,6 +266,12 @@ namespace ai
     // look
     // check if object is in vision
     // return case number of the object , -1 if no object found
+  }
+
+  void AI::getCurCase()
+  {
+    // look
+    // fill m_curCase with the stone there is on case
   }
 
   std::pair<std::int32_t, std::int32_t> const
@@ -316,10 +323,33 @@ namespace ai
 
   Value AI::missingStone(Value value)
   {
+    bool enough = true;
+
+    // TODO: Update inventory
+    for (std::size_t i = 0; i < 6; ++i)
+      {
+	if (m_inventory[i] >= recipes[m_level - 1].second[i])
+	  {
+	    enough = false;
+	    break;
+	  }
+      }
+    if (enough)
+      return (Value::NO);
+    else
+      return (Value::YES);
   }
 
   Value AI::missingPlayer(Value value)
   {
+    std::int32_t nb_players = 0;
+    while (nb_players < recipes[m_level - 1].first)
+      {
+	// TODO: Count nb PLayers on case
+	m_cmdToSend.push("Broadcast COME " + std::to_string(m_level) + "\n");
+      }
+    m_cmdToSend.push("Broadcast GO AWAY \n");
+    return (Value::YES);
   }
 
   Value AI::setRecipe(Value value)
@@ -328,6 +358,8 @@ namespace ai
 
   Value AI::incant(Value value)
   {
+    m_cmdToSend.push("Incantation\n");
+    // Todo
   }
 
   Value AI::foodOnCase(Value value)

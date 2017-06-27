@@ -17,6 +17,17 @@
 
 namespace ai
 {
+  enum Stone : std::int8_t
+  {
+    LINEMATE,
+    DERAUMERE,
+    SIBUR,
+    MENDIANE,
+    PHIRAS,
+    THYSTAME,
+    NB_STONE,
+  };
+
   enum class Value : std::int8_t
   {
     YES,
@@ -81,6 +92,7 @@ namespace ai
         direction(std::int32_t caseNumber);
     std::array<std::int32_t, 6> const diff(std::array<std::int32_t, 6> old,
                                            std::array<std::int32_t, 6> newTab);
+    void getCurCase();
 
     Value starving(Value value = Value::YES);
     Value receiveMsg(Value value = Value::YES);
@@ -105,11 +117,14 @@ namespace ai
     std::map<State, Value (AI::*)(Value)> m_actionForState;
     std::int32_t m_foodUnit;
     std::array<char, 512> m_lastUnknownMsg;
-    network::TCPSocket m_sock;
+    network::TCPSocket      m_sock;
     std::queue<std::string> m_cmdToSend;
     std::queue<std::string> m_cmdToRecv;
-    State m_curState;
-    Value m_curValue;
+    std::array<std::int32_t, Stone::NB_STONE> m_inventory;
+    std::array<std::int32_t, Stone::NB_STONE> m_curCase;
+    State        m_curState;
+    Value        m_curValue;
+    std::int32_t m_level;
   };
 }
 
