@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Tue Jun 27 09:30:12 2017 Antoine Baché
+** Last update Tue Jun 27 22:54:23 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -16,6 +16,7 @@
 #include "zappy_color.h"
 #include "zappy_admin_cmd.h"
 #include "zappy_network.h"
+#include "zappy_graphic.h"
 
 static char const	*zappy_admin_help_str =
   "Available commands:\n"

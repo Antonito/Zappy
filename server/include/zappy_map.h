@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 01:22:04 2017 Antoine Baché
-** Last update Tue Jun 27 15:35:19 2017 Antoine Baché
+** Last update Tue Jun 27 17:57:19 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MAP_H_
@@ -21,8 +21,14 @@
 */
 typedef struct	s_zappy_config	t_zappy_config;
 
+/*
+** Forward declaration of t_zappy_client_game
+*/
+typedef struct	s_zappy_client_game	t_zappy_client_game;
+
 typedef struct			s_zappy_map_case
 {
+  t_zappy_client_game		**player;
   int32_t			x;
   int32_t			y;
   int32_t			content[NB_RESOURCE];

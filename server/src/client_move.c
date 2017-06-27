@@ -5,18 +5,21 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 14:09:15 2017 Antoine Baché
-** Last update Mon Jun 26 15:41:26 2017 Antoine Baché
+** Last update Tue Jun 27 19:21:40 2017 Antoine Baché
 */
 
 #include <assert.h>
+#include <stddef.h>
 #include "zappy_client_game.h"
 #include "zappy_map.h"
 
 void		zappy_client_forward(t_zappy_client_game * const game,
+				     int32_t const id,
 				     t_zappy_map * const map)
 {
   assert(game && map);
   --map->data[game->y][game->x].nb_players;
+  map->data[game->y][game->x].player[id] = NULL;
   if (game->orientation == CLI_NORTH || game->orientation == CLI_SOUTH)
     {
       game->y += 1 * ((game->orientation == CLI_NORTH) ? 1 : -1);
@@ -34,4 +37,5 @@ void		zappy_client_forward(t_zappy_client_game * const game,
 	game->x = 0;
     }
   ++map->data[game->y][game->x].nb_players;
+  map->data[game->y][game->x].player[id] = game;
 }

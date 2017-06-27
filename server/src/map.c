@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 01:40:45 2017 Antoine Baché
-** Last update Mon Jun 26 13:07:53 2017 Antoine Baché
+** Last update Tue Jun 27 19:22:49 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,9 +14,11 @@
 #include "zappy_map.h"
 #include "zappy_config.h"
 
-static void		zappy_fill_map(t_zappy_map_case * const map,
+static int32_t		zappy_fill_map(t_zappy_map_case * const map,
 				       int32_t const x,
-				       int32_t const y)
+				       int32_t const y,
+				       t_zappy_config const *
+				       const conf)
 {
   int32_t		max;
 
@@ -35,10 +37,19 @@ static void		zappy_fill_map(t_zappy_map_case * const map,
   map->content[RES_THYSTAME] = rand() % max +
     rand() % (map->content[RES_PHIRAS] + 1);
   map->content[RES_FOOD] = rand() % max;
+  assert(conf->teams.nb_teams * conf->teams.nb_client_per_team > 0);
+  map->player = calloc((size_t)(conf->teams.nb_teams *
+				conf->teams.nb_client_per_team),
+		       sizeof(*map->player));
+  if (!map->player)
+    return (1);
+  return (0);
 }
 
 static t_zappy_map_case	**zappy_create_map_case(int32_t const x,
-						int32_t const y)
+						int32_t const y,
+						t_zappy_config const *
+						const conf)
 {
   int32_t		_y;
   int32_t		i;
@@ -56,7 +67,8 @@ static t_zappy_map_case	**zappy_create_map_case(int32_t const x,
       i = 0;
       while (i < x)
 	{
-	  zappy_fill_map(&map[_y][i], i, _y);
+	  if (zappy_fill_map(&map[_y][i], i, _y, conf))
+	    return (NULL);
 	  ++i;
 	}
       ++_y;
@@ -71,6 +83,6 @@ int32_t			zappy_create_map(t_zappy_map * const map,
   map->width = conf->world_width;
   map->height = conf->world_height;
   LOG(LOG_INFO, "Generating resources...");
-  map->data = zappy_create_map_case(map->width, map->height);
+  map->data = zappy_create_map_case(map->width, map->height, conf);
   return (!map->data);
 }

@@ -5,11 +5,12 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 17:31:40 2017 Antoine Baché
-** Last update Tue Jun 27 13:18:04 2017 Antoine Baché
+** Last update Tue Jun 27 17:40:08 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <string.h>
+#include "clogger.h"
 #include "zappy_client.h"
 #include "zappy_map.h"
 #include "zappy_client_vision.h"
@@ -32,6 +33,8 @@ static void			zappy_vision_line(t_zappy_map const *
   while (j < infos[2])
     {
       ndx = off - infos[2] + j;
+      LOG(LOG_DEBUG, "=== VISION ===");
+      LOG(LOG_DEBUG, "Case %dx%d", cli->game.x + infos[0] + j, cli->game.y + infos[1]);
       map_case = zappy_get_map_case(map, cli->game.x + infos[0] + j,
 				    cli->game.y + infos[1]);
       memcpy(vis->map[ndx].res, map_case->content,
