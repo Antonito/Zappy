@@ -106,8 +106,8 @@ namespace ai
     std::int32_t m_foodUnit;
     std::array<char, 512> m_lastUnknownMsg;
     network::TCPSocket m_sock;
-    std::queue<std::array<char, 512>> m_cmdToSend;
-    std::queue<std::array<char, 512>> m_cmdToRecv;
+    std::queue<std::string> m_cmdToSend;
+    std::queue<std::string> m_cmdToRecv;
     State m_curState;
     Value m_curValue;
   };

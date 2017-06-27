@@ -174,7 +174,7 @@ namespace ai
 	  }
 	Value (AI::*funcptr)(Value) = m_actionForState[m_curState];
 	m_curValue = (this->*funcptr)(m_curValue);
-	m_curState = transitionTable[m_curState][m_curValue];
+	m_curState = transitionTable.at(m_curState)[static_cast<std::size_t>(m_curValue)];
       }
   }
 
@@ -196,7 +196,7 @@ namespace ai
     else
       {
 	tmp[static_cast<std::size_t>(len)] = 0;
-	m_cmdToRecv.push(std::move(tmp));
+	m_cmdToRecv.push(std::string(tmp.data()));
       }
     return (0);
   }
