@@ -42,6 +42,7 @@ HEADER=
 
 
 SRC_FILES=	admin.c				\
+		admin_auth.c			\
 		admin_cmd.c			\
 		admin_io.c			\
 		alloc.c				\
