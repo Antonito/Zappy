@@ -95,7 +95,7 @@ namespace ai
     Value moveToStone(ai::State state = State::NO_CHANGE);
     Value troll(ai::State state = State::NO_CHANGE);
 
-    std::map<State, State (AI::*)(State)> m_actionForState;
+    std::map<State, Value (AI::*)(State)> m_actionForState;
     std::int32_t m_foodUnit;
     std::array<char, 512> m_lastUnknownMsg;
     network::TCPSocket m_sock;

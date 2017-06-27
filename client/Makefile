@@ -5,7 +5,8 @@ MK_COMMON_DIR=	./../mk/
 # Definitions for Makefile
 NAME=		$(ROOT_DIR)/zappy_ai
 
-LOCAL_COMP_FLAGS=
+LOCAL_COMP_FLAGS=	-Wno-exit-time-destructors		\
+			-Wno-global-constructors
 
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\

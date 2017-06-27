@@ -63,13 +63,13 @@ namespace ai
             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
-  static const std::array <
-      std::pair<std::int32_t, std::array<std::int32_t, 6> > recipes = {
-      {1, {1, 0, 0, 0, 0, 0}}, {2, {1, 1, 1, 0, 0, 0}},
-      {2, {2, 0, 1, 0, 2, 0}}, {4, {1, 1, 2, 0, 1, 0}},
-      {4, {1, 2, 1, 3, 0, 0}}, {6, {1, 2, 3, 0, 1, 0}},
-      {6, {2, 2, 2, 2, 2, 1}},
-  };
+  /*static const std::array <
+      std::pair<std::int32_t, std::array<std::int32_t, 6> >, 7> recipes = {{
+      {1, {{1, 0, 0, 0, 0, 0}}}, {2, {{1, 1, 1, 0, 0, 0}}},
+      {2, {{2, 0, 1, 0, 2, 0}}}, {4, {{1, 1, 2, 0, 1, 0}}},
+      {4, {{1, 2, 1, 3, 0, 0}}}, {6, {{1, 2, 3, 0, 1, 0}}},
+      {6, {{2, 2, 2, 2, 2, 1}}},
+  }};*/
 
   AI::AI(std::string ip, std::uint16_t port) : m_actionForState(), m_foodUnit(0),
   m_sock(port, ip, true, network::ASocket::BLOCKING)
@@ -152,7 +152,7 @@ namespace ai
   std::int32_t AI::treatIncomingData()
   {
     std::array<char, 512> tmp;
-    std::int32_t len = 0;
+    ssize_t len = 0;
 
     len = ::read(m_sock.getSocket(), &tmp, 511);
     if (len < 0)
@@ -166,7 +166,7 @@ namespace ai
     }
     else
     {
-      tmp.at(len) = 0;
+      tmp[static_cast<std::size_t>(len)] = 0;
       m_cmdToRecv.push(std::move(tmp));
     }
     return (0);
@@ -254,7 +254,7 @@ namespace ai
         std::array<std::int32_t, 6> newTab)
     {
       std::array<std::int32_t, 6> res{};
-      for (std::int32_t i = 0; i < 6; ++i)
+      for (std::size_t i = 0; i < 6; ++i)
       {
         res[i] = newTab[i] - old[i];
       }
