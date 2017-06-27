@@ -34,7 +34,9 @@ PROJECTS_PATH=		$(addprefix $(LIB_DIR), $(LIBS))		\
 # Some useful variables
 DEBUG=			no
 
-ARGS=			DEBUG=$(DEBUG) -s --warn-undefined-variables -C
+SANITIZER=		yes
+
+ARGS=			DEBUG=$(DEBUG) SANITIZER=$(SANITIZER) -s --warn-undefined-variables -C
 
 CURRENT_DIR=		${PWD}
 

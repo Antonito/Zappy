@@ -48,7 +48,10 @@ endif
 ifeq ($(DEBUG), yes)
 CFLAGS=		-g -DDEBUG -O0 $(LOCAL_DEBUG_CFLAGS)
 CXXFLAGS=	-g -DDEBUG -O0 $(LOCAL_DEBUG_FLAGS)
-LDFLAGS=	-g -rdynamic -fsanitize=undefined -fsanitize=address
+LDFLAGS=	-g -rdynamic
+ifeq ($(SANITIZER), yes)
+LDFLAGS+=	 -fsanitize=undefined -fsanitize=address
+endif
 else
 CXXFLAGS=	-DNDEBUG -fomit-frame-pointer -march=native -Werror
 CFLAGS=		-DNDEBUG -fomit-frame-pointer -march=native -Werror
