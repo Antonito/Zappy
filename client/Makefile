@@ -46,7 +46,8 @@ SRC_FILES=	main.cpp				\
 		Tile.cpp				\
 		Mesh.cpp				\
 		Model.cpp				\
-		Window.cpp
+		Window.cpp				\
+		Shader.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

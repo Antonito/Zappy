@@ -30,5 +30,6 @@
 #include "GraphicClient.hpp"
 #include "GameMap.hpp"
 #include "Tile.hpp"
+#include "Shader.hpp"
 
 #endif // !ZAPPY_AI_STDAFX_HPP_

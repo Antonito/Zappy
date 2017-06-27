@@ -18,11 +18,12 @@ int main(int ac, char **av, char **env)
     {
 #if defined(DEBUG)
       nope::log::Logger::start("zappy_ai.log");
+      nope::log::Logger::logLevel = nope::log::LogLevel::LOG_DEBUG;
 #else
       // Disable standard output
       nope::log::Logger::start("zappy_ai.log", false);
-#endif // !DEBUG
       nope::log::Logger::logLevel = nope::log::LogLevel::LOG_INFO;
+#endif // !DEBUG
 
       nope::log::Log(Info) << "Logger started";
     }

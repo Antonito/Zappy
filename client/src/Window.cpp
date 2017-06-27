@@ -4,8 +4,11 @@ namespace zappy
 {
   Window::Window(unsigned int width, unsigned int height,
                  std::string const &name)
-      : m_win(sf::VideoMode(width, height), name)
+      : m_win(sf::VideoMode(width, height), name, sf::Style::Close,
+              sf::ContextSettings(24, 8, 0, 4, 5, 0))
   {
+    glewExperimental = GL_TRUE;
+    glewInit();
   }
 
   Window::~Window()

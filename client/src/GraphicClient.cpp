@@ -17,6 +17,11 @@ namespace zappy
 
   void GraphicClient::launch()
   {
+    Model  test = Model::fromObj("./models/cube.obj");
+    Mesh   cube(test);
+    Shader shader("./shaders/test");
+
+    shader.bind();
     while (m_win.isOpen())
       {
 	// Manage user inputs
@@ -45,6 +50,8 @@ namespace zappy
 	  {
 	    player.renderOn(m_win);
 	  }
+
+	m_win.draw(cube);
 
 	// Display the window
 	m_win.display();
