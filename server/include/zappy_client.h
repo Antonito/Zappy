@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:58:03 2017 Antoine Baché
-** Last update Sun Jun 25 16:02:43 2017 Antoine Baché
+** Last update Mon Jun 26 15:17:30 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_H_
@@ -66,15 +66,9 @@ struct			s_zappy_client
 ** Initialize a client
 */
 void			zappy_client_fill(t_zappy_client * const cli,
-					  t_sock const sock,
+					  t_zappy * const data,
 					  t_sockaddr_in *const addr,
 					  socklen_t const len);
-
-/*
-** Display client informations
-*/
-void			zappy_client_print(t_zappy_client const * const  cli,
-					   char const * const msg);
 
 /*
 ** Handler for read / write / except events

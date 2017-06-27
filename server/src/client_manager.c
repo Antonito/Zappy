@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Sun Jun 25 18:21:27 2017 Antoine Baché
+** Last update Mon Jun 26 21:44:35 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,72 +14,18 @@
 #include <string.h>
 #include <errno.h>
 #include "clogger.h"
+#include "zappy.h"
 #include "zappy_color.h"
 #include "zappy_client_list.h"
 #include "zappy_cleanup.h"
 
-void			zappy_for_each_client(t_zappy_client_list_manager *
-					      list,
-					      void *data,
-					      void (*func)
-					      (t_zappy_client const *
-					       const cli,
-					       void *data))
+static void		zappy_client_add_list(t_zappy_client_list_manager *
+					      const list,
+					      t_zappy_client_list *elem)
 {
-  int32_t		i;
-  t_zappy_client_list	*cli;
-
-  assert(list && func);
-  i = 0;
-  cli = list->list;
-  while (i < list->nb_clients)
-    {
-      func(&cli->data, data);
-      cli = cli->next;
-      ++i;
-    }
-}
-
-void			_zappy_for_each_client(t_zappy_client_list_manager *
-					       list,
-					       void *data,
-					       void (*func)
-					       (t_zappy_client *
-						const cli,
-						void *data))
-{
-  int32_t		i;
-  t_zappy_client_list	*cli;
-
-  assert(list && func);
-  i = 0;
-  cli = list->list;
-  while (i < list->nb_clients)
-    {
-      func(&cli->data, data);
-      cli = cli->next;
-      ++i;
-    }
-}
-
-int32_t			zappy_client_add(t_zappy_client_list_manager *
-					 const list, t_sock const socket,
-					 t_sockaddr_in *addr,
-					 socklen_t const len)
-{
-  t_zappy_client_list	*elem;
   t_zappy_client_list	*tmp;
 
-  assert(list && socket > 0 && addr);
-  if (!(elem = calloc(1, sizeof(*elem))))
-    {
-      LOG(LOG_WARNING, "Cannot accept client: %s [%s]",
-	  inet_ntoa(addr->sin_addr), strerror(errno));
-      return (1);
-    }
-  zappy_client_fill(&elem->data, socket, addr, len);
-  elem->data.id = list->nb_clients;
-  zappy_client_print(&elem->data, YELLOW_BOLD_INTENS"New client"CLEAR);
+  assert(list && elem);
   tmp = list->list;
   while (tmp && tmp->next)
     tmp = tmp->next;
@@ -91,6 +37,30 @@ int32_t			zappy_client_add(t_zappy_client_list_manager *
       elem->prev = tmp;
     }
   ++list->nb_clients;
+}
+
+int32_t			zappy_client_add(t_zappy * const data,
+					 t_sock const socket,
+					 t_sockaddr_in *addr,
+					 socklen_t const len)
+{
+  t_zappy_client_list	*elem;
+
+  assert(data && socket > 0 && addr);
+  if (!(elem = calloc(1, sizeof(*elem))))
+    {
+      LOG(LOG_WARNING, "Cannot accept client: %s [%s]",
+	  inet_ntoa(addr->sin_addr), strerror(errno));
+      return (1);
+    }
+  memset(&elem->data, 0, sizeof(t_zappy_client));
+  elem->data.net.sock = socket;
+  zappy_client_fill(&elem->data, data, addr, len);
+  elem->data.id = data->clients.nb_clients;
+  LOG(LOG_INFO, YELLOW_BOLD_INTENS"%s #%d: %s"CLEAR, "New client",
+      elem->data.id,
+      inet_ntoa(elem->data.net.addr.sin_addr));
+  zappy_client_add_list(&data->clients, elem);
   return (0);
 }
 

@@ -5,7 +5,7 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:30:51 2017 Lucas Troncy
-** Last update Sun Jun 25 21:23:59 2017 Antoine Baché
+** Last update Mon Jun 26 10:44:13 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -20,6 +20,8 @@
 int32_t		argv_port(int32_t i, char const * const * const av,
 			  t_zappy_config * const data)
 {
+  int32_t	tmp;
+
   LOG(LOG_DEBUG, "Parsing port");
   if (!av[i + 1] || av[i + 1][0] == '-')
     {
@@ -27,12 +29,13 @@ int32_t		argv_port(int32_t i, char const * const * const av,
       argv_help(i, av, data);
       return (1);
     }
-  data->port = (uint16_t)strtol(av[i + 1], NULL, 10);
-  if (data->port == 0 && errno == EINVAL)
+  tmp = (int32_t)strtol(av[i + 1], NULL, 10);
+  if (tmp < 0 || tmp > UINT16_MAX || (data->port == 0 && errno == EINVAL))
     {
       LOG(LOG_ERROR, "Invalid port.");
       return (1);
     }
+  data->port = (uint16_t)tmp;
   LOG(LOG_DEBUG, "Found %d", data->port);
   return (0);
 }
@@ -48,7 +51,7 @@ int32_t		argv_width(int32_t i, char const * const * const av,
       return (1);
     }
   data->world_width = (int32_t)strtol(av[i + 1], NULL, 10);
-  if (data->world_width == 0 && errno == EINVAL)
+  if (data->world_width <= 0)
     {
       LOG(LOG_ERROR, "Invalid width");
       return (1);
@@ -68,7 +71,7 @@ int32_t		argv_height(int32_t i, char const * const * const av,
       return (1);
     }
   data->world_height = (int32_t)strtol(av[i + 1], NULL, 10);
-  if (data->world_height == 0 && errno == EINVAL)
+  if (data->world_height <= 0)
     {
       LOG(LOG_ERROR, "Invalid height");
       return (1);
@@ -99,7 +102,7 @@ int32_t		argv_clientsNb(int32_t i, char const * const * const av,
       return (1);
     }
   data->teams.nb_client_per_team = (int32_t)strtol(av[i + 1], NULL, 10);
-  if (data->teams.nb_client_per_team == 0 && errno == EINVAL)
+  if (data->teams.nb_client_per_team <= 0)
     {
       LOG(LOG_ERROR, "Invalid number of client per team.");
       return (1);
