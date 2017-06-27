@@ -1,6 +1,7 @@
 #ifndef AI_HPP_
 #define AI_HPP_
 
+#include <iostream>
 #include <map>
 #include <queue>
 #include <array>
