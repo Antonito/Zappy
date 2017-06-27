@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Mon Jun 26 10:01:50 2017 Antoine Baché
+** Last update Tue Jun 27 14:58:52 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -22,12 +22,18 @@ int32_t		zappy_team_manager_add_team(char const * const name,
 					    t_zappy_team_manager * const man)
 {
   assert(name && man);
+  if (zappy_team_manager_get_team_by_name(name, man))
+    {
+      LOG(LOG_ERROR, "Team %s already exists", name);
+      return (1);
+    }
   man->team = realloc(man->team,
 		      sizeof(*(man->team)) * ((size_t)man->nb_teams + 1));
   if (!man->team)
     {
       return (1);
     }
+  LOG(LOG_DEBUG, "Added team %s", name);
   man->team[man->nb_teams].id = man->nb_teams;
   man->team[man->nb_teams].nb_players = 0;
   man->team[man->nb_teams].name = name;
@@ -63,6 +69,7 @@ int32_t		zappy_team_manager_add_client(char const * const teamname,
   t_zappy_team	*team;
 
   assert(teamname && cli && man);
+  LOG(LOG_INFO, "Adding client to team %s", teamname);
   team = zappy_team_manager_get_team_by_name(teamname, man);
   if (team)
     {
@@ -70,14 +77,17 @@ int32_t		zappy_team_manager_add_client(char const * const teamname,
 	{
 	  cli->game.team_id = team->id;
 	  ++team->nb_players;
-	  if (!strncmp(teamname, "GRAPHICAL", sizeof("GRAPHICAL")))
+	  if (!strncmp(teamname, "GRAPHIC", sizeof("GRAPHIC")))
 	    {
 	      LOG(LOG_INFO, PURPLE_BOLD_INTENS"Graphical client joined"CLEAR);
 	      cli->graphical = true;
 	    }
 	  return (man->nb_client_per_team - team->nb_players);
 	}
+      LOG(LOG_WARNING, "Team %s is full", teamname);
     }
+  else
+    LOG(LOG_WARNING, "Unkown team %s", teamname);
   return (-1);
 }
 

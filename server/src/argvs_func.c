@@ -5,12 +5,13 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:30:51 2017 Lucas Troncy
-** Last update Mon Jun 26 10:44:13 2017 Antoine Baché
+** Last update Tue Jun 27 15:00:21 2017 Antoine Baché
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <errno.h>
 #include "clogger.h"
 #include "zappy.h"
@@ -83,11 +84,18 @@ int32_t		argv_height(int32_t i, char const * const * const av,
 int32_t		argv_name(int32_t i, char const * const * const av,
 			  t_zappy_config * const data)
 {
-  (void)i;
-  (void)av;
-  (void)data;
-  printf("[log] to code name\n");
-  // TODO: parse team, fill data->teams with zappy_team_manager_add_team();
+  LOG(LOG_DEBUG, "Parsing team names");
+  while (av[++i] && av[i][0] != '-')
+    {
+      LOG(LOG_DEBUG, "Found %s", av[i]);
+      if (!memcmp("GRAPHIC", av[i], sizeof("GRAPHIC")))
+	{
+	  LOG(LOG_ERROR, "Cannot have a team named GRAPHIC");
+	  return (1);
+	}
+      if (zappy_team_manager_add_team(av[i], &data->teams))
+	return (1);
+    }
   return (0);
 }
 
