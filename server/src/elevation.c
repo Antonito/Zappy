@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:25:22 2017 Antoine Baché
-** Last update Sun Jun 25 20:25:39 2017 Antoine Baché
+** Last update Mon Jun 26 13:14:36 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -29,16 +29,16 @@ _Static_assert(sizeof(elevation_table) / sizeof(elevation_table[0]) == 7,
 	       "Incorrect number of elevation level");
 #endif
 
-static bool	zappy_elevation_check_table(t_zappy_client_inventory const *
-					    const inv, int32_t const cur_lvl)
+static bool	zappy_elevation_check_table(int32_t const * const inv,
+					    int32_t const cur_lvl)
 {
   assert(cur_lvl > 0);
-  if (inv->linemate != elevation_table[cur_lvl - 1].linemate ||
-      inv->deraumere != elevation_table[cur_lvl - 1].deraumere ||
-      inv->sibur != elevation_table[cur_lvl - 1].sibur ||
-      inv->mendiane != elevation_table[cur_lvl - 1].mendiane ||
-      inv->phiras != elevation_table[cur_lvl - 1].phiras ||
-      inv->thystame != elevation_table[cur_lvl - 1].thystame)
+  if (inv[RES_LINEMATE] != elevation_table[cur_lvl - 1].linemate ||
+      inv[RES_DERAUMERE] != elevation_table[cur_lvl - 1].deraumere ||
+      inv[RES_SIBUR] != elevation_table[cur_lvl - 1].sibur ||
+      inv[RES_MENDIANE] != elevation_table[cur_lvl - 1].mendiane ||
+      inv[RES_PHIRAS] != elevation_table[cur_lvl - 1].phiras ||
+      inv[RES_THYSTAME] != elevation_table[cur_lvl - 1].thystame)
     {
       return (false);
     }
@@ -50,7 +50,7 @@ bool		zappy_elevation_check(t_zappy_client * const cli,
 {
   assert(cli && data);
   (void)data;
-  if (!zappy_elevation_check_table(&cli->game.inv, cli->game.level))
+  if (!zappy_elevation_check_table(cli->game.inv, cli->game.level))
     return (false);
   // TODO: check number of player and their levels
   return (true);

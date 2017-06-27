@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Sun Jun 25 18:08:23 2017 Antoine Baché
+** Last update Mon Jun 26 14:00:46 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -15,6 +15,7 @@
 #include "zappy_alloc.h"
 #include "zappy_client.h"
 #include "zappy_client_cmd.h"
+#include "zappy_client_game.h"
 #include "zappy_message.h"
 
 void			zappy_client_cmd_right(t_zappy_client * const cli,
@@ -33,7 +34,7 @@ void			zappy_client_cmd_right(t_zappy_client * const cli,
       msg->msg = strdup("ok\n");
       if (msg->msg && cqueue_push(&cli->output_queue, msg))
 	{
-	  // TODO: update client orientation
+	  zappy_client_rotate_right(&cli->game);
 	  cli->state = CLI_RESPONSE;
 	  cli->can_write = true;
 	  return ;

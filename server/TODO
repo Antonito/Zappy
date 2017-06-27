@@ -1,11 +1,10 @@
 ## TODO:
 
--> case sensitive
+-> Team parsing
 
 -> Tri de l'input_queue par remaining_time
 -> Update remaining_time
 
--> Placement joueur
 -> Gestion ticks
 -> Son
 -> Vision
@@ -13,5 +12,5 @@
 
 -> Client graphique
 
--> Socket d'administration
+-> authentification socketa admin
 -> openSSL

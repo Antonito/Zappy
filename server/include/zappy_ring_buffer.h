@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 21:58:48 2017 Antoine Baché
-** Last update Sat Jun 24 22:03:58 2017 Antoine Baché
+** Last update Mon Jun 26 22:05:56 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_RING_BUFFER_H_
@@ -26,10 +26,10 @@ typedef struct		s_zappy_ring_buffer
 }			t_zappy_ring_buffer;
 
 void	zappy_ring_buffer_write(t_zappy_ring_buffer * const buf,
-				uint8_t const * const data,
+				void const * const data,
 				int32_t const size);
 void	zappy_ring_buffer_read(t_zappy_ring_buffer * const buf,
-			       uint8_t * const data,
+			       void * const data,
 			       int32_t const size);
 int32_t	zappy_ring_buffer_has_cmd(t_zappy_ring_buffer const * const buf);
 

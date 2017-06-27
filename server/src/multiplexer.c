@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Sat Jun 24 23:40:44 2017 Antoine Baché
+** Last update Mon Jun 26 21:47:50 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -13,6 +13,7 @@
 #include <string.h>
 #include "clogger.h"
 #include "zappy_multiplexer.h"
+#include "zappy_admin.h"
 
 static void	zappy_multiplexer_add_client(t_zappy_client const *
 					     const cli,
@@ -41,16 +42,32 @@ static void	zappy_multiplexer_add_client_wrap(t_zappy_client const *
 }
 
 static void	zappy_multiplexer_clients(int32_t const server_sock,
+					  t_zappy_admin * const admin,
 					  t_zappy_client_list_manager *
 					  const clients,
 					  t_zappy_multiplexer * const data)
 {
   FD_SET(server_sock, &data->readfds);
   data->max_sock = server_sock;
+  if (admin->sock.sock > 0)
+    {
+      FD_SET(admin->sock.sock, &data->readfds);
+      data->max_sock = (data->max_sock > admin->sock.sock) ?
+	data->max_sock : admin->sock.sock;
+      if (admin->client.sock > 0)
+	{
+	  FD_SET(admin->client.sock, &data->readfds);
+	  if (admin->can_write)
+	    FD_SET(admin->client.sock, &data->writefds);
+	  data->max_sock = (data->max_sock > admin->client.sock) ?
+	    data->max_sock : admin->client.sock;
+	}
+    }
   zappy_for_each_client(clients, data, &zappy_multiplexer_add_client_wrap);
 }
 
 int32_t		zappy_multiplexer(int32_t const server_sock,
+				  t_zappy_admin * const admin_sock,
 				  t_zappy_client_list_manager * const clients,
 				  t_zappy_multiplexer * const data)
 {
@@ -64,7 +81,7 @@ int32_t		zappy_multiplexer(int32_t const server_sock,
       FD_ZERO(&data->readfds);
       FD_ZERO(&data->writefds);
       FD_ZERO(&data->exceptfds);
-      zappy_multiplexer_clients(server_sock, clients, data);
+      zappy_multiplexer_clients(server_sock, admin_sock, clients, data);
       memcpy(&data->tv, &data->tv_ref, sizeof(data->tv));
       rc = select(data->max_sock + 1, &data->readfds, &data->writefds,
 		  &data->exceptfds, &data->tv);
