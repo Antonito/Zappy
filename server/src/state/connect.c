@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Mon Jun 26 10:44:46 2017 Antoine Baché
+** Last update Tue Jun 27 22:23:06 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -21,6 +21,7 @@
 #include "zappy_client_cmd.h"
 #include "zappy_color.h"
 #include "zappy_message.h"
+#include "zappy_graphic.h"
 
 #if defined __clang__
 #pragma clang diagnostic push
@@ -113,6 +114,7 @@ static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
   assert(cli && data && conf);
   if (cli->graphical)
     {
+      // TODO: send graphical protocol
       data->len = snprintf(buff, sizeof(buff), "msz %d %d\n",
 			   conf->world_width, conf->world_height);
       if (data->len != -1)
@@ -123,6 +125,14 @@ static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
   data->len = sizeof("ko\n") - 1;
   data->msg = strdup("ko\n");
   cli->connected = false;
+}
+
+static void		zappy_cli_state_conn_w_(t_zappy_client * const cli,
+						t_zappy * const data,
+						t_zappy_message *cur,
+						char const *buff)
+{
+  cur->msg = strdup(buff);
 }
 
 void			zappy_cli_state_conn_w(t_zappy_client * const cli,
@@ -140,7 +150,7 @@ void			zappy_cli_state_conn_w(t_zappy_client * const cli,
 	{
 	  cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", ret,
 			      data->conf.world_width, data->conf.world_height);
-	  cur->msg = strdup(buff);
+	  zappy_cli_state_conn_w_(cli, data, cur, buff);
 	}
       else
 	zappy_cli_state_conn_w_fail(cli, cur, &data->conf);

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 21:33:23 2017 Antoine Baché
+** Last update Tue Jun 27 22:52:41 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -20,16 +20,18 @@
 #include "zappy_team.h"
 
 void			zappy_graph_seg(t_zappy_client * const cli,
-					t_zappy_team const * const t,
+					t_zappy_graph_arg *g,
 					t_zappy *data,
 					char const * const arg)
 {
   t_zappy_message	*msg;
   char			buff[4096];
+  t_zappy_team		*t;
 
   (void)data;
   (void)arg;
   LOG(LOG_DEBUG, "Treating graphic seg command");
+  t = g->ptr;
   msg = zappy_alloc_message();
   if (msg)
     {

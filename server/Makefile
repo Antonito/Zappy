@@ -63,6 +63,7 @@ SRC_FILES=	admin.c				\
 		client_move.c			\
 		client_rotate.c			\
 		elevation.c			\
+		graphic_cmd.c			\
 		io.c				\
 		logic.c				\
 		main.c				\

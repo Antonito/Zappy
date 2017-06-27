@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Tue Jun 27 19:20:49 2017 Antoine Baché
+** Last update Tue Jun 27 22:34:48 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -18,6 +18,7 @@
 #include "zappy_client_game.h"
 #include "zappy_client_cmd.h"
 #include "zappy_message.h"
+#include "zappy_graphic.h"
 
 void			zappy_client_cmd_forward(t_zappy_client * const cli,
 						 t_zappy * const data,

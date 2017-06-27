@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 21:06:49 2017 Antoine Baché
+** Last update Tue Jun 27 22:45:17 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -18,20 +18,23 @@
 #include "zappy_graphic.h"
 #include "zappy_message.h"
 
-void	zappy_graph_pex(t_zappy_client * const cli,
-			t_zappy *data,
-			char const * const arg)
+void			zappy_graph_pex(t_zappy_client * const cli,
+					t_zappy_graph_arg *g,
+					t_zappy *data,
+					char const * const arg)
 {
   t_zappy_message	*msg;
   char			buff[4096];
+  t_zappy_client	*play;
 
   (void)data;
   (void)arg;
   LOG(LOG_DEBUG, "Treating graphic pex command");
+  play = g->ptr;
   msg = zappy_alloc_message();
   if (msg)
     {
-      msg->len = snprintf(buff, sizeof(buff), "pex %d\n", cli->id);
+      msg->len = snprintf(buff, sizeof(buff), "pex %d\n", play->id);
       if (msg->len != -1)
 	msg->msg = strdup(buff);
       if (msg->msg && cqueue_push(&cli->output_queue, msg))

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 20:59:19 2017 Antoine Baché
+** Last update Tue Jun 27 22:43:43 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -19,22 +19,25 @@
 #include "zappy_message.h"
 
 void			zappy_graph_ppo(t_zappy_client * const cli,
+					t_zappy_graph_arg *g,
 					t_zappy *data,
 					char const * const arg)
 {
   t_zappy_message	*msg;
   char			buff[4096];
+  t_zappy_client	*p;
 
   (void)data;
   (void)arg;
   LOG(LOG_DEBUG, "Treating graphic ppo command");
+  p = g->ptr;
   msg = zappy_alloc_message();
   if (msg)
     {
       msg->len = snprintf(buff, sizeof(buff),
-			  "ppo %d %d %d %d\n", cli->id,
-			  cli->game.x, cli->game.y,
-			  cli->game.orientation + 1);
+			  "ppo %d %d %d %d\n", p->id,
+			  p->game.x, p->game.y,
+			  p->game.orientation + 1);
       if (msg->len != -1)
 	msg->msg = strdup(buff);
       if (msg->msg && cqueue_push(&cli->output_queue, msg))

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 21:17:12 2017 Antoine Baché
+** Last update Tue Jun 27 22:55:52 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -19,21 +19,23 @@
 #include "zappy_message.h"
 
 void			zappy_graph_pie(t_zappy_client * const cli,
-					bool const success,
+					t_zappy_graph_arg *g,
 					t_zappy *data,
 					char const * const arg)
 {
   t_zappy_message	*msg;
   char			buff[4096];
+  t_zappy_client	*play;
 
   (void)data;
   (void)arg;
   LOG(LOG_DEBUG, "Treating graphic pie command");
+  play = g->ptr;
   msg = zappy_alloc_message();
   if (msg)
     {
-      msg->len = snprintf(buff, sizeof(buff), "pie %d %d %d\n", cli->game.x,
-			  cli->game.y, success);
+      msg->len = snprintf(buff, sizeof(buff), "pie %d %d %d\n", play->game.x,
+			  play->game.y, g->success);
       if (msg->len != -1)
 	msg->msg = strdup(buff);
       if (msg->msg && cqueue_push(&cli->output_queue, msg))

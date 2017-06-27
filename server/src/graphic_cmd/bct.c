@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Tue Jun 27 20:38:48 2017 Antoine Baché
+** Last update Tue Jun 27 22:53:35 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -19,18 +19,18 @@
 #include "zappy_message.h"
 
 void			zappy_graph_bct(t_zappy_client * const cli,
-					t_zappy_map_case const * const c,
+					t_zappy_graph_arg *g,
 					t_zappy *data,
 					char const * const arg)
 {
   t_zappy_message	*msg;
   char			buff[4096];
+  t_zappy_map_case	*c;
 
   LOG(LOG_DEBUG, "Treating graphic bct command");
   (void)data;
   (void)arg;
-  msg = zappy_alloc_message();
-  if (msg)
+  if ((c = g->ptr) && (msg = zappy_alloc_message()))
     {
       msg->len = snprintf(buff, sizeof(buff),
 			  "bct %d %d %d %d %d %d %d %d %d\n",
