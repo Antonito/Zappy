@@ -2,7 +2,7 @@
 #define TAKESTATE_HPP_
 
 #include <iostream>
-#include "IState.hpp"
+#include "ai/IState.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -11,16 +11,16 @@
 
 namespace ai
 {
-  class InventoryState final : public IState
+  class TakeState final : public IState
   {
   public:
-    InventoryState();
-    InventoryState(InventoryState const &) = delete;
-    InventoryState(InventoryState &&) = delete;
-    virtual ~InventoryState();
+    TakeState();
+    TakeState(TakeState const &) = delete;
+    TakeState(TakeState &&) = delete;
+    virtual ~TakeState();
 
-    InventoryState &operator=(InventoryState const &) = delete;
-    InventoryState &operator=(InventoryState &&) = delete;
+    TakeState &operator=(TakeState const &) = delete;
+    TakeState &operator=(TakeState &&) = delete;
 
     virtual void readState(std::queue<std::string> &readQueue);
     virtual void writeState(std::queue<std::string> &writeQueue);
@@ -32,7 +32,7 @@ namespace ai
   private:
     Value        m_value;
     std::string &m_object;
-  }
+  };
 }
 
 #if defined(__clang__)
@@ -40,3 +40,4 @@ namespace ai
 #endif
 
 #endif // !TAKESTATE_HPP_
+

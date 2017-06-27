@@ -2,7 +2,7 @@
 #define SETSTATE_HPP_
 
 #include <iostream>
-#include "IState.hpp"
+#include "ai/IState.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -32,7 +32,7 @@ namespace ai
   private:
     Value        m_value;
     std::string &m_object;
-  }
+  };
 }
 
 #if defined(__clang__)
@@ -40,3 +40,4 @@ namespace ai
 #endif
 
 #endif // !SETSTATE_HPP_
+

@@ -51,7 +51,40 @@ SRC_FILES=	main.cpp				\
 		Mesh.cpp				\
 		Model.cpp				\
 		Window.cpp				\
-		Shader.cpp
+		Shader.cpp				\
+		ai/AI.cpp				\
+		ai/AState.cpp				\
+		ai/ArrivedState.cpp			\
+		ai/CheckMessageState.cpp		\
+		ai/CollectFoodState.cpp			\
+		ai/CollectStoneState.cpp		\
+		ai/FindFoodState.cpp			\
+		ai/FindStoneState.cpp			\
+		ai/FixRecipeState.cpp			\
+		ai/FoodOnCaseState.cpp			\
+		ai/IncantState.cpp			\
+		ai/LevelState.cpp			\
+		ai/MissingPlayerState.cpp		\
+		ai/MissingStoneState.cpp		\
+		ai/MoveToFoodState.cpp			\
+		ai/MoveToStoneState.cpp			\
+		ai/MoveToTeammateState.cpp		\
+		ai/SetRecipeState.cpp			\
+		ai/StarvingState.cpp			\
+		ai/StoneOnCaseState.cpp			\
+		ai/TrollState.cpp			\
+		ai/basic_state/BroadcastState.cpp	\
+		ai/basic_state/ConnectnbrState.cpp	\
+		ai/basic_state/EjectState.cpp		\
+		ai/basic_state/ForkState.cpp		\
+		ai/basic_state/ForwardState.cpp		\
+		ai/basic_state/IncantationState.cpp	\
+		ai/basic_state/InventoryState.cpp	\
+		ai/basic_state/LeftState.cpp		\
+		ai/basic_state/LookState.cpp		\
+		ai/basic_state/RightState.cpp		\
+		ai/basic_state/SetState.cpp		\
+		ai/basic_state/TakeState.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

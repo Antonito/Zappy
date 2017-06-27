@@ -2,7 +2,7 @@
 #define BROADCASTSTATE_HPP_
 
 #include <iostream>
-#include "IState.hpp"
+#include "ai/IState.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -11,7 +11,7 @@
 
 namespace ai
 {
-  class BroadcastState final : public AState
+  class BroadcastState final : public IState
   {
   public:
     BroadcastState();
@@ -32,7 +32,7 @@ namespace ai
   private:
     Value        m_value;
     std::string &m_msg;
-  }
+  };
 }
 
 #if defined(__clang__)
@@ -40,3 +40,4 @@ namespace ai
 #endif
 
 #endif // !BROADCASTSTATE_HPP_
+

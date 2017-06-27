@@ -20,13 +20,13 @@ namespace ai
     virtual ~AState();
 
     AState &operator=(AState const &);
-    AState &operator=(Astate &&);
+    AState &operator=(AState &&);
 
   protected:
     std::map<State, IState *> m_states;
     State m_curState;
     Value m_curValue;
-  }
+  };
 }
 
 #if defined(__clang__)
@@ -34,3 +34,4 @@ namespace ai
 #endif
 
 #endif // !ASTATE_HPP_
+

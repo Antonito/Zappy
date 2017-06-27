@@ -26,10 +26,12 @@ namespace ai
     virtual void writeState(std::queue<std::string> &writeQueue);
     virtual void reset(Value value);
     virtual Value getResponse() const;
-  }
+  };
+}
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
 
 #endif // !STONEONCASESTATE_HPP_
+

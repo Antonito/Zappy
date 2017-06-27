@@ -23,7 +23,7 @@ namespace ai
     virtual void writeState(std::queue<std::string> &writeQueue) = 0;
     virtual void reset(Value value) = 0;
     virtual Value getResponse() const = 0;
-  }
+  };
 }
 
 #if defined(__clang__)
@@ -31,3 +31,4 @@ namespace ai
 #endif
 
 #endif // !ISTATE_HPP_
+
