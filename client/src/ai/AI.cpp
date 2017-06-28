@@ -111,6 +111,11 @@ namespace ai
       }
     nope::log::Log(Debug) << "AI connected to server";
     initState();
+    m_curState = m_states[State::INIT_AI].get();
+    if (m_curState == nullptr)
+    {
+      nope::log::Log(Error) << "Error construct AI, FATAL ERROR";
+    }
     loop();
   }
 
@@ -172,6 +177,10 @@ namespace ai
 		// TODO : real check for split \n commands
 		if (treatIncomingData())
 		  return (1);
+                if (m_curState == nullptr)
+                {
+                  nope::log::Log(Error) << "NULL pointer AState, FATAL ERROR";
+                }
 		m_curState->readState(m_cmdToRecv);
 	      }
 	    else if (FD_ISSET(m_sock.getSocket(), &writefds))
