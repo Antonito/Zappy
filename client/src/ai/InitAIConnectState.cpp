@@ -6,13 +6,13 @@ namespace ai
   {
   }
 
-  InitAIConnectState(InitAIConnectState const &that)
-    : AState(that), m_changeState(that.m_changeState)
+  InitAIConnectState::InitAIConnectState(InitAIConnectState const &that)
+      : AState(that), m_changeState(that.m_changeState)
   {
   }
 
-  InitAIConnectState(InitAIConnectState &&that)
-  : AState(that), m_changeState(std::move(that.m_changeState))
+  InitAIConnectState::InitAIConnectState(InitAIConnectState &&that)
+      : AState(that), m_changeState(std::move(that.m_changeState))
   {
   }
 
@@ -25,23 +25,23 @@ namespace ai
     std::string tmp = readQueue.front();
     readQueue.pop();
     if (tmp == "Welcome\n")
-    {
-      nope::log::Log(Debug) << "got server's Welcome";
-    }
+      {
+	nope::log::Log(Debug) << "got server's Welcome";
+      }
     else
-    {
-      nope::log::Log(Debug) << "might got the map's size, time to play";
-    }
+      {
+	nope::log::Log(Debug) << "might got the map's size, time to play";
+      }
     if (m_changeState == true)
-    {
-      m_curValue = Value::YES;
-    }
+      {
+	m_curValue = Value::YES;
+      }
     m_changeState = !m_changeState;
   }
 
   void InitAIConnectState::writeState(std::queue<std::string> &writeQueue)
   {
-    //TODO : dynamic team name
+    // TODO : dynamic team name
     writeQueue.push("Team1");
   }
 
