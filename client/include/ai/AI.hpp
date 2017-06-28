@@ -84,7 +84,7 @@ namespace ai
     std::int32_t treatOutcomingData();
     std::int32_t loop();
 
-    void initAction();
+    void initState();
     void send(std::string const &msg);
     void move(std::pair<std::int32_t, std::int32_t> coord);
     std::int32_t look(std::string const &object);
@@ -94,37 +94,16 @@ namespace ai
                                            std::array<std::int32_t, 6> newTab);
     void getCurCase();
 
-    Value starving(Value value = Value::YES);
-    Value receiveMsg(Value value = Value::YES);
-    Value missingStone(Value value = Value::YES);
-    Value missingPlayer(Value value = Value::YES);
-    Value setRecipe(Value value = Value::YES);
-    Value incant(Value value = Value::YES);
-    Value foodOnCase(Value value = Value::YES);
-    Value collectFood(Value value = Value::YES);
-    Value findFood(Value value = Value::YES);
-    Value moveToFood(Value value = Value::YES);
-    Value checkLevel(Value value = Value::YES);
-    Value moveToTeammate(Value value = Value::YES);
-    Value arrived(Value value = Value::YES);
-    Value fixRecipe(Value value = Value::YES);
-    Value stoneOnCase(Value value = Value::YES);
-    Value collectStone(Value value = Value::YES);
-    Value findStone(Value value = Value::YES);
-    Value moveToStone(Value value = Value::YES);
-    Value troll(Value value = Value::YES);
-
-    std::map<State, Value (AI::*)(Value)> m_actionForState;
     std::int32_t m_foodUnit;
     std::array<char, 512> m_lastUnknownMsg;
     network::TCPSocket      m_sock;
     std::queue<std::string> m_cmdToSend;
     std::queue<std::string> m_cmdToRecv;
-    std::array<std::int32_t, Stone::NB_STONE> m_inventory;
-    std::array<std::int32_t, Stone::NB_STONE> m_curCase;
-    State        m_curState;
-    Value        m_curValue;
-    std::int32_t m_level;
+    std::array<std::unique_ptr<AState>, State::NB_STATE> m_states;
+    std::unique_ptr<AState> m_curState;
+    State                   m_curStateName;
+    Value                   m_curValue;
+    std::int32_t            m_level;
   };
 }
 

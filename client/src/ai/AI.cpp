@@ -162,7 +162,7 @@ namespace ai
 	std::int32_t const rc = checkActivity(readfds, writefds);
 	if (rc < 0)
 	  {
-            nope::log::Log(Error) << "Select failed";
+	    nope::log::Log(Error) << "Select failed";
 	    return (1);
 	  }
 	else if (rc > 0)
@@ -218,7 +218,7 @@ namespace ai
       {
 	tmp[static_cast<std::size_t>(len)] = 0;
 	m_cmdToRecv.push(std::string(tmp.data()));
-        nope::log::Log(Debug) << "RECV: " << m_cmdToRecv.front();
+	nope::log::Log(Debug) << "RECV: " << m_cmdToRecv.front();
       }
     return (0);
   }
@@ -226,32 +226,52 @@ namespace ai
   std::int32_t AI::treatOutcomingData()
   {
     nope::log::Log(Debug) << "SEND: " << m_cmdToSend.front();
-    ::write(m_sock.getSocket(), m_cmdToSend.front().c_str(), std::strlen(m_cmdToSend.front().c_str()));
+    ::write(m_sock.getSocket(), m_cmdToSend.front().c_str(),
+            std::strlen(m_cmdToSend.front().c_str()));
     m_cmdToSend.pop();
     return (0);
   }
 
-  void AI::initAction()
+  void AI::initState()
   {
-    m_actionForState.emplace(State::STARVING, &AI::starving);
-    m_actionForState.emplace(State::RECEIVE_MSG, &AI::receiveMsg);
-    m_actionForState.emplace(State::MISSING_STONE, &AI::missingStone);
-    m_actionForState.emplace(State::MISSING_PLAYER, &AI::missingPlayer);
-    m_actionForState.emplace(State::SET_RECIPE, &AI::setRecipe);
-    m_actionForState.emplace(State::INCANT, &AI::incant);
-    m_actionForState.emplace(State::FOOD_ON_CASE, &AI::foodOnCase);
-    m_actionForState.emplace(State::COLLECT_FOOD, &AI::collectFood);
-    m_actionForState.emplace(State::FIND_FOOD, &AI::findFood);
-    m_actionForState.emplace(State::MOVE_TO_FOOD, &AI::moveToFood);
-    m_actionForState.emplace(State::LEVEL, &AI::checkLevel);
-    m_actionForState.emplace(State::MOVE_TO_TEAMMATE, &AI::moveToTeammate);
-    m_actionForState.emplace(State::ARRIVED, &AI::arrived);
-    m_actionForState.emplace(State::FIX_RECIPE, &AI::fixRecipe);
-    m_actionForState.emplace(State::STONE_ON_CASE, &AI::stoneOnCase);
-    m_actionForState.emplace(State::COLLECT_STONE, &AI::collectStone);
-    m_actionForState.emplace(State::FIND_STONE, &AI::findStone);
-    m_actionForState.emplace(State::MOVE_TO_STONE, &AI::moveToStone);
-    m_actionForState.emplace(State::TROLL, &AI::troll);
+    m_contexts[static_cast<std::size_t>(State::STARVING)] =
+        std::make_unique<StarvingState>();
+    m_contexts[static_cast<std::size_t>(State::RECEIVE_MSG)] =
+        std::make_unique<CheckMessageState>();
+    m_contexts[static_cast<std::size_t>(State::MISSING_STONE)] =
+        std::make_unique<MissingStoneState>();
+    m_contexts[static_cast<std::size_t>(State::MISSING_PLAYER)] =
+        std::make_unique<MissingPlayerState>();
+    m_contexts[static_cast<std::size_t>(State::SET_RECIPE)] =
+        std::make_unique<SetRecipeState>();
+    m_contexts[static_cast<std::size_t>(State::INCANT)] =
+        std::make_unique<IncantState>();
+    m_contexts[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
+        std::make_unique<FoodOnCaseState>();
+    m_contexts[static_cast<std::size_t>(State::COLLECT_FOOD)] =
+        std::make_unique<CollectFoodState>();
+    m_contexts[static_cast<std::size_t>(State::FIND_FOOD)] =
+        std::make_unique<FindFoodState>();
+    m_contexts[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
+        std::make_unique<MoveToFoodState>();
+    m_contexts[static_cast<std::size_t>(State::LEVEL)] =
+        std::make_unique<LevelState>();
+    m_contexts[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
+        std::make_unique<MoveToTeammateState>();
+    m_contexts[static_cast<std::size_t>(State::ARRIVED)] =
+        std::make_unique<ArrivedState>();
+    m_contexts[static_cast<std::size_t>(State::FIX_RECIPE)] =
+        std::make_unique<FixRecipeState>();
+    m_contexts[static_cast<std::size_t>(State::STONE_ON_CASE)] =
+        std::make_unique<StoneOnCaseState>();
+    m_contexts[static_cast<std::size_t>(State::COLLECT_STONE)] =
+        std::make_unique<CollectStoneState>();
+    m_contexts[static_cast<std::size_t>(State::FIND_STONE)] =
+        std::make_unique<FindStoneState>();
+    m_contexts[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
+        std::make_unique<MoveToStoneState>();
+    m_contexts[static_cast<std::size_t>(State::TROLL)] =
+        std::make_unique<TrollState>();
   }
 
   void AI::send(std::string const &msg)
@@ -318,130 +338,5 @@ namespace ai
 	res[i] = newTab[i] - old[i];
       }
     return (res);
-  }
-
-  Value AI::starving(Value value)
-  {
-    if (m_foodUnit < NB_FOOD_MIN)
-      {
-	return (Value::YES);
-      }
-    else if (m_foodUnit < NB_FOOD_NORMAL)
-      {
-	// TODO : set different starving state
-	return (Value::YES);
-      }
-    else
-      {
-	return (Value::NO);
-      }
-  }
-
-  Value AI::receiveMsg(Value value)
-  {
-  }
-
-  Value AI::missingStone(Value value)
-  {
-    bool enough = true;
-
-    // TODO: Update inventory
-    for (std::size_t i = 0; i < 6; ++i)
-      {
-	if (m_inventory[i] >= recipes[m_level - 1].second[i])
-	  {
-	    enough = false;
-	    break;
-	  }
-      }
-    if (enough)
-      return (Value::NO);
-    else
-      return (Value::YES);
-  }
-
-  Value AI::missingPlayer(Value value)
-  {
-    std::int32_t nb_players = 0;
-    while (nb_players < recipes[m_level - 1].first)
-      {
-	// TODO: Count nb PLayers on case
-	m_cmdToSend.push("Broadcast COME " + std::to_string(m_level) + "\n");
-      }
-    m_cmdToSend.push("Broadcast GO AWAY \n");
-    return (Value::YES);
-  }
-
-  Value AI::setRecipe(Value value)
-  {
-  }
-
-  Value AI::incant(Value value)
-  {
-    m_cmdToSend.push("Incantation\n");
-    // Todo
-  }
-
-  Value AI::foodOnCase(Value value)
-  {
-  }
-
-  Value AI::collectFood(Value value)
-  {
-  }
-
-  Value AI::findFood(Value value)
-  {
-  }
-
-  Value AI::moveToFood(Value value)
-  {
-  }
-
-  Value AI::checkLevel(Value value)
-  {
-  }
-
-  Value AI::moveToTeammate(Value value)
-  {
-  }
-
-  Value AI::arrived(Value value)
-  {
-  }
-
-  Value AI::fixRecipe(Value value)
-  {
-  }
-
-  Value AI::stoneOnCase(Value value)
-  {
-  }
-
-  Value AI::collectStone(Value value)
-  {
-  }
-
-  Value AI::findStone(Value value)
-  {
-  }
-
-  Value AI::moveToStone(Value value)
-  {
-  }
-
-  Value AI::troll(Value value)
-  {
-    std::int32_t number = std::rand() % 5;
-
-    if (number == 0)
-      {
-	// TODO :send same message to troll others
-	return (Value::YES);
-      }
-    else
-      {
-	return (Value::NO);
-      }
   }
 }
