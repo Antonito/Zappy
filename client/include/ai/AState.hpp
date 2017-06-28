@@ -12,6 +12,22 @@
 
 namespace ai
 {
+  enum BasicState : std::int8_t
+  {
+    BROADCAST,
+    CONNECT_NBR,
+    EJECT,
+    FORK,
+    FORWARD,
+    INCANTATION,
+    INVENTORY,
+    LEFT,
+    LOOK,
+    RIGHT,
+    SET,
+    TAKE,
+  };
+
   class AState : public IState
   {
   public:
@@ -24,7 +40,7 @@ namespace ai
     AState &operator=(AState &&);
 
   protected:
-    std::map<State, IState *> m_states;
+    std::map<BasicState, IState *> m_states;
     State m_curState;
     Value m_curValue;
   };
@@ -35,4 +51,3 @@ namespace ai
 #endif
 
 #endif // !ASTATE_HPP_
-
