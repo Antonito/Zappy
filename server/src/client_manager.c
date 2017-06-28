@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Wed Jun 28 01:18:56 2017 Antoine Baché
+** Last update Wed Jun 28 15:05:01 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -108,7 +108,7 @@ static void		zappy_client_rm_wrap(t_zappy_client_list_manager *
   data->map.data[cur->data.game.y][cur->data.game.x].
     player[cur->data.id] = NULL;
   zappy_client_remove(list, cur, data);
-  if (cur->data.state >= CLI_CONNECTED)
+  if (cur->data.state >= CLI_CONNECTED && !cur->data.graphical)
     {
       g = (t_zappy_graph_arg){ &cur->data, 0, 0 };
       zappy_graph_send(&g, data, NULL, &zappy_graph_pdi);

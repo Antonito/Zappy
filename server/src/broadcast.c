@@ -5,7 +5,7 @@
 ** Login   <antoinebache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:38:56 2017 Antoine Baché
-** Last update Wed Jun 28 04:15:52 2017 Antoine Baché
+** Last update Wed Jun 28 15:02:08 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -40,7 +40,7 @@ static int32_t	zappy_broadcast_get_shortest(int32_t const a,
   return (min_tmp);
 }
 
-static int32_t	zappy_broadcast_case(int32_t const x, int32_t const y,
+static int32_t	zappy_broadcast_case(int32_t x, int32_t y,
 				     t_zappy_client const * const to)
 {
   int32_t	val;
