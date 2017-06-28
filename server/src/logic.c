@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Wed Jun 28 15:45:02 2017 Antoine Baché
+** Last update Wed Jun 28 19:14:43 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -16,6 +16,7 @@
 #include "zappy_alloc.h"
 #include "zappy_logic.h"
 #include "zappy_client_serial.h"
+#include "zappy_client_cmd.h"
 
 static void		zappy_logic_client(t_zappy_client * const cli,
 					   t_zappy * const data)

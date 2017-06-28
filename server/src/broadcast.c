@@ -5,7 +5,7 @@
 ** Login   <antoinebache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:38:56 2017 Antoine Baché
-** Last update Wed Jun 28 15:24:14 2017 Antoine Baché
+** Last update Wed Jun 28 18:19:43 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -26,8 +26,8 @@ static int32_t	zappy_broadcast_get_shortest(int32_t const a,
 {
   int32_t	tmp;
   int32_t	min_tmp;
-  int32_t       a1;
-  int32_t       a2;
+  int32_t	a1;
+  int32_t	a2;
 
   tmp = a - b;
   a1 = tmp + c;
@@ -68,7 +68,7 @@ int32_t		zappy_broadcast_calc(t_zappy_client const * const from,
   int32_t	shortest[2];
   double	dir;
   double	u[2];
-  double        r[2];
+  double	r[2];
   double	v[2];
 
   shortest[0] = zappy_broadcast_get_shortest(from->game.x, to->game.x, width);
