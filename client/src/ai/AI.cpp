@@ -102,7 +102,7 @@ namespace ai
   AI::AI(std::string ip, std::uint16_t port)
       : m_foodUnit(0), m_lastUnknownMsg(),
         m_sock(port, ip, true, network::ASocket::BLOCKING), m_cmdToSend(),
-        m_cmdToRecv(), m_states(), m_curState(m_states[State::INIT_AI]),
+        m_cmdToRecv(), m_states(), m_curState(m_states[State::INIT_AI].get()),
         m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1)
   {
     if (!m_sock.openConnection())
@@ -184,8 +184,8 @@ namespace ai
 	m_curValue = m_curState->getResponse();
 	if (m_curValue != Value::LOOP)
 	  {
-	    m_curStateName = transitionTable[m_curStateName][m_curValue];
-	    m_curState = m_states[m_curStateName];
+	    m_curStateName = transitionTable.at(m_curStateName)[static_cast<std::size_t>(m_curValue)];
+	    m_curState = m_states[static_cast<std::size_t>(m_curStateName)].get();
 	    m_curState->reset(m_curValue);
 	  }
       }

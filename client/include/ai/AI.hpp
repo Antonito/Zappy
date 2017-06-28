@@ -52,7 +52,7 @@ namespace ai
     std::queue<std::string> m_cmdToSend;
     std::queue<std::string> m_cmdToRecv;
     std::array<std::unique_ptr<AState>, State::NB_STATE> m_states;
-    std::unique_ptr<AState> m_curState;
+    AState                  *m_curState;
     State                   m_curStateName;
     Value                   m_curValue;
     std::int32_t            m_level;
