@@ -142,7 +142,7 @@ namespace ai
 
 	  // Add Game Server's socket
 	  maxFd = m_sock.getSocket();
-	  if (!m_cmdToSend.empty())
+	  if (m_curState->canWrite())
 	    {
 	      FD_SET(maxFd, &writefds);
 	    }
@@ -152,7 +152,9 @@ namespace ai
 	    }
 
 	  // Loop over gameServers
+          nope::log::Log(Debug) << "before select";
 	  rc = select(maxFd + 1, &readfds, &writefds, nullptr, &tv);
+          nope::log::Log(Debug) << "after select";
 	}
       while (rc == -1 && errno == EINTR);
       return (rc);
@@ -176,6 +178,7 @@ namespace ai
 	  {
 	    if (FD_ISSET(m_sock.getSocket(), &readfds))
 	      {
+                nope::log::Log(Debug) << "set read fs";
 		// TODO : real check for split \n commands
 		if (treatIncomingData())
 		  return (1);
@@ -187,6 +190,7 @@ namespace ai
 	      }
 	    else if (FD_ISSET(m_sock.getSocket(), &writefds))
 	      {
+                nope::log::Log(Debug) << "set write fs";
 		m_curState->writeState(m_cmdToSend);
 		if (treatOutcomingData())
 		  return (1);
@@ -207,7 +211,9 @@ namespace ai
     std::array<char, 512> tmp;
     ssize_t len = 0;
 
+    nope::log::Log(Debug) << "(reading)";
     len = ::read(m_sock.getSocket(), &tmp, 511);
+    nope::log::Log(Debug) << "(readed)";
     if (len < 0)
       {
 	std::cerr << "log -> read failed" << std::endl;
@@ -228,10 +234,13 @@ namespace ai
 
   std::int32_t AI::treatOutcomingData()
   {
-    nope::log::Log(Debug) << "SEND: " << m_cmdToSend.front();
-    ::write(m_sock.getSocket(), m_cmdToSend.front().c_str(),
-            std::strlen(m_cmdToSend.front().c_str()));
-    m_cmdToSend.pop();
+    while (!m_cmdToSend.empty())
+    {
+      nope::log::Log(Debug) << "SEND: " << m_cmdToSend.front();
+      ::write(m_sock.getSocket(), m_cmdToSend.front().c_str(),
+          std::strlen(m_cmdToSend.front().c_str()));
+      m_cmdToSend.pop();
+    }
     return (0);
   }
 
@@ -254,45 +263,45 @@ namespace ai
   void AI::initState()
   {
     m_states[static_cast<std::size_t>(State::STARVING)] =
-        std::make_unique<StarvingState>(m_basicStates);
+      std::make_unique<StarvingState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::RECEIVE_MSG)] =
-        std::make_unique<CheckMessageState>(m_basicStates);
+      std::make_unique<CheckMessageState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MISSING_STONE)] =
-        std::make_unique<MissingStoneState>(m_basicStates);
+      std::make_unique<MissingStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MISSING_PLAYER)] =
-        std::make_unique<MissingPlayerState>(m_basicStates);
+      std::make_unique<MissingPlayerState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::SET_RECIPE)] =
-        std::make_unique<SetRecipeState>(m_basicStates);
+      std::make_unique<SetRecipeState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::INCANT)] =
-        std::make_unique<IncantState>(m_basicStates);
+      std::make_unique<IncantState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
-        std::make_unique<FoodOnCaseState>(m_basicStates);
+      std::make_unique<FoodOnCaseState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::COLLECT_FOOD)] =
-        std::make_unique<CollectFoodState>(m_basicStates);
+      std::make_unique<CollectFoodState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FIND_FOOD)] =
-        std::make_unique<FindFoodState>(m_basicStates);
+      std::make_unique<FindFoodState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
-        std::make_unique<MoveToFoodState>(m_basicStates);
+      std::make_unique<MoveToFoodState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::LEVEL)] =
-        std::make_unique<LevelState>(m_basicStates);
+      std::make_unique<LevelState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
-        std::make_unique<MoveToTeammateState>(m_basicStates);
+      std::make_unique<MoveToTeammateState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::ARRIVED)] =
-        std::make_unique<ArrivedState>(m_basicStates);
+      std::make_unique<ArrivedState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FIX_RECIPE)] =
-        std::make_unique<FixRecipeState>(m_basicStates);
+      std::make_unique<FixRecipeState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::STONE_ON_CASE)] =
-        std::make_unique<StoneOnCaseState>(m_basicStates);
+      std::make_unique<StoneOnCaseState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::COLLECT_STONE)] =
-        std::make_unique<CollectStoneState>(m_basicStates);
+      std::make_unique<CollectStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FIND_STONE)] =
-        std::make_unique<FindStoneState>(m_basicStates);
+      std::make_unique<FindStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
-        std::make_unique<MoveToStoneState>(m_basicStates);
+      std::make_unique<MoveToStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::TROLL)] =
-        std::make_unique<TrollState>(m_basicStates);
+      std::make_unique<TrollState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::INIT_AI)] =
-        std::make_unique<InitAIConnectState>(m_basicStates);
+      std::make_unique<InitAIConnectState>(m_basicStates);
   }
 
   void AI::send(std::string const &msg)
@@ -303,22 +312,22 @@ namespace ai
   void AI::move(std::pair<std::int32_t, std::int32_t> coord)
   {
     for (std::int32_t y = 0; y < coord.second; ++y)
-      {
-	m_cmdToSend.push("Forward\n");
-      }
+    {
+      m_cmdToSend.push("Forward\n");
+    }
     // TODO : check for Y 'ok' from server
     if (coord.first > 0)
-      {
-	m_cmdToSend.push("Right\n");
-      }
+    {
+      m_cmdToSend.push("Right\n");
+    }
     else
-      {
-	m_cmdToSend.push("Left\n");
-      }
+    {
+      m_cmdToSend.push("Left\n");
+    }
     for (std::int32_t x = 0; x < coord.first; ++x)
-      {
-	m_cmdToSend.push("Forward\n");
-      }
+    {
+      m_cmdToSend.push("Forward\n");
+    }
     // TODO : check for X 'ok' from server
   }
 
@@ -336,28 +345,28 @@ namespace ai
   }
 
   std::pair<std::int32_t, std::int32_t> const
-      AI::direction(std::int32_t caseNumber)
-  {
-    int32_t x = 0, y = 0, mid = 0;
+    AI::direction(std::int32_t caseNumber)
+    {
+      int32_t x = 0, y = 0, mid = 0;
 
-    for (y = 0; caseNumber > mid + y; ++y)
+      for (y = 0; caseNumber > mid + y; ++y)
       {
-	mid += 2 * y;
+        mid += 2 * y;
       }
-    x = caseNumber - mid;
-    std::pair<std::int32_t, std::int32_t> res = {x, y};
-    return (res);
-  }
+      x = caseNumber - mid;
+      std::pair<std::int32_t, std::int32_t> res = {x, y};
+      return (res);
+    }
 
   std::array<std::int32_t, 6> const
-      AI::diff(std::array<std::int32_t, 6> old,
-               std::array<std::int32_t, 6> newTab)
-  {
-    std::array<std::int32_t, 6> res{};
-    for (std::size_t i = 0; i < 6; ++i)
+    AI::diff(std::array<std::int32_t, 6> old,
+        std::array<std::int32_t, 6> newTab)
+    {
+      std::array<std::int32_t, 6> res{};
+      for (std::size_t i = 0; i < 6; ++i)
       {
-	res[i] = newTab[i] - old[i];
+        res[i] = newTab[i] - old[i];
       }
-    return (res);
-  }
+      return (res);
+    }
 }

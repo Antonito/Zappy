@@ -4,6 +4,7 @@ namespace ai
 {
   AState::AState(std::map<BasicState, IState *> &states) : m_states(states), m_curState(), m_curValue(Value::LOOP)
   {
+    m_canWrite = false;
     /*m_states[BasicState::BROADCAST] = std::make_unique<BroadcastState>();
     m_states[BasicState::CONNECT_NBR] = std::make_unique<ConnectnbrState>();
     m_states[BasicState::EJECT] = std::make_unique<EjectState>();
@@ -53,5 +54,15 @@ namespace ai
 
   AState::~AState()
   {
+  }
+
+  bool AState::canWrite() const
+  {
+    return (m_canWrite);
+  }
+
+  void AState::setWrite(bool set)
+  {
+    m_canWrite = set;
   }
 }

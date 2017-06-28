@@ -39,10 +39,14 @@ namespace ai
     AState &operator=(AState const &);
     AState &operator=(AState &&);
 
+    bool canWrite() const;
+    void setWrite(bool set);
+
   protected:
     std::map<BasicState, IState *> &m_states;
     State m_curState;
     Value m_curValue;
+    bool m_canWrite;
   };
 }
 

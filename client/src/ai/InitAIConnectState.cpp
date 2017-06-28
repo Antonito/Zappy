@@ -23,10 +23,12 @@ namespace ai
   void InitAIConnectState::readState(std::queue<std::string> &readQueue)
   {
     std::string tmp = readQueue.front();
+    std::cout << "!" << tmp << "!" << std::endl;
     readQueue.pop();
-    if (tmp == "Welcome\n")
+    if (tmp == "WELCOME\n")
       {
 	nope::log::Log(Debug) << "got server's Welcome";
+        m_canWrite = true;
       }
     else
       {
@@ -35,6 +37,7 @@ namespace ai
     if (m_changeState == true)
       {
 	m_curValue = Value::YES;
+	nope::log::Log(Debug) << "Should change state";
       }
     m_changeState = !m_changeState;
   }
@@ -42,7 +45,9 @@ namespace ai
   void InitAIConnectState::writeState(std::queue<std::string> &writeQueue)
   {
     // TODO : dynamic team name
+    nope::log::Log(Debug) << "pushing 'Team1' into writeQueue";
     writeQueue.push("Team1");
+    m_canWrite = false;
   }
 
   void InitAIConnectState::reset(Value value)
