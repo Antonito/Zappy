@@ -20,11 +20,10 @@ namespace zappy
   {
   public:
     Model() = delete;
-    Model(IndicesElement<glm::vec3> const &vertices,
-          IndicesElement<glm::vec2> const &uv,
-          IndicesElement<glm::vec3> const &normals);
-    Model(IndicesElement<glm::vec3> &&vertices, IndicesElement<glm::vec2> &&uv,
-          IndicesElement<glm::vec3> &&normals);
+    Model(std::vector<glm::vec3> const &vertices,
+          std::vector<GLuint> const &indices);
+    Model(std::vector<glm::vec3> &&vertices,
+          std::vector<GLuint> &&indices);
     Model(Model const &);
     Model(Model &&);
     ~Model();
@@ -34,35 +33,34 @@ namespace zappy
 
     static Model fromObj(std::string const &path);
 
-    IndicesElement<glm::vec3> const &vertices() const;
-    IndicesElement<glm::vec2> const &uv() const;
-    IndicesElement<glm::vec3> const &normals() const;
+    std::vector<glm::vec3> const &vertices() const;
+    std::vector<glm::vec3> const &normals() const;
+    std::vector<GLuint> const &indices() const;
 
     void render() const;
 
   private:
     void init();
+    void calcNormals();
 
     enum BufferType
     {
-      VERTEX,
-      VERTEX_IDX,
-      UV,
-      UV_IDX,
-      NORMAL,
-      NORMAL_IDX,
+      VERTEX_VB,
+      NORMAL_VB,
 
-      NB_BUFFER
+      INDICES_VB,
+
+      NB_BUFFER_TYPES
     };
 
-    IndicesElement<glm::vec3> m_vertices;
-    IndicesElement<glm::vec2> m_uv;
-    IndicesElement<glm::vec3> m_normals;
+    std::vector<glm::vec3> m_vertices;
+    std::vector<glm::vec3> m_normals;
+    std::vector<GLuint> m_indices;
 
     // Vertex Array Object
     GLuint m_vao;
 
-    std::array<GLuint, NB_BUFFER> m_vbos;
+    std::array<GLuint, NB_BUFFER_TYPES> m_vbos;
   };
 }
 

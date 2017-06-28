@@ -35,6 +35,14 @@ namespace zappy
     void draw(Mesh const &mesh);
     void display();
 
+    //
+    // Properties
+    //
+    unsigned int width() const;
+    unsigned int height() const;
+    sf::Vector2u size() const;
+    sf::Window const &win() const;
+    void setCursorVisible(bool visible);
   private:
     sf::Window m_win;
   };

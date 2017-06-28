@@ -56,4 +56,29 @@ namespace zappy
   {
     m_win.display();
   }
+
+  unsigned int Window::width() const
+  {
+    return (m_win.getSize().x);
+  }
+
+  unsigned int Window::height() const
+  {
+    return (m_win.getSize().y);
+  }
+
+  sf::Vector2u Window::size() const
+  {
+    return (m_win.getSize());
+  }
+
+  sf::Window const &Window::win() const
+  {
+    return (m_win);
+  }
+
+  void Window::setCursorVisible(bool visible)
+  {
+    m_win.setMouseCursorVisible(visible);
+  }
 }

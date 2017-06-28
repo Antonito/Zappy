@@ -5,6 +5,8 @@
 #include "GameMap.hpp"
 #include "Player.hpp"
 #include "Window.hpp"
+#include "Camera.hpp"
+#include "Shader.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -104,6 +106,10 @@ namespace zappy
     // Game data
     GameMap             m_map;
     std::vector<Player> m_players;
+
+    // 3d data
+    Camera m_camera;
+    Shader m_shader;
   };
 }
 

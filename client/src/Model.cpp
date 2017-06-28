@@ -2,37 +2,39 @@
 
 namespace zappy
 {
-  Model::Model(IndicesElement<glm::vec3> const &vertices,
-               IndicesElement<glm::vec2> const &uv,
-               IndicesElement<glm::vec3> const &normals)
-      : m_vertices(vertices), m_uv(uv), m_normals(normals), m_vao(), m_vbos()
+  Model::Model(std::vector<glm::vec3> const &vertices,
+               std::vector<GLuint> const &   indices)
+      : m_vertices(vertices), m_normals(), m_indices(indices), m_vao(),
+        m_vbos()
   {
+    this->calcNormals();
     this->init();
   }
 
-  Model::Model(IndicesElement<glm::vec3> &&vertices,
-               IndicesElement<glm::vec2> &&uv,
-               IndicesElement<glm::vec3> &&normals)
-      : m_vertices(std::move(vertices)), m_uv(std::move(uv)),
-        m_normals(std::move(normals)), m_vao(), m_vbos()
+  Model::Model(std::vector<glm::vec3> &&vertices,
+               std::vector<GLuint> &&   indices)
+      : m_vertices(std::move(vertices)), m_normals(),
+        m_indices(std::move(indices)), m_vao(), m_vbos()
   {
+    this->calcNormals();
     this->init();
   }
 
   Model::Model(Model const &that)
-      : m_vertices(that.m_vertices), m_uv(that.m_uv),
-        m_normals(that.m_normals), m_vao(), m_vbos()
+      : m_vertices(that.m_vertices), m_normals(that.m_normals),
+        m_indices(that.m_indices), m_vao(), m_vbos()
   {
     this->init();
   }
 
   Model::Model(Model &&that)
-      : m_vertices(std::move(that.m_vertices)), m_uv(std::move(that.m_uv)),
-        m_normals(std::move(that.m_normals)), m_vao(std::move(that.m_vao)),
+      : m_vertices(std::move(that.m_vertices)),
+        m_normals(std::move(that.m_normals)),
+        m_indices(std::move(that.m_indices)), m_vao(std::move(that.m_vao)),
         m_vbos(std::move(that.m_vbos))
   {
     that.m_vao = 0;
-    for (std::size_t i = 0; i < NB_BUFFER; ++i)
+    for (std::size_t i = 0; i < NB_BUFFER_TYPES; ++i)
       {
 	that.m_vbos[i] = 0;
       }
@@ -47,8 +49,8 @@ namespace zappy
     if (this == &that)
       return (*this);
     m_vertices = that.m_vertices;
-    m_uv = that.m_uv;
     m_normals = that.m_normals;
+    m_indices = that.m_indices;
     this->init();
     return (*this);
   }
@@ -58,13 +60,13 @@ namespace zappy
     if (this == &that)
       return (*this);
     m_vertices = std::move(that.m_vertices);
-    m_uv = std::move(that.m_uv);
     m_normals = std::move(that.m_normals);
+    m_indices = std::move(that.m_indices);
     m_vao = std::move(that.m_vao);
     m_vbos = std::move(that.m_vbos);
 
     that.m_vao = 0;
-    for (std::size_t i = 0; i < NB_BUFFER; ++i)
+    for (std::size_t i = 0; i < NB_BUFFER_TYPES; ++i)
       {
 	that.m_vbos[i] = 0;
       }
@@ -73,9 +75,8 @@ namespace zappy
 
   Model Model::fromObj(std::string const &path)
   {
-    IndicesElement<glm::vec3> vertices;
-    IndicesElement<glm::vec2> uvs;
-    IndicesElement<glm::vec3> normals;
+    std::vector<glm::vec3> vertices;
+    std::vector<GLuint>    indices;
 
     std::size_t   lineCount = 1;
     std::string   line;
@@ -112,7 +113,7 @@ namespace zappy
 
 	    if (res == 3)
 	      {
-		vertices.elements.push_back(vertex);
+		vertices.push_back(vertex);
 	      }
 	    else
 	      {
@@ -123,37 +124,12 @@ namespace zappy
 	// It's a uv
 	else if (firstWord == "vt")
 	  {
-	    glm::vec2 uv;
-
-	    int res = std::sscanf(is.str().c_str(), "vt %f %f", &uv.x, &uv.y);
-
-	    if (res == 2)
-	      {
-		uvs.elements.push_back(uv);
-	      }
-	    else
-	      {
-		nope::log::Log(Error)
-		    << "Invalid uv in " << path << ':' << lineCount;
-	      }
+	    // Well we don't care, don't do anything
 	  }
 	// It's a normal
 	else if (firstWord == "vn")
 	  {
-	    glm::vec3 normal;
-
-	    int res = std::sscanf(is.str().c_str(), "vn %f %f %f", &normal.x,
-	                          &normal.y, &normal.z);
-
-	    if (res == 3)
-	      {
-		normals.elements.push_back(normal);
-	      }
-	    else
-	      {
-		nope::log::Log(Error)
-		    << "Invalid normal in " << path << ':' << lineCount;
-	      }
+	    // Well we don't care, don't do anything
 	  }
 	// It's a face
 	else if (firstWord == "f")
@@ -169,15 +145,9 @@ namespace zappy
 
 	    if (res == 9)
 	      {
-		vertices.indices.push_back(vertex[0]);
-		vertices.indices.push_back(vertex[1]);
-		vertices.indices.push_back(vertex[2]);
-		uvs.indices.push_back(uv[0]);
-		uvs.indices.push_back(uv[1]);
-		uvs.indices.push_back(uv[2]);
-		normals.indices.push_back(normal[0]);
-		normals.indices.push_back(normal[1]);
-		normals.indices.push_back(normal[2]);
+		indices.push_back(vertex[0] - 1);
+		indices.push_back(vertex[1] - 1);
+		indices.push_back(vertex[2] - 1);
 	      }
 	    else
 	      {
@@ -194,20 +164,15 @@ namespace zappy
 	++lineCount;
       }
 
-    return (Model(std::move(vertices), std::move(uvs), std::move(normals)));
+    return (Model(std::move(vertices), std::move(indices)));
   }
 
-  IndicesElement<glm::vec3> const &Model::vertices() const
+  std::vector<glm::vec3> const &Model::vertices() const
   {
     return (m_vertices);
   }
 
-  IndicesElement<glm::vec2> const &Model::uv() const
-  {
-    return (m_uv);
-  }
-
-  IndicesElement<glm::vec3> const &Model::normals() const
+  std::vector<glm::vec3> const &Model::normals() const
   {
     return (m_normals);
   }
@@ -216,37 +181,58 @@ namespace zappy
   {
     glBindVertexArray(m_vao);
 
-    glDrawArrays(GL_TRIANGLES, 0, m_vertices.indices.size());
+    glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 
-    glBindVertexArray(0);
+    // glBindVertexArray(0);
   }
 
   void Model::init()
   {
-    std::vector<glm::vec3> vert = {
-        {-0.5, -1.0, -0.5}, {0.0, -1.0, 0.5}, {0.5, -1.0, -0.5}};
+    //     std::vector<glm::vec3> vert = {
+    //         {-0.5, -1.0, -0.5}, {0.0, -1.0, 0.5}, {0.5, -1.0, -0.5}};
 
-//     vert.reserve(m_vertices.indices.size());
-//     for (GLuint id : m_vertices.indices)
-//       {
-// 	vert.push_back(m_vertices.elements[id]);
-//       }
+    //     vert.reserve(m_vertices.indices.size());
+    //     for (GLuint id : m_vertices.indices)
+    //       {
+    // 	vert.push_back(m_vertices.elements[id]);
+    //       }
     // Generate and bind the vao
 
+    // Create Vertex Array
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
 
     //
     // Vertex
     //
-
-    glGenBuffers(1, &m_vbos[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbos[VERTEX]);
-    glBufferData(GL_ARRAY_BUFFER, vert.size() * sizeof(vert[0]), &vert[0],
-                 GL_STATIC_DRAW);
+    glGenBuffers(NB_BUFFER_TYPES, m_vbos.data());
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbos[VERTEX_VB]);
+    glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(m_vertices[0]),
+                 &m_vertices[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    //
+    // Normals
+    //
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbos[NORMAL_VB]);
+    glBufferData(GL_ARRAY_BUFFER, m_normals.size() * sizeof(m_normals[0]),
+                 &m_normals[0], GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    //
+    // Indices
+    //
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vbos[INDICES_VB]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 m_indices.size() * sizeof(m_indices[0]), &m_indices[0],
+                 GL_STATIC_DRAW);
+
+    // Unbind Vertex Array
+    glBindVertexArray(0);
 
     //     // Vertex indices
     //     glBindBuffer(GL_ARRAY_BUFFER, m_buffersId[VERTEX_IDX]);
@@ -265,6 +251,7 @@ namespace zappy
     //     glBufferData(GL_ARRAY_BUFFER,
     //                  m_uv.elements.size() * sizeof(m_uv.elements[0]),
     //                  &m_uv.elements[0], GL_STATIC_DRAW);
+    // Normals
 
     //     glEnableVertexAttribArray(2);
     //     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -301,6 +288,34 @@ namespace zappy
     //     glVertexAttribPointer(5, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
 
     // Unbind the vao
-    glBindVertexArray(0);
+    // glBindVertexArray(0);
+    // Normals
+  }
+
+  void Model::calcNormals()
+  {
+    m_normals.clear();
+    m_normals.resize(m_vertices.size());
+
+    for (std::size_t i = 0; i < m_indices.size(); i += 3)
+      {
+	GLuint i0 = m_indices[i];
+	GLuint i1 = m_indices[i + 1];
+	GLuint i2 = m_indices[i + 2];
+
+	glm::vec3 v1 = m_vertices[i1] - m_vertices[i0];
+	glm::vec3 v2 = m_vertices[i2] - m_vertices[i0];
+
+	glm::vec3 normale = glm::normalize(glm::cross(v1, v2));
+
+	m_normals[i0] += normale;
+	m_normals[i1] += normale;
+	m_normals[i2] += normale;
+      }
+
+    for (GLuint i = 0; i < m_vertices.size(); i++)
+      {
+	m_normals[i] = glm::normalize(m_normals[i]);
+      }
   }
 }

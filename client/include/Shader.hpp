@@ -3,6 +3,8 @@
 
 #include <string>
 #include <GL/gl.h>
+#include <glm/glm.hpp>
+//#include "Light.hpp"
 
 namespace zappy
 {
@@ -20,6 +22,10 @@ namespace zappy
 
     void bind();
 
+    void updateTransform(glm::mat4 const &transform);
+    void updateShadowMat(); // TODO: set parameters
+//    void updateLight(Light const &light);
+
   private:
     static constexpr std::uint32_t numShader = 2;
 
@@ -27,8 +33,18 @@ namespace zappy
     static void checkError(GLuint shader, GLuint flag, bool isProgram,
                            std::string const &errorMessage);
 
+    enum
+    {
+      TRANSFORM_U,
+      SHADOW_MAT_U,
+      LIGHT_U,
+
+      NB_UNIFORMS
+    };
+
     GLuint m_program;
     GLuint m_shaders[numShader];
+    GLuint m_uniforms[NB_UNIFORMS];
   };
 }
 

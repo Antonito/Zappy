@@ -7,7 +7,9 @@ namespace zappy
                                std::uint16_t port, std::string const &name,
                                std::string const &machine)
       : m_win(width, height, windowName), m_port(port), m_name(name),
-        m_machine(machine), m_map(), m_players()
+        m_machine(machine), m_map(), m_players(),
+        m_camera(glm::vec3(0, 0, 0), 100, 16.0 / 9.0, 0.01, 10000),
+        m_shader("./shaders/test")
   {
   }
 
@@ -17,19 +19,18 @@ namespace zappy
 
   void GraphicClient::launch()
   {
-    Shader shader("./shaders/test");
-    // Model  test = Model::fromObj("./models/cube.obj");
+    Model test = Model::fromObj("./models/cube.obj");
 
     std::vector<glm::vec3> points = {
         {-0.5, -1.0, -0.5}, {0.0, 1.0, 0.5}, {0.5, -1.0, -0.5}};
     std::vector<std::uint32_t> index = {0, 1, 2};
 
-    Model test2(IndicesElement<glm::vec3>(points, index),
-                IndicesElement<glm::vec2>(), IndicesElement<glm::vec3>());
-    Mesh cube(test2);
+    Model test2(points, index);
+    Mesh  cube(test);
 
     m_win.setClearColor(0.1, 0.1, 0.2, 1.0);
-    shader.bind();
+    m_win.setCursorVisible(false);
+    m_shader.bind();
 
     //     std::vector<GLfloat> pts = {-1.0f, -1.0f, 0.0f,
     //    1.0f, -1.0f, 0.0f,
@@ -84,6 +85,9 @@ namespace zappy
 
 	// m_win.draw(cube);
 
+	m_shader.updateTransform(m_camera.getViewProjection() *
+	                         cube.fullTransform());
+
 	cube.model().render();
 
 	// Display the window
@@ -96,10 +100,51 @@ namespace zappy
   //
   void GraphicClient::dispatch(sf::Event const &e)
   {
+    constexpr float movement = 0.1;
+
     if (e.type == sf::Event::Closed)
       {
 	m_win.close();
 	return;
+      }
+    if (e.type == sf::Event::KeyPressed)
+      {
+	switch (e.key.code)
+	  {
+	  case sf::Keyboard::W:
+	    m_camera.moveForward(movement);
+	    break;
+	  case sf::Keyboard::S:
+	    m_camera.moveForward(-movement);
+	    break;
+	  case sf::Keyboard::A:
+	    m_camera.moveSide(-movement);
+	    break;
+	  case sf::Keyboard::D:
+	    m_camera.moveSide(movement);
+	    break;
+	  case sf::Keyboard::Escape:
+	    m_win.close();
+	    break;
+	  default:
+	    break;
+	  }
+      }
+    else if (e.type == sf::Event::MouseMoved)
+      {
+	constexpr float sensibility = 0.05f;
+
+	float x = sf::Mouse::getPosition(m_win.win()).x;
+	float y = sf::Mouse::getPosition(m_win.win()).y;
+
+	float _x = m_win.width() / 2;
+	float _y = m_win.height() / 2;
+
+	if (x != _x || y != _y)
+	  {
+	    m_camera.rotate((x - _x) * sensibility, (y - _y) * sensibility);
+	    sf::Mouse::setPosition(sf::Vector2i(_x, _y), m_win.win());
+	  }
       }
   }
 

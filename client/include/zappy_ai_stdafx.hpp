@@ -31,5 +31,6 @@
 #include "GameMap.hpp"
 #include "Tile.hpp"
 #include "Shader.hpp"
+#include "Camera.hpp"
 
 #endif // !ZAPPY_AI_STDAFX_HPP_

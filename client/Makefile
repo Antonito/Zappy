@@ -50,7 +50,8 @@ SRC_FILES=	main.cpp				\
 		Mesh.cpp				\
 		Model.cpp				\
 		Window.cpp				\
-		Shader.cpp
+		Shader.cpp				\
+		Camera.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

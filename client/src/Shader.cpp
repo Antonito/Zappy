@@ -21,7 +21,7 @@ namespace zappy
     // Bind the differents attributes
     glBindAttribLocation(m_program, 0, "position");
     // glBindAttribLocation(m_program, 1, "textCoord");
-    // glBindAttribLocation(m_program, 2, "normale");
+    glBindAttribLocation(m_program, 1, "normale");
 
     // Link the program
     glLinkProgram(m_program);
@@ -32,6 +32,10 @@ namespace zappy
     glValidateProgram(m_program);
     checkError(m_program, GL_VALIDATE_STATUS, true,
                std::string("Shader program is invalid (") + path + ')');
+
+    m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+    m_uniforms[SHADOW_MAT_U] = glGetUniformLocation(m_program, "shadow_mat");
+    m_uniforms[LIGHT_U] = glGetUniformLocation(m_program, "light");
   }
 
   Shader::~Shader()
@@ -50,6 +54,15 @@ namespace zappy
   void Shader::bind()
   {
     glUseProgram(m_program);
+  }
+
+  void Shader::updateTransform(glm::mat4 const &transform)
+  {
+    glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &transform[0][0]);
+  }
+
+  void Shader::updateShadowMat()
+  {
   }
 
   GLuint Shader::loadShader(std::string const &filename, GLenum type)
