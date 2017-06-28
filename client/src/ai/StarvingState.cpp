@@ -12,10 +12,14 @@ namespace ai
 
   void StarvingState::readState(std::queue<std::string> &readQueue)
   {
+    //call inventory state
+    //or directly read in readQueue
   }
 
   void StarvingState::writeState(std::queue<std::string> &writeQueue)
   {
+    //call inventory state
+    //or directly put 'Inventory\n' in writeQueue
   }
 
   void StarvingState::reset(Value value)
