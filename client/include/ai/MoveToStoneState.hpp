@@ -14,7 +14,7 @@ namespace ai
   class MoveToStoneState final : public AState
   {
   public:
-    MoveToStoneState();
+    MoveToStoneState(std::map<BasicState, IState *> &states);
     MoveToStoneState(MoveToStoneState const &) = delete;
     MoveToStoneState(MoveToStoneState &&) = delete;
     virtual ~MoveToStoneState();

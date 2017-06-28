@@ -14,7 +14,7 @@ namespace ai
   class TrollState final : public AState
   {
   public:
-    TrollState();
+    TrollState(std::map<BasicState, IState *> &states);
     TrollState(TrollState const &) = delete;
     TrollState(TrollState &&) = delete;
     virtual ~TrollState();

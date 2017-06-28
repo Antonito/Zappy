@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  ArrivedState::ArrivedState() : AState()
+  ArrivedState::ArrivedState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

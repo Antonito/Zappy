@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  StoneOnCaseState::StoneOnCaseState() : AState()
+  StoneOnCaseState::StoneOnCaseState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

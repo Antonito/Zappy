@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  LevelState::LevelState() : AState()
+  LevelState::LevelState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

@@ -14,7 +14,7 @@ namespace ai
   class StoneOnCaseState final : public AState
   {
   public:
-    StoneOnCaseState();
+    StoneOnCaseState(std::map<BasicState, IState *> &states);
     StoneOnCaseState(StoneOnCaseState const &) = delete;
     StoneOnCaseState(StoneOnCaseState &&) = delete;
     virtual ~StoneOnCaseState();

@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  CheckMessageState::CheckMessageState() : AState()
+  CheckMessageState::CheckMessageState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

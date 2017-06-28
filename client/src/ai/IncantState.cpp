@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  IncantState::IncantState() : AState()
+  IncantState::IncantState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

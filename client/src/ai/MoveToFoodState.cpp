@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  MoveToFoodState::MoveToFoodState() : AState()
+  MoveToFoodState::MoveToFoodState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

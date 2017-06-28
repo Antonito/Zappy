@@ -14,7 +14,7 @@ namespace ai
   class LevelState final : public AState
   {
   public:
-    LevelState();
+    LevelState(std::map<BasicState, IState *> &states);
     LevelState(LevelState const &) = delete;
     LevelState(LevelState &&) = delete;
     virtual ~LevelState();

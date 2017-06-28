@@ -14,7 +14,7 @@ namespace ai
   class FindFoodState final : public AState
   {
   public:
-    FindFoodState();
+    FindFoodState(std::map<BasicState, IState *> &states);
     FindFoodState(FindFoodState const &) = delete;
     FindFoodState(FindFoodState &&) = delete;
     virtual ~FindFoodState();

@@ -14,7 +14,7 @@ namespace ai
   class SetRecipeState final : public AState
   {
   public:
-    SetRecipeState();
+    SetRecipeState(std::map<BasicState, IState *> &states);
     SetRecipeState(SetRecipeState const &) = delete;
     SetRecipeState(SetRecipeState &&) = delete;
     virtual ~SetRecipeState();

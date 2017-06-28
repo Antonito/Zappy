@@ -14,7 +14,7 @@ namespace ai
   class FindStoneState final : public AState
   {
   public:
-    FindStoneState();
+    FindStoneState(std::map<BasicState, IState *> &states);
     FindStoneState(FindStoneState const &) = delete;
     FindStoneState(FindStoneState &&) = delete;
     virtual ~FindStoneState();

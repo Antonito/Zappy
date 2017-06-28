@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  InitAIConnectState::InitAIConnectState() : AState(), m_changeState(false)
+  InitAIConnectState::InitAIConnectState(std::map<BasicState, IState *> &states) : AState(states), m_changeState(false)
   {
   }
 

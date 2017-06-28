@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  CollectStoneState::CollectStoneState() : AState()
+  CollectStoneState::CollectStoneState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

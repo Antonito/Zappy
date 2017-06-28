@@ -31,7 +31,7 @@ namespace ai
   class AState : public IState
   {
   public:
-    AState();
+    AState(std::map<BasicState, IState *> &states);
     AState(AState const &);
     AState(AState &&);
     virtual ~AState();
@@ -40,7 +40,7 @@ namespace ai
     AState &operator=(AState &&);
 
   protected:
-    std::map<BasicState, IState *> m_states;
+    std::map<BasicState, IState *> &m_states;
     State m_curState;
     Value m_curValue;
   };

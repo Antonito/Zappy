@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  StarvingState::StarvingState() : AState()
+  StarvingState::StarvingState(std::map<BasicState, IState *> &states) : AState(states)
   {
     nope::log::Log(Debug) << "Starving State init";
   }

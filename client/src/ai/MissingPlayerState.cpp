@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  MissingPlayerState::MissingPlayerState() : AState()
+  MissingPlayerState::MissingPlayerState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

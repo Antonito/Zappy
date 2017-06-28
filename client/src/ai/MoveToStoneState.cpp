@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  MoveToStoneState::MoveToStoneState() : AState()
+  MoveToStoneState::MoveToStoneState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

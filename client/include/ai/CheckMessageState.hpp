@@ -14,7 +14,7 @@ namespace ai
   class CheckMessageState final : public AState
   {
   public:
-    CheckMessageState();
+    CheckMessageState(std::map<BasicState, IState *> &states);
     CheckMessageState(CheckMessageState const &) = delete;
     CheckMessageState(CheckMessageState &&) = delete;
     virtual ~CheckMessageState();

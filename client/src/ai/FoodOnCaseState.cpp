@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  FoodOnCaseState::FoodOnCaseState() : AState()
+  FoodOnCaseState::FoodOnCaseState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

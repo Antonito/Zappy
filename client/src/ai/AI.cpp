@@ -103,13 +103,15 @@ namespace ai
       : m_foodUnit(0), m_lastUnknownMsg(),
         m_sock(port, ip, true, network::ASocket::BLOCKING), m_cmdToSend(),
         m_cmdToRecv(), m_states(), m_curState(m_states[State::INIT_AI].get()),
-        m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1)
+        m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1),
+        m_basicStates()
   {
     if (!m_sock.openConnection())
       {
 	throw std::exception();
       }
     nope::log::Log(Debug) << "AI connected to server";
+    initBasicState();
     initState();
     m_curState = m_states[State::INIT_AI].get();
     if (m_curState == nullptr)
@@ -233,48 +235,64 @@ namespace ai
     return (0);
   }
 
+  void AI::initBasicState()
+  {
+    m_basicStates[BasicState::BROADCAST] = std::make_unique<BroadcastState>().get();
+    m_basicStates[BasicState::CONNECT_NBR] = std::make_unique<ConnectnbrState>().get();
+    m_basicStates[BasicState::EJECT] = std::make_unique<EjectState>().get();
+    m_basicStates[BasicState::FORK] = std::make_unique<ForkState>().get();
+    m_basicStates[BasicState::FORWARD] = std::make_unique<ForwardState>().get();
+    m_basicStates[BasicState::INCANTATION] = std::make_unique<IncantationState>().get();
+    m_basicStates[BasicState::INVENTORY] = std::make_unique<InventoryState>().get();
+    m_basicStates[BasicState::LEFT] = std::make_unique<LeftState>().get();
+    m_basicStates[BasicState::LOOK] = std::make_unique<LookState>().get();
+    m_basicStates[BasicState::RIGHT] = std::make_unique<RightState>().get();
+    m_basicStates[BasicState::SET] = std::make_unique<SetState>().get();
+    m_basicStates[BasicState::TAKE] = std::make_unique<TakeState>().get();
+  }
+
   void AI::initState()
   {
     m_states[static_cast<std::size_t>(State::STARVING)] =
-        std::make_unique<StarvingState>();
+        std::make_unique<StarvingState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::RECEIVE_MSG)] =
-        std::make_unique<CheckMessageState>();
+        std::make_unique<CheckMessageState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MISSING_STONE)] =
-        std::make_unique<MissingStoneState>();
+        std::make_unique<MissingStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MISSING_PLAYER)] =
-        std::make_unique<MissingPlayerState>();
+        std::make_unique<MissingPlayerState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::SET_RECIPE)] =
-        std::make_unique<SetRecipeState>();
+        std::make_unique<SetRecipeState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::INCANT)] =
-        std::make_unique<IncantState>();
+        std::make_unique<IncantState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
-        std::make_unique<FoodOnCaseState>();
+        std::make_unique<FoodOnCaseState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::COLLECT_FOOD)] =
-        std::make_unique<CollectFoodState>();
+        std::make_unique<CollectFoodState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FIND_FOOD)] =
-        std::make_unique<FindFoodState>();
+        std::make_unique<FindFoodState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
-        std::make_unique<MoveToFoodState>();
+        std::make_unique<MoveToFoodState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::LEVEL)] =
-        std::make_unique<LevelState>();
+        std::make_unique<LevelState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
-        std::make_unique<MoveToTeammateState>();
+        std::make_unique<MoveToTeammateState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::ARRIVED)] =
-        std::make_unique<ArrivedState>();
+        std::make_unique<ArrivedState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FIX_RECIPE)] =
-        std::make_unique<FixRecipeState>();
+        std::make_unique<FixRecipeState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::STONE_ON_CASE)] =
-        std::make_unique<StoneOnCaseState>();
+        std::make_unique<StoneOnCaseState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::COLLECT_STONE)] =
-        std::make_unique<CollectStoneState>();
+        std::make_unique<CollectStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::FIND_STONE)] =
-        std::make_unique<FindStoneState>();
+        std::make_unique<FindStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
-        std::make_unique<MoveToStoneState>();
+        std::make_unique<MoveToStoneState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::TROLL)] =
-        std::make_unique<TrollState>();
+        std::make_unique<TrollState>(m_basicStates);
     m_states[static_cast<std::size_t>(State::INIT_AI)] =
-        std::make_unique<InitAIConnectState>();
+        std::make_unique<InitAIConnectState>(m_basicStates);
   }
 
   void AI::send(std::string const &msg)

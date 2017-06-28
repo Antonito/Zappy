@@ -14,7 +14,7 @@ namespace ai
   class StarvingState final : public AState
   {
   public:
-    StarvingState();
+    StarvingState(std::map<BasicState, IState *> &states);
     StarvingState(StarvingState const &) = delete;
     StarvingState(StarvingState &&) = delete;
     virtual ~StarvingState();

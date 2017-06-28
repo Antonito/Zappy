@@ -14,7 +14,7 @@ namespace ai
   class IncantState final : public AState
   {
   public:
-    IncantState();
+    IncantState(std::map<BasicState, IState *> &states);
     IncantState(IncantState const &) = delete;
     IncantState(IncantState &&) = delete;
     virtual ~IncantState();

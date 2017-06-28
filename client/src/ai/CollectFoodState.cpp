@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  CollectFoodState::CollectFoodState() : AState()
+  CollectFoodState::CollectFoodState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

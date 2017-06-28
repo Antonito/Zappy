@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  SetRecipeState::SetRecipeState() : AState()
+  SetRecipeState::SetRecipeState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 

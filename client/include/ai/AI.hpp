@@ -36,6 +36,7 @@ namespace ai
     std::int32_t treatOutcomingData();
     std::int32_t loop();
 
+    void initBasicState();
     void initState();
     void send(std::string const &msg);
     void move(std::pair<std::int32_t, std::int32_t> coord);
@@ -56,6 +57,7 @@ namespace ai
     State                   m_curStateName;
     Value                   m_curValue;
     std::int32_t            m_level;
+    std::map<BasicState, IState *> m_basicStates;
   };
 }
 

@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  TrollState::TrollState() : AState()
+  TrollState::TrollState(std::map<BasicState, IState *> &states) : AState(states)
   {
   }
 
