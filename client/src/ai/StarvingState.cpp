@@ -4,6 +4,7 @@ namespace ai
 {
   StarvingState::StarvingState() : AState()
   {
+    nope::log::Log(Debug) << "Starving State init";
   }
 
   StarvingState::~StarvingState()
@@ -12,18 +13,21 @@ namespace ai
 
   void StarvingState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "Starving[READ]State";
     //call inventory state
     //or directly read in readQueue
   }
 
   void StarvingState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "Starving[WRITE]State";
     //call inventory state
     //or directly put 'Inventory\n' in writeQueue
   }
 
   void StarvingState::reset(Value value)
   {
+    nope::log::Log(Debug) << "StarvingState reset";
   }
 
   Value Starving::getResponse() const

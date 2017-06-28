@@ -1,4 +1,4 @@
-#include "AI.hpp"
+#include "zappy_ai_stdafx.hpp"
 
 namespace ai
 {
@@ -104,7 +104,9 @@ namespace ai
       {
 	throw std::exception();
       }
+    nope::log::Log(Debug) << "AI connected to server";
     initAction();
+    loop();
   }
 
   AI::~AI()
@@ -155,7 +157,7 @@ namespace ai
 	std::int32_t const rc = checkActivity(readfds, writefds);
 	if (rc < 0)
 	  {
-	    std::cerr << "log -> select failed :/" << std::endl;
+            nope::log::Log(Error) << "Select failed";
 	    return (1);
 	  }
 	else if (rc > 0)
@@ -198,15 +200,15 @@ namespace ai
       {
 	tmp[static_cast<std::size_t>(len)] = 0;
 	m_cmdToRecv.push(std::string(tmp.data()));
+        nope::log::Log(Debug) << "RECV: " << m_cmdToRecv.front();
       }
     return (0);
   }
 
   std::int32_t AI::treatOutcomingData()
   {
-    // TODO :
-    //::write(m_sock.getSocket(), m_cmdToSend.front(),
-    // std::strlen(m_cmdToSend.front().data));
+    nope::log::Log(Debug) << "SEND: " << m_cmdToSend.front();
+    ::write(m_sock.getSocket(), m_cmdToSend.front().c_str(), std::strlen(m_cmdToSend.front().c_str()));
     m_cmdToSend.pop();
     return (0);
   }
