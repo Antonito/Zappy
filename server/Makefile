@@ -74,12 +74,14 @@ SRC_FILES=	admin.c				\
 		message.c			\
 		multiplexer.c			\
 		network.c			\
+		order.c				\
 		parse.c				\
 		resource.c			\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\
 		team_manager.c			\
+		time.c				\
 		vision.c			\
 		state/auth.c			\
 		state/connect.c			\

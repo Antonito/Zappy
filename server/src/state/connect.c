@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Wed Jun 28 03:49:08 2017 Antoine Baché
+** Last update Thu Jun 29 01:12:47 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -22,6 +22,7 @@
 #include "zappy_color.h"
 #include "zappy_message.h"
 #include "zappy_graphic.h"
+#include "zappy_time.h"
 
 #if defined __clang__
 #pragma clang diagnostic push
@@ -62,10 +63,10 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 
   LOG(LOG_DEBUG, "Treating message: "CYAN_BOLD_INTENS"%s"CLEAR, buff);
   (void)data;
-  i = 0;
+  i = -1;
   res->callback = zappy_client_commands[CMD_ERR].handle;
   res->remaining_time = zappy_client_commands[CMD_ERR].time_limit;
-  while (i < CMD_ERR)
+  while (++i < CMD_ERR)
     {
       if (!memcmp(buff, zappy_client_commands[i].cmd,
 		  (size_t)zappy_client_commands[i].len) ||
@@ -75,9 +76,11 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 		 strlen(buff + zappy_client_commands[i].len));
 	  res->callback = zappy_client_commands[i].handle;
 	  res->remaining_time = zappy_client_commands[i].time_limit;
+	  res->exec_time =
+	    (uint64_t)(((double)res->remaining_time * 1000) /
+		       data->conf.freq) + zappy_get_cur_time();
 	  break;
 	}
-      ++i;
     }
   cqueue_push(&cli->input_queue, res);
   assert(cqueue_get_size(cli->input_queue) <= 10);
@@ -115,6 +118,7 @@ static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
     {
       zappy_graph_connect(cli, zap);
       cli->can_write = false;
+      cli->authenticated = true;
       return ;
     }
   data->len = sizeof("ko\n") - 1;
@@ -144,6 +148,7 @@ static void		zappy_cli_state_conn_w_(t_zappy_client * const cli,
 	  LOG(LOG_INFO, "Spawning player at %dx%d", cli->game.x, cli->game.y);
 	  g = (t_zappy_graph_arg){ cli, 0, 0 };
 	  zappy_graph_send(&g, data, buff, &zappy_graph_pnw);
+	  cli->authenticated = true;
 	}
     }
 }

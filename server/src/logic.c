@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Wed Jun 28 19:14:43 2017 Antoine Baché
+** Last update Thu Jun 29 01:03:44 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -17,18 +17,24 @@
 #include "zappy_logic.h"
 #include "zappy_client_serial.h"
 #include "zappy_client_cmd.h"
+#include "zappy_time.h"
 
 static void		zappy_logic_client(t_zappy_client * const cli,
 					   t_zappy * const data)
 {
   t_cqueue		*cur;
   t_zappy_client_serial	*order;
+  uint64_t		cur_time;
 
-  // TODO: order cqueue by time
-  cur = cqueue_get_front(cli->input_queue);
-  if (cur)
+  assert(cli->graphical == false);
+  cur_time = zappy_get_cur_time();
+  zappy_client_serial_sort(&cli->input_queue);
+  while (!cqueue_is_empty(cli->input_queue))
     {
+      cur = cqueue_get_front(cli->input_queue);
       order = cur->data;
+      if (order->exec_time > cur_time)
+	break;
       LOG(LOG_DEBUG, "Logic: Order to treat");
       cqueue_pop(&cli->input_queue);
       order->callback(cli, data, order->buff);
@@ -42,7 +48,7 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
 {
   assert(cli && data);
   if (cli->connected && cli->state == CLI_CONNECTED
-      && !cli->graphical)
+      && !cli->graphical && cli->authenticated)
     {
       // TODO: remove 1 food every 126 ticks
       if (cli->game.inv[RES_FOOD] == 0)

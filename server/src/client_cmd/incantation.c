@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Tue Jun 27 22:15:54 2017 Antoine Baché
+** Last update Thu Jun 29 00:24:40 2017 Antoine Baché
 */
 
 #include "clogger.h"
@@ -17,7 +17,8 @@ void		zappy_client_cmd_incantation(t_zappy_client * const cli,
 					     t_zappy * const data,
 					     char const * const arg)
 {
+  (void)arg;
+  (void)data;
+  (void)cli;
   LOG(LOG_DEBUG, "Treating incantation command");
-  (void)cli, (void)data, (void)arg;
-  // TODO: send pic / pie
 }
