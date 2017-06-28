@@ -5,10 +5,12 @@
 #include <map>
 #include <queue>
 #include <array>
+#include "AI.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wweak-vtable"
 #endif
 
 namespace ai

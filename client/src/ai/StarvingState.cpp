@@ -30,7 +30,7 @@ namespace ai
     nope::log::Log(Debug) << "StarvingState reset";
   }
 
-  Value Starving::getResponse() const
+  Value StarvingState::getResponse() const
   {
     return (m_curValue);
   }

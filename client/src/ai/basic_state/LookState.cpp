@@ -25,8 +25,4 @@ namespace ai
   Value LookState::getResponse() const
   {
   }
-
-  void LookState::setMsg(std::string const &str)
-  {
-  }
 }

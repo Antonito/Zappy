@@ -31,7 +31,7 @@ namespace ai
 
   private:
     Value        m_value;
-    std::string &m_msg;
+    std::string m_msg;
   };
 }
 

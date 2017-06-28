@@ -149,6 +149,11 @@ namespace ai
 
   std::int32_t AI::loop()
   {
+    //TODO remove
+    static int a = 0;
+    InitAIConnectState test;
+    // -------
+
     // TODO : CHECK DEAD
     while (1)
       {
@@ -174,10 +179,23 @@ namespace ai
 		  return (1);
 	      }
 	  }
-	Value (AI::*funcptr)(Value) = m_actionForState[m_curState];
+        if (a == 0)
+        {
+          test.readState(m_cmdToRecv);
+        }
+        else if (a == 1)
+        {
+          test.writeState(m_cmdToSend);
+        }
+        else if (a == 2)
+        {
+          test.readState(m_cmdToRecv);
+        }
+        ++a;
+	/*Value (AI::*funcptr)(Value) = m_actionForState[m_curState];
 	m_curValue = (this->*funcptr)(m_curValue);
 	m_curState = transitionTable.at(
-	    m_curState)[static_cast<std::size_t>(m_curValue)];
+	    m_curState)[static_cast<std::size_t>(m_curValue)];*/
       }
   }
 

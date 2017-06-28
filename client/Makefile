@@ -36,14 +36,15 @@ SRC_DIR=	./src/
 
 INCLUDE_DIR=	./include/
 
-DIR_LIST=	$(SRC_DIR)
+DIR_LIST=	$(SRC_DIR)			\
+		$(SRC_DIR)ai 			\
+		$(SRC_DIR)ai/basic_state	\
 
 HEADER=		zappy_ai_stdafx.hpp
 
 # Project's files
 
 SRC_FILES=	main.cpp				\
-		AI.cpp					\
 		GraphicClient.cpp			\
 		GameMap.cpp				\
 		Player.cpp				\
