@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  AState::AState() : m_states(), m_curState(), m_curValue()
+  AState::AState() : m_states(), m_curState(), m_curValue(Value::LOOP)
   {
   }
 

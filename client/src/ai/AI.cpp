@@ -81,6 +81,10 @@ namespace ai
            {{State::MISSING_STONE, State::MISSING_STONE, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE}}},
+          {State::INIT_AI,
+           {{State::STARVING, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
+             State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
   static const std::array<std::pair<std::int32_t, std::array<std::int32_t, 6>>,
@@ -96,16 +100,17 @@ namespace ai
       }};
 
   AI::AI(std::string ip, std::uint16_t port)
-      : m_actionForState(), m_foodUnit(0),
+      : m_foodUnit(0),
         m_sock(port, ip, true, network::ASocket::BLOCKING),
-        m_curState(State::STARVING), m_curValue(Value::YES)
+        m_cmdToSend(), m_cmdToRecv(), m_states(), m_curState(m_states[State::INIT_AI]),
+        m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1)
   {
     if (!m_sock.openConnection())
       {
 	throw std::exception();
       }
     nope::log::Log(Debug) << "AI connected to server";
-    initAction();
+    initState();
     loop();
   }
 
@@ -149,11 +154,6 @@ namespace ai
 
   std::int32_t AI::loop()
   {
-    //TODO remove
-    static int a = 0;
-    InitAIConnectState test;
-    // -------
-
     // TODO : CHECK DEAD
     while (1)
       {
@@ -172,30 +172,22 @@ namespace ai
 		// TODO : real check for split \n commands
 		if (treatIncomingData())
 		  return (1);
+                m_curState->readState();
 	      }
 	    else if (FD_ISSET(m_sock.getSocket(), &writefds))
 	      {
+                m_curState->writeState();
 		if (treatOutcomingData())
 		  return (1);
 	      }
 	  }
-        if (a == 0)
+        m_curValue = m_curState->getResponse();
+        if (m_curValue != Value::LOOP)
         {
-          test.readState(m_cmdToRecv);
+          m_curStateName = transitionTable[m_curStateName][m_curValue];
+          m_curState = m_states[m_curStateName];
+          m_curState->reset(m_curValue);
         }
-        else if (a == 1)
-        {
-          test.writeState(m_cmdToSend);
-        }
-        else if (a == 2)
-        {
-          test.readState(m_cmdToRecv);
-        }
-        ++a;
-	/*Value (AI::*funcptr)(Value) = m_actionForState[m_curState];
-	m_curValue = (this->*funcptr)(m_curValue);
-	m_curState = transitionTable.at(
-	    m_curState)[static_cast<std::size_t>(m_curValue)];*/
       }
   }
 
@@ -206,20 +198,20 @@ namespace ai
 
     len = ::read(m_sock.getSocket(), &tmp, 511);
     if (len < 0)
-      {
-	std::cerr << "log -> read failed" << std::endl;
-	return (1);
-      }
+    {
+      std::cerr << "log -> read failed" << std::endl;
+      return (1);
+    }
     else if (len == 0)
-      {
-	std::cerr << "No more communication with the server :/" << std::endl;
-      }
+    {
+      std::cerr << "No more communication with the server :/" << std::endl;
+    }
     else
-      {
-	tmp[static_cast<std::size_t>(len)] = 0;
-	m_cmdToRecv.push(std::string(tmp.data()));
-	nope::log::Log(Debug) << "RECV: " << m_cmdToRecv.front();
-      }
+    {
+      tmp[static_cast<std::size_t>(len)] = 0;
+      m_cmdToRecv.push(std::string(tmp.data()));
+      nope::log::Log(Debug) << "RECV: " << m_cmdToRecv.front();
+    }
     return (0);
   }
 
@@ -227,51 +219,53 @@ namespace ai
   {
     nope::log::Log(Debug) << "SEND: " << m_cmdToSend.front();
     ::write(m_sock.getSocket(), m_cmdToSend.front().c_str(),
-            std::strlen(m_cmdToSend.front().c_str()));
+        std::strlen(m_cmdToSend.front().c_str()));
     m_cmdToSend.pop();
     return (0);
   }
 
   void AI::initState()
   {
-    m_contexts[static_cast<std::size_t>(State::STARVING)] =
-        std::make_unique<StarvingState>();
-    m_contexts[static_cast<std::size_t>(State::RECEIVE_MSG)] =
-        std::make_unique<CheckMessageState>();
-    m_contexts[static_cast<std::size_t>(State::MISSING_STONE)] =
-        std::make_unique<MissingStoneState>();
-    m_contexts[static_cast<std::size_t>(State::MISSING_PLAYER)] =
-        std::make_unique<MissingPlayerState>();
-    m_contexts[static_cast<std::size_t>(State::SET_RECIPE)] =
-        std::make_unique<SetRecipeState>();
-    m_contexts[static_cast<std::size_t>(State::INCANT)] =
-        std::make_unique<IncantState>();
-    m_contexts[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
-        std::make_unique<FoodOnCaseState>();
-    m_contexts[static_cast<std::size_t>(State::COLLECT_FOOD)] =
-        std::make_unique<CollectFoodState>();
-    m_contexts[static_cast<std::size_t>(State::FIND_FOOD)] =
-        std::make_unique<FindFoodState>();
-    m_contexts[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
-        std::make_unique<MoveToFoodState>();
-    m_contexts[static_cast<std::size_t>(State::LEVEL)] =
-        std::make_unique<LevelState>();
-    m_contexts[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
-        std::make_unique<MoveToTeammateState>();
-    m_contexts[static_cast<std::size_t>(State::ARRIVED)] =
-        std::make_unique<ArrivedState>();
-    m_contexts[static_cast<std::size_t>(State::FIX_RECIPE)] =
-        std::make_unique<FixRecipeState>();
-    m_contexts[static_cast<std::size_t>(State::STONE_ON_CASE)] =
-        std::make_unique<StoneOnCaseState>();
-    m_contexts[static_cast<std::size_t>(State::COLLECT_STONE)] =
-        std::make_unique<CollectStoneState>();
-    m_contexts[static_cast<std::size_t>(State::FIND_STONE)] =
-        std::make_unique<FindStoneState>();
-    m_contexts[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
-        std::make_unique<MoveToStoneState>();
-    m_contexts[static_cast<std::size_t>(State::TROLL)] =
-        std::make_unique<TrollState>();
+    m_states[static_cast<std::size_t>(State::STARVING)] =
+      std::make_unique<StarvingState>();
+    m_states[static_cast<std::size_t>(State::RECEIVE_MSG)] =
+      std::make_unique<CheckMessageState>();
+    m_states[static_cast<std::size_t>(State::MISSING_STONE)] =
+      std::make_unique<MissingStoneState>();
+    m_states[static_cast<std::size_t>(State::MISSING_PLAYER)] =
+      std::make_unique<MissingPlayerState>();
+    m_states[static_cast<std::size_t>(State::SET_RECIPE)] =
+      std::make_unique<SetRecipeState>();
+    m_states[static_cast<std::size_t>(State::INCANT)] =
+      std::make_unique<IncantState>();
+    m_states[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
+      std::make_unique<FoodOnCaseState>();
+    m_states[static_cast<std::size_t>(State::COLLECT_FOOD)] =
+      std::make_unique<CollectFoodState>();
+    m_states[static_cast<std::size_t>(State::FIND_FOOD)] =
+      std::make_unique<FindFoodState>();
+    m_states[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
+      std::make_unique<MoveToFoodState>();
+    m_states[static_cast<std::size_t>(State::LEVEL)] =
+      std::make_unique<LevelState>();
+    m_states[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
+      std::make_unique<MoveToTeammateState>();
+    m_states[static_cast<std::size_t>(State::ARRIVED)] =
+      std::make_unique<ArrivedState>();
+    m_states[static_cast<std::size_t>(State::FIX_RECIPE)] =
+      std::make_unique<FixRecipeState>();
+    m_states[static_cast<std::size_t>(State::STONE_ON_CASE)] =
+      std::make_unique<StoneOnCaseState>();
+    m_states[static_cast<std::size_t>(State::COLLECT_STONE)] =
+      std::make_unique<CollectStoneState>();
+    m_states[static_cast<std::size_t>(State::FIND_STONE)] =
+      std::make_unique<FindStoneState>();
+    m_states[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
+      std::make_unique<MoveToStoneState>();
+    m_states[static_cast<std::size_t>(State::TROLL)] =
+      std::make_unique<TrollState>();
+    m_states[static_cast<std::size_t>(State::INIT_AI)] =
+      std::make_unique<InitAIConnectState>();
   }
 
   void AI::send(std::string const &msg)
@@ -282,22 +276,22 @@ namespace ai
   void AI::move(std::pair<std::int32_t, std::int32_t> coord)
   {
     for (std::int32_t y = 0; y < coord.second; ++y)
-      {
-	m_cmdToSend.push("Forward\n");
-      }
+    {
+      m_cmdToSend.push("Forward\n");
+    }
     // TODO : check for Y 'ok' from server
     if (coord.first > 0)
-      {
-	m_cmdToSend.push("Right\n");
-      }
+    {
+      m_cmdToSend.push("Right\n");
+    }
     else
-      {
-	m_cmdToSend.push("Left\n");
-      }
+    {
+      m_cmdToSend.push("Left\n");
+    }
     for (std::int32_t x = 0; x < coord.first; ++x)
-      {
-	m_cmdToSend.push("Forward\n");
-      }
+    {
+      m_cmdToSend.push("Forward\n");
+    }
     // TODO : check for X 'ok' from server
   }
 
@@ -315,28 +309,28 @@ namespace ai
   }
 
   std::pair<std::int32_t, std::int32_t> const
-      AI::direction(std::int32_t caseNumber)
-  {
-    int32_t x = 0, y = 0, mid = 0;
+    AI::direction(std::int32_t caseNumber)
+    {
+      int32_t x = 0, y = 0, mid = 0;
 
-    for (y = 0; caseNumber > mid + y; ++y)
+      for (y = 0; caseNumber > mid + y; ++y)
       {
-	mid += 2 * y;
+        mid += 2 * y;
       }
-    x = caseNumber - mid;
-    std::pair<std::int32_t, std::int32_t> res = {x, y};
-    return (res);
-  }
+      x = caseNumber - mid;
+      std::pair<std::int32_t, std::int32_t> res = {x, y};
+      return (res);
+    }
 
   std::array<std::int32_t, 6> const
-      AI::diff(std::array<std::int32_t, 6> old,
-               std::array<std::int32_t, 6> newTab)
-  {
-    std::array<std::int32_t, 6> res{};
-    for (std::size_t i = 0; i < 6; ++i)
+    AI::diff(std::array<std::int32_t, 6> old,
+        std::array<std::int32_t, 6> newTab)
+    {
+      std::array<std::int32_t, 6> res{};
+      for (std::size_t i = 0; i < 6; ++i)
       {
-	res[i] = newTab[i] - old[i];
+        res[i] = newTab[i] - old[i];
       }
-    return (res);
-  }
+      return (res);
+    }
 }

@@ -2,7 +2,17 @@
 
 namespace ai
 {
-  InitAIConnectState::InitAIConnectState() : AState()
+  InitAIConnectState::InitAIConnectState() : AState(), m_changeState(false)
+  {
+  }
+
+  InitAIConnectState(InitAIConnectState const &that)
+    : AState(that), m_changeState(that.m_changeState)
+  {
+  }
+
+  InitAIConnectState(InitAIConnectState &&that)
+  : AState(that), m_changeState(std::move(that.m_changeState))
   {
   }
 
@@ -22,6 +32,11 @@ namespace ai
     {
       nope::log::Log(Debug) << "might got the map's size, time to play";
     }
+    if (m_changeState == true)
+    {
+      m_curValue = Value::YES;
+    }
+    m_changeState = !m_changeState;
   }
 
   void InitAIConnectState::writeState(std::queue<std::string> &writeQueue)
