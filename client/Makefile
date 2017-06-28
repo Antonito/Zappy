@@ -56,6 +56,7 @@ SRC_FILES=	main.cpp				\
 		ai/AState.cpp				\
 		ai/ArrivedState.cpp			\
 		ai/CheckMessageState.cpp		\
+		ai/InitAIConnectState.cpp		\
 		ai/CollectFoodState.cpp			\
 		ai/CollectStoneState.cpp		\
 		ai/FindFoodState.cpp			\

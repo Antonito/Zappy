@@ -37,6 +37,7 @@
 #include "ai/AState.hpp"
 #include "ai/ArrivedState.hpp"
 #include "ai/CheckMessageState.hpp"
+#include "ai/InitAIConnectState.hpp"
 #include "ai/CollectFoodState.hpp"
 #include "ai/CollectStoneState.hpp"
 #include "ai/FindFoodState.hpp"
