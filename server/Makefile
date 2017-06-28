@@ -52,6 +52,7 @@ SRC_FILES=	admin.c				\
 		alloc_serial.c			\
 		argvs_func.c			\
 		argvs_func_freq.c		\
+		broadcast.c			\
 		cleanup.c			\
 		cleanup_client.c		\
 		cleanup_map.c			\
