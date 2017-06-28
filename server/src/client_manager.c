@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Wed Jun 28 15:05:01 2017 Antoine Baché
+** Last update Thu Jun 29 01:24:10 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -87,7 +87,7 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
       assert(cur->next->prev == cur);
       cur->next->prev = cur->prev;
     }
-  if (cur->data.game.team_name)
+  if (cur->data.game.team_name && cur->data.authenticated)
     zappy_team_manager_delete_client(cur->data.game.team_name,
 				     &data->conf.teams);
   zappy_cleanup_client(&cur->data);
