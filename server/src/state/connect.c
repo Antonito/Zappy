@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Wed Jun 28 01:18:59 2017 Antoine Baché
+** Last update Wed Jun 28 03:49:08 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -71,6 +71,8 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 		  (size_t)zappy_client_commands[i].len) ||
 	  sscanf(buff, zappy_client_commands[i].cmd, res->buff))
 	{
+	  memcpy(res->buff, buff + zappy_client_commands[i].len,
+		 strlen(buff + zappy_client_commands[i].len));
 	  res->callback = zappy_client_commands[i].handle;
 	  res->remaining_time = zappy_client_commands[i].time_limit;
 	  break;

@@ -14,7 +14,7 @@ LOCAL_COMP_CFLAGS=	-D_GNU_SOURCE -O2
 LOCAL_COMP_FLAGS=
 
 LOCAL_LINK_FLAGS=	-L$(ROOT_DIR)/build/ -lzappy_clogger	\
-			-lzappy_cqueue	-lzappy_cmempool
+			-lzappy_cqueue	-lzappy_cmempool -lm
 
 LOCAL_DEBUG_FLAGS=
 
