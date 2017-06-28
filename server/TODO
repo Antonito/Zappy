@@ -5,8 +5,6 @@
 -> Gestion ticks
 -> Fork
 
--> dead
-
 -> openSSL
 
 -> graphic:
@@ -15,7 +13,6 @@ enw
 eht
 ebo
 edi
-
 
 -> graphic sheet:
 connexion moniteur // Partially OK
@@ -27,5 +24,4 @@ fork
 fin fork
 eclosion oeuf
 oeuf moisi (mort)
-mort joueur
 fin de jeu

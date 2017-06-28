@@ -5,7 +5,7 @@
 ** Login   <antoinebache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:38:56 2017 Antoine Baché
-** Last update Wed Jun 28 15:02:08 2017 Antoine Baché
+** Last update Wed Jun 28 15:24:14 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,9 +48,9 @@ static int32_t	zappy_broadcast_case(int32_t x, int32_t y,
   if (!x && !y)
     return (0);
   if (x > 2.99)
-    x = 2.5;
+    x = 2;
   if (y > 2.99)
-    y = 2.5;
+    y = 2;
   if (!x)
     val = (y > 0) ? 4 : 0;
   else if (!y)

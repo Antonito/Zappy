@@ -97,6 +97,7 @@ SRC_FILES=	admin.c				\
 		client_cmd/incantation.c	\
 		client_cmd/connect_nbr.c	\
 		client_cmd/err.c		\
+		client_cmd/dead.c		\
 		graphic_cmd/msz.c		\
 		graphic_cmd/bct.c		\
 		graphic_cmd/tna.c		\

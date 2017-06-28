@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:34:37 2017 Antoine Baché
-** Last update Sat Jun 24 18:18:11 2017 Antoine Baché
+** Last update Wed Jun 28 16:41:38 2017 Antoine Baché
 */
 
 #ifndef CQUEUE_H_
@@ -16,6 +16,9 @@
 
 typedef struct	s_cqueue	t_cqueue;
 
+typedef bool	(*t_cqueue_cmp)(t_cqueue const *s1, t_cqueue const *s2);
+typedef void	(*t_cqueue_for)(t_cqueue *s);
+
 /*
 ** Generic queue in C
 */
@@ -25,6 +28,17 @@ struct		s_cqueue
   t_cqueue	*next;
   t_cqueue	*prev;
 };
+
+/*
+** Foreach
+*/
+void		cqueue_for_each(t_cqueue *self, t_cqueue_for callback);
+
+/*
+** Sort
+*/
+bool		cqueue_is_sorted(t_cqueue const *self, t_cqueue_cmp cmp);
+void		cqueue_sort(t_cqueue **self, t_cqueue_cmp cmp);
 
 /*
 ** Getters
