@@ -86,6 +86,7 @@ SRC_FILES=	admin.c				\
 		team_manager.c			\
 		time.c				\
 		vision.c			\
+		win.c				\
 		state/auth.c			\
 		state/connect.c			\
 		state/resp.c			\
