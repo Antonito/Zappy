@@ -2,7 +2,8 @@
 
 namespace ai
 {
-  StarvingState::StarvingState() : AState()
+  StarvingState::StarvingState(std::map<BasicState, IState *> &states)
+      : AState(states)
   {
     nope::log::Log(Debug) << "Starving State init";
   }
@@ -15,8 +16,9 @@ namespace ai
   {
     nope::log::Log(Debug) << "Starving[READ]State";
     // call inventory state
-    m_states[BasicState::Inventory].readState();
-    if (m_states[BasicState::Inventory].getFood() < 8)
+    m_states[BasicState::INVENTORY]->readState(readQueue);
+    if (static_cast<InventoryState *>(m_states[BasicState::INVENTORY])
+            ->getFood() < 8)
       {
 	m_curValue = Value::YES;
       }
@@ -31,7 +33,7 @@ namespace ai
   {
     nope::log::Log(Debug) << "Starving[WRITE]State";
     // call inventory state
-    m_states[BasicState::Inventory].writeState();
+    m_states[BasicState::INVENTORY]->writeState(writeQueue);
     // or directly put 'Inventory\n' in writeQueue
   }
 
