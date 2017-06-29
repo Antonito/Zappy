@@ -5,11 +5,13 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:36:03 2017 Antoine Baché
-** Last update Fri Jun 23 22:37:43 2017 Antoine Baché
+** Last update Thu Jun 29 11:25:31 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_LOGIC_H_
 #define ZAPPY_LOGIC_H_
+
+#include <stdint.h>
 
 /*
 ** Forward declaration of t_zappy

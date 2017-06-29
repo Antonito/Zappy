@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Tue Jun 27 19:21:28 2017 Antoine Baché
+** Last update Thu Jun 29 11:31:43 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -28,7 +28,6 @@ typedef struct			s_zappy		t_zappy;
 */
 typedef struct			s_zappy_client	t_zappy_client;
 
-
 /*
 ** Forward declaration of t_zappy_map
 */
@@ -45,6 +44,7 @@ typedef enum			e_zappy_client_orientation
 
 typedef struct			s_zappy_client_game
 {
+  uint64_t			food_time;
   char				*team_name;
   int32_t			inv[NB_RESOURCE];
   int32_t			team_id;
