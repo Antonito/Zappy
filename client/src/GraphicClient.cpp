@@ -11,7 +11,7 @@ namespace zappy
         m_camera(glm::vec3(0, 0, 0), 100, 16.0 / 9.0, 0.01, 10000),
         m_shader("./shaders/test"),
         m_socket(port, machine, false, network::ASocket::SocketType::BLOCKING),
-        m_connecting(true)
+        m_buffer(), m_connecting(true)
   {
     if (m_socket.openConnection() == false)
       {
@@ -178,21 +178,26 @@ namespace zappy
 	if (len == 0)
 	  {
 	    m_win.close();
+	    return (false);
 	  }
 
 	buf[len] = 0;
-	m_buffer << buf;
-
-	if (std::strstr(buf, "\n") == nullptr)
-	  {
-	    return (true);
-	  }
+	m_buffer += buf;
       }
 
-    std::string cmd;
+    std::size_t pos = m_buffer.find_first_of('\n');
 
-    std::getline(m_buffer, cmd);
+    if (pos == std::string::npos)
+      {
+	return (false);
+      }
 
+    nope::log::Log(Info) << "Before command : " << m_buffer;
+
+    std::string cmd = m_buffer.substr(0, pos);
+    m_buffer = m_buffer.substr(pos + 1);
+
+    nope::log::Log(Info) << "After command : " << m_buffer;
 
     if (cmd.length() == 0)
       {
@@ -208,6 +213,7 @@ namespace zappy
 	    throw std::runtime_error(
 	        "Did not received Welcome message from the server");
 	  }
+	// TODO: monitor writing
 	if (m_socket.send("GRAPHIC\n", sizeof("GRAPHIC\n") - 1) == false)
 	  {
 	    throw std::runtime_error("Cannot send message to the server");
@@ -786,7 +792,9 @@ namespace zappy
 
     if (!is || is.peek() == ' ')
       {
-	throw std::invalid_argument("Invalid character (expected a digit)");
+	throw std::invalid_argument(
+	    std::string("Invalid character (expected a digit) (1) got '") +
+	    static_cast<char>(is.peek()) + "'");
       }
 
     while (is.get(c) && c != ' ')
@@ -794,7 +802,7 @@ namespace zappy
 	if (std::isdigit(c) == false)
 	  {
 	    throw std::invalid_argument(
-	        "Invalid character (expected a digit)");
+	        "Invalid character (expected a digit) (2)");
 	  }
 	res = 10 * res + static_cast<std::size_t>(c - '0');
       }
@@ -803,6 +811,8 @@ namespace zappy
 
   std::size_t GraphicClient::parsePlayerId(std::istringstream &is)
   {
+    return (parseInt(is));
+
     std::size_t res = 0;
     char        c;
 
@@ -816,7 +826,7 @@ namespace zappy
 	if (std::isdigit(c) == false)
 	  {
 	    throw std::invalid_argument(
-	        "Invalid character (expected a digit)");
+	        "Invalid character (expected a digit) (3)");
 	  }
 	res = 10 * res + static_cast<std::size_t>(c - '0');
       }
@@ -846,7 +856,7 @@ namespace zappy
 
     if (!is || is.peek() == ' ')
       {
-	throw std::invalid_argument("Invalid character (expected a digit)");
+	throw std::invalid_argument("Invalid character");
       }
 
     while (is.get(c) && c != ' ')

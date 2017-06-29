@@ -114,7 +114,7 @@ namespace zappy
 
     // Network
     network::TCPSocket m_socket;
-    std::stringstream  m_buffer;
+    std::string        m_buffer;
     bool               m_connecting;
   };
 }
