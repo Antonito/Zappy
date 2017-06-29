@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Mon Jun 26 13:15:51 2017 Antoine Baché
+** Last update Tue Jun 27 15:36:53 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -28,7 +28,7 @@ static void		zappy_client_cmd_inventory_build(t_zappy_client *
   msg->len =
     snprintf(buff, sizeof(buff),
 	     "[ food %d, linemate %d, deraumere %d, "
-	     "sibur %d, mendiane %d, phiras %d, thystame %d ]",
+	     "sibur %d, mendiane %d, phiras %d, thystame %d ]\n",
 	     cli->game.inv[RES_FOOD], cli->game.inv[RES_LINEMATE],
 	     cli->game.inv[RES_DERAUMERE], cli->game.inv[RES_SIBUR],
 	     cli->game.inv[RES_MENDIANE], cli->game.inv[RES_PHIRAS],

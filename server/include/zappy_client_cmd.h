@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:13:06 2017 Antoine Baché
-** Last update Mon Jun 26 09:41:52 2017 Antoine Baché
+** Last update Wed Jun 28 15:21:47 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_CMD_H_
@@ -101,5 +101,8 @@ void	zappy_client_cmd_err(t_zappy_client * const cli,
 void	zappy_client_cmd_connect_nbr(t_zappy_client * const cli,
 				     t_zappy * const data,
 				     char const * const arg);
+void	zappy_client_cmd_dead(t_zappy_client * const cli,
+			      t_zappy * const data,
+			      char const * const arg);
 
 #endif /* !ZAPPY_CLIENT_CMD_H_ */
