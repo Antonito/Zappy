@@ -144,10 +144,12 @@ namespace ai
 	  maxFd = m_sock.getSocket();
 	  if (m_curState->canWrite())
 	    {
+              nope::log::Log(Debug) << "FD_SET(write)";
 	      FD_SET(maxFd, &writefds);
 	    }
 	  else
 	    {
+              nope::log::Log(Debug) << "FD_SET(read)";
 	      FD_SET(maxFd, &readfds);
 	    }
 

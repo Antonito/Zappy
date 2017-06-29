@@ -46,7 +46,7 @@ namespace ai
   {
     // TODO : dynamic team name
     nope::log::Log(Debug) << "pushing 'Team1' into writeQueue";
-    writeQueue.push("Team1");
+    writeQueue.push("Team1\n");
     m_canWrite = false;
   }
 
