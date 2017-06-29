@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Thu Jun 29 12:00:17 2017 Antoine Baché
+** Last update Thu Jun 29 16:42:45 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -25,12 +25,7 @@ static t_zappy	zap;
 static void	zappy_exit_cleanup(void)
 {
   LOG(LOG_INFO, "Cleaning up resources...");
-  zappy_cleanup_config(&zap.conf);
-  zappy_cleanup_socket(&zap.net);
-  zappy_cleanup_multiplexer(&zap.multiplex);
-  zappy_cleanup_clients(&zap.clients);
-  zappy_cleanup_map(&zap.map);
-  zappy_cleanup_admin(&zap.admin);
+  zappy_reset(&zap);
   zappy_alloc_deinit();
   LOG(LOG_INFO, "Leaving Zappy server");
 }
@@ -57,8 +52,10 @@ static int32_t	zappy(t_zappy * const data)
       LOG(LOG_ERROR, "Cannot create socket.");
       return (84);
     }
-  LOG(LOG_INFO, "Socket %d created, starting server loop.", data->net.sock);
+  LOG(LOG_INFO, "Socket %d created, starting server loop.",
+      data->net.sock);
   rc = zappy_server(data);
+  zappy_reset(data);
   return (rc);
 }
 
@@ -82,8 +79,7 @@ int		main(int ac, char **av)
     {
       return (84);
     }
-  if (zappy_parse_args(ac,
-		       (char const * const *)av, &zap.conf))
+  while (!ret && zappy_parse_args(ac, (char const * const *)av, &zap.conf))
     {
       LOG(LOG_DEBUG, "Argument parsed, starting network");
       ret = zappy(&zap);

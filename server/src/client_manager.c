@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Thu Jun 29 13:48:22 2017 Antoine Baché
+** Last update Thu Jun 29 17:45:41 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -19,6 +19,7 @@
 #include "zappy_client_list.h"
 #include "zappy_cleanup.h"
 #include "zappy_graphic.h"
+#include "zappy_team.h"
 
 static void		zappy_client_add_list(t_zappy_client_list_manager *
 					      const list,
@@ -108,6 +109,8 @@ static void		zappy_client_rm_wrap(t_zappy_client_list_manager *
   --data->map.data[cur->data.game.y][cur->data.game.x].nb_players;
   data->map.data[cur->data.game.y][cur->data.game.x].
     player[cur->data.id] = NULL;
+  if (cur->data.game.level == 8)
+    --data->conf.teams.team[cur->data.game.team_id].nb_player_lvl_max;
   zappy_client_remove(list, cur, data);
   if (cur->data.state >= CLI_CONNECTED && !cur->data.graphical)
     {

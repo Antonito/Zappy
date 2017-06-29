@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Thu Jun 29 13:58:57 2017 Antoine Baché
+** Last update Thu Jun 29 16:49:43 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -99,7 +99,7 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
     }
 }
 
-void			zappy_logic(t_zappy * const data)
+bool			zappy_logic(t_zappy * const data)
 {
   uint64_t		cur_time;
 
@@ -121,5 +121,7 @@ void			zappy_logic(t_zappy * const data)
       data->multiplex.tv_ref.tv_sec = cur_time / 1000;
       data->multiplex.tv_ref.tv_usec = cur_time % 1000;
       data->clients.next_action = 0;
+      return (zappy_has_winner(data));
     }
+  return (false);
 }

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 13:28:54 2017 Antoine Baché
-** Last update Thu Jun 29 14:03:40 2017 Antoine Baché
+** Last update Thu Jun 29 17:50:50 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,6 +14,18 @@
 #include "zappy_client_game.h"
 #include "zappy_team.h"
 #include "zappy_team_manager.h"
+
+void			zappy_player_level_up(t_zappy_client_game *const cli,
+					      t_zappy * const data)
+{
+  assert(cli && data);
+  assert(cli->level < 8);
+  ++cli->level;
+  if (cli->level == 8)
+    {
+      ++data->conf.teams.team[cli->team_id].nb_player_lvl_max;
+    }
+}
 
 static int32_t		zappy_player_check_team(t_zappy * const data)
 {
@@ -55,4 +67,24 @@ void			zappy_has_player(t_zappy * const data)
       data->multiplex.tv_ref.tv_usec = 0;
     }
   LOG(LOG_DEBUG, "Checked players : %d", data->clients.has_player);
+}
+
+int32_t		zappy_get_max_player_c(t_zappy_config const * const data)
+{
+  int32_t	i;
+  int32_t	sum;
+
+  sum = 0;
+  i = 0;
+  while (i < data->teams.nb_teams)
+    {
+      sum += data->teams.team[i].nb_players_max;
+      ++i;
+    }
+  return (sum);
+}
+
+int32_t		zappy_get_max_player(t_zappy const * const data)
+{
+  return (zappy_get_max_player_c(&data->conf));
 }

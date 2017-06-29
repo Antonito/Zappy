@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Thu Jun 29 13:30:17 2017 Antoine Baché
+** Last update Thu Jun 29 17:52:40 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -22,6 +22,11 @@
 ** Forward declaration of t_zappy
 */
 typedef struct			s_zappy		t_zappy;
+
+/*
+** Forward declaration of t_zappy_config
+*/
+typedef struct			s_zappy_config	t_zappy_config;
 
 /*
 ** Forward declaration of t_zappy_client
@@ -68,5 +73,12 @@ void				zappy_client_forward(t_zappy_client_game *
 						     int32_t const id,
 						     t_zappy_map * const map);
 void				zappy_has_player(t_zappy * const data);
+int32_t				zappy_get_max_player_c(t_zappy_config const *
+						       const data);
+int32_t				zappy_get_max_player(t_zappy const *
+						     const data);
+void				zappy_player_level_up(t_zappy_client_game *
+						      const cli,
+						      t_zappy * const data);
 
 #endif /* !ZAPPY_CLIENT_GAME_H_ */

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:25:22 2017 Antoine Baché
-** Last update Tue Jun 27 19:54:40 2017 Antoine Baché
+** Last update Thu Jun 29 14:28:57 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -83,8 +83,7 @@ bool		zappy_elevation_check(t_zappy_client * const cli,
   x = cli->game.x;
   y = cli->game.y;
   return (zappy_elevation_check_lvl(cli->game.level,
-				    data->conf.teams.nb_teams *
-				    data->conf.teams.nb_client_per_team,
+				    zappy_get_max_player(data),
 				    &cli->game,
 				    data->map.data[y][x].player));
 }
@@ -107,7 +106,7 @@ bool		zappy_elevation_end(t_zappy_client * const cli,
 
   if (!zappy_elevation_check(cli, data))
     return (false);
-  max = data->conf.teams.nb_teams * data->conf.teams.nb_client_per_team;
+  max = zappy_get_max_player(data);
   i = 0;
   while (i < max)
     {
