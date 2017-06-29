@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Tue Jun 27 15:19:47 2017 Antoine Baché
+** Last update Thu Jun 29 18:24:12 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -55,9 +55,9 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
   assert(msg && vision && vision->nb_lines > 0);
   memset(buff, 0, sizeof(buff));
   max = ZAPPY_VISION_GET_SIZE(vision->nb_lines - 1);
-  i = 0;
   strncat(buff, "[", sizeof(buff) - 1);
-  while (i < max)
+  i = -1;
+  while (++i < max)
     {
       j = 0;
       if (i != 0)
@@ -68,7 +68,6 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
 	  ++j;
 	}
       zappy_client_look_add_res(vision, i, buff);
-      ++i;
     }
   strncat(buff, "]\n", sizeof(buff) - 1);
   msg->len = (int32_t)strlen(buff);

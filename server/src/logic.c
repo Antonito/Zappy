@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Thu Jun 29 16:49:43 2017 Antoine Baché
+** Last update Thu Jun 29 18:23:10 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -87,8 +87,8 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
 	{
 	  LOG(LOG_DEBUG, "Removing 1 food");
 	  --cli->game.inv[RES_FOOD];
-	  cli->game.food_time = (uint64_t)((126 * 1000) / zap->conf.freq) +
-	    cur_time;
+	  cli->game.food_time = (uint64_t)((126 * 1000) / zap->conf.freq)
+	    + cur_time;
 	}
       if (cli->game.inv[RES_FOOD] == 0)
 	{
