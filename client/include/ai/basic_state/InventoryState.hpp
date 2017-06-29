@@ -27,6 +27,8 @@ namespace ai
     virtual void reset(Value value);
     virtual Value getResponse() const;
 
+    std::int32_t getFood() const;
+
   private:
     Value m_value;
   };
@@ -37,4 +39,3 @@ namespace ai
 #endif
 
 #endif // !INVENTORYSTATE_HPP_
-
