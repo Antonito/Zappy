@@ -14,7 +14,7 @@ namespace ai
   class StarvingState final : public AState
   {
   public:
-    StarvingState(std::map<BasicState, IState *> &states);
+    StarvingState(std::map<BasicState, std::unique_ptr<IState>> &states);
     StarvingState(StarvingState const &) = delete;
     StarvingState(StarvingState &&) = delete;
     virtual ~StarvingState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !STARVINGSTATE_HPP_
-

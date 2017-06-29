@@ -2,7 +2,9 @@
 
 namespace ai
 {
-  MoveToFoodState::MoveToFoodState(std::map<BasicState, IState *> &states) : AState(states)
+  MoveToFoodState::MoveToFoodState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
+      : AState(states)
   {
   }
 

@@ -14,7 +14,7 @@ namespace ai
   class CollectFoodState final : public AState
   {
   public:
-    CollectFoodState(std::map<BasicState, IState *> &states);
+    CollectFoodState(std::map<BasicState, std::unique_ptr<IState>> &states);
     CollectFoodState(CollectFoodState const &) = delete;
     CollectFoodState(CollectFoodState &&) = delete;
     virtual ~CollectFoodState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !COLLECTFOODSTATE_HPP_
-

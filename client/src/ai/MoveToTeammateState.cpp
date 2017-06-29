@@ -2,7 +2,9 @@
 
 namespace ai
 {
-  MoveToTeammateState::MoveToTeammateState(std::map<BasicState, IState *> &states) : AState(states)
+  MoveToTeammateState::MoveToTeammateState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
+      : AState(states)
   {
   }
 

@@ -14,7 +14,7 @@ namespace ai
   class InitAIConnectState final : public AState
   {
   public:
-    InitAIConnectState(std::map<BasicState, IState *> &states);
+    InitAIConnectState(std::map<BasicState, std::unique_ptr<IState>> &states);
     InitAIConnectState(InitAIConnectState const &);
     InitAIConnectState(InitAIConnectState &&);
     virtual ~InitAIConnectState();

@@ -2,21 +2,22 @@
 
 namespace ai
 {
-  AState::AState(std::map<BasicState, IState *> &states) : m_states(states), m_curState(), m_curValue(Value::LOOP)
+  AState::AState(std::map<BasicState, std::unique_ptr<IState>> &states)
+      : m_curState(), m_curValue(Value::LOOP)
   {
     m_canWrite = false;
-    /*m_states[BasicState::BROADCAST] = std::make_unique<BroadcastState>();
-    m_states[BasicState::CONNECT_NBR] = std::make_unique<ConnectnbrState>();
-    m_states[BasicState::EJECT] = std::make_unique<EjectState>();
-    m_states[BasicState::FORK] = std::make_unique<ForkState>();
-    m_states[BasicState::FORWARD] = std::make_unique<ForwardState>();
-    m_states[BasicState::INCANTATION] = std::make_unique<IncantationState>();
-    m_states[BasicState::INVENTORY] = std::make_unique<InventoryState>();
-    m_states[BasicState::LEFT] = std::make_unique<LeftState>();
-    m_states[BasicState::LOOK] = std::make_unique<LookState>();
-    m_states[BasicState::RIGHT] = std::make_unique<RightState>();
-    m_states[BasicState::SET] = std::make_unique<SetState>();
-    m_states[BasicState::TAKE] = std::make_unique<TakeState>();*/
+    m_states[BasicState::BROADCAST] = states[BasicState::BROADCAST].get();
+    m_states[BasicState::CONNECT_NBR] = states[BasicState::CONNECT_NBR].get();
+    m_states[BasicState::EJECT] = states[BasicState::EJECT].get();
+    m_states[BasicState::FORK] = states[BasicState::FORK].get();
+    m_states[BasicState::FORWARD] = states[BasicState::FORWARD].get();
+    m_states[BasicState::INCANTATION] = states[BasicState::INCANTATION].get();
+    m_states[BasicState::INVENTORY] = states[BasicState::INVENTORY].get();
+    m_states[BasicState::LEFT] = states[BasicState::LEFT].get();
+    m_states[BasicState::LOOK] = states[BasicState::LOOK].get();
+    m_states[BasicState::RIGHT] = states[BasicState::RIGHT].get();
+    m_states[BasicState::SET] = states[BasicState::SET].get();
+    m_states[BasicState::TAKE] = states[BasicState::TAKE].get();
   }
 
   AState::AState(AState const &that)
@@ -26,8 +27,7 @@ namespace ai
   }
 
   AState::AState(AState &&that)
-      : m_states(that.m_states),
-        m_curState(std::move(that.m_curState)),
+      : m_states(that.m_states), m_curState(std::move(that.m_curState)),
         m_curValue(std::move(that.m_curValue))
   {
   }

@@ -2,7 +2,8 @@
 
 namespace ai
 {
-  StarvingState::StarvingState(std::map<BasicState, IState *> &states)
+  StarvingState::StarvingState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
       : AState(states)
   {
     nope::log::Log(Debug) << "Starving State init";
@@ -33,7 +34,7 @@ namespace ai
   {
     nope::log::Log(Debug) << "Starving[WRITE]State";
     nope::log::Log(Debug) << "ADDR " << m_states[BasicState::INVENTORY];
-    //m_states[BasicState::INVENTORY]->writeState(writeQueue);
+    // m_states[BasicState::INVENTORY]->writeState(writeQueue);
     writeQueue.push("Inventory\n");
     m_canWrite = false;
   }
@@ -41,7 +42,7 @@ namespace ai
   void StarvingState::reset(Value value)
   {
     nope::log::Log(Debug) << "StarvingState reset";
-    //m_curValue = value;
+    // m_curValue = value;
     nope::log::Log(Debug) << "m_curValue = " << m_curValue;
     m_canWrite = true;
   }

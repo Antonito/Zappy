@@ -2,7 +2,9 @@
 
 namespace ai
 {
-  FindStoneState::FindStoneState(std::map<BasicState, IState *> &states) : AState(states)
+  FindStoneState::FindStoneState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
+      : AState(states)
   {
   }
 

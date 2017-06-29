@@ -2,7 +2,9 @@
 
 namespace ai
 {
-  InitAIConnectState::InitAIConnectState(std::map<BasicState, IState *> &states) : AState(states), m_changeState(false)
+  InitAIConnectState::InitAIConnectState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
+      : AState(states), m_changeState(false)
   {
   }
 
@@ -28,7 +30,7 @@ namespace ai
     if (tmp == "WELCOME\n")
       {
 	nope::log::Log(Debug) << "got server's Welcome";
-        m_canWrite = true;
+	m_canWrite = true;
       }
     else
       {

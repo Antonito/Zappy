@@ -14,7 +14,7 @@ namespace ai
   class MissingPlayerState final : public AState
   {
   public:
-    MissingPlayerState(std::map<BasicState, IState *> &states);
+    MissingPlayerState(std::map<BasicState, std::unique_ptr<IState>> &states);
     MissingPlayerState(MissingPlayerState const &) = delete;
     MissingPlayerState(MissingPlayerState &&) = delete;
     virtual ~MissingPlayerState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !MISSINGPLAYERSTATE_HPP_
-

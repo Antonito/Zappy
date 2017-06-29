@@ -14,7 +14,7 @@ namespace ai
   class MoveToStoneState final : public AState
   {
   public:
-    MoveToStoneState(std::map<BasicState, IState *> &states);
+    MoveToStoneState(std::map<BasicState, std::unique_ptr<IState>> &states);
     MoveToStoneState(MoveToStoneState const &) = delete;
     MoveToStoneState(MoveToStoneState &&) = delete;
     virtual ~MoveToStoneState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !MOVETOSTONESTATE_HPP_
-
