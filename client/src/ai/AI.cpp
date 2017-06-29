@@ -200,6 +200,7 @@ namespace ai
 	      }
 	  }
 	m_curValue = m_curState->getResponse();
+        nope::log::Log(Debug) << "CurValue = " << m_curValue;
 	if (m_curValue != Value::LOOP)
 	  {
 	    m_curStateName = transitionTable.at(

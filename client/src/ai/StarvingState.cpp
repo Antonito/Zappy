@@ -24,10 +24,14 @@ namespace ai
       {
 	m_curValue = Value::YES;
       }
-    else if (m_curValue == Value::YES)
+    else if (m_retValue == Value::YES)
       {
 	m_curValue = Value::NO;
       }
+    else
+    {
+      m_curValue = m_retValue;
+    }
     // or directly read in readQueue
   }
 
@@ -43,7 +47,8 @@ namespace ai
   void StarvingState::reset(Value value)
   {
     nope::log::Log(Debug) << "StarvingState reset";
-    // m_curValue = value;
+    m_curValue = Value::LOOP;
+    m_retValue = value;
     nope::log::Log(Debug) << "m_curValue = " << m_curValue;
     m_canWrite = true;
   }

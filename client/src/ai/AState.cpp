@@ -3,7 +3,7 @@
 namespace ai
 {
   AState::AState(std::map<BasicState, std::unique_ptr<IState>> &states)
-      : m_curState(), m_curValue(Value::LOOP)
+      : m_curState(), m_curValue(Value::LOOP), m_retValue(Value::YES)
   {
     m_canWrite = false;
     m_states[BasicState::BROADCAST] = states[BasicState::BROADCAST].get();

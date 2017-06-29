@@ -46,6 +46,7 @@ namespace ai
     std::map<BasicState, IState *> m_states;
     State m_curState;
     Value m_curValue;
+    Value m_retValue;
     bool  m_canWrite;
   };
 }
