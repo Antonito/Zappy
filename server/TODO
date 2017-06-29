@@ -1,16 +1,24 @@
 ## TODO:
 
--> Team parsing
+-> Gestion ticks (select sleep intelligent)
+-> Fork
 
--> Tri de l'input_queue par remaining_time
--> Update remaining_time
-
--> Gestion ticks
--> Son
--> Vision
--> elevation
-
--> Client graphique
-
--> authentification socketa admin
 -> openSSL
+
+-> graphic:
+pic
+enw
+eht
+ebo
+edi
+
+-> graphic sheet:
+connexion moniteur // Partially OK
+connexion joueur oeuf
+incantation
+fin incantation
+fork
+fin fork
+eclosion oeuf
+oeuf moisi (mort)
+fin de jeu

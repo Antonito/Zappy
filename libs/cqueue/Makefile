@@ -32,7 +32,9 @@ HEADER=
 
 SRC_FILES=	getter.c	\
 		capacity.c	\
-		modifier.c
+		modifier.c	\
+		sort.c		\
+		for_each.c
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

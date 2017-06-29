@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Mon Jun 26 19:36:37 2017 Antoine Baché
+** Last update Thu Jun 29 01:27:45 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -77,6 +77,7 @@ int		main(int ac, char **av)
   LOG(LOG_INFO, "Starting Zappy server");
   if (zappy_alloc_init() ||
       atexit(zappy_exit_cleanup) == -1 ||
+      signal(SIGPIPE, SIG_IGN) == SIG_ERR ||
       signal(SIGINT, &zappy_signal_handler) == SIG_ERR)
     {
       return (84);

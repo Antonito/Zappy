@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Mon Jun 26 21:44:35 2017 Antoine Baché
+** Last update Thu Jun 29 01:24:10 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,6 +18,7 @@
 #include "zappy_color.h"
 #include "zappy_client_list.h"
 #include "zappy_cleanup.h"
+#include "zappy_graphic.h"
 
 static void		zappy_client_add_list(t_zappy_client_list_manager *
 					      const list,
@@ -55,8 +56,8 @@ int32_t			zappy_client_add(t_zappy * const data,
     }
   memset(&elem->data, 0, sizeof(t_zappy_client));
   elem->data.net.sock = socket;
-  zappy_client_fill(&elem->data, data, addr, len);
   elem->data.id = data->clients.nb_clients;
+  zappy_client_fill(&elem->data, data, addr, len);
   LOG(LOG_INFO, YELLOW_BOLD_INTENS"%s #%d: %s"CLEAR, "New client",
       elem->data.id,
       inet_ntoa(elem->data.net.addr.sin_addr));
@@ -67,11 +68,12 @@ int32_t			zappy_client_add(t_zappy * const data,
 int32_t			zappy_client_remove(t_zappy_client_list_manager *
 					    const list,
 					    t_zappy_client_list *
-					    const cur)
+					    const cur,
+					    t_zappy * const data)
 {
   LOG(LOG_INFO, YELLOW_BOLD_INTENS"Disconnecting client %d"
       CLEAR, cur->data.id);
-  assert(list && cur);
+  assert(list && cur && data);
   assert(list->nb_clients > 0);
   if (cur->prev)
     {
@@ -85,6 +87,9 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
       assert(cur->next->prev == cur);
       cur->next->prev = cur->prev;
     }
+  if (cur->data.game.team_name && cur->data.authenticated)
+    zappy_team_manager_delete_client(cur->data.game.team_name,
+				     &data->conf.teams);
   zappy_cleanup_client(&cur->data);
   free(cur);
   --list->nb_clients;
@@ -92,8 +97,27 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
   return (0);
 }
 
+static void		zappy_client_rm_wrap(t_zappy_client_list_manager *
+					     const list,
+					     t_zappy_client_list *cur,
+					     t_zappy * const data)
+{
+  t_zappy_graph_arg	g;
+
+  --data->map.data[cur->data.game.y][cur->data.game.x].nb_players;
+  data->map.data[cur->data.game.y][cur->data.game.x].
+    player[cur->data.id] = NULL;
+  zappy_client_remove(list, cur, data);
+  if (cur->data.state >= CLI_CONNECTED && !cur->data.graphical)
+    {
+      g = (t_zappy_graph_arg){ &cur->data, 0, 0 };
+      zappy_graph_send(&g, data, NULL, &zappy_graph_pdi);
+    }
+}
+
 void			zappy_client_purify_list(t_zappy_client_list_manager *
-						 const list)
+						 const list,
+						 t_zappy * const data)
 {
   int32_t		i;
   t_zappy_client_list	*cur;
@@ -108,7 +132,7 @@ void			zappy_client_purify_list(t_zappy_client_list_manager *
       LOG(LOG_DEBUG, "Checking client %d", cur->data.id);
       if (cur->data.connected == false)
 	{
-	  zappy_client_remove(list, cur);
+	  zappy_client_rm_wrap(list, cur, data);
 	}
       else
 	{

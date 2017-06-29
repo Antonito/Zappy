@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:36:44 2017 Antoine Baché
-** Last update Mon Jun 26 22:01:58 2017 Antoine Baché
+** Last update Tue Jun 27 09:29:14 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,6 +48,7 @@ void			zappy_admin_accept(t_zappy * const data)
       sock->sock = rc;
       LOG(LOG_INFO, CYAN_BOLD_INTENS"Administrator connected !"CLEAR);
       data->admin.can_write = false;
+      data->admin.authenticated = false;
     }
   else if (sock->sock != -1)
     closesocket(rc);
