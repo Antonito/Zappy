@@ -4,6 +4,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "Mesh.hpp"
+#include "Shader.hpp"
+#include "Camera.hpp"
 
 namespace zappy
 {
@@ -32,7 +34,8 @@ namespace zappy
     //
     void setClearColor(float r, float g, float b, float a);
     void clear();
-    void draw(Mesh const &mesh);
+    void useShader(Shader &shader);
+    void draw(Camera const &camera, Mesh const &mesh);
     void display();
 
     //
@@ -45,6 +48,7 @@ namespace zappy
     void setCursorVisible(bool visible);
   private:
     sf::Window m_win;
+    Shader *m_curShader;
   };
 }
 

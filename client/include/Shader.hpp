@@ -24,6 +24,7 @@ namespace zappy
 
     void updateTransform(glm::mat4 const &transform);
     void updateShadowMat(); // TODO: set parameters
+    void updateColor(glm::vec4 const &color);
 //    void updateLight(Light const &light);
 
   private:
@@ -38,6 +39,7 @@ namespace zappy
       TRANSFORM_U,
       SHADOW_MAT_U,
       LIGHT_U,
+      COLOR_U,
 
       NB_UNIFORMS
     };

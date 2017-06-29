@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <string>
 #include <array>
+#include <map>
 #include <glm/glm.hpp>
 #include <GL/gl.h>
 #include "IndicesElement.hpp"
@@ -19,7 +20,7 @@ namespace zappy
   class Model
   {
   public:
-    Model() = delete;
+    Model();
     Model(std::vector<glm::vec3> const &vertices,
           std::vector<GLuint> const &indices);
     Model(std::vector<glm::vec3> &&vertices,
@@ -31,17 +32,19 @@ namespace zappy
     Model &operator=(Model const &);
     Model &operator=(Model &&);
 
-    static Model fromObj(std::string const &path);
+    static Model const &fromObj(std::string const &path);
 
     std::vector<glm::vec3> const &vertices() const;
     std::vector<glm::vec3> const &normals() const;
-    std::vector<GLuint> const &indices() const;
+    std::vector<GLuint> const &   indices() const;
 
     void render() const;
 
   private:
     void init();
     void calcNormals();
+
+    static std::map<std::string, Model> m_models;
 
     enum BufferType
     {
@@ -55,7 +58,7 @@ namespace zappy
 
     std::vector<glm::vec3> m_vertices;
     std::vector<glm::vec3> m_normals;
-    std::vector<GLuint> m_indices;
+    std::vector<GLuint>    m_indices;
 
     // Vertex Array Object
     GLuint m_vao;

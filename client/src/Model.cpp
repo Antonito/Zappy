@@ -2,6 +2,12 @@
 
 namespace zappy
 {
+  std::map<std::string, Model> Model::m_models;
+  
+  Model::Model() : m_vertices(), m_normals(), m_indices(), m_vao(0), m_vbos()
+  {
+  }
+
   Model::Model(std::vector<glm::vec3> const &vertices,
                std::vector<GLuint> const &   indices)
       : m_vertices(vertices), m_normals(), m_indices(indices), m_vao(),
@@ -73,8 +79,13 @@ namespace zappy
     return (*this);
   }
 
-  Model Model::fromObj(std::string const &path)
+  Model const &Model::fromObj(std::string const &path)
   {
+    if (m_models.find(path) != m_models.end())
+      {
+	return (m_models[path]);
+      }
+
     std::vector<glm::vec3> vertices;
     std::vector<GLuint>    indices;
 
@@ -164,7 +175,8 @@ namespace zappy
 	++lineCount;
       }
 
-    return (Model(std::move(vertices), std::move(indices)));
+    m_models[path] = Model(std::move(vertices), std::move(indices));
+    return (m_models[path]);
   }
 
   std::vector<glm::vec3> const &Model::vertices() const

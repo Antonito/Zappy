@@ -18,10 +18,12 @@ namespace zappy
     GameMap &operator=(GameMap const &);
     GameMap &operator=(GameMap &&);
 
-    void renderOn(Window &window) const;
+    void renderOn(Window &window, Camera const &camera) const;
+    void setSize(std::size_t x, std::size_t y);
 
   private:
     std::vector<Tile> m_tiles;
+    float             m_height;
   };
 }
 

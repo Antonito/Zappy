@@ -36,6 +36,7 @@ namespace zappy
     m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
     m_uniforms[SHADOW_MAT_U] = glGetUniformLocation(m_program, "shadow_mat");
     m_uniforms[LIGHT_U] = glGetUniformLocation(m_program, "light");
+    m_uniforms[COLOR_U] = glGetUniformLocation(m_program, "color");
   }
 
   Shader::~Shader()
@@ -63,6 +64,11 @@ namespace zappy
 
   void Shader::updateShadowMat()
   {
+  }
+
+  void Shader::updateColor(glm::vec4 const &color)
+  {
+    glUniform4f(m_uniforms[COLOR_U], color.r, color.g, color.b, color.a);
   }
 
   GLuint Shader::loadShader(std::string const &filename, GLenum type)

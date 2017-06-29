@@ -21,29 +21,19 @@ namespace zappy
   {
     Model test = Model::fromObj("./models/cube.obj");
 
-    std::vector<glm::vec3> points = {
-        {-0.5, -1.0, -0.5}, {0.0, 1.0, 0.5}, {0.5, -1.0, -0.5}};
-    std::vector<std::uint32_t> index = {0, 1, 2};
-
-    Model test2(points, index);
     Mesh  cube(test);
+    Mesh  cube2(test);
 
     m_win.setClearColor(0.1, 0.1, 0.2, 1.0);
     m_win.setCursorVisible(false);
-    m_shader.bind();
 
-    //     std::vector<GLfloat> pts = {-1.0f, -1.0f, 0.0f,
-    //    1.0f, -1.0f, 0.0f,
-    //    0.0f,  1.0f, 0.0f};
+    cube2.translate(0, 0, 3);
 
-    //     GLuint vertexbuf;
+    m_win.useShader(m_shader);
 
-    //     glGenBuffers(1, &vertexbuf);
+    cube2.setColor(0.0, 0.7, 0.0);
 
-    //     glBindBuffer(GL_ARRAY_BUFFER, vertexbuf);
-
-    //     glBufferData(GL_ARRAY_BUFFER, pts.size() * sizeof(pts[0]), &pts[0],
-    //     GL_STATIC_DRAW);
+    m_map.setSize(3, 4);
 
     while (m_win.isOpen())
       {
@@ -66,29 +56,8 @@ namespace zappy
 
 	// Clear the window
 	m_win.clear();
-
-	// m_map.renderOn(m_win);
-
-	// for (Player const &player : m_players)
-	//   {
-	//     player.renderOn(m_win);
-	//   }
-
-	// glEnableVertexAttribArray(0);
-
-	// glBindBuffer(GL_ARRAY_BUFFER, vertexbuf);
-
-	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-	// glDrawArrays(GL_TRIANGLES, 0, 3);
-	// glDisableVertexAttribArray(0);
-
-	// m_win.draw(cube);
-
-	m_shader.updateTransform(m_camera.getViewProjection() *
-	                         cube.fullTransform());
-
-	cube.model().render();
+	
+	m_map.renderOn(m_win, m_camera);
 
 	// Display the window
 	m_win.display();

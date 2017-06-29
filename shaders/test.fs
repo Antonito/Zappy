@@ -7,6 +7,7 @@ out vec4 colorOut;
 in  vec3 normal2;
 in  vec3 eye2;
 in  vec3 lightDir2;
+in  vec4 color2;
 
 void main() {
   float minimum = 0.2;
@@ -31,9 +32,10 @@ void main() {
   }
 
   colorOut = max(intensity * diff + spec, ambient);
+
   intensity = dot(normal2, lightDir);
 
-  colorOut = vec4(1.0, 0.0, 0.5, 1.0) * max(intensity, minimum);
+  colorOut = color2 * max(intensity, minimum);
   if (colorOut.a == 0.0)
     discard ;
 }

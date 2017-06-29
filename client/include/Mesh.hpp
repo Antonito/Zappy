@@ -24,8 +24,8 @@ namespace zappy
     Mesh(Mesh &&);
     virtual ~Mesh();
 
-    Mesh &operator=(Mesh const &) = delete;
-    Mesh &operator=(Mesh &&) = delete;
+    Mesh &operator=(Mesh const &);
+    Mesh &operator=(Mesh &&);
 
     Model const &model() const;
 
@@ -35,6 +35,8 @@ namespace zappy
 
     glm::mat4 const &fullTransform() const;
 
+    glm::vec4 const &color() const;
+
     void setPosition(double x, double y, double z);
     void setPosition(glm::vec3 const &position);
     void setScale(double x, double y, double z);
@@ -42,6 +44,9 @@ namespace zappy
     void setRotation(glm::quat const &rotation);
 
     void setFullTransform(glm::mat4 const &fullTransform);
+
+    void setColor(glm::vec4 const &color);
+    void setColor(float r, float g, float b, float a = 1.0f);
 
     void translate(double x, double y, double z);
     void translate(glm::vec3 const &translation);
@@ -56,12 +61,13 @@ namespace zappy
   private:
     void updateDataFromFullTransform();
 
-    Model const &     m_model;
-    glm::vec3         m_position;
-    glm::vec3         m_scale;
-    glm::quat         m_rotation;
-    mutable glm::mat4 m_fullTransform;
-    mutable bool      m_fullTransformIsUpToDate;
+    Model const * m_model;
+    glm::vec3          m_position;
+    glm::vec3          m_scale;
+    glm::quat          m_rotation;
+    mutable glm::mat4  m_fullTransform;
+    mutable bool       m_fullTransformIsUpToDate;
+    glm::vec4          m_color;
   };
 }
 

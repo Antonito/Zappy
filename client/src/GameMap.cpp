@@ -34,11 +34,25 @@ namespace zappy
     return (*this);
   }
 
-  void GameMap::renderOn(Window &window) const
+  void GameMap::renderOn(Window &window, Camera const &camera) const
   {
     for (Tile const &tile : m_tiles)
       {
-	tile.renderOn(window);
+	tile.renderOn(window, camera);
+      }
+  }
+
+  void GameMap::setSize(std::size_t x, std::size_t y)
+  {
+    m_tiles.resize(x * y);
+    for (std::size_t _y = 0; _y < y; ++_y)
+      {
+	for (std::size_t _x = 0; _x < x; ++_x)
+	  {
+	    constexpr double shift = 1.1;
+	    m_tiles[x * _y + _x].setPosition(
+	        glm::vec3(shift * _x, 0, shift * _y));
+	  }
       }
   }
 }

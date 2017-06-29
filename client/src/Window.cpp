@@ -5,7 +5,8 @@ namespace zappy
   Window::Window(unsigned int width, unsigned int height,
                  std::string const &name)
       : m_win(sf::VideoMode(width, height), name, sf::Style::Close,
-              sf::ContextSettings(24, 8, 0, 3, 3, 0))
+              sf::ContextSettings(24, 8, 0, 3, 3, 0)),
+        m_curShader(nullptr)
   {
     glewExperimental = GL_TRUE;
     glewInit();
@@ -47,8 +48,19 @@ namespace zappy
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  void Window::draw(Mesh const &mesh)
+  void Window::useShader(Shader &shader)
   {
+    shader.bind();
+    m_curShader = &shader;
+  }
+
+  void Window::draw(Camera const &camera, Mesh const &mesh)
+  {
+    assert(m_curShader != nullptr);
+
+    m_curShader->updateTransform(camera.getViewProjection() *
+                                 mesh.fullTransform());
+    m_curShader->updateColor(mesh.color());
     mesh.model().render();
   }
 
