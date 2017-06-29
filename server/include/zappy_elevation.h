@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:21:14 2017 Antoine Baché
-** Last update Tue Jun 27 19:54:32 2017 Antoine Baché
+** Last update Thu Jun 29 19:31:45 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ELEVATION_H_
@@ -20,9 +20,14 @@
 typedef struct		s_zappy		t_zappy;
 
 /*
-** Forward declaration of t_zappy
+** Forward declaration of t_zappy_client
 */
-typedef struct		s_zappy_client	t_zappy_client;
+typedef struct		s_zappy_client		t_zappy_client;
+
+/*
+** Forward declaration of t_zappy_client_game
+*/
+typedef struct		s_zappy_client_game	t_zappy_client_game;
 
 typedef struct		s_zappy_elevation
 {
@@ -37,7 +42,7 @@ typedef struct		s_zappy_elevation
 
 bool			zappy_elevation_check(t_zappy_client *cli,
 					      t_zappy *data);
-bool			zappy_elevation_end(t_zappy_client * const cli,
-					    t_zappy * const data);
+void			zappy_elevation_end_inv(t_zappy_client_game *
+						const cli);
 
 #endif /* !ZAPPY_ELEVATION_H_ */

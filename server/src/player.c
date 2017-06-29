@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 13:28:54 2017 Antoine Baché
-** Last update Thu Jun 29 17:50:50 2017 Antoine Baché
+** Last update Thu Jun 29 19:10:03 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -21,6 +21,7 @@ void			zappy_player_level_up(t_zappy_client_game *const cli,
   assert(cli && data);
   assert(cli->level < 8);
   ++cli->level;
+  ++cli->vision;
   if (cli->level == 8)
     {
       ++data->conf.teams.team[cli->team_id].nb_player_lvl_max;
