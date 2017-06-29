@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Thu Jun 29 00:24:40 2017 Antoine Baché
+** Last update Thu Jun 29 17:51:43 2017 Antoine Baché
 */
 
 #include "clogger.h"
@@ -21,4 +21,5 @@ void		zappy_client_cmd_incantation(t_zappy_client * const cli,
   (void)data;
   (void)cli;
   LOG(LOG_DEBUG, "Treating incantation command");
+  zappy_player_level_up(&cli->game, data);
 }

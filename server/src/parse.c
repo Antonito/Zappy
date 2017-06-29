@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:00 2017 Antoine Baché
-** Last update Tue Jun 27 14:57:25 2017 Antoine Baché
+** Last update Thu Jun 29 14:44:09 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -57,7 +57,7 @@ int32_t			zappy_parse_args(int const ac,
   data->world_height = 15;
   data->world_width = 15;
   data->freq = 100;
-  data->teams.nb_client_per_team = 10;
+  data->nb_client_per_team = 10;
   zappy_team_manager_add_team("GRAPHIC", &data->teams);
   if (check_argvs(ac, av, data))
     {
@@ -68,5 +68,6 @@ int32_t			zappy_parse_args(int const ac,
   LOG(LOG_DEBUG, "Port -----------> %d", data->port);
   LOG(LOG_DEBUG, "Map Dimensions -> %d x %d",
       data->world_height, data->world_width);
+  zappy_team_set_max_players(&data->teams, data->nb_client_per_team);
   return (1);
 }

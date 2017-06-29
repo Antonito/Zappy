@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Mon Jun 26 21:47:50 2017 Antoine Baché
+** Last update Thu Jun 29 12:13:38 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -84,7 +84,9 @@ int32_t		zappy_multiplexer(int32_t const server_sock,
       zappy_multiplexer_clients(server_sock, admin_sock, clients, data);
       memcpy(&data->tv, &data->tv_ref, sizeof(data->tv));
       rc = select(data->max_sock + 1, &data->readfds, &data->writefds,
-		  &data->exceptfds, &data->tv);
+		  &data->exceptfds,
+		  (data->tv.tv_sec > 0 || data->tv.tv_usec > 0) ?
+		  &data->tv : NULL);
     }
   return (rc);
 }

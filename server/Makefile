@@ -76,10 +76,13 @@ SRC_FILES=	admin.c				\
 		network.c			\
 		order.c				\
 		parse.c				\
+		player.c			\
+		reset.c				\
 		resource.c			\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\
+		team.c				\
 		team_manager.c			\
 		time.c				\
 		vision.c			\
