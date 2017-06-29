@@ -76,6 +76,7 @@ SRC_FILES=	admin.c				\
 		network.c			\
 		order.c				\
 		parse.c				\
+		player.c			\
 		resource.c			\
 		ring_buffer.c			\
 		server.c			\

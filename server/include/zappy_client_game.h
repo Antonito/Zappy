@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Thu Jun 29 11:31:43 2017 Antoine Baché
+** Last update Thu Jun 29 13:30:17 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -67,5 +67,6 @@ void				zappy_client_forward(t_zappy_client_game *
 						     const cli,
 						     int32_t const id,
 						     t_zappy_map * const map);
+void				zappy_has_player(t_zappy * const data);
 
 #endif /* !ZAPPY_CLIENT_GAME_H_ */

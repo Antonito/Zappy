@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Thu Jun 29 01:12:47 2017 Antoine Baché
+** Last update Thu Jun 29 13:57:45 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -149,8 +149,12 @@ static void		zappy_cli_state_conn_w_(t_zappy_client * const cli,
 	  g = (t_zappy_graph_arg){ cli, 0, 0 };
 	  zappy_graph_send(&g, data, buff, &zappy_graph_pnw);
 	  cli->authenticated = true;
+	  zappy_has_player(data);
+	  return ;
 	}
     }
+  cur->msg = NULL;
+  cli->connected = false;
 }
 
 void			zappy_cli_state_conn_w(t_zappy_client * const cli,
@@ -177,6 +181,7 @@ void			zappy_cli_state_conn_w(t_zappy_client * const cli,
       if (cli->graphical)
 	return ;
     }
+  cli->can_write = false;
   cli->connected = false;
   cli->state = CLI_AUTHENTICATING;
 }

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:42:50 2017 Antoine Baché
-** Last update Thu Jun 29 01:24:10 2017 Antoine Baché
+** Last update Thu Jun 29 13:48:22 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -94,6 +94,7 @@ int32_t			zappy_client_remove(t_zappy_client_list_manager *
   free(cur);
   --list->nb_clients;
   assert(list->nb_clients >= 0);
+  zappy_has_player(data);
   return (0);
 }
 
@@ -140,4 +141,5 @@ void			zappy_client_purify_list(t_zappy_client_list_manager *
 	}
       cur = tmp;
     }
+  zappy_has_player(data);
 }
