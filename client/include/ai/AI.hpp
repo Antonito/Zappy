@@ -57,7 +57,7 @@ namespace ai
     State                   m_curStateName;
     Value                   m_curValue;
     std::int32_t            m_level;
-    std::map<BasicState, IState *> m_basicStates;
+    std::map<BasicState, std::unique_ptr<IState>> m_basicStates;
   };
 }
 

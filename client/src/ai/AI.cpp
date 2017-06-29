@@ -249,18 +249,18 @@ namespace ai
 
   void AI::initBasicState()
   {
-    m_basicStates[BasicState::BROADCAST] = std::make_unique<BroadcastState>().get();
-    m_basicStates[BasicState::CONNECT_NBR] = std::make_unique<ConnectnbrState>().get();
-    m_basicStates[BasicState::EJECT] = std::make_unique<EjectState>().get();
-    m_basicStates[BasicState::FORK] = std::make_unique<ForkState>().get();
-    m_basicStates[BasicState::FORWARD] = std::make_unique<ForwardState>().get();
-    m_basicStates[BasicState::INCANTATION] = std::make_unique<IncantationState>().get();
-    m_basicStates[BasicState::INVENTORY] = std::make_unique<InventoryState>().get();
-    m_basicStates[BasicState::LEFT] = std::make_unique<LeftState>().get();
-    m_basicStates[BasicState::LOOK] = std::make_unique<LookState>().get();
-    m_basicStates[BasicState::RIGHT] = std::make_unique<RightState>().get();
-    m_basicStates[BasicState::SET] = std::make_unique<SetState>().get();
-    m_basicStates[BasicState::TAKE] = std::make_unique<TakeState>().get();
+    m_basicStates[BasicState::BROADCAST] = std::make_unique<BroadcastState>();
+    m_basicStates[BasicState::CONNECT_NBR] = std::make_unique<ConnectnbrState>();
+    m_basicStates[BasicState::EJECT] = std::make_unique<EjectState>();
+    m_basicStates[BasicState::FORK] = std::make_unique<ForkState>();
+    m_basicStates[BasicState::FORWARD] = std::make_unique<ForwardState>();
+    m_basicStates[BasicState::INCANTATION] = std::make_unique<IncantationState>();
+    m_basicStates[BasicState::INVENTORY] = std::make_unique<InventoryState>();
+    m_basicStates[BasicState::LEFT] = std::make_unique<LeftState>();
+    m_basicStates[BasicState::LOOK] = std::make_unique<LookState>();
+    m_basicStates[BasicState::RIGHT] = std::make_unique<RightState>();
+    m_basicStates[BasicState::SET] = std::make_unique<SetState>();
+    m_basicStates[BasicState::TAKE] = std::make_unique<TakeState>();
   }
 
   void AI::initState()
