@@ -203,6 +203,7 @@ namespace ai
 	  {
 	    m_curStateName = transitionTable.at(m_curStateName)[static_cast<std::size_t>(m_curValue)];
 	    m_curState = m_states[static_cast<std::size_t>(m_curStateName)].get();
+            nope::log::Log(Debug) << "CurStateName = " << m_curStateName;
 	    m_curState->reset(m_curValue);
 	  }
       }

@@ -32,14 +32,18 @@ namespace ai
   void StarvingState::writeState(std::queue<std::string> &writeQueue)
   {
     nope::log::Log(Debug) << "Starving[WRITE]State";
-    // call inventory state
-    m_states[BasicState::INVENTORY]->writeState(writeQueue);
-    // or directly put 'Inventory\n' in writeQueue
+    nope::log::Log(Debug) << "ADDR " << m_states[BasicState::INVENTORY];
+    //m_states[BasicState::INVENTORY]->writeState(writeQueue);
+    writeQueue.push("Inventory\n");
+    m_canWrite = false;
   }
 
   void StarvingState::reset(Value value)
   {
     nope::log::Log(Debug) << "StarvingState reset";
+    //m_curValue = value;
+    nope::log::Log(Debug) << "m_curValue = " << m_curValue;
+    m_canWrite = true;
   }
 
   Value StarvingState::getResponse() const

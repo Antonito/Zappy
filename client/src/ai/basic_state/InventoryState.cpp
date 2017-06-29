@@ -16,6 +16,8 @@ namespace ai
 
   void InventoryState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "pushing Inventory to queue";
+    writeQueue.push("Inventory\n");
   }
 
   void InventoryState::reset(Value value)
