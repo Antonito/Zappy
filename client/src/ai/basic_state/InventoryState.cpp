@@ -25,4 +25,9 @@ namespace ai
   Value InventoryState::getResponse() const
   {
   }
+
+  std::int32_t InventoryState::getFood() const
+  {
+    return (4);
+  }
 }
