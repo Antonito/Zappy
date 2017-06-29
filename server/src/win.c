@@ -5,11 +5,13 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 10:42:25 2017 Antoine Baché
-** Last update Thu Jun 29 17:42:07 2017 Antoine Baché
+** Last update Thu Jun 29 18:00:14 2017 Antoine Baché
 */
 
+#include "clogger.h"
 #include "zappy.h"
 #include "zappy_team.h"
+#include "zappy_logic.h"
 
 static char const	*zappy_get_winner_team(t_zappy * const data)
 {
