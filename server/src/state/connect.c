@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Mon Jun 26 10:44:46 2017 Antoine Baché
+** Last update Thu Jun 29 01:12:47 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -21,6 +21,8 @@
 #include "zappy_client_cmd.h"
 #include "zappy_color.h"
 #include "zappy_message.h"
+#include "zappy_graphic.h"
+#include "zappy_time.h"
 
 #if defined __clang__
 #pragma clang diagnostic push
@@ -61,20 +63,24 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 
   LOG(LOG_DEBUG, "Treating message: "CYAN_BOLD_INTENS"%s"CLEAR, buff);
   (void)data;
-  i = 0;
+  i = -1;
   res->callback = zappy_client_commands[CMD_ERR].handle;
   res->remaining_time = zappy_client_commands[CMD_ERR].time_limit;
-  while (i < CMD_ERR)
+  while (++i < CMD_ERR)
     {
       if (!memcmp(buff, zappy_client_commands[i].cmd,
 		  (size_t)zappy_client_commands[i].len) ||
 	  sscanf(buff, zappy_client_commands[i].cmd, res->buff))
 	{
+	  memcpy(res->buff, buff + zappy_client_commands[i].len,
+		 strlen(buff + zappy_client_commands[i].len));
 	  res->callback = zappy_client_commands[i].handle;
 	  res->remaining_time = zappy_client_commands[i].time_limit;
+	  res->exec_time =
+	    (uint64_t)(((double)res->remaining_time * 1000) /
+		       data->conf.freq) + zappy_get_cur_time();
 	  break;
 	}
-      ++i;
     }
   cqueue_push(&cli->input_queue, res);
   assert(cqueue_get_size(cli->input_queue) <= 10);
@@ -105,45 +111,62 @@ void			zappy_cli_state_conn_r(t_zappy_client * const cli,
 static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
 						    t_zappy_message * const
 						    data,
-						    t_zappy_config * const
-						    conf)
+						    t_zappy * zap)
 {
-  char			buff[512];
-
-  assert(cli && data && conf);
+  assert(cli && data && zap);
   if (cli->graphical)
     {
-      data->len = snprintf(buff, sizeof(buff), "msz %d %d\n",
-			   conf->world_width, conf->world_height);
-      if (data->len != -1)
-	data->msg = strdup(buff);
-      if (data->msg)
-	return ;
+      zappy_graph_connect(cli, zap);
+      cli->can_write = false;
+      cli->authenticated = true;
+      return ;
     }
   data->len = sizeof("ko\n") - 1;
   data->msg = strdup("ko\n");
   cli->connected = false;
+  cli->state = CLI_AUTHENTICATING;
+}
+
+static void		zappy_cli_state_conn_w_(t_zappy_client * const cli,
+						t_zappy * const data,
+						t_zappy_message *cur,
+						int32_t const ret)
+{
+  t_zappy_graph_arg	g;
+  char			buff[512];
+
+  if (ret != -1)
+    {
+      cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", ret,
+			  data->conf.world_width, data->conf.world_height);
+      if (cur->len != -1)
+	cur->msg = strdup(buff);
+      if (cur->msg)
+	{
+	  ++data->map.data[cli->game.y][cli->game.x].nb_players;
+	  data->map.data[cli->game.y][cli->game.x].player[cli->id] = &cli->game;
+	  LOG(LOG_INFO, "Spawning player at %dx%d", cli->game.x, cli->game.y);
+	  g = (t_zappy_graph_arg){ cli, 0, 0 };
+	  zappy_graph_send(&g, data, buff, &zappy_graph_pnw);
+	  cli->authenticated = true;
+	}
+    }
 }
 
 void			zappy_cli_state_conn_w(t_zappy_client * const cli,
 					       t_zappy * const data)
 {
   t_zappy_message	*cur;
-  char			buff[512];
   int32_t		ret;
 
   if ((cur = zappy_alloc_message()))
     {
       ret = zappy_team_manager_add_client(cli->game.team_name, cli,
 					  &data->conf.teams);
-      if (!cli->graphical && ret != -1)
-	{
-	  cur->len = snprintf(buff, sizeof(buff) - 1, "%d\n%d %d\n", ret,
-			      data->conf.world_width, data->conf.world_height);
-	  cur->msg = strdup(buff);
-	}
+      if (!cli->graphical)
+	zappy_cli_state_conn_w_(cli, data, cur, ret);
       else
-	zappy_cli_state_conn_w_fail(cli, cur, &data->conf);
+	zappy_cli_state_conn_w_fail(cli, cur, data);
       if (cur->msg && cqueue_push(&cli->output_queue, cur))
 	{
 	  cli->can_write = false;
@@ -151,8 +174,11 @@ void			zappy_cli_state_conn_w(t_zappy_client * const cli,
 	}
       free(cur->msg);
       zappy_free_message(cur);
+      if (cli->graphical)
+	return ;
     }
   cli->connected = false;
+  cli->state = CLI_AUTHENTICATING;
 }
 
 #if defined __clang__

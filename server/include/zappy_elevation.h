@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:21:14 2017 Antoine Baché
-** Last update Sun Jun 25 17:24:58 2017 Antoine Baché
+** Last update Tue Jun 27 19:54:32 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ELEVATION_H_
@@ -37,5 +37,7 @@ typedef struct		s_zappy_elevation
 
 bool			zappy_elevation_check(t_zappy_client *cli,
 					      t_zappy *data);
+bool			zappy_elevation_end(t_zappy_client * const cli,
+					    t_zappy * const data);
 
 #endif /* !ZAPPY_ELEVATION_H_ */

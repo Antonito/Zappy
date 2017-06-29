@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:58:03 2017 Antoine Baché
-** Last update Mon Jun 26 15:17:30 2017 Antoine Baché
+** Last update Thu Jun 29 01:04:09 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_H_
@@ -59,7 +59,7 @@ struct			s_zappy_client
   bool			can_write;
   bool			connected;
   bool			graphical;
-  uint8_t		padding[1];
+  bool			authenticated;
 };
 
 /*

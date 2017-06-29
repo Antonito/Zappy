@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 13:06:19 2017 Antoine Baché
-** Last update Sun Jun 25 20:26:33 2017 Antoine Baché
+** Last update Tue Jun 27 23:16:24 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -26,8 +26,6 @@ void		zappy_cli_state_resp_w(t_zappy_client * const cli,
 {
   assert(cli && data);
   (void)data;
-  //cli->resp_handle(cli, data, cli->resp_buff);
-  //cli->resp_handle = NULL;
   cli->can_write = false;
   cli->state = CLI_CONNECTED;
 }

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 21:50:09 2017 Antoine Baché
-** Last update Mon Jun 26 22:47:12 2017 Antoine Baché
+** Last update Tue Jun 27 09:14:54 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -19,7 +19,9 @@ static t_zappy_admin_cmd const	zappy_admin_commands[] =
   {
     { &zappy_admin_cmd_help, "help", sizeof("help") },
     { &zappy_admin_cmd_stop, "stop", sizeof("stop") },
-    { &zappy_admin_cmd_info, "info", sizeof("info") }
+    { &zappy_admin_cmd_info, "info", sizeof("info") },
+    { &zappy_admin_cmd_inc_freq, "inc", sizeof("inc") },
+    { &zappy_admin_cmd_dec_freq, "dec", sizeof("dec") }
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert
@@ -52,6 +54,11 @@ static void		zappy_admin_cmd(t_zappy * const data,
 {
   int32_t		i;
 
+  if (!data->admin.authenticated)
+    {
+      zappy_admin_authenticate(data, cmd);
+      return ;
+    }
   i = 0;
   while (i < NB_ADM_CMD)
     {
