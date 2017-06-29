@@ -2,7 +2,9 @@
 
 namespace ai
 {
-  FindFoodState::FindFoodState(std::map<BasicState, IState *> &states) : AState(states)
+  FindFoodState::FindFoodState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
+      : AState(states)
   {
   }
 

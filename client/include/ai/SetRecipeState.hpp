@@ -14,7 +14,7 @@ namespace ai
   class SetRecipeState final : public AState
   {
   public:
-    SetRecipeState(std::map<BasicState, IState *> &states);
+    SetRecipeState(std::map<BasicState, std::unique_ptr<IState>> &states);
     SetRecipeState(SetRecipeState const &) = delete;
     SetRecipeState(SetRecipeState &&) = delete;
     virtual ~SetRecipeState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !SETRECIPESTATE_HPP_
-

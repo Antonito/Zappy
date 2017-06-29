@@ -14,7 +14,7 @@ namespace ai
   class MoveToTeammateState final : public AState
   {
   public:
-    MoveToTeammateState(std::map<BasicState, IState *> &states);
+    MoveToTeammateState(std::map<BasicState, std::unique_ptr<IState>> &states);
     MoveToTeammateState(MoveToTeammateState const &) = delete;
     MoveToTeammateState(MoveToTeammateState &&) = delete;
     virtual ~MoveToTeammateState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !MOVETOTEAMMATESTATE_HPP_
-

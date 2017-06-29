@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:00:58 2017 Antoine Baché
-## Last update Tue Jun 27 13:50:44 2017 Lucas Troncy
+## Last update Thu Jun 29 12:06:42 2017 troncy_l
 ##
 
 MK_DIR=			./mk/

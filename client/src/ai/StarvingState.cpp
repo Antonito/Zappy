@@ -2,7 +2,8 @@
 
 namespace ai
 {
-  StarvingState::StarvingState(std::map<BasicState, IState *> &states)
+  StarvingState::StarvingState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
       : AState(states)
   {
     nope::log::Log(Debug) << "Starving State init";
@@ -17,8 +18,9 @@ namespace ai
     nope::log::Log(Debug) << "Starving[READ]State";
     // call inventory state
     m_states[BasicState::INVENTORY]->readState(readQueue);
-    if (static_cast<InventoryState *>(m_states[BasicState::INVENTORY])
-            ->getFood() < 8)
+    std::int32_t food = static_cast<InventoryState *>(m_states[BasicState::INVENTORY])->getFood() ;
+    nope::log::Log(Debug) << food << " food unit";
+    if (food < 8)
       {
 	m_curValue = Value::YES;
       }
@@ -33,15 +35,15 @@ namespace ai
   {
     nope::log::Log(Debug) << "Starving[WRITE]State";
     nope::log::Log(Debug) << "ADDR " << m_states[BasicState::INVENTORY];
-    //m_states[BasicState::INVENTORY]->writeState(writeQueue);
-    writeQueue.push("Inventory\n");
+    m_states[BasicState::INVENTORY]->writeState(writeQueue);
+    //writeQueue.push("Inventory\n");
     m_canWrite = false;
   }
 
   void StarvingState::reset(Value value)
   {
     nope::log::Log(Debug) << "StarvingState reset";
-    //m_curValue = value;
+    // m_curValue = value;
     nope::log::Log(Debug) << "m_curValue = " << m_curValue;
     m_canWrite = true;
   }

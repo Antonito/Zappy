@@ -14,7 +14,7 @@ namespace ai
   class MoveToFoodState final : public AState
   {
   public:
-    MoveToFoodState(std::map<BasicState, IState *> &states);
+    MoveToFoodState(std::map<BasicState, std::unique_ptr<IState>> &states);
     MoveToFoodState(MoveToFoodState const &) = delete;
     MoveToFoodState(MoveToFoodState &&) = delete;
     virtual ~MoveToFoodState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !MOVETOFOODSTATE_HPP_
-

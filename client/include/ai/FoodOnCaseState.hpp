@@ -14,7 +14,7 @@ namespace ai
   class FoodOnCaseState final : public AState
   {
   public:
-    FoodOnCaseState(std::map<BasicState, IState *> &states);
+    FoodOnCaseState(std::map<BasicState, std::unique_ptr<IState>> &states);
     FoodOnCaseState(FoodOnCaseState const &) = delete;
     FoodOnCaseState(FoodOnCaseState &&) = delete;
     virtual ~FoodOnCaseState();
@@ -34,4 +34,3 @@ namespace ai
 #endif
 
 #endif // !FOODONCASESTATE_HPP_
-

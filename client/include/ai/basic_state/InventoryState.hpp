@@ -2,6 +2,7 @@
 #define INVENTORYSTATE_HPP_
 
 #include <iostream>
+#include <sstream>
 #include "ai/IState.hpp"
 
 #if defined(__clang__)
@@ -28,9 +29,16 @@ namespace ai
     virtual Value getResponse() const;
 
     std::int32_t getFood() const;
+    std::int32_t getLinemate() const;
+    std::int32_t getDeraumere() const;
+    std::int32_t getSibur() const;
+    std::int32_t getMendiane() const;
+    std::int32_t getPhiras() const;
+    std::int32_t getThystame() const;
 
   private:
     Value m_value;
+    std::map<std::string, std::int32_t> m_inventory;
   };
 }
 

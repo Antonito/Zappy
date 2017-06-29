@@ -2,7 +2,9 @@
 
 namespace ai
 {
-  MissingStoneState::MissingStoneState(std::map<BasicState, IState *> &states) : AState(states)
+  MissingStoneState::MissingStoneState(
+      std::map<BasicState, std::unique_ptr<IState>> &states)
+      : AState(states)
   {
   }
 

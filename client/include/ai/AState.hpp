@@ -31,7 +31,7 @@ namespace ai
   class AState : public IState
   {
   public:
-    AState(std::map<BasicState, IState *> &states);
+    AState(std::map<BasicState, std::unique_ptr<IState>> &states);
     AState(AState const &);
     AState(AState &&);
     virtual ~AState();
@@ -43,10 +43,10 @@ namespace ai
     void setWrite(bool set);
 
   protected:
-    std::map<BasicState, IState *> &m_states;
+    std::map<BasicState, IState *> m_states;
     State m_curState;
     Value m_curValue;
-    bool m_canWrite;
+    bool  m_canWrite;
   };
 }
 

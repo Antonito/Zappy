@@ -12,6 +12,28 @@ namespace ai
 
   void InventoryState::readState(std::queue<std::string> &readQueue)
   {
+    if (readQueue.empty())
+    {
+      return ;
+    }
+    std::string iss(readQueue.front());
+    readQueue.pop();
+
+    //std::string iss("[ food 9, linemate 0, deraumere 0, sibur 0, mendiane 0, phiras 0, thystame 0 ]"); 
+    std::stringstream ss;
+    std::string trash;
+    ss << iss;
+
+    std::string res;
+    int a; 
+
+    for (std::int32_t i = 0; i < 7; ++i)
+    {
+      ss >> trash;
+      ss >> res;
+      ss >> a;
+      m_inventory[res] = a;
+    }
   }
 
   void InventoryState::writeState(std::queue<std::string> &writeQueue)
@@ -30,6 +52,37 @@ namespace ai
 
   std::int32_t InventoryState::getFood() const
   {
-    return (4);
+    return (m_inventory.at("food"));
+  }
+
+  std::int32_t InventoryState::getLinemate() const
+  {
+    return (m_inventory.at("linemate"));
+  }
+
+  std::int32_t InventoryState::getDeraumere() const
+  {
+    return (m_inventory.at("deraumere"));
+  }
+
+  std::int32_t InventoryState::getSibur() const
+  {
+    return (m_inventory.at("sibur"));
+  }
+
+  std::int32_t InventoryState::getMendiane() const
+  {
+    return (m_inventory.at("mendiane"));
+  }
+
+  std::int32_t InventoryState::getPhiras() const
+  {
+    return (m_inventory.at("phiras"));
+  }
+
+  std::int32_t InventoryState::getThystame() const
+  {
+    return (m_inventory.at("thystame"));
   }
 }
+
