@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Tue Jun 27 15:47:57 2017 Antoine Baché
+** Last update Thu Jun 29 14:45:53 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -37,6 +37,7 @@ int32_t		zappy_team_manager_add_team(char const * const name,
   man->team[man->nb_teams].id = man->nb_teams;
   man->team[man->nb_teams].nb_players = 0;
   man->team[man->nb_teams].name = name;
+  man->team[man->nb_teams].nb_players_max = 0;
   ++man->nb_teams;
   return (0);
 }
@@ -90,7 +91,7 @@ int32_t		zappy_team_manager_add_client(char const * const teamname,
   team = zappy_team_manager_get_team_by_name(teamname, man);
   if (team)
     {
-      if (team->nb_players < man->nb_client_per_team)
+      if (team->nb_players < team->nb_players_max)
 	{
 	  cli->game.team_id = team->id;
 	  ++team->nb_players;
@@ -99,7 +100,7 @@ int32_t		zappy_team_manager_add_client(char const * const teamname,
 	      LOG(LOG_INFO, PURPLE_BOLD_INTENS"Graphical client joined"CLEAR);
 	      cli->graphical = true;
 	    }
-	  return (man->nb_client_per_team - team->nb_players);
+	  return (team->nb_players_max- team->nb_players);
 	}
       LOG(LOG_WARNING, "Team %s is full", teamname);
     }
@@ -113,5 +114,5 @@ int32_t		zappy_team_manager_get_space(int32_t const ndx,
 					     const man)
 {
   assert(ndx < man->nb_teams);
-  return (man->nb_client_per_team - man->team[ndx].nb_players);
+  return (man->team[ndx].nb_players_max - man->team[ndx].nb_players);
 }
