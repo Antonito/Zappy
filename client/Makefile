@@ -10,6 +10,8 @@ LOCAL_COMP_FLAGS=
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\
 			-lzappy_option				\
+			-lzappy_network				\
+			-lzappy_exceptions				\
 			-lsfml-graphics				\
 			-lsfml-window				\
 			-lsfml-system				\
@@ -51,13 +53,15 @@ SRC_FILES=	main.cpp				\
 		Model.cpp				\
 		Window.cpp				\
 		Shader.cpp				\
-		Camera.cpp
+		Camera.cpp				\
+		Resource.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 
 INC_DIR=	$(DIR_LIST:$(SRC_DIR)%=$(INCLUDE_DIR)%)		\
 		$(ROOT_DIR)/libs/logger/include/		\
+		$(ROOT_DIR)/libs/network/include/		\
 		$(ROOT_DIR)/libs/option/include/
 
 PRECOMPILED_HEADER= $(addprefix $(INCLUDE_DIR),$(HEADER))

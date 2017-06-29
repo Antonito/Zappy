@@ -19,20 +19,19 @@ namespace zappy
     Tile &operator=(Tile const &);
     Tile &operator=(Tile &&);
 
-    std::size_t operator[](Resource r) const;
+    std::size_t operator[](Resource::Type r) const;
 
     void renderOn(Window &window, Camera const &camera) const;
     void setPosition(glm::vec3 const &position);
 
-    void addResource(Resource r, std::size_t n = 1);
-    void removeResource(Resource r, std::size_t n = 1);
+    void addResource(Resource::Type r, std::size_t n = 1);
+    void removeResource(Resource::Type r, std::size_t n = 1);
+    void setResource(Resource::Type r, std::size_t n);
   private:
     Mesh m_cube;
 
-    constexpr static std::size_t nbResources =
-        static_cast<std::size_t>(Resource::NB_RESOURCE);
-
-    std::array<std::size_t, nbResources> m_resources;
+    std::array<std::size_t, Resource::NB_RESOURCE> m_resources;
+    std::array<Mesh, Resource::NB_RESOURCE> m_resourcesMesh;
   };
 }
 

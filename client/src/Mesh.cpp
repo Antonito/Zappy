@@ -2,6 +2,13 @@
 
 namespace zappy
 {
+  Mesh::Mesh()
+      : m_model(nullptr), m_position(0, 0, 0), m_scale(1, 1, 1), m_rotation(),
+        m_fullTransform(), m_fullTransformIsUpToDate(false),
+        m_color(1, 1, 1, 1)
+  {
+  }
+
   Mesh::Mesh(Model const &model, glm::vec3 const &position,
              glm::vec3 const &scale, glm::quat const &rotation)
       : m_model(&model), m_position(position), m_scale(scale),
@@ -86,8 +93,9 @@ namespace zappy
   {
     if (m_fullTransformIsUpToDate == false)
       {
-	m_fullTransform = glm::translate(
-	    glm::scale(glm::mat4_cast(m_rotation), m_scale), m_position);
+	m_fullTransform = glm::translate(m_position);
+	m_fullTransform *= glm::scale(m_scale);
+	m_fullTransform *= glm::mat4_cast(m_rotation);
 	m_fullTransformIsUpToDate = true;
       }
     return (m_fullTransform);

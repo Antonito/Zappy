@@ -7,6 +7,7 @@
 #include "Window.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
+#include "TCPSocket.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -104,12 +105,17 @@ namespace zappy
     std::string   m_machine;
 
     // Game data
-    GameMap             m_map;
-    std::vector<Player> m_players;
+    GameMap m_map;
+    std::map<std::size_t, Player> m_players;
 
     // 3d data
     Camera m_camera;
     Shader m_shader;
+
+    // Network
+    network::TCPSocket m_socket;
+    std::stringstream  m_buffer;
+    bool               m_connecting;
   };
 }
 

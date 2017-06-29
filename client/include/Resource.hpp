@@ -1,19 +1,29 @@
 #ifndef ZAPPY_RESOURCE_HPP_
 #define ZAPPY_RESOURCE_HPP_
 
+#include <array>
+#include <glm/glm.hpp>
+#include "Mesh.hpp"
+
 namespace zappy
 {
-  enum class Resource
+  class Resource
   {
-    FOOD,
-    LINEMATE,
-    DERAUMERE,
-    SIBUR,
-    MENDIANE,
-    PHIRAS,
-    THYSTAME,
+  public:
+    enum Type
+    {
+      FOOD,
+      LINEMATE,
+      DERAUMERE,
+      SIBUR,
+      MENDIANE,
+      PHIRAS,
+      THYSTAME,
 
-    NB_RESOURCE
+      NB_RESOURCE
+    };
+
+    static Mesh mesh(Type t);
   };
 }
 

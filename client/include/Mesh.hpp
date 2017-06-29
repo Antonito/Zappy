@@ -15,7 +15,7 @@ namespace zappy
   class Mesh
   {
   public:
-    Mesh() = delete;
+    Mesh();
     Mesh(Model const &    model,
          glm::vec3 const &position = glm::vec3(0.0, 0.0, 0.0),
          glm::vec3 const &scale = glm::vec3(1.0, 1.0, 1.0),

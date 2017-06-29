@@ -9,8 +9,14 @@ namespace zappy
       : m_win(width, height, windowName), m_port(port), m_name(name),
         m_machine(machine), m_map(), m_players(),
         m_camera(glm::vec3(0, 0, 0), 100, 16.0 / 9.0, 0.01, 10000),
-        m_shader("./shaders/test")
+        m_shader("./shaders/test"),
+        m_socket(port, machine, false, network::ASocket::SocketType::BLOCKING),
+        m_connecting(true)
   {
+    if (m_socket.openConnection() == false)
+      {
+	throw std::runtime_error("Graphic client connection failed");
+      }
   }
 
   GraphicClient::~GraphicClient()
@@ -19,21 +25,20 @@ namespace zappy
 
   void GraphicClient::launch()
   {
-    Model test = Model::fromObj("./models/cube.obj");
-
-    Mesh  cube(test);
-    Mesh  cube2(test);
-
     m_win.setClearColor(0.1, 0.1, 0.2, 1.0);
     m_win.setCursorVisible(false);
 
-    cube2.translate(0, 0, 3);
-
     m_win.useShader(m_shader);
 
-    cube2.setColor(0.0, 0.7, 0.0);
+    //     m_map.setSize(3, 4);
 
-    m_map.setSize(3, 4);
+    //     m_map.addResource(2, 1, Resource::FOOD);
+    //     m_map.addResource(2, 3, Resource::LINEMATE);
+
+    //     m_players.emplace_back();
+    //     m_players.emplace_back();
+    //     m_players[0].setPlayerPosition(0, 0);
+    //     m_players[1].setPlayerPosition(1, 3);
 
     while (m_win.isOpen())
       {
@@ -56,8 +61,13 @@ namespace zappy
 
 	// Clear the window
 	m_win.clear();
-	
+
 	m_map.renderOn(m_win, m_camera);
+
+	for (std::pair<std::size_t, Player> const &player : m_players)
+	  {
+	    player.second.renderOn(m_win, m_camera);
+	  }
 
 	// Display the window
 	m_win.display();
@@ -130,32 +140,91 @@ namespace zappy
   bool GraphicClient::receiveCommand(std::string &command, std::string &args)
   {
     // TODO: replace this line by the network input
-    std::string cmd = "";
+    char    buf[4096];
+    ssize_t len = 0;
+
+    fd_set rds;
+    int    ret;
+    int    sock = m_socket.getSocket();
+
+    do
+      {
+	FD_ZERO(&rds);
+
+	FD_SET(sock, &rds);
+	struct timeval tm;
+
+	tm.tv_usec = 1000;
+	tm.tv_sec = 0;
+
+	ret = select(sock + 1, &rds, nullptr, nullptr, &tm);
+      }
+    while (ret == -1 && errno == EINTR);
+
+    if (ret == -1)
+      {
+	throw std::runtime_error(std::string("Failed to read from network: ") +
+	                         std::strerror(errno));
+      }
+
+    if (ret && FD_ISSET(sock, &rds))
+      {
+
+	if (m_socket.rec(buf, sizeof(buf), &len) == false)
+	  {
+	    throw std::runtime_error("Failed to read from network");
+	  }
+
+	if (len == 0)
+	  {
+	    m_win.close();
+	  }
+
+	buf[len] = 0;
+	m_buffer << buf;
+
+	if (std::strstr(buf, "\n") == nullptr)
+	  {
+	    return (true);
+	  }
+      }
+
+    std::string cmd;
+
+    std::getline(m_buffer, cmd);
+
 
     if (cmd.length() == 0)
       {
 	return (false);
       }
 
+    nope::log::Log(Info) << "Received command: " << cmd;
+
+    if (m_connecting)
+      {
+	if (cmd != "WELCOME")
+	  {
+	    throw std::runtime_error(
+	        "Did not received Welcome message from the server");
+	  }
+	if (m_socket.send("GRAPHIC\n", sizeof("GRAPHIC\n") - 1) == false)
+	  {
+	    throw std::runtime_error("Cannot send message to the server");
+	  }
+	m_connecting = false;
+	return (false);
+      }
     // Some validity checks
-    if (cmd.length() < 4)
+    if (cmd.length() < 3)
       {
 	throw std::invalid_argument("Invalid command (command is too short)");
       }
 
-    if (cmd[3] != '\n' && cmd[3] != ' ')
+    if (cmd[3] != ' ')
       {
 	throw std::invalid_argument("Invalid command (invalid character)");
       }
-
-    if (cmd.back() != '\n')
-      {
-	throw std::invalid_argument(
-	    "Invalid command (not terminated by a newline character)");
-      }
-
-    // Remove the '\n'
-    cmd.pop_back();
 
     command = cmd.substr(0, 3);
     args = cmd.substr(4);
@@ -312,7 +381,7 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Info) << "Received map size (" << x << ", " << y << ')';
-    // TODO: set the actual values
+    m_map.setSize(x, y);
   }
 
   void GraphicClient::tileContent(std::string const &data)
@@ -336,7 +405,13 @@ namespace zappy
                           << ") [" << food << ", " << linemate << ", "
                           << deraumere << ", " << sibur << ", " << mendiane
                           << ", " << phiras << ", " << thystame << ']';
-    // TODO: set the actual values
+    m_map.setResource(x, y, Resource::FOOD, food);
+    m_map.setResource(x, y, Resource::LINEMATE, linemate);
+    m_map.setResource(x, y, Resource::DERAUMERE, deraumere);
+    m_map.setResource(x, y, Resource::SIBUR, sibur);
+    m_map.setResource(x, y, Resource::MENDIANE, mendiane);
+    m_map.setResource(x, y, Resource::PHIRAS, phiras);
+    m_map.setResource(x, y, Resource::THYSTAME, thystame);
   }
 
   void GraphicClient::teamNames(std::string const &data)
@@ -374,7 +449,12 @@ namespace zappy
 			 << "\n\tTeam:\t\t" << team;
     // clang-format on
 
-    // TODO: set the actual values
+    // TODO: set the team name
+    Player &player = m_players[playerId];
+
+    player.setPlayerPosition(x, y);
+    player.setOrientation(orientation);
+    player.setLevel(level);
   }
 
   void GraphicClient::playerPosition(std::string const &data)
@@ -391,7 +471,10 @@ namespace zappy
     nope::log::Log(Debug) << "Received player " << playerId << " position: ("
                           << x << ", " << y << ") (" << orientation << ")";
 
-    // TODO: set the actual values
+    Player &player = m_players[playerId];
+
+    player.setPlayerPosition(x, y);
+    player.setOrientation(orientation);
   }
 
   void GraphicClient::playerLevel(std::string const &data)
@@ -404,7 +487,7 @@ namespace zappy
     nope::log::Log(Debug) << "Received player " << playerId
                           << " level: " << level;
 
-    // TODO: set the actual values
+    m_players[playerId].setLevel(level);
   }
 
   void GraphicClient::playerInventory(std::string const &data)
@@ -542,7 +625,8 @@ namespace zappy
     nope::log::Log(Debug) << "Player " << playerId << " droped a resource ("
                           << resource << ')';
 
-    // TODO: set the actual values
+    m_players[playerId].dropResource(m_map,
+                                     static_cast<Resource::Type>(resource));
   }
 
   void GraphicClient::takeResource(std::string const &data)
@@ -557,7 +641,8 @@ namespace zappy
     nope::log::Log(Debug) << "Player " << playerId << " took a resource ("
                           << resource << ')';
 
-    // TODO: set the actual values
+    m_players[playerId].takeResource(m_map,
+                                     static_cast<Resource::Type>(resource));
   }
 
   void GraphicClient::starved(std::string const &data)
@@ -570,7 +655,7 @@ namespace zappy
 
     nope::log::Log(Info) << "Player " << playerId << " starved";
 
-    // TODO: set the actual values
+    m_players.erase(playerId);
   }
 
   void GraphicClient::eggLayed(std::string const &data)
