@@ -5,11 +5,12 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 16:32:46 2017 Antoine Baché
-** Last update Fri Jun 30 16:45:36 2017 Antoine Baché
+** Last update Fri Jun 30 16:48:30 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
+#include "clogger.h"
 #include "zappy_cleanup.h"
 
 void			zappy_cleanup_eggs(t_zappy_egg_manager * const man)
@@ -19,6 +20,7 @@ void			zappy_cleanup_eggs(t_zappy_egg_manager * const man)
   t_zappy_egg		*tmp;
 
   assert(man);
+  LOG(LOG_DEBUG, "Cleaning eggs");
   i = 0;
   cur = man->eggs;
   while (i < man->nb_eggs)

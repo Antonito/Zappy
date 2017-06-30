@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 12:46:33 2017 Antoine Baché
-** Last update Mon Jun 26 19:07:30 2017 Antoine Baché
+** Last update Fri Jun 30 16:59:26 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -51,7 +51,7 @@ t_zappy_resource	zappy_get_resource_by_name(char const * const name)
 
   assert(name);
   i = 0;
-  len = strlen(name);
+  len = strlen(name) + 1;
   while (i < NB_RESOURCE)
     {
       if (!memcmp(name, zappy_resource_table[i], len))

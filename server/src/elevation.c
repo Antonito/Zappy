@@ -5,10 +5,11 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:25:22 2017 Antoine Baché
-** Last update Fri Jun 30 15:41:59 2017 Antoine Baché
+** Last update Fri Jun 30 17:02:06 2017 Antoine Baché
 */
 
 #include <assert.h>
+#include "clogger.h"
 #include "zappy.h"
 #include "zappy_client.h"
 #include "zappy_client_game.h"
@@ -73,7 +74,7 @@ static bool		zappy_elevation_check_lvl(int32_t const cur_lvl,
 	}
       ++i;
     }
-  if (found != elevation_table[cur_lvl - 1].nb_player)
+  if (found != elevation_table[cur_lvl - 1].nb_player - 1)
     return (false);
   return (true);
 }
@@ -86,7 +87,11 @@ bool			zappy_elevation_check(t_zappy_client * const cli,
 
   assert(cli && data);
   if (!zappy_elevation_check_table(&cli->game, data))
-    return (false);
+    {
+      LOG(LOG_DEBUG, "Elevation table check KO");
+      return (false);
+    }
+  LOG(LOG_DEBUG, "Elevation table check OK");
   x = cli->game.x;
   y = cli->game.y;
   return (zappy_elevation_check_lvl(cli->game.level,

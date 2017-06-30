@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:32:28 2017 Antoine Baché
-** Last update Mon Jun 26 21:34:31 2017 Antoine Baché
+** Last update Fri Jun 30 16:48:10 2017 Antoine Baché
 */
 
 #include "clogger.h"
