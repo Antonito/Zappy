@@ -57,6 +57,7 @@ SRC_FILES=	admin.c				\
 		cleanup_client.c		\
 		cleanup_map.c			\
 		cleanup_admin.c			\
+		cleanup_eggs.c			\
 		client.c			\
 		client_for_each.c		\
 		client_game.c			\
