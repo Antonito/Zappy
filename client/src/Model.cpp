@@ -3,7 +3,7 @@
 namespace zappy
 {
   std::map<std::string, Model> Model::m_models;
-  
+
   Model::Model() : m_vertices(), m_normals(), m_indices(), m_vao(0), m_vbos()
   {
   }
@@ -193,7 +193,8 @@ namespace zappy
   {
     glBindVertexArray(m_vao);
 
-    glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
+    // glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 
     // glBindVertexArray(0);
   }
@@ -306,28 +307,29 @@ namespace zappy
 
   void Model::calcNormals()
   {
-    m_normals.clear();
-    m_normals.resize(m_vertices.size());
+    std::vector<glm::vec3> vert;
 
-    for (std::size_t i = 0; i < m_indices.size(); i += 3)
+    for (GLuint index : m_indices)
       {
-	GLuint i0 = m_indices[i];
-	GLuint i1 = m_indices[i + 1];
-	GLuint i2 = m_indices[i + 2];
-
-	glm::vec3 v1 = m_vertices[i1] - m_vertices[i0];
-	glm::vec3 v2 = m_vertices[i2] - m_vertices[i0];
-
-	glm::vec3 normale = glm::normalize(glm::cross(v1, v2));
-
-	m_normals[i0] += normale;
-	m_normals[i1] += normale;
-	m_normals[i2] += normale;
+	vert.push_back(m_vertices[index]);
       }
 
-    for (GLuint i = 0; i < m_vertices.size(); i++)
+    m_vertices = std::move(vert);
+
+    m_normals.clear();
+    m_normals.reserve(m_vertices.size());
+
+    for (std::size_t i = 0; i < m_vertices.size(); i += 3)
       {
-	m_normals[i] = glm::normalize(m_normals[i]);
+	glm::vec3 &a = m_vertices[i];
+	glm::vec3 &b = m_vertices[i + 1];
+	glm::vec3 &c = m_vertices[i + 2];
+
+	glm::vec3 norm = glm::normalize(glm::cross(b - a, c - a));
+
+	m_normals.push_back(norm);
+	m_normals.push_back(norm);
+	m_normals.push_back(norm);
       }
   }
 }
