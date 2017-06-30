@@ -14,14 +14,20 @@ namespace ai
 
   void MoveToTeammateState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "MoveToTeammate[READ]State";
   }
 
   void MoveToTeammateState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "MoveToTeammate[WRITE]State";
   }
 
   void MoveToTeammateState::reset(Value value)
   {
+    nope::log::Log(Debug) << "MoveToTeammateState reset";
+    m_curValue = Value::LOOP;
+    m_retValue = value;
+    m_canWrite = true;
   }
 
   Value MoveToTeammateState::getResponse() const

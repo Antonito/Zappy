@@ -14,14 +14,20 @@ namespace ai
 
   void FoodOnCaseState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "FoodOnCase[READ]State";
   }
 
   void FoodOnCaseState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "FoodOnCase[WRITE]State";
   }
 
   void FoodOnCaseState::reset(Value value)
   {
+    nope::log::Log(Debug) << "FoodOnCaseState reset";
+    m_curValue = Value::LOOP;
+    m_retValue = value;
+    m_canWrite = true;
   }
 
   Value FoodOnCaseState::getResponse() const

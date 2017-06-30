@@ -13,12 +13,12 @@ namespace ai
   void LookState::readState(std::queue<std::string> &readQueue)
   {
     if (readQueue.empty())
-      return ;
+      return;
     std::string res = readQueue.front();
     if (res == "ko\n")
-    {
-      nope::log::Log(Debug) << "(WARNING) Right Failed !";
-    }
+      {
+	nope::log::Log(Debug) << "(WARNING) Write Failed !";
+      }
     readQueue.pop();
   }
 
