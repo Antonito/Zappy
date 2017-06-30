@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:41:24 2017 Antoine Baché
-** Last update Tue Jun 27 15:48:26 2017 Antoine Baché
+** Last update Thu Jun 29 14:41:28 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_TEAM_MANAGER_H_
@@ -27,7 +27,7 @@ typedef struct		s_zappy_team_manager
 {
   t_zappy_team		*team;
   int32_t		nb_teams;
-  int32_t		nb_client_per_team;
+  uint8_t		padding[4];
 }			t_zappy_team_manager;
 
 t_zappy_team	*zappy_team_manager_get_team_by_name(char const *
@@ -48,5 +48,7 @@ int32_t			zappy_team_manager_add_client(char const * const team,
 int32_t			zappy_team_manager_get_space(int32_t const ndx,
 						     t_zappy_team_manager
 						     const * const man);
+void			zappy_team_set_max_players(t_zappy_team_manager * team,
+						   int32_t const max);
 
 #endif /* !ZAPPY_TEAM_MANAGER */

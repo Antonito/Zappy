@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:25:22 2017 Antoine Baché
-** Last update Tue Jun 27 19:54:40 2017 Antoine Baché
+** Last update Thu Jun 29 19:27:44 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -83,13 +83,12 @@ bool		zappy_elevation_check(t_zappy_client * const cli,
   x = cli->game.x;
   y = cli->game.y;
   return (zappy_elevation_check_lvl(cli->game.level,
-				    data->conf.teams.nb_teams *
-				    data->conf.teams.nb_client_per_team,
+				    zappy_get_max_player(data),
 				    &cli->game,
 				    data->map.data[y][x].player));
 }
 
-static void	zappy_elevation_end_res(t_zappy_client_game * const cli)
+void		zappy_elevation_end_inv(t_zappy_client_game * const cli)
 {
   cli->inv[RES_LINEMATE] -= elevation_table[cli->level - 1].linemate;
   cli->inv[RES_DERAUMERE] -= elevation_table[cli->level - 1].deraumere;
@@ -97,28 +96,4 @@ static void	zappy_elevation_end_res(t_zappy_client_game * const cli)
   cli->inv[RES_MENDIANE] -= elevation_table[cli->level - 1].mendiane;
   cli->inv[RES_PHIRAS] -= elevation_table[cli->level - 1].phiras;
   cli->inv[RES_THYSTAME] -= elevation_table[cli->level - 1].thystame;
-}
-
-bool		zappy_elevation_end(t_zappy_client * const cli,
-				    t_zappy * const data)
-{
-  int32_t	max;
-  int32_t	i;
-
-  if (!zappy_elevation_check(cli, data))
-    return (false);
-  max = data->conf.teams.nb_teams * data->conf.teams.nb_client_per_team;
-  i = 0;
-  while (i < max)
-    {
-      if (data->map.data[cli->game.y][cli->game.x].player[i])
-	{
-	  zappy_elevation_end_res(data->map.data[cli->game.y]
-				  [cli->game.x].player[i]);
-	  ++data->map.data[cli->game.y][cli->game.x].player[i]->level;
-	  ++data->map.data[cli->game.y][cli->game.x].player[i]->vision;
-	}
-      ++i;
-    }
-  return (true);
 }

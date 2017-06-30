@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:55 2017 Antoine Baché
-** Last update Mon Jun 26 21:34:45 2017 Antoine Baché
+** Last update Thu Jun 29 16:34:46 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_H_
@@ -42,5 +42,6 @@ typedef struct			s_zappy
 int32_t		zappy_parse_args(int const ac,
 				 char const * const * av,
 				 t_zappy_config * const data);
+void		zappy_reset(t_zappy * const data);
 
 #endif /* !ZAPPY_H_ */

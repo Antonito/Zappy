@@ -5,17 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:09:39 2017 Antoine Baché
-** Last update Wed Jun 28 02:57:38 2017 Antoine Baché
+** Last update Thu Jun 29 11:55:50 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_BROADCAST_H_
 #define ZAPPY_BROADCAST_H_
 
 #include <stdint.h>
-
-#define ZAPPY_ABS(a)	(((a) >= 0) ? (a) : -(a))
-#define ZAPPY_MIN(a, b)	((a > b) ? (b) : (a))
-#define ZAPPY_LEN(a, b)	(((a) * (a)) + ((b) * (b)))
+#include "zappy_math.h"
 
 /*
 ** Forward declaration of t_zappy
