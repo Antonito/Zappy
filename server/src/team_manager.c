@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Thu Jun 29 14:45:53 2017 Antoine Baché
+** Last update Fri Jun 30 18:14:13 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -38,6 +38,7 @@ int32_t		zappy_team_manager_add_team(char const * const name,
   man->team[man->nb_teams].nb_players = 0;
   man->team[man->nb_teams].name = name;
   man->team[man->nb_teams].nb_players_max = 0;
+  man->team[man->nb_teams].nb_player_lvl_max = 0;
   ++man->nb_teams;
   return (0);
 }
