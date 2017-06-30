@@ -1,0 +1,14 @@
+{
+    "name": "zappy-middleware",
+    "version": "1.0.0",
+    "description": "A middleware for the zappy project",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Marwane Khsime",
+    "license": "MIT",
+    "dependencies": {
+        "ws": "^3.0.0"
+    }
+}
