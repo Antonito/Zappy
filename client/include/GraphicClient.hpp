@@ -8,6 +8,7 @@
 #include "Camera.hpp"
 #include "Shader.hpp"
 #include "TCPSocket.hpp"
+#include "Team.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -96,6 +97,8 @@ namespace zappy
     static std::string parseMessage(std::istringstream &is);
     static void checkEmpty(std::istringstream const &is);
 
+    void setTeamColor();
+
     // Window
     Window m_win;
 
@@ -107,6 +110,7 @@ namespace zappy
     // Game data
     GameMap m_map;
     std::map<std::size_t, Player> m_players;
+    std::vector<Team> m_teams;
 
     // 3d data
     Camera m_camera;

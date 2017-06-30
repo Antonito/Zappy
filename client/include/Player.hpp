@@ -37,6 +37,7 @@ namespace zappy
 
     void setOrientation(Orientation orientation);
     void setLevel(std::size_t level);
+    void setColor(glm::vec4 const &color);
 
     void setPlayerPosition(std::size_t x, std::size_t y);
     void updatePosition();

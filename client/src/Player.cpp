@@ -72,9 +72,10 @@ namespace zappy
   void Player::setOrientation(Player::Orientation orientation)
   {
     m_orientation = orientation;
-    m_mesh.setRotation(glm::angleAxis(
-        static_cast<GLfloat>(-M_PI / 2.0 * (static_cast<int>(orientation) - 1)),
-        glm::vec3(0, 1, 0)));
+    m_mesh.setRotation(
+        glm::angleAxis(static_cast<GLfloat>(
+                           -M_PI / 2.0 * (static_cast<int>(orientation) - 1)),
+                       glm::vec3(0, 1, 0)));
   }
 
   void Player::setLevel(std::size_t level)
@@ -114,6 +115,11 @@ namespace zappy
   void Player::takeResource(GameMap &map, Resource::Type t)
   {
     map.removeResource(m_x, m_y, t);
+  }
+
+  void Player::setColor(glm::vec4 const &color)
+  {
+    m_mesh.setColor(color);
   }
 
   std::ostream &operator<<(std::ostream &os, Player::Orientation const &o)

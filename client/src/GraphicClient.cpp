@@ -30,6 +30,9 @@ namespace zappy
 
     m_win.useShader(m_shader);
 
+    m_camera.setPosition(glm::vec3(0, 3, 0));
+    m_camera.setRotation(225, 0);
+
     while (m_win.isOpen())
       {
 	// Manage user inputs
@@ -453,7 +456,9 @@ namespace zappy
 
     nope::log::Log(Info) << "Received a team name: " << name;
 
-    // TODO: set the actual values
+    m_teams.emplace_back();
+    m_teams.back().name = name;
+    m_teams.back().color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
 
   void GraphicClient::newPlayer(std::string const &data)
@@ -478,8 +483,27 @@ namespace zappy
 			 << "\n\tTeam:\t\t" << team;
     // clang-format on
 
-    // TODO: set the team name
+    bool teamFound = false;
+
     Player &player = m_players[playerId];
+
+    for (std::size_t i = 0; i < m_teams.size(); ++i)
+      {
+	if (m_teams[i].name == team)
+	  {
+	    setTeamColor();
+	    player.setColor(m_teams[i].color);
+	    teamFound = true;
+	    break;
+	  }
+      }
+
+    if (!teamFound)
+      {
+	m_players.erase(playerId);
+	throw std::invalid_argument(std::string("Team not found: ") + team +
+	                            ')');
+      }
 
     player.setPlayerPosition(x, y);
     player.setOrientation(orientation);
@@ -752,8 +776,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Info) << "The time unit is now " << unit;
-
-    // TODO: set the actual values
   }
 
   void GraphicClient::endOfGame(std::string const &data)
@@ -764,9 +786,8 @@ namespace zappy
 
     checkEmpty(is);
 
-    nope::log::Log(Info) << "End of the game, winner team is " << winner;
-
-    // TODO: set the actual values
+    nope::log::Log(Info) << "End of the game, winner team is "
+                         << m_teams[winner].name;
   }
 
   void GraphicClient::serverMessage(std::string const &data)
@@ -778,8 +799,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Info) << "Server message: " << message;
-
-    // TODO: set the actual values
   }
 
   void GraphicClient::unknownCommand(std::string const &data)
@@ -789,8 +808,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Warning) << "The server received an unknown command";
-
-    // TODO: set the actual values
   }
 
   void GraphicClient::badParameter(std::string const &data)
@@ -800,8 +817,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Warning) << "The server received a bad command parameter";
-
-    // TODO: set the actual values
   }
 
   //
@@ -900,6 +915,42 @@ namespace zappy
     if (is)
       {
 	throw std::invalid_argument("Too many argument for this command");
+      }
+  }
+
+  void GraphicClient::setTeamColor()
+  {
+    if (m_teams[0].color != glm::vec4(0.0, 0.0, 0.0, 0.0))
+      {
+	return;
+      }
+
+    constexpr std::array<std::array<float, 4>, 7> colors = {
+        {{{1.0f, 0.0f, 0.0f, 1.0f}},
+         {{1.0f, 1.0f, 0.0f, 1.0f}},
+         {{0.0f, 1.0f, 0.0f, 1.0f}},
+         {{0.0f, 1.0f, 1.0f, 1.0f}},
+         {{0.0f, 0.0f, 1.0f, 1.0f}},
+         {{1.0f, 0.0f, 1.0f, 1.0f}},
+         {{1.0f, 0.0f, 0.0f, 1.0f}}}};
+
+    for (std::size_t i = 0; i < m_teams.size(); ++i)
+      {
+	float ratio = static_cast<float>(i) / m_teams.size();
+	int   p = static_cast<int>(ratio * 6);
+
+	float part = 6.0f * ratio - p;
+
+	glm::vec4 cur(colors[p][0], colors[p][1], colors[p][2], colors[p][3]);
+	glm::vec4 next(colors[p + 1][0], colors[p + 1][1], colors[p + 1][2],
+	               colors[p + 1][3]);
+
+	m_teams[i].color = cur * (1.0f - part) + next * part;
+
+	nope::log::Log(Debug)
+	    << "Team " << m_teams[i].name << ": (" << m_teams[i].color.r
+	    << ", " << m_teams[i].color.g << ", " << m_teams[i].color.b << ", "
+	    << m_teams[i].color.a << ')';
       }
   }
 }
