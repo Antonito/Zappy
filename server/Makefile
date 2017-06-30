@@ -57,6 +57,7 @@ SRC_FILES=	admin.c				\
 		cleanup_client.c		\
 		cleanup_map.c			\
 		cleanup_admin.c			\
+		cleanup_eggs.c			\
 		client.c			\
 		client_for_each.c		\
 		client_game.c			\
@@ -64,6 +65,7 @@ SRC_FILES=	admin.c				\
 		client_move.c			\
 		client_rotate.c			\
 		elevation.c			\
+		egg_manager.c			\
 		graphic_cmd.c			\
 		graphic_monitor.c		\
 		io.c				\
