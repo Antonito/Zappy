@@ -2,12 +2,8 @@
 
 namespace zappy
 {
-  Mesh Resource::mesh(Resource::Type t)
+  glm::vec4 Resource::color(Resource::Type t)
   {
-    Mesh m(Model::fromObj("./models/diamond.obj"));
-
-    m.scale(0.5, 0.5, 0.5);
-
     glm::vec4 color;
 
     switch (t)
@@ -38,7 +34,6 @@ namespace zappy
     color.g /= 255.0;
     color.b /= 255.0;
     color.a /= 255.0;
-    m.setColor(color.r, color.g, color.b, color.a);
-    return (m);
+    return (color);
   }
 }

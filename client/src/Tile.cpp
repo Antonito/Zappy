@@ -2,6 +2,10 @@
 
 namespace zappy
 {
+  constexpr std::array<glm::vec3, Resource::NB_RESOURCE>
+                  Tile::m_resourcePosition;
+  constexpr float Tile::m_tileScale;
+
   Tile::Tile() : m_cube(Model::fromObj("./models/cube.obj")), m_resources()
   {
     constexpr double coeff = 0.8;
@@ -11,18 +15,16 @@ namespace zappy
                static_cast<double>(RAND_MAX) * coeff;
     double b = static_cast<double>(std::rand()) /
                static_cast<double>(RAND_MAX) * coeff;
-
     m_cube.setColor(r, std::min(g + 0.7, 1.0), b);
 
-    constexpr float scale = 0.9;
-
-    m_cube.scale(scale, scale, scale);
+    m_cube.scale(m_tileScale);
 
     for (std::size_t i = Resource::FOOD; i < Resource::NB_RESOURCE; ++i)
       {
-	m_resources[i] = 0;
-	m_resourcesMesh[i] = Resource::mesh(static_cast<Resource::Type>(i));
+	m_resources[i].setColor(
+	    Resource::color(static_cast<Resource::Type>(i)));
       }
+    this->setPosition(glm::vec3(0, 0, 0));
   }
 
   Tile::Tile(Tile const &that)
@@ -58,50 +60,44 @@ namespace zappy
 
   std::size_t Tile::operator[](Resource::Type type) const
   {
-    return (m_resources[type]);
+    return (m_resources[type].getResourceNumber());
   }
 
   void Tile::renderOn(Window &win, Camera const &camera) const
   {
     win.draw(camera, m_cube);
 
-    for (std::size_t i = 0; i < Resource::NB_RESOURCE; ++i)
+    for (ResourceStack const &res : m_resources)
       {
-	if (m_resources[i] > 0)
-	  {
-	    win.draw(camera, m_resourcesMesh[i]);
-	  }
+	res.renderOn(win, camera);
       }
   }
 
   void Tile::setPosition(glm::vec3 const &position)
   {
+    nope::log::Log(Debug) << "Setting a tile position in (" << position.x
+                          << ", " << position.y << ", " << position.z << ")";
     m_cube.setPosition(position);
     for (std::size_t i = 0; i < Resource::NB_RESOURCE; ++i)
       {
-	m_resourcesMesh[i].setPosition(position +
-	                               glm::vec3(0, i / 2.0 + 1.0, 0));
+	m_resources[i].setPosition(position +
+	                           m_resourcePosition[i] * m_tileScale +
+	                           glm::vec3(-0.5, 0.5, -0.5));
       }
   }
 
   void Tile::addResource(Resource::Type type, std::size_t n)
   {
-    m_resources[type] += n;
+    m_resources[type].addResource(n);
   }
 
   void Tile::removeResource(Resource::Type type, std::size_t n)
   {
-    if (m_resources[type] < n)
-      {
-	throw std::logic_error(
-	    "Trying to remove more resource than there are");
-      }
-
-    m_resources[type] -= n;
+    m_resources[type].removeResource(n);
   }
 
-    void Tile::setResource(Resource::Type type, std::size_t n)
+  void Tile::setResource(Resource::Type type, std::size_t n)
   {
-    m_resources[type] = n;
+    m_resources[type].setResource(n);
   }
 }

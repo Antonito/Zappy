@@ -54,12 +54,13 @@ namespace zappy
 
   void GameMap::setSize(std::size_t x, std::size_t y)
   {
+    nope::log::Log(Debug) << "Setting map size: " << x << 'x' << y;
     m_tiles.resize(x * y);
     m_x = x;
     m_y = y;
-    for (std::size_t _y = 0; _y < y; ++_y)
+    for (std::size_t _y = 0; _y < m_y; ++_y)
       {
-	for (std::size_t _x = 0; _x < x; ++_x)
+	for (std::size_t _x = 0; _x < m_x; ++_x)
 	  {
 	    m_tiles[x * _y + _x].setPosition(glm::vec3(_x, 0, _y));
 	  }

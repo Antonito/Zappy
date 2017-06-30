@@ -54,7 +54,8 @@ SRC_FILES=	main.cpp				\
 		Window.cpp				\
 		Shader.cpp				\
 		Camera.cpp				\
-		Resource.cpp
+		Resource.cpp				\
+		ResourceStack.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

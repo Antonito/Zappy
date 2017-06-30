@@ -23,7 +23,7 @@ namespace zappy
       NB_RESOURCE
     };
 
-    static Mesh mesh(Type t);
+    static glm::vec4 color(Type t);
   };
 }
 

@@ -53,6 +53,7 @@ namespace zappy
 
     void scale(double x, double y, double z);
     void scale(glm::vec3 const &scale);
+    void scale(double scale);
 
     void rotate(glm::quat const &rotation);
 

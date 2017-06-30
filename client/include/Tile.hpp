@@ -5,6 +5,7 @@
 #include "Window.hpp"
 #include "Mesh.hpp"
 #include "Resource.hpp"
+#include "ResourceStack.hpp"
 
 namespace zappy
 {
@@ -27,11 +28,19 @@ namespace zappy
     void addResource(Resource::Type r, std::size_t n = 1);
     void removeResource(Resource::Type r, std::size_t n = 1);
     void setResource(Resource::Type r, std::size_t n);
+
   private:
     Mesh m_cube;
 
-    std::array<std::size_t, Resource::NB_RESOURCE> m_resources;
-    std::array<Mesh, Resource::NB_RESOURCE> m_resourcesMesh;
+    constexpr static std::array<glm::vec3, Resource::NB_RESOURCE>
+        m_resourcePosition = {
+            {glm::vec3(0.85, 0.0, 0.45), glm::vec3(0.65, 0.0, 0.85),
+             glm::vec3(0.85, 0.0, 0.85), glm::vec3(0.85, 0.0, 0.65),
+             glm::vec3(0.85, 0.0, 0.25), glm::vec3(0.85, 0.0, 0.05),
+             glm::vec3(0.65, 0.0, 0.05)}};
+    constexpr static float m_tileScale = 0.97;
+
+    std::array<ResourceStack, Resource::NB_RESOURCE> m_resources;
   };
 }
 

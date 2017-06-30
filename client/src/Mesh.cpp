@@ -7,6 +7,7 @@ namespace zappy
         m_fullTransform(), m_fullTransformIsUpToDate(false),
         m_color(1, 1, 1, 1)
   {
+	  nope::log::Log(Debug) << "Constructing a mesh";
   }
 
   Mesh::Mesh(Model const &model, glm::vec3 const &position,
@@ -171,6 +172,11 @@ namespace zappy
   {
     m_scale = scale;
     m_fullTransformIsUpToDate = false;
+  }
+
+  void Mesh::scale(double scale)
+  {
+    this->scale(glm::vec3(scale, scale, scale));
   }
 
   void Mesh::rotate(glm::quat const &rotation)

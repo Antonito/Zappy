@@ -95,9 +95,8 @@ namespace zappy
 
     if (fs.is_open() == false)
       {
-	throw std::system_error();
-	// throw std::system_error((std::string("Failed to open obj file: ") +
-	//                         path).c_str());
+	throw std::runtime_error(
+	    (std::string("Failed to open obj file: ") + path).c_str());
       }
 
     while (std::getline(fs, line))
