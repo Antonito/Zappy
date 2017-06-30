@@ -27,8 +27,12 @@ namespace ai
     virtual void reset(Value value);
     virtual Value getResponse() const;
 
+    //std::vetor<std::map<std::string, std::int32_t>> &getCases() const;
+
   private:
     Value m_value;
+    //std::vetor<std::map<std::string, std::int32_t>> m_cases;
+    std::vector<std::vector<std::string>> m_cases;
   };
 }
 

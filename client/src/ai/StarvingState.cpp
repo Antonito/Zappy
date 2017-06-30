@@ -20,10 +20,14 @@ namespace ai
     m_states[BasicState::INVENTORY]->readState(readQueue);
     std::int32_t food = static_cast<InventoryState *>(m_states[BasicState::INVENTORY])->getFood() ;
     nope::log::Log(Debug) << food << " food unit";
-    if (food < 8)
+    if (food < NB_FOOD_NORMAL)
       {
 	m_curValue = Value::YES;
       }
+    else if (food < NB_FOOD_MIN)
+    {
+      m_curValue = Value::YES;
+    }
     else if (m_retValue == Value::YES)
       {
 	m_curValue = Value::NO;

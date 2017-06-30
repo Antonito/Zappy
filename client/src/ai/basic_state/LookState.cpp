@@ -14,12 +14,26 @@ namespace ai
   {
     if (readQueue.empty())
       return ;
-    std::string res = readQueue.front();
-    if (res == "ko\n")
+    std::string iss = readQueue.front();
+    readQueue.pop();
+    if (iss == "ko\n")
     {
       nope::log::Log(Debug) << "(WARNING) Right Failed !";
     }
-    readQueue.pop();
+
+    std::stringstream ss;
+    std::string trash;
+    ss << iss;
+
+    std::string res;
+
+    while (res != "]")
+    {
+      if (res == ",")
+      {
+      }
+      ss >> res;
+    }
   }
 
   void LookState::writeState(std::queue<std::string> &writeQueue)
@@ -36,3 +50,7 @@ namespace ai
   {
   }
 }
+
+
+//TODO remove
+//[ player mendiane mendiane,, food, food food linemate phiras
