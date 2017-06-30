@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 16:03:29 2017 Antoine Baché
-** Last update Fri Jun 30 16:28:05 2017 Antoine Baché
+** Last update Fri Jun 30 17:40:04 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -28,6 +28,7 @@ t_zappy_egg	*zappy_egg_add(t_zappy * const data,
       LOG(LOG_DEBUG, "Adding an egg to the list [%d]", team_id);
       egg->hatch_date = (uint64_t)((600 * 1000) / data->conf.freq) + now;
       egg->team_id = team_id;
+      egg->id = data->egg_manager.nb_eggs;
       cur = data->egg_manager.eggs;
       while (cur && cur->next)
 	cur = cur->next;

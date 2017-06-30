@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 16:36:31 2017 Antoine Baché
+** Last update Fri Jun 30 17:45:16 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -18,17 +18,20 @@
 #include "zappy_client_cmd.h"
 #include "zappy_graphic.h"
 #include "zappy_message.h"
+#include "zappy_time.h"
 
 static void		zappy_client_post_fork(t_zappy_client * const cli,
 					       t_zappy * const data)
 {
   t_zappy_graph_arg	g;
+  t_zappy_egg		*egg;
 
-  (void)cli;
-  (void)data;
-  (void)g;
-  // TODO: add egg
-  // TODO: enw
+  egg = zappy_egg_add(data, cli->game.team_id, zappy_get_cur_time());
+  if (egg)
+    {
+      g = (t_zappy_graph_arg){cli, egg->id, 0 };
+      zappy_graph_send(&g, data, NULL, &zappy_graph_enw);
+    }
 }
 
 void			zappy_client_cmd_fork(t_zappy_client * const cli,
