@@ -39,6 +39,7 @@ namespace zappy
     void setLevel(std::size_t level);
 
     void setPlayerPosition(std::size_t x, std::size_t y);
+    void updatePosition();
     void dropResource(GameMap &map, Resource::Type t);
     void takeResource(GameMap &map, Resource::Type t);
 
@@ -48,6 +49,8 @@ namespace zappy
     std::size_t m_y;
     Orientation m_orientation;
     std::size_t m_level;
+    glm::vec3   m_position;
+    glm::vec3   m_speed;
   };
 
   std::ostream &operator<<(std::ostream &, Player::Orientation const &);

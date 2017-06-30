@@ -3,9 +3,10 @@
 namespace zappy
 {
   Player::Player()
-      : m_mesh(Model::fromObj("./models/player.obj")), m_x(0), m_y(0)
+      : m_mesh(Model::fromObj("./models/player.obj")), m_x(0), m_y(0),
+        m_position(0, 0, 0), m_speed(0, 0, 0)
   {
-    m_mesh.scale(0.2, 0.4, 0.2);
+    m_mesh.scale(1.2);
   }
 
   Player::Player(Player const &that)
@@ -71,6 +72,9 @@ namespace zappy
   void Player::setOrientation(Player::Orientation orientation)
   {
     m_orientation = orientation;
+    m_mesh.setRotation(glm::angleAxis(
+        static_cast<GLfloat>(-M_PI / 2.0 * (static_cast<int>(orientation) - 1)),
+        glm::vec3(0, 1, 0)));
   }
 
   void Player::setLevel(std::size_t level)
@@ -82,7 +86,24 @@ namespace zappy
   {
     m_x = x;
     m_y = y;
-    m_mesh.setPosition(glm::vec3(x, 1.0, y));
+    m_position = glm::vec3(-static_cast<float>(x), 0.5, y);
+  }
+
+  void Player::updatePosition()
+  {
+    if (glm::length(m_mesh.position() - m_position) < 0.01)
+      {
+	m_mesh.setPosition(m_position);
+	m_speed = glm::vec3(0.0f, 0.0f, 0.0f);
+      }
+    else
+      {
+	constexpr float alpha = 0.1;
+
+	glm::vec3 diff = m_position - m_mesh.position();
+
+	m_mesh.translate(alpha * diff);
+      }
   }
 
   void Player::dropResource(GameMap &map, Resource::Type t)

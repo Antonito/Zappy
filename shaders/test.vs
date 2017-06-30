@@ -21,7 +21,7 @@ void main () {
   vec4 pos = shadow_mat * vec4(position, 1.0);
   normal2 = vec3(normalize(shadow_mat * vec4(normal, 0.0)));
   //normal2 = normal;
-  vec4 light_ = vec4(10, 3, 10, 1.0);
+  vec4 light_ = vec4(-10, 3, 10, 1.0);
   lightDir2 = vec3(light_ - pos);
   eye2 = vec3(pos);
   //eye2 = vec3(0, 0, 0);

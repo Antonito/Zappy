@@ -5,7 +5,7 @@ namespace zappy
   Window::Window(unsigned int width, unsigned int height,
                  std::string const &name)
       : m_win(sf::VideoMode(width, height), name, sf::Style::Close,
-              sf::ContextSettings(24, 8, 0, 3, 3, 0)),
+              sf::ContextSettings(24, 8, 2, 3, 3, 0)),
         m_curShader(nullptr)
   {
     glewExperimental = GL_TRUE;
@@ -15,7 +15,10 @@ namespace zappy
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
     glDepthMask(GL_TRUE);
+
+    m_win.setKeyRepeatEnabled(false);
   }
 
   Window::~Window()

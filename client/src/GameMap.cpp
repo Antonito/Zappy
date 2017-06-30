@@ -62,7 +62,7 @@ namespace zappy
       {
 	for (std::size_t _x = 0; _x < m_x; ++_x)
 	  {
-	    m_tiles[x * _y + _x].setPosition(glm::vec3(_x, 0, _y));
+	    m_tiles[x * _y + _x].setPosition(glm::vec3(-static_cast<float>(_x), 0, _y));
 	  }
       }
   }

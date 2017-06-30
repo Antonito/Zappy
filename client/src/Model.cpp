@@ -145,15 +145,11 @@ namespace zappy
 	else if (firstWord == "f")
 	  {
 	    std::uint32_t vertex[3];
-	    std::uint32_t uv[3];
-	    std::uint32_t normal[3];
 
-	    int res =
-	        sscanf(is.str().c_str(), "f %u/%u/%u %u/%u/%u %u/%u/%u",
-	               &vertex[0], &uv[0], &normal[0], &vertex[1], &uv[1],
-	               &normal[1], &vertex[2], &uv[2], &normal[2]);
+	    int res = sscanf(is.str().c_str(), "f %u %u %u", &vertex[0],
+	                     &vertex[1], &vertex[2]);
 
-	    if (res == 9)
+	    if (res == 3)
 	      {
 		indices.push_back(vertex[0] - 1);
 		indices.push_back(vertex[1] - 1);

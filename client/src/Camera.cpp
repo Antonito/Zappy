@@ -9,7 +9,7 @@ namespace zappy
                                        aspect, zNear, zFar)),
         m_forward(0, 0, -1), m_position(pos), m_rotation(0, 0), m_up(0, 1, 0),
         m_aspect(aspect), m_fov(static_cast<float>(fov * M_PI / 180.f)),
-        m_zNear(zNear), m_zFar(zFar)
+        m_zNear(zNear), m_zFar(zFar), m_speed(0, 0, 0), m_tryMoving(0, 0, 0)
   {
   }
 
@@ -138,25 +138,40 @@ namespace zappy
 	m_rotation.y = -89.9f;
       }
 
-    glm::vec3 dir =
-        glm::rotate(glm::vec3(0, 0, -1), static_cast<float>(-m_rotation.y * M_PI / 180.f), glm::vec3(1, 0, 0));
-    dir = glm::rotate(dir, static_cast<float>(-m_rotation.x * M_PI / 180.f), glm::vec3(0, 1, 0));
+    glm::vec3 dir = glm::rotate(
+        glm::vec3(0, 0, -1), static_cast<float>(-m_rotation.y * M_PI / 180.f),
+        glm::vec3(1, 0, 0));
+    dir = glm::rotate(dir, static_cast<float>(-m_rotation.x * M_PI / 180.f),
+                      glm::vec3(0, 1, 0));
 
     m_forward = glm::normalize(dir);
   }
 
   void Camera::moveForward(float move)
   {
-    this->translate(move * m_forward);
+    m_tryMoving.x += move;
   }
 
   void Camera::moveSide(float move)
   {
-    this->translate(move * glm::cross(m_forward, m_up));
+    m_tryMoving.y += move;
   }
 
   void Camera::moveUp(float move)
   {
-    this->translate(move * glm::cross(m_forward, glm::cross(m_forward, m_up)));
+    m_tryMoving.z += move;
+  }
+
+  void Camera::updatePosition()
+  {
+    constexpr float alpha = 0.1;
+
+    glm::vec3 forward = m_forward;
+    glm::vec3 right = glm::cross(m_forward, m_up);
+    glm::vec3 up = glm::cross(forward, right);
+    glm::vec3 total = forward * m_tryMoving.x + right * m_tryMoving.y + up * m_tryMoving.z;
+
+    m_speed = alpha * total + (1 - alpha) * m_speed;
+    this->translate(m_speed);
   }
 }

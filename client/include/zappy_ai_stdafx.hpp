@@ -20,6 +20,7 @@
 #include <random>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/transform.hpp>
 #include <GL/glew.h>
 #include <GL/gl.h>

@@ -36,14 +36,22 @@ namespace zappy
     void moveForward(float move);
     void moveSide(float move);
     void moveUp(float move);
+
+    void updatePosition();
+
   private:
     void updateForward();
+
+    constexpr static float m_maxSpeed = 0.1;
 
     glm::mat4 m_perspective;
     glm::vec3 m_forward;
     glm::vec3 m_position;
     glm::vec2 m_rotation;
     glm::vec3 m_up;
+
+    glm::vec3 m_speed;
+    glm::vec3 m_tryMoving;
 
     float m_aspect;
     float m_fov;

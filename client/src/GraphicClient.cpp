@@ -30,16 +30,6 @@ namespace zappy
 
     m_win.useShader(m_shader);
 
-    //     m_map.setSize(3, 4);
-
-    //     m_map.addResource(2, 1, Resource::FOOD);
-    //     m_map.addResource(2, 3, Resource::LINEMATE);
-
-    //     m_players.emplace_back();
-    //     m_players.emplace_back();
-    //     m_players[0].setPlayerPosition(0, 0);
-    //     m_players[1].setPlayerPosition(1, 3);
-
     while (m_win.isOpen())
       {
 	// Manage user inputs
@@ -58,6 +48,13 @@ namespace zappy
 	  {
 	    ++i;
 	  }
+
+	for (std::pair<const std::size_t, Player> &player : m_players)
+	  {
+	    player.second.updatePosition();
+	  }
+
+	m_camera.updatePosition();
 
 	// Clear the window
 	m_win.clear();
@@ -79,7 +76,7 @@ namespace zappy
   //
   void GraphicClient::dispatch(sf::Event const &e)
   {
-    constexpr float movement = 0.1;
+    constexpr float movement = 0.05;
 
     if (e.type == sf::Event::Closed)
       {
@@ -101,6 +98,29 @@ namespace zappy
 	    break;
 	  case sf::Keyboard::D:
 	    m_camera.moveSide(movement);
+	    break;
+	  case sf::Keyboard::Escape:
+	    m_win.close();
+	    break;
+	  default:
+	    break;
+	  }
+      }
+    else if (e.type == sf::Event::KeyReleased)
+      {
+	switch (e.key.code)
+	  {
+	  case sf::Keyboard::W:
+	    m_camera.moveForward(-movement);
+	    break;
+	  case sf::Keyboard::S:
+	    m_camera.moveForward(movement);
+	    break;
+	  case sf::Keyboard::A:
+	    m_camera.moveSide(movement);
+	    break;
+	  case sf::Keyboard::D:
+	    m_camera.moveSide(-movement);
 	    break;
 	  case sf::Keyboard::Escape:
 	    m_win.close();
@@ -192,12 +212,8 @@ namespace zappy
 	return (false);
       }
 
-    nope::log::Log(Info) << "Before command : " << m_buffer;
-
     std::string cmd = m_buffer.substr(0, pos);
     m_buffer = m_buffer.substr(pos + 1);
-
-    nope::log::Log(Info) << "After command : " << m_buffer;
 
     if (cmd.length() == 0)
       {
@@ -283,17 +299,24 @@ namespace zappy
     std::string command;
     std::string args;
 
-    if (receiveCommand(command, args))
+    try
       {
-	for (std::pair<first_t, second_t> const &p : funcs)
+	if (receiveCommand(command, args))
 	  {
-	    if (command == p.first)
+	    for (std::pair<first_t, second_t> const &p : funcs)
 	      {
-		(this->*p.second)(args);
-		return (true);
+		if (command == p.first)
+		  {
+		    (this->*p.second)(args);
+		    return (true);
+		  }
 	      }
+	    throw std::invalid_argument("Unknown command");
 	  }
-	throw std::invalid_argument("Unknown command");
+      }
+    catch (std::invalid_argument const &e)
+      {
+	nope::log::Log(Warning) << "Failed to execute command: " << e.what();
       }
     return (false);
   }
