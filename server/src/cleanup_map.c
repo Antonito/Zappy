@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 11:08:16 2017 Antoine Baché
-** Last update Fri Jun 30 22:37:10 2017 Antoine Baché
+** Last update Sat Jul  1 00:27:45 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -28,7 +28,6 @@ void			zappy_cleanup_map(t_zappy_map * const map)
       j = 0;
       while (j < map->width)
 	{
-	  LOG(LOG_DEBUG, "Cleaning [%d][%d]", i, j);
 	  free(map->data[i][j].player);
 	  ++j;
 	}
