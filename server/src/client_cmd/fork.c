@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 14:25:37 2017 Antoine Baché
+** Last update Fri Jun 30 16:36:31 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -23,8 +23,10 @@ static void		zappy_client_post_fork(t_zappy_client * const cli,
 					       t_zappy * const data)
 {
   t_zappy_graph_arg	g;
+
   (void)cli;
   (void)data;
+  (void)g;
   // TODO: add egg
   // TODO: enw
 }

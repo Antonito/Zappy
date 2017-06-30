@@ -64,6 +64,7 @@ SRC_FILES=	admin.c				\
 		client_move.c			\
 		client_rotate.c			\
 		elevation.c			\
+		egg_manager.c			\
 		graphic_cmd.c			\
 		graphic_monitor.c		\
 		io.c				\
