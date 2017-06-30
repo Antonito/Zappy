@@ -17,7 +17,6 @@ edi
 connexion moniteur // Partially OK
 connexion joueur oeuf
 incantation
-fin incantation
 fork
 fin fork
 eclosion oeuf
