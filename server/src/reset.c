@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 16:29:53 2017 Antoine Baché
-** Last update Thu Jun 29 16:43:37 2017 Antoine Baché
+** Last update Fri Jun 30 16:46:17 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -24,6 +24,7 @@ void	zappy_reset(t_zappy * const data)
   zappy_cleanup_multiplexer(&data->multiplex);
   zappy_cleanup_clients(&data->clients);
   zappy_cleanup_map(&data->map);
+  zappy_cleanup_eggs(&data->egg_manager);
   zappy_cleanup_admin(&data->admin);
   memset(data, 0, sizeof(*data));
 }

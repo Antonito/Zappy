@@ -5,17 +5,21 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:58:03 2017 Antoine Baché
-** Last update Thu Jun 29 01:04:09 2017 Antoine Baché
+** Last update Fri Jun 30 16:34:58 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_H_
 #define ZAPPY_CLIENT_H_
 
 #include <stdbool.h>
-#include "cqueue.h"
 #include "zappy_client_game.h"
 #include "zappy_socket.h"
 #include "zappy_ring_buffer.h"
+
+/*
+** Forward declaration of t_cqueue
+*/
+typedef struct s_cqueue	t_cqueue;
 
 /*
 ** Forward declaration of t_zappy

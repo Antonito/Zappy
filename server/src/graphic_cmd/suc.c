@@ -5,12 +5,13 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Wed Jun 28 00:36:07 2017 Antoine Baché
+** Last update Fri Jun 30 16:38:56 2017 Antoine Baché
 */
 
 #include <string.h>
 #include <stdlib.h>
 #include "clogger.h"
+#include "cqueue.h"
 #include "zappy.h"
 #include "zappy_alloc.h"
 #include "zappy_client.h"

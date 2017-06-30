@@ -1,6 +1,7 @@
 ## TODO:
 
 -> Fork
+-> connexion au bout des 600 ticks, pas avant
 
 -> openSSL
 
@@ -13,7 +14,6 @@ edi
 -> graphic sheet:
 connexion moniteur // Partially OK
 connexion joueur oeuf
-fork
 fin fork
 eclosion oeuf
 oeuf moisi (mort)u
