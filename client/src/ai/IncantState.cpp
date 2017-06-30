@@ -29,6 +29,7 @@ namespace ai
   void IncantState::writeState(std::queue<std::string> &writeQueue)
   {
     nope::log::Log(Debug) << "Incant[WRITE]State";
+    m_states[BasicState::INCANTATION]->reset(Value::NO);
     m_states[BasicState::INCANTATION]->writeState(writeQueue);
     m_canWrite = false;
   }

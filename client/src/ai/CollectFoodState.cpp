@@ -26,6 +26,7 @@ namespace ai
   void CollectFoodState::writeState(std::queue<std::string> &writeQueue)
   {
     nope::log::Log(Debug) << "CollectFood[WRITE]State";
+    m_states[BasicState::LOOK]->reset(Value::NO);
     static_cast<TakeState *>(m_states[BasicState::TAKE])->setObject("food");
     m_states[BasicState::TAKE]->writeState(writeQueue);
     m_canWrite = false;

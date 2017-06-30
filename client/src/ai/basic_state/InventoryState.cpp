@@ -12,42 +12,49 @@ namespace ai
 
   void InventoryState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "Inventory[READ]BasicState";
     if (readQueue.empty())
-    {
-      return ;
-    }
+      {
+	m_value = Value::NO;
+	return;
+      }
+    m_value = Value::YES;
     std::string iss(readQueue.front());
     readQueue.pop();
 
-    //std::string iss("[ food 9, linemate 0, deraumere 0, sibur 0, mendiane 0, phiras 0, thystame 0 ]"); 
+    // std::string iss("[ food 9, linemate 0, deraumere 0, sibur 0, mendiane 0,
+    // phiras 0, thystame 0 ]");
     std::stringstream ss;
-    std::string trash;
+    std::string       trash;
     ss << iss;
 
     std::string res;
-    int a; 
+    int         a;
 
     for (std::int32_t i = 0; i < 7; ++i)
-    {
-      ss >> trash;
-      ss >> res;
-      ss >> a;
-      m_inventory[res] = a;
-    }
+      {
+	ss >> trash;
+	ss >> res;
+	ss >> a;
+	m_inventory[res] = a;
+      }
   }
 
   void InventoryState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "Inventory[WRITE]BasicState";
     nope::log::Log(Debug) << "pushing Inventory to queue";
     writeQueue.push("Inventory\n");
   }
 
   void InventoryState::reset(Value value)
   {
+    m_value = value;
   }
 
   Value InventoryState::getResponse() const
   {
+    return (m_value);
   }
 
   std::int32_t InventoryState::getFood() const
@@ -85,4 +92,3 @@ namespace ai
     return (m_inventory.at("thystame"));
   }
 }
-

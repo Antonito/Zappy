@@ -57,6 +57,7 @@ namespace ai
       {
 	m_states[BasicState::FORWARD]->writeState(writeQueue);
       }
+    m_states[BasicState::LOOK]->reset(Value::NO);
     m_states[BasicState::LOOK]->writeState(writeQueue);
     m_canWrite = false;
   }

@@ -27,6 +27,7 @@ namespace ai
   {
     nope::log::Log(Debug) << "CollectStone[WRITE]State";
     // Change stone to the stone searched
+    m_states[BasicState::TAKE]->reset(Value::NO);
     static_cast<TakeState *>(m_states[BasicState::TAKE])->setObject("stone");
     m_states[BasicState::TAKE]->writeState(writeQueue);
     m_canWrite = false;
