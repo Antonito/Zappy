@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 14:16:40 2017 Antoine Baché
-** Last update Fri Jun 30 21:37:53 2017 Antoine Baché
+** Last update Sat Jul  1 00:58:08 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -56,8 +56,8 @@ void			zappy_cleanup_client(t_zappy_client * const cli,
   if (cli->net.sock > 0)
     {
       closesocket(cli->net.sock);
-      cli->net.sock = -1;
     }
+  cli->net.sock = -1;
   free(cli->game.team_name);
   cli->game.team_name = NULL;
   zappy_cleanup_cqueue_serial(&cli->input_queue);

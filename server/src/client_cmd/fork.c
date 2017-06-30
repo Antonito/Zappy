@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 21:11:19 2017 Antoine Baché
+** Last update Sat Jul  1 01:23:28 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -31,7 +31,7 @@ static void		zappy_client_post_fork(t_zappy_client * const cli,
     {
       (void)g;
       g = (t_zappy_graph_arg){cli, egg->id, 0 };
-      //zappy_graph_send(&g, data, NULL, &zappy_graph_enw);
+      zappy_graph_send(&g, data, NULL, &zappy_graph_enw);
     }
 }
 

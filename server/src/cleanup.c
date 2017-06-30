@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 21:07:21 2017 Antoine Baché
-** Last update Fri Jun 30 21:36:05 2017 Antoine Baché
+** Last update Sat Jul  1 00:58:04 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -28,8 +28,8 @@ void			zappy_cleanup_socket(t_zappy_socket * const net)
   if (net->sock > 0)
     {
       closesocket(net->sock);
-      net->sock = -1;
     }
+  net->sock = -1;
 }
 
 void			zappy_cleanup_multiplexer(t_zappy_multiplexer *
