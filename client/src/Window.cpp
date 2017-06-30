@@ -60,6 +60,7 @@ namespace zappy
 
     m_curShader->updateTransform(camera.getViewProjection() *
                                  mesh.fullTransform());
+    m_curShader->updateShadowMat(mesh.fullTransform());
     m_curShader->updateColor(mesh.color());
     mesh.model().render();
   }

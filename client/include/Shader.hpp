@@ -23,7 +23,7 @@ namespace zappy
     void bind();
 
     void updateTransform(glm::mat4 const &transform);
-    void updateShadowMat(); // TODO: set parameters
+    void updateShadowMat(glm::mat4 const &transform);
     void updateColor(glm::vec4 const &color);
 //    void updateLight(Light const &light);
 

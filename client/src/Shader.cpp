@@ -62,8 +62,10 @@ namespace zappy
     glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &transform[0][0]);
   }
 
-  void Shader::updateShadowMat()
+  void Shader::updateShadowMat(glm::mat4 const &transform)
   {
+    glUniformMatrix4fv(m_uniforms[SHADOW_MAT_U], 1, GL_FALSE,
+                       &transform[0][0]);
   }
 
   void Shader::updateColor(glm::vec4 const &color)

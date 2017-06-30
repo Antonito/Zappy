@@ -131,11 +131,11 @@ namespace zappy
   {
     if (m_rotation.y > 90.0f)
       {
-	m_rotation.y = 90.0f;
+	m_rotation.y = 89.9f;
       }
     else if (m_rotation.y < -90.0f)
       {
-	m_rotation.y = -90.0f;
+	m_rotation.y = -89.9f;
       }
 
     glm::vec3 dir =
