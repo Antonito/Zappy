@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Thu Jun 29 23:27:09 2017 Antoine Baché
+** Last update Fri Jun 30 12:41:21 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -62,19 +62,18 @@ static bool		zappy_client_elevation(t_zappy_client * const cli,
   max = zappy_get_max_player(data);
   g = (t_zappy_graph_arg){ cli, 0, true };
   zappy_graph_send(&g, data, NULL, &zappy_graph_pie);
-  i = 0;
-  while (i < max)
-    {
-      cur = data->map.data[cli->game.y][cli->game.x].player[i];
-      cur_cli = (t_zappy_client *)((uintptr_t)cur -
-				   offsetof(t_zappy_client, game));
-      zappy_client_elevation_msg(cur_cli, data);
-      g = (t_zappy_graph_arg){ cur_cli, 0, 0 };
-      zappy_graph_send(&g, data, NULL, &zappy_graph_plv);
-      g.ptr = &data->map.data[cli->game.y][cli->game.x];
-      zappy_graph_send(&g, data, NULL, &zappy_graph_bct);
-      ++i;
-    }
+  i = -1;
+  while (++i < max)
+    if ((cur = data->map.data[cli->game.y][cli->game.x].player[i]))
+      {
+	cur_cli = (t_zappy_client *)((uintptr_t)cur -
+				     offsetof(t_zappy_client, game));
+	zappy_client_elevation_msg(cur_cli, data);
+	g = (t_zappy_graph_arg){ cur_cli, 0, 0 };
+	zappy_graph_send(&g, data, NULL, &zappy_graph_plv);
+	g.ptr = &data->map.data[cli->game.y][cli->game.x];
+	zappy_graph_send(&g, data, NULL, &zappy_graph_bct);
+      }
   return (true);
 }
 
