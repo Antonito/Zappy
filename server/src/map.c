@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 01:40:45 2017 Antoine Baché
-** Last update Thu Jun 29 14:45:40 2017 Antoine Baché
+** Last update Thu Jun 29 18:22:53 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -28,15 +28,15 @@ static int32_t		zappy_fill_map(t_zappy_map_case * const map,
   map->y = y;
   max = rand() % ZAPPY_MAP_MAX_RESSOURCE + 1;
   map->content[RES_LINEMATE] = rand() % max;
-  map->content[RES_DERAUMERE] = rand() % max +
-    rand() % (map->content[RES_LINEMATE] + 1);
+  map->content[RES_DERAUMERE] = rand() % max
+    + rand() % (map->content[RES_LINEMATE] + 1);
   map->content[RES_SIBUR] =
     rand() % (map->content[RES_DERAUMERE] + 1) + rand() % max;
   map->content[RES_MENDIANE] = rand() %
     (map->content[RES_SIBUR] + map->content[RES_DERAUMERE] + 1);
   map->content[RES_PHIRAS] = rand() % max;
-  map->content[RES_THYSTAME] = rand() % max +
-    rand() % (map->content[RES_PHIRAS] + 1);
+  map->content[RES_THYSTAME] = rand() % max
+    + rand() % (map->content[RES_PHIRAS] + 1);
   map->content[RES_FOOD] = rand() % max;
   assert(zappy_get_max_player_c(conf) > 0);
   map->player = calloc((size_t)(zappy_get_max_player_c(conf)),

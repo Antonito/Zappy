@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 21:47:05 2017 Antoine Baché
-** Last update Thu Jun 29 13:35:59 2017 Antoine Baché
+** Last update Thu Jun 29 18:22:36 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -26,7 +26,7 @@ void		zappy_client_game_init(t_zappy * const data,
   cli->game.vision = ZAPPY_CLIENT_GAME_DEFAULT_VISION;
   cli->game.inv[RES_FOOD] = ZAPPY_CLIENT_GAME_DEFAULT_FOOD;
   cli->game.orientation = rand() % NB_ORIENTATION;
-  cli->game.food_time = (uint64_t)((126 * 1000) / data->conf.freq) +
-    zappy_get_cur_time();
+  cli->game.food_time = (uint64_t)((126 * 1000) / data->conf.freq)
+    + zappy_get_cur_time();
   zappy_has_player(data);
 }

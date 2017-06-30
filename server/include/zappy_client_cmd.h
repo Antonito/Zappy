@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:13:06 2017 Antoine Baché
-** Last update Wed Jun 28 15:21:47 2017 Antoine Baché
+** Last update Fri Jun 30 12:16:39 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_CMD_H_
@@ -54,10 +54,20 @@ typedef struct			s_zappy_client_cmd
   void				(*handle)(t_zappy_client * const cli,
 					  t_zappy * const data,
 					  char const * const arg);
+  void				(*on_rec)(t_zappy_client * const cli,
+					  t_zappy * const data);
   char const			*cmd;
   int32_t			time_limit;
   int32_t			len;
 }				t_zappy_client_cmd;
+
+/*
+** on_rec callbacks
+*/
+void	zappy_client_pre_fork(t_zappy_client * const cli,
+			      t_zappy * const data);
+void	zappy_client_pre_incantation(t_zappy_client * const cli,
+				     t_zappy * const data);
 
 /*
 ** Callbacks prototypes

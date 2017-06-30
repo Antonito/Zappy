@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Thu Jun 29 16:49:43 2017 Antoine Baché
+** Last update Fri Jun 30 13:22:32 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -83,12 +83,14 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
       && !cli->graphical && cli->authenticated)
     {
       cur_time = zappy_get_cur_time();
+      LOG(LOG_DEBUG, "FoodTime -> %"PRId64, cli->game.food_time);
+      LOG(LOG_DEBUG, "CurTime  -> %"PRId64, cur_time);
       if (cur_time >= cli->game.food_time)
 	{
 	  LOG(LOG_DEBUG, "Removing 1 food");
 	  --cli->game.inv[RES_FOOD];
-	  cli->game.food_time = (uint64_t)((126 * 1000) / zap->conf.freq) +
-	    cur_time;
+	  cli->game.food_time = (uint64_t)((126 * 1000) / zap->conf.freq)
+	    + cur_time;
 	}
       if (cli->game.inv[RES_FOOD] == 0)
 	{
@@ -111,8 +113,7 @@ bool			zappy_logic(t_zappy * const data)
   zappy_client_purify_list(&data->clients, data);
   if (data->clients.has_player)
     {
-      cur_time = zappy_get_cur_time();
-      LOG(LOG_DEBUG, "Next Action: %"PRId64, data->clients.next_action);
+      cur_time = zappy_get_cur_time() + 1000;
       if (data->clients.next_action <= cur_time)
 	cur_time = 1;
       else

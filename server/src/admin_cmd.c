@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Tue Jun 27 22:54:23 2017 Antoine Baché
+** Last update Thu Jun 29 18:28:42 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -25,6 +25,7 @@ static char const	*zappy_admin_help_str =
   "-> stop: shutdown the server\n"
   "-> inc:  increase server frequency\n"
   "-> dec:  decrease server frequency\n";
+
 static size_t const	zappy_admin_help_len =
   sizeof("Available commands:\n"
 	 "-> help: display this help\n"

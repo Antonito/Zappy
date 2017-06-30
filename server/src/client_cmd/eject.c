@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Wed Jun 28 19:16:14 2017 Antoine Baché
+** Last update Thu Jun 29 23:55:22 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -18,6 +18,31 @@
 #include "zappy_client_cmd.h"
 #include "zappy_graphic.h"
 #include "zappy_message.h"
+
+static void			zappy_client_eject_msg(t_zappy_client *
+						       const cli,
+						       int32_t ori)
+{
+  t_zappy_message		*msg;
+  char				buff[512];
+
+  msg = zappy_alloc_message();
+  if (msg)
+    {
+      msg->len = snprintf(buff, sizeof(buff), "eject: %d\n",
+			  ((ori + 2) % 4) + 1);
+      if (msg->len != -1)
+	msg->msg = strdup(buff);
+      if (msg->msg && cqueue_push(&cli->output_queue, msg))
+	{
+	  cli->state = CLI_RESPONSE;
+	  cli->can_write = true;
+	  return ;
+	}
+      free(msg->msg);
+      zappy_free_message(msg);
+    }
+}
 
 static void			zappy_client_eject_all(t_zappy_client *
 						       const cli,
@@ -38,6 +63,7 @@ static void			zappy_client_eject_all(t_zappy_client *
 	{
 	  cur_cli = (t_zappy_client *)(((uintptr_t)cur) -
 				       offsetof(t_zappy_client, game));
+	  zappy_client_eject_msg(cur_cli, cli->game.orientation);
 	  ori = cur->orientation;
 	  cur->orientation = cli->game.orientation;
 	  zappy_client_forward(cur, cur_cli->id, &data->map);
