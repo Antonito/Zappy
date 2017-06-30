@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Fri Jun 30 13:22:32 2017 Antoine Baché
+** Last update Fri Jun 30 19:36:23 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -56,7 +56,6 @@ static void		zappy_logic_client(t_zappy_client * const cli,
   t_zappy_client_serial	*order;
 
   assert(cli->graphical == false);
-  zappy_client_serial_sort(&cli->input_queue);
   while (!cqueue_is_empty(cli->input_queue))
     {
       cur = cqueue_get_front(cli->input_queue);
@@ -83,8 +82,6 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
       && !cli->graphical && cli->authenticated)
     {
       cur_time = zappy_get_cur_time();
-      LOG(LOG_DEBUG, "FoodTime -> %"PRId64, cli->game.food_time);
-      LOG(LOG_DEBUG, "CurTime  -> %"PRId64, cur_time);
       if (cur_time >= cli->game.food_time)
 	{
 	  LOG(LOG_DEBUG, "Removing 1 food");
@@ -107,7 +104,6 @@ bool			zappy_logic(t_zappy * const data)
 
   if (data->clients.has_player)
     {
-      LOG(LOG_DEBUG, "Processing Game Logic");
       _zappy_for_each_client(&data->clients, data, &zappy_logic_client_wrap);
     }
   zappy_client_purify_list(&data->clients, data);
@@ -118,7 +114,6 @@ bool			zappy_logic(t_zappy * const data)
 	cur_time = 1;
       else
 	cur_time = data->clients.next_action - cur_time;
-      LOG(LOG_DEBUG, "Delay: %"PRId64, cur_time);
       data->multiplex.tv_ref.tv_sec = cur_time / 1000;
       data->multiplex.tv_ref.tv_usec = cur_time % 1000;
       data->clients.next_action = 0;

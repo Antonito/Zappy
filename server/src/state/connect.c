@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Fri Jun 30 12:17:24 2017 Antoine Baché
+** Last update Fri Jun 30 19:16:05 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -84,6 +84,9 @@ static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 	}
     }
   cqueue_push(&cli->input_queue, res);
+  LOG(LOG_DEBUG, "Pushing input");
+  zappy_client_serial_sort(&cli->input_queue);
+  LOG(LOG_DEBUG, "Pushed input");
   assert(cqueue_get_size(cli->input_queue) <= 10);
 }
 

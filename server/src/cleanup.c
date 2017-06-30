@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 21:07:21 2017 Antoine Baché
-** Last update Sun Jun 25 20:20:11 2017 Antoine Baché
+** Last update Fri Jun 30 21:36:05 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -41,7 +41,8 @@ void			zappy_cleanup_multiplexer(t_zappy_multiplexer *
 }
 
 void			zappy_cleanup_clients(t_zappy_client_list_manager *
-					      const clients)
+					      const clients,
+					      t_zappy * const data)
 {
   int32_t		i;
   t_zappy_client_list	*list;
@@ -54,7 +55,7 @@ void			zappy_cleanup_clients(t_zappy_client_list_manager *
   while (i < clients->nb_clients)
     {
       tmp = list;
-      zappy_cleanup_client(&tmp->data);
+      zappy_cleanup_client(&tmp->data, data);
       list = list->next;
       free(tmp);
       ++i;

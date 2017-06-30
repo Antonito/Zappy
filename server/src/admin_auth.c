@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 09:13:47 2017 Antoine Baché
-** Last update Tue Jun 27 10:09:36 2017 Antoine Baché
+** Last update Fri Jun 30 19:50:02 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -25,7 +25,7 @@ void			zappy_admin_authenticate(t_zappy * const data,
 {
   char const		*resp;
 
-  assert(data->admin.authenticated == false && data && pass);
+  assert(data && data->admin.authenticated == false && data && pass);
   resp = "Incorrect password\n";
   if (!memcmp(zappy_admin_passwd, pass, strlen(zappy_admin_passwd)))
     {

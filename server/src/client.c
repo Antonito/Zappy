@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Fri Jun 30 16:35:33 2017 Antoine Baché
+** Last update Fri Jun 30 21:10:06 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -59,17 +59,21 @@ void		zappy_client_read(t_zappy_client * const cli,
   assert(cli->state < NB_CLI_STATE);
   if (zappy_message_read(&cli->net, &cli->buff) == MSG_SUCCESS)
     {
-      msg_len = zappy_ring_buffer_has_cmd(&cli->buff);
-      if (msg_len > 0 && (size_t)msg_len < sizeof(buff))
+      msg_len = 1;
+      while (msg_len)
 	{
-	  memset(buff, 0, sizeof(buff));
-	  zappy_ring_buffer_read(&cli->buff, (uint8_t *)buff, msg_len);
-	  buff[msg_len - 1] = '\0';
-	  if (msg_len - 2 > 0 && buff[msg_len - 2] == '\r')
-	    buff[msg_len - 2] = '\0';
-	  zappy_state_hand[cli->state].read(cli, data, buff);
-	  return ;
+	  msg_len = zappy_ring_buffer_has_cmd(&cli->buff);
+	  if (msg_len > 0 && (size_t)msg_len < sizeof(buff))
+	    {
+	      memset(buff, 0, sizeof(buff));
+	      zappy_ring_buffer_read(&cli->buff, (uint8_t *)buff, msg_len);
+	      buff[msg_len - 1] = '\0';
+	      if (msg_len - 2 > 0 && buff[msg_len - 2] == '\r')
+		buff[msg_len - 2] = '\0';
+	      zappy_state_hand[cli->state].read(cli, data, buff);
+	    }
 	}
+      return ;
     }
   cli->connected = false;
 }
@@ -88,7 +92,6 @@ void		zappy_client_write(t_zappy_client * const cli,
       LOG(LOG_DEBUG, "Got message %p from output_queue", to_send);
       zappy_message_write(&cli->net, to_send->data);
       cqueue_pop(&cli->output_queue);
-      zappy_message_clean(to_send->data);
       zappy_free_message(to_send->data);
       zappy_free_cqueue(to_send);
     }
