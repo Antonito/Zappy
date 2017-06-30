@@ -1,15 +1,10 @@
 ## TODO:
 
 -> Fork
--> Elevation
-   -> Premier check a reception: OK / KO
-
--> Fin de jeu
 
 -> openSSL
 
 -> graphic:
-pic
 enw
 eht
 ebo
@@ -18,10 +13,7 @@ edi
 -> graphic sheet:
 connexion moniteur // Partially OK
 connexion joueur oeuf
-incantation
-fin incantation
 fork
 fin fork
 eclosion oeuf
-oeuf moisi (mort)
-fin de jeu
+oeuf moisi (mort)u

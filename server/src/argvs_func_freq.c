@@ -5,7 +5,7 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:49:08 2017 Lucas Troncy
-** Last update Mon Jun 26 10:40:28 2017 Antoine Baché
+** Last update Thu Jun 29 18:22:16 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -14,7 +14,6 @@
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_argv.h"
-
 
 int32_t		argv_freq(int32_t i, char const * const * const av,
 			  t_zappy_config * const data)

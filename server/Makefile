@@ -89,6 +89,7 @@ SRC_FILES=	admin.c				\
 		win.c				\
 		state/auth.c			\
 		state/connect.c			\
+		state/connect_w.c		\
 		state/resp.c			\
 		client_cmd/forward.c		\
 		client_cmd/broadcast.c		\
@@ -104,6 +105,8 @@ SRC_FILES=	admin.c				\
 		client_cmd/connect_nbr.c	\
 		client_cmd/err.c		\
 		client_cmd/dead.c		\
+		client_cmd/pre_fork.c		\
+		client_cmd/pre_incantation.c	\
 		graphic_cmd/msz.c		\
 		graphic_cmd/bct.c		\
 		graphic_cmd/tna.c		\

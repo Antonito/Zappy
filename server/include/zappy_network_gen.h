@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 15:12:38 2017 Antoine Baché
-** Last update Sat Jun 24 12:09:52 2017 Antoine Baché
+** Last update Thu Jun 29 18:21:54 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_NETWORK_GEN_H_
