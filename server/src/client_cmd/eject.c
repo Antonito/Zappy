@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Thu Jun 29 23:55:22 2017 Antoine Baché
+** Last update Fri Jun 30 14:33:42 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -87,7 +87,7 @@ void			zappy_client_cmd_eject(t_zappy_client * const cli,
   if (msg)
     {
       msg->len = sizeof("ko\n") - 1;
-      if (data->map.data[cli->game.y][cli->game.x].nb_players > 0)
+      if (data->map.data[cli->game.y][cli->game.x].nb_players > 1)
 	msg->msg = strdup("ok\n");
       else
 	msg->msg = strdup("ko\n");
