@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:27:51 2017 Antoine Baché
-** Last update Sat Jul  1 22:32:17 2017 Antoine Baché
+** Last update Sat Jul  1 23:16:47 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_CMD_H_
@@ -36,6 +36,8 @@ typedef enum		e_zappy_admin_cmd_list
     ADM_RES_THYSTAME,
     ADM_SPAWN_EGG,
     ADM_BROADCAST,
+    ADM_ADD_CASE,
+    ADM_RM_CASE,
     NB_ADM_CMD
   }			t_zappy_admin_cmd_list;
 
@@ -95,5 +97,13 @@ void			zappy_admin_cmd_res_phiras(t_zappy * const data,
 						   char const * cmd);
 void			zappy_admin_cmd_res_thystame(t_zappy * const data,
 						     char const * cmd);
+
+/*
+** Map case commands
+*/
+void			zappy_admin_add_case(t_zappy * const data,
+					     char const *cmd);
+void			zappy_admin_rm_case(t_zappy * const data,
+					    char const *cmd);
 
 #endif /* !ZAPPY_ADMIN_CMD_H_ */

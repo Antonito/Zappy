@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Sat Jul  1 22:29:10 2017 Antoine Baché
+** Last update Sat Jul  1 23:39:17 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,22 +18,42 @@
 #include "zappy_network.h"
 #include "zappy_graphic.h"
 
-// TODO: Update
 static char const	*zappy_admin_help_str =
   "Available commands:\n"
-  "-> help: display this help\n"
-  "-> info: display server's informations\n"
-  "-> stop: shutdown the server\n"
-  "-> inc:  increase server frequency\n"
-  "-> dec:  decrease server frequency\n";
+  "-> help:              display this help\n"
+  "-> info:              display server's informations\n"
+  "-> stop:              shutdown the server\n"
+  "-> inc:               increase server frequency\n"
+  "-> dec:               decrease server frequency\n"
+  "-> reset:             restarts the server, starting a new game\n"
+  "-> spawn rand:        spwans a random resource on a random case.\n"
+  "                      The following spawns are available: rand, food\n"
+  "                      , linemate, deraumere, sibur, mendiane, phiras\n"
+  "                      , thystame, egg\n"
+  "-> broadcast nb msg:  broadcast a message to all players, \n"
+  "                      coming from nb case\n"
+  "-> map add X Y res:   add an element of res type to map case X Y\n"
+  "-> map rm X Y res:    remove an element of res type from map case X Y\n";
 
 static size_t const	zappy_admin_help_len =
   sizeof("Available commands:\n"
-	 "-> help: display this help\n"
-	 "-> info: display server's informations\n"
-	 "-> stop: shutdown the server\n"
-	 "-> inc:  increase server frequency\n"
-	 "-> dec:  decrease server frequency\n") - 1;
+	 "-> help:              display this help\n"
+	 "-> info:              display server's informations\n"
+	 "-> stop:              shutdown the server\n"
+	 "-> inc:               increase server frequency\n"
+	 "-> dec:               decrease server frequency\n"
+	 "-> reset:             restarts the server, starting a new game\n"
+	 "-> spawn rand:        spwans a random resource on a random case.\n"
+	 "                      The following spawns are available: rand, "
+	 "food\n"
+	 "                      , linemate, deraumere, sibur, mendiane, "
+	 "phiras\n"
+	 "                      , thystame, egg\n"
+	 "-> broadcast nb msg:  broadcast a message to all players, \n"
+	 "                      coming from nb case\n"
+	 "-> map add X Y res:   add an element of res type to map case X Y\n"
+	 "-> map rm X Y res:    remove an element of res type from map "
+	 "case X Y\n") - 1;
 
 void	zappy_admin_cmd_help(t_zappy * const data,
 			     char const * cmd)

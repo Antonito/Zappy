@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 21:50:09 2017 Antoine Baché
-** Last update Sat Jul  1 22:32:44 2017 Antoine Baché
+** Last update Sat Jul  1 23:19:56 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,7 +48,11 @@ static t_zappy_admin_cmd const	zappy_admin_commands[] =
     { &zappy_admin_cmd_egg,
       "spawn egg", sizeof("spawn egg") },
     { &zappy_admin_cmd_broadcast,
-      "broadcast ", sizeof("broadcast ") - 1 }
+      "broadcast ", sizeof("broadcast ") - 1 },
+    { &zappy_admin_add_case,
+      "map add ", sizeof("map add ") - 1},
+    { &zappy_admin_rm_case,
+      "map rm ", sizeof("map rm ") - 1}
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert

@@ -93,6 +93,7 @@ SRC_FILES=	admin.c				\
 		admin_cmd/admin_broadcast.c	\
 		admin_cmd/admin_info.c		\
 		admin_cmd/admin_egg.c		\
+		admin_cmd/admin_map.c		\
 		admin_cmd/admin_res.c		\
 		admin_cmd/admin_res_dsmpt.c	\
 		state/auth.c			\
