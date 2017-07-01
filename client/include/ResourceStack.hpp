@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <array>
 #include "Mesh.hpp"
-#include "Window.hpp"
 #include "Camera.hpp"
 
 #if defined(__clang__)
@@ -14,6 +13,8 @@
 
 namespace zappy
 {
+  class Window;
+
   class ResourceStack
   {
   public:

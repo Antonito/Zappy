@@ -2,13 +2,14 @@
 #define ZAPPY_TILE_HPP_
 
 #include <array>
-#include "Window.hpp"
 #include "Mesh.hpp"
 #include "Resource.hpp"
 #include "ResourceStack.hpp"
 
 namespace zappy
 {
+  class Window;
+
   class Tile
   {
   public:

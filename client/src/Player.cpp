@@ -62,6 +62,16 @@ namespace zappy
     win.draw(camera, m_mesh);
   }
 
+  glm::vec4 const &Player::color() const
+  {
+    return (m_mesh.color());
+  }
+
+  glm::vec3 const &Player::position() const
+  {
+    return (m_mesh.position());
+  }
+
   std::size_t Player::getX() const
   {
     return (m_x);
@@ -72,7 +82,7 @@ namespace zappy
     return (m_y);
   }
 
-  Player::Orientation Player::orientation() const
+  Player::Orientation const &Player::orientation() const
   {
     return (m_orientation);
   }

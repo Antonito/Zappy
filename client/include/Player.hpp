@@ -2,12 +2,13 @@
 #define ZAPPY_PLAYER_HPP_
 
 #include <ostream>
-#include "Window.hpp"
 #include "Mesh.hpp"
 #include "GameMap.hpp"
 
 namespace zappy
 {
+  class Window;
+
   class Player
   {
   public:
@@ -30,9 +31,11 @@ namespace zappy
 
     void renderOn(Window &window, Camera const &camera) const;
 
+    glm::vec4 const &color() const;
+    glm::vec3 const & position() const;
     std::size_t getX() const;
     std::size_t getY() const;
-    Orientation orientation() const;
+    Orientation const &orientation() const;
     std::size_t level() const;
 
     void setOrientation(Orientation orientation);

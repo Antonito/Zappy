@@ -61,6 +61,8 @@ namespace zappy
 
 	m_camera.updatePosition();
 
+	m_shader.updateLight(m_players);
+
 	// Clear the window
 	m_win.clear();
 

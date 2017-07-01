@@ -35,8 +35,21 @@ namespace zappy
 
     m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
     m_uniforms[SHADOW_MAT_U] = glGetUniformLocation(m_program, "shadow_mat");
-    m_uniforms[LIGHT_U] = glGetUniformLocation(m_program, "light");
+    m_uniforms[LIGHT_NB_U] = glGetUniformLocation(m_program, "nbLights");
     m_uniforms[COLOR_U] = glGetUniformLocation(m_program, "color");
+
+    for (std::size_t i = 0; i < m_lights.size(); ++i)
+      {
+	std::stringstream ss;
+
+	ss << "light" << i;
+	m_lights[i].position =
+	    glGetUniformLocation(m_program, (ss.str() + ".position").c_str());
+	m_lights[i].power =
+	    glGetUniformLocation(m_program, (ss.str() + ".power").c_str());
+	m_lights[i].direction =
+	    glGetUniformLocation(m_program, (ss.str() + ".direction").c_str());
+      }
   }
 
   Shader::~Shader()
@@ -73,6 +86,50 @@ namespace zappy
     glUniform4f(m_uniforms[COLOR_U], color.r, color.g, color.b, color.a);
   }
 
+  void Shader::updateLight(std::map<std::size_t, Player> const &players)
+  {
+    std::vector<float> values;
+    std::size_t        i = 0;
+
+    std::array<glm::vec3, 4> norms = {{glm::vec3(0, 0, 1), glm::vec3(-1, 0, 0),
+                                       glm::vec3(0, 0, -1),
+                                       glm::vec3(1, 0, 0)}};
+
+    for (std::pair<std::size_t, Player> const &player_ : players)
+      {
+	Player const &player = player_.second;
+
+	std::size_t         power = player.level();
+	Player::Orientation orientation = player.orientation();
+	std::size_t         dir = static_cast<std::size_t>(orientation) - 1;
+	glm::vec3 const &   pos =
+	    player.position() + glm::vec3(0.0, 0.3, 0.0) + 0.1f * norms[dir];
+
+	values.push_back(10.0f);
+	values.push_back(norms[dir].x);
+	values.push_back(norms[dir].y);
+	values.push_back(norms[dir].z);
+	values.push_back(pos.x);
+	values.push_back(pos.y);
+	values.push_back(pos.z);
+	glUniform3f(m_lights[i].position, pos.x, pos.y, pos.z);
+	glUniform1f(m_lights[i].power,
+	            static_cast<float>(power) * 2.0f + 0.5f);
+	glUniform3f(m_lights[i].direction, norms[dir].x, norms[dir].y,
+	            norms[dir].z);
+	++i;
+      }
+
+    glUniform1d(m_uniforms[LIGHT_NB_U], static_cast<int>(i));
+
+    for (; i < m_lights.size(); ++i)
+      {
+	glUniform3f(m_lights[i].position, 0, 0, 0);
+	glUniform1f(m_lights[i].power, 0);
+	glUniform3f(m_lights[i].direction, 0, 0, 0);
+      }
+  }
+
   GLuint Shader::loadShader(std::string const &filename, GLenum type)
   {
     // Open the file
@@ -80,8 +137,7 @@ namespace zappy
 
     if (fs.is_open() == false)
       {
-	throw std::system_error();
-	// TODO: set a message: cannot open "filename"
+	throw std::runtime_error(std::string("Cannot open ") + filename);
       }
 
     // Get is as a string via a stringstream
@@ -94,7 +150,6 @@ namespace zappy
       {
 	throw std::logic_error(std::string("Failed to create the shader (") +
 	                       filename + ')');
-	// TODO: set a better exception
       }
 
     std::string   source = ss.str();
@@ -137,7 +192,6 @@ namespace zappy
 	  }
 
 	throw std::logic_error(errorMessage + ": " + error);
-	// TODO: set an adapted exception
       }
   }
 }
