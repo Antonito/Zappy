@@ -32,9 +32,17 @@ namespace ai
     std::array<std::int32_t, 6> const
         missingStone(std::array<std::int32_t, 6> const inventory) const;
 
+    std::int32_t getTargetID() const;
+    void setTargetID(std::int32_t);
+
+    std::int32_t getPlayerID() const;
+    std::queue<std::string> &getMSG();
+
   private:
     std::int32_t m_level;
     std::queue<std::string> &m_cmdMSG;
+    std::int32_t m_targetID;
+    std::int32_t m_playerID;
   };
 }
 
