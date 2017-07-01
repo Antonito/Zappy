@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 14:37:15 2017 Antoine Baché
-** Last update Sat Jul  1 09:40:15 2017 Antoine Baché
+** Last update Sat Jul  1 12:34:50 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,6 +48,7 @@ static int32_t	zappy_team_update_map(t_zappy * const data,
 	  if (!tmp)
 	    return (1);
 	  data->map.data[y][x].player = tmp;
+	  data->map.data[y][x].player[max_players - 1] = NULL;
 	  ++x;
 	}
       ++y;
