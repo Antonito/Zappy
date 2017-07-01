@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:47:23 2017 Antoine Baché
-** Last update Wed Jun 28 17:11:13 2017 Antoine Baché
+** Last update Sat Jul  1 10:50:03 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -53,4 +53,21 @@ t_cqueue		*cqueue_pop(t_cqueue **self)
 	(*self)->prev = NULL;
     }
   return (*self);
+}
+
+void		cqueue_remove(t_cqueue **self, t_cqueue * const elem)
+{
+  assert(self && elem);
+  if (elem->prev)
+    {
+      assert(elem->prev->next == elem);
+      elem->prev->next = elem->next;
+    }
+  else
+    *self = elem->next;
+  if (elem->next)
+    {
+      assert(elem->next->prev == elem);
+      elem->next->prev = elem->prev;
+    }
 }

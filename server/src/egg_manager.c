@@ -5,81 +5,104 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 16:03:29 2017 Antoine Baché
-** Last update Fri Jun 30 17:40:04 2017 Antoine Baché
+** Last update Sat Jul  1 11:06:37 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
 #include "clogger.h"
+#include "cqueue.h"
+#include "cqueue.h"
 #include "zappy.h"
+#include "zappy_alloc.h"
 #include "zappy_egg_manager.h"
+
+void		zappy_remove_egg(t_zappy * const data,
+				 t_zappy_egg * const egg)
+{
+  t_cqueue	*cur;
+  int32_t	i;
+
+  i = 0;
+  cur = data->egg_manager.hatched;
+  while (i < data->egg_manager.nb_hatched_eggs)
+    {
+      if (cur->data == egg)
+	{
+	  free(cur->data);
+	  cur->data = NULL;
+	  cqueue_remove(&data->egg_manager.hatched, cur);
+	  zappy_free_cqueue(cur);
+	  break ;
+	}
+      cur = cur->next;
+      ++i;
+    }
+}
+
+t_zappy_egg	*zappy_get_egg_from_team(t_zappy * const data,
+					 int32_t const team_id)
+{
+  int32_t	i;
+  t_cqueue	*cur;
+
+  i = 0;
+  cur = data->egg_manager.hatched;
+  while (i < data->egg_manager.nb_hatched_eggs)
+    {
+      if (((t_zappy_egg *)cur->data)->team_id == team_id)
+	{
+	  return (cur->data);
+	}
+      cur = cur->next;
+      ++i;
+    }
+  return (NULL);
+}
+
+int32_t	        zappy_get_number_hatched_eggs(t_zappy * const data,
+					      int32_t const team_id)
+{
+  int32_t	count;
+  int32_t	i;
+  t_cqueue	*cur;
+
+  count = 0;
+  i = 0;
+  cur = data->egg_manager.hatched;
+  while (i < data->egg_manager.nb_hatched_eggs)
+    {
+      if (((t_zappy_egg *)cur->data)->team_id == team_id)
+	{
+	  ++count;
+	}
+      cur = cur->next;
+      ++i;
+    }
+  return (count);
+}
 
 t_zappy_egg	*zappy_egg_add(t_zappy * const data,
 			       int32_t const team_id,
 			       uint64_t const now)
 {
   t_zappy_egg	*egg;
-  t_zappy_egg	*cur;
 
   assert(data);
   egg = calloc(1, sizeof(*egg));
   if (egg)
     {
-      LOG(LOG_DEBUG, "Adding an egg to the list [%d]", team_id);
+      LOG(LOG_DEBUG, "Adding an egg to the list [%d][%d]",
+	  team_id, data->egg_manager.nb_eggs);
       egg->hatch_date = (uint64_t)((600 * 1000) / data->conf.freq) + now;
       egg->team_id = team_id;
       egg->id = data->egg_manager.nb_eggs;
-      cur = data->egg_manager.eggs;
-      while (cur && cur->next)
-	cur = cur->next;
-      if (!cur)
-	data->egg_manager.eggs = egg;
-      else
+      if (!cqueue_push(&data->egg_manager.eggs, egg))
 	{
-	  cur->next = egg;
-	  egg->prev = cur;
+	  free(egg);
+	  return (NULL);
 	}
       ++data->egg_manager.nb_eggs;
     }
   return (egg);
-}
-
-void		zappy_egg_remove(t_zappy_egg_manager * const man,
-				 t_zappy_egg * const egg)
-{
-  assert(man && egg);
-  LOG(LOG_DEBUG, "Removing an egg from the list");
-  if (egg->prev)
-    {
-      assert(egg->prev->next == egg);
-      egg->prev->next = egg->next;
-    }
-  else
-    man->eggs = egg->next;
-  if (egg->next)
-    {
-      assert(egg->next->prev == egg);
-      egg->next->prev = egg->prev;
-    }
-  free(egg);
-  --man->nb_eggs;
-  assert(man->nb_eggs >= 0);
-}
-
-void		zappy_egg_foreach(t_zappy * const data,
-				  void * const user_data,
-				  t_zappy_egg_callback call)
-{
-  int32_t	i;
-  t_zappy_egg	*cur;
-
-  assert(data && user_data && call);
-  i = 0;
-  cur = data->egg_manager.eggs;
-  while (i < data->egg_manager.nb_eggs)
-    {
-      call(cur, user_data);
-      cur = cur->next;
-      ++i;
-    }
 }

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 21:10:31 2017 Antoine Baché
+** Last update Sat Jul  1 03:02:39 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -53,7 +53,7 @@ static void		zappy_client_broadcast(t_zappy_client * const cli,
   int32_t		from;
 
   bd = _data;
-  if (cli->graphical || bd->cli == cli)
+  if (cli->graphical || bd->cli == cli || !cli->authenticated)
     return ;
   from = zappy_broadcast_calc(bd->cli, cli, bd->data->map.width,
 			      bd->data->map.height);

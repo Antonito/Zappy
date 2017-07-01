@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 15:51:03 2017 Antoine Baché
-** Last update Fri Jun 30 18:13:57 2017 Antoine Baché
+** Last update Sat Jul  1 10:14:37 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_EGG_HPP_
@@ -23,6 +23,8 @@ struct			s_zappy_egg
   int32_t		team_id;
   int32_t		hatched;
   int32_t		id;
+  int32_t		x;
+  int32_t		y;
   uint8_t		padding[4];
 };
 
