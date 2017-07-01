@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Sat Jul  1 10:19:42 2017 Antoine Baché
+** Last update Sat Jul  1 11:13:21 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -73,7 +73,7 @@ static void		zappy_client_post_fork(t_zappy_client * const cli,
       if (resp)
 	{
 	  resp->callback = &zappy_client_hatch_egg;
-	  resp->remaining_time = 7; // TODO: 600
+	  resp->remaining_time = 600;
 	  resp->exec_time = (uint64_t)(((double)resp->remaining_time * 1000.0)
 				       / data->conf.freq) + now;
 	  cqueue_push(&cli->input_queue, resp);
