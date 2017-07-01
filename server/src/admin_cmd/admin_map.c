@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 23:26:56 2017 Antoine Baché
-** Last update Sat Jul  1 23:38:14 2017 Antoine Baché
+** Last update Sat Jul  1 23:44:11 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -29,6 +29,8 @@ void			zappy_admin_add_case(t_zappy * const data,
   LOG(LOG_DEBUG, "Treating Admin command map add '%s'", cmd);
   if (sscanf(cmd, "%d %d %s", &x, &y, buff) != -1)
     {
+      x %= data->map.width;
+      y %= data->map.height;
       res = zappy_get_resource_by_name(buff);
       if (res != RES_UNKNOWN)
 	{
@@ -53,6 +55,8 @@ void			zappy_admin_rm_case(t_zappy * const data,
   LOG(LOG_DEBUG, "Treating Admin command map rm '%s'", cmd);
   if (sscanf(cmd, "%d %d %s", &x, &y, buff) != -1)
     {
+      x %= data->map.width;
+      y %= data->map.height;
       res = zappy_get_resource_by_name(buff);
       if (res != RES_UNKNOWN)
 	{
