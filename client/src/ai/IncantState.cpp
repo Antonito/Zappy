@@ -20,7 +20,7 @@ namespace ai
     if (ret == Value::YES)
       {
 	m_curValue = Value::YES;
-	// Update level
+        m_player.setLevel(m_player.getLevel() + 1);
       }
     else
       m_curValue = Value::NO;
