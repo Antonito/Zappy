@@ -2,7 +2,17 @@
 
 namespace zappy
 {
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif // !__clang__
+
   std::map<std::string, Model> Model::m_models;
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif // !__clang__
 
   Model::Model() : m_vertices(), m_normals(), m_indices(), m_vao(0), m_vbos()
   {
@@ -188,24 +198,11 @@ namespace zappy
   {
     glBindVertexArray(m_vao);
 
-    glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
-    // glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
-
-    // glBindVertexArray(0);
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m_vertices.size()));
   }
 
   void Model::init()
   {
-    //     std::vector<glm::vec3> vert = {
-    //         {-0.5, -1.0, -0.5}, {0.0, -1.0, 0.5}, {0.5, -1.0, -0.5}};
-
-    //     vert.reserve(m_vertices.indices.size());
-    //     for (GLuint id : m_vertices.indices)
-    //       {
-    // 	vert.push_back(m_vertices.elements[id]);
-    //       }
-    // Generate and bind the vao
-
     // Create Vertex Array
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);

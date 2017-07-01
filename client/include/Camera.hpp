@@ -42,7 +42,7 @@ namespace zappy
   private:
     void updateForward();
 
-    constexpr static float m_maxSpeed = 0.1;
+    constexpr static float m_maxSpeed = 0.1f;
 
     glm::mat4 m_perspective;
     glm::vec3 m_forward;

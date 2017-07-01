@@ -29,11 +29,13 @@ namespace zappy
       case THYSTAME:
 	color = {240, 0, 255, 255};
 	break;
+      case NB_RESOURCE:
+	break;
       }
-    color.r /= 255.0;
-    color.g /= 255.0;
-    color.b /= 255.0;
-    color.a /= 255.0;
+    color.r /= 255.0f;
+    color.g /= 255.0f;
+    color.b /= 255.0f;
+    color.a /= 255.0f;
     return (color);
   }
 }

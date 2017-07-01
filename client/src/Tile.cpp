@@ -8,23 +8,23 @@ namespace zappy
 
   Tile::Tile() : m_cube(Model::fromObj("./models/cube.obj")), m_resources()
   {
-    constexpr double coeff = 0.8;
-    double           r = static_cast<double>(std::rand()) /
-               static_cast<double>(RAND_MAX) * coeff;
-    double g = static_cast<double>(std::rand()) /
-               static_cast<double>(RAND_MAX) * coeff;
-    double b = static_cast<double>(std::rand()) /
-               static_cast<double>(RAND_MAX) * coeff;
-    m_cube.setColor(r, std::min(g + 0.7, 1.0), b);
+    constexpr float coeff = 0.8f;
+    float           r = static_cast<float>(std::rand()) /
+               static_cast<float>(RAND_MAX) * coeff;
+    float g = static_cast<float>(std::rand()) /
+               static_cast<float>(RAND_MAX) * coeff;
+    float b = static_cast<float>(std::rand()) /
+               static_cast<float>(RAND_MAX) * coeff;
+    m_cube.setColor(r, std::min(g + 0.7f, 1.0f), b);
 
-    m_cube.scale(m_tileScale);
+    m_cube.scale(static_cast<double>(m_tileScale));
 
     for (std::size_t i = Resource::FOOD; i < Resource::NB_RESOURCE; ++i)
       {
 	m_resources[i].setColor(
 	    Resource::color(static_cast<Resource::Type>(i)));
       }
-    this->setPosition(glm::vec3(0, 0, 0));
+    this->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
   }
 
   Tile::Tile(Tile const &that)

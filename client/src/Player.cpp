@@ -4,19 +4,24 @@ namespace zappy
 {
   Player::Player()
       : m_mesh(Model::fromObj("./models/player.obj")), m_x(0), m_y(0),
-        m_position(0, 0, 0), m_speed(0, 0, 0)
+        m_orientation(), m_level(1), m_position(0, 0, 0), m_speed(0, 0, 0)
   {
     m_mesh.scale(1.2);
   }
 
   Player::Player(Player const &that)
-      : m_mesh(that.m_mesh), m_x(that.m_x), m_y(that.m_y)
+      : m_mesh(that.m_mesh), m_x(that.m_x), m_y(that.m_y),
+        m_orientation(that.m_orientation), m_level(that.m_level),
+        m_position(that.m_position), m_speed(that.m_speed)
   {
   }
 
   Player::Player(Player &&that)
       : m_mesh(std::move(that.m_mesh)), m_x(std::move(that.m_x)),
-        m_y(std::move(that.m_y))
+        m_y(std::move(that.m_y)), m_orientation(std::move(that.m_orientation)),
+        m_level(std::move(that.m_level)),
+        m_position(std::move(that.m_position)),
+        m_speed(std::move(that.m_speed))
   {
   }
 
@@ -31,6 +36,10 @@ namespace zappy
     m_mesh = that.m_mesh;
     m_x = that.m_x;
     m_y = that.m_y;
+    m_orientation = that.m_orientation;
+    m_level = that.m_level;
+    m_position = that.m_position;
+    m_speed = that.m_speed;
     return (*this);
   }
 
@@ -41,6 +50,10 @@ namespace zappy
     m_mesh = std::move(that.m_mesh);
     m_x = std::move(that.m_x);
     m_y = std::move(that.m_y);
+    m_orientation = std::move(that.m_orientation);
+    m_level = std::move(that.m_level);
+    m_position = std::move(that.m_position);
+    m_speed = std::move(that.m_speed);
     return (*this);
   }
 
@@ -87,19 +100,19 @@ namespace zappy
   {
     m_x = x;
     m_y = y;
-    m_position = glm::vec3(-static_cast<float>(x), 0.5, y);
+    m_position = glm::vec3(-static_cast<float>(x), 0.5f, y);
   }
 
   void Player::updatePosition()
   {
-    if (glm::length(m_mesh.position() - m_position) < 0.01)
+    if (glm::length(m_mesh.position() - m_position) < 0.01f)
       {
 	m_mesh.setPosition(m_position);
 	m_speed = glm::vec3(0.0f, 0.0f, 0.0f);
       }
     else
       {
-	constexpr float alpha = 0.1;
+	constexpr float alpha = 0.1f;
 
 	glm::vec3 diff = m_position - m_mesh.position();
 

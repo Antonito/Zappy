@@ -7,6 +7,11 @@
 #include "Window.hpp"
 #include "Camera.hpp"
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif // !__clang__
+
 namespace zappy
 {
   class ResourceStack
@@ -38,5 +43,9 @@ namespace zappy
     mutable Mesh m_cube;
   };
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif // !__clang__
 
 #endif // !ZAPPY_RESOURCESTACK_HPP_

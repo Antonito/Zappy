@@ -11,7 +11,7 @@ namespace zappy
     glewExperimental = GL_TRUE;
     glewInit();
 
-    glClearDepth(100000.0f);
+    glClearDepth(100000.0);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     glEnable(GL_DEPTH_TEST);

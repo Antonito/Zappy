@@ -46,7 +46,7 @@ namespace zappy
 
     GLuint m_program;
     GLuint m_shaders[numShader];
-    GLuint m_uniforms[NB_UNIFORMS];
+    GLint m_uniforms[NB_UNIFORMS];
   };
 }
 

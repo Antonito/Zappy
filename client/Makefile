@@ -5,7 +5,8 @@ MK_COMMON_DIR=	./../mk/
 # Definitions for Makefile
 NAME=		$(ROOT_DIR)/zappy_ai
 
-LOCAL_COMP_FLAGS=
+LOCAL_COMP_FLAGS=	-Wno-padded		\
+			-Wno-switch-enum
 
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\
@@ -55,7 +56,8 @@ SRC_FILES=	main.cpp				\
 		Shader.cpp				\
 		Camera.cpp				\
 		Resource.cpp				\
-		ResourceStack.cpp
+		ResourceStack.cpp			\
+		Team.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

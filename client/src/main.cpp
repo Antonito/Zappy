@@ -11,7 +11,7 @@ int main(int ac, char **av, char **env)
       return (EXIT_FAILURE);
     }
 
-  std::srand(std::time(nullptr));
+  std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
   //
   // Launch the logger

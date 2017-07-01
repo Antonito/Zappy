@@ -7,8 +7,10 @@ namespace zappy
                                std::uint16_t port, std::string const &name,
                                std::string const &machine)
       : m_win(width, height, windowName), m_port(port), m_name(name),
-        m_machine(machine), m_map(), m_players(),
-        m_camera(glm::vec3(0, 0, 0), 100, 16.0 / 9.0, 0.01, 10000),
+        m_machine(machine), m_map(), m_players(), m_teams(),
+        m_camera(glm::vec3(0, 0, 0), 100,
+                 static_cast<float>(width) / static_cast<float>(height), 0.01f,
+                 10000.0f),
         m_shader("./shaders/test"),
         m_socket(port, machine, false, network::ASocket::SocketType::BLOCKING),
         m_buffer(), m_connecting(true)
@@ -25,12 +27,12 @@ namespace zappy
 
   void GraphicClient::launch()
   {
-    m_win.setClearColor(0.1, 0.1, 0.2, 1.0);
+    m_win.setClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     m_win.setCursorVisible(false);
 
     m_win.useShader(m_shader);
 
-    m_camera.setPosition(glm::vec3(0, 3, 0));
+    m_camera.setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
     m_camera.setRotation(225, 0);
 
     while (m_win.isOpen())
@@ -79,7 +81,7 @@ namespace zappy
   //
   void GraphicClient::dispatch(sf::Event const &e)
   {
-    constexpr float movement = 0.05;
+    constexpr float movement = 0.05f;
 
     if (e.type == sf::Event::Closed)
       {
@@ -136,16 +138,18 @@ namespace zappy
       {
 	constexpr float sensibility = 0.05f;
 
-	float x = sf::Mouse::getPosition(m_win.win()).x;
-	float y = sf::Mouse::getPosition(m_win.win()).y;
+	int x = sf::Mouse::getPosition(m_win.win()).x;
+	int y = sf::Mouse::getPosition(m_win.win()).y;
 
-	float _x = m_win.width() / 2;
-	float _y = m_win.height() / 2;
+	int _x = m_win.width() / 2;
+	int _y = m_win.height() / 2;
 
 	if (x != _x || y != _y)
 	  {
 	    m_camera.rotate((x - _x) * sensibility, (y - _y) * sensibility);
-	    sf::Mouse::setPosition(sf::Vector2i(_x, _y), m_win.win());
+	    sf::Mouse::setPosition(
+	        sf::Vector2i(static_cast<int>(_x), static_cast<int>(_y)),
+	        m_win.win());
 	  }
       }
   }
@@ -851,29 +855,29 @@ namespace zappy
   {
     return (parseInt(is));
 
-    std::size_t res = 0;
-    char        c;
+    //     std::size_t res = 0;
+    //     char        c;
 
-    if (!is || !is.get(c) || c != '#')
-      {
-	throw std::invalid_argument("Invalid character (expected a '#')");
-      }
+    //     if (!is || !is.get(c) || c != '#')
+    //       {
+    // 	throw std::invalid_argument("Invalid character (expected a '#')");
+    //       }
 
-    while (is.get(c) && c != ' ')
-      {
-	if (std::isdigit(c) == false)
-	  {
-	    throw std::invalid_argument(
-	        "Invalid character (expected a digit) (3)");
-	  }
-	res = 10 * res + static_cast<std::size_t>(c - '0');
-      }
+    //     while (is.get(c) && c != ' ')
+    //       {
+    // 	if (std::isdigit(c) == false)
+    // 	  {
+    // 	    throw std::invalid_argument(
+    // 	        "Invalid character (expected a digit) (3)");
+    // 	  }
+    // 	res = 10 * res + static_cast<std::size_t>(c - '0');
+    //       }
 
-    if (c == ' ')
-      {
-	is.unget();
-      }
-    return (res);
+    //     if (c == ' ')
+    //       {
+    // 	is.unget();
+    //       }
+    //     return (res);
   }
 
   Player::Orientation GraphicClient::parseOrientation(std::istringstream &is)
@@ -936,10 +940,11 @@ namespace zappy
 
     for (std::size_t i = 0; i < m_teams.size(); ++i)
       {
-	float ratio = static_cast<float>(i) / m_teams.size();
-	int   p = static_cast<int>(ratio * 6);
+	float ratio =
+	    static_cast<float>(i) / static_cast<float>(m_teams.size());
+	std::size_t p = static_cast<std::size_t>(ratio * 6);
 
-	float part = 6.0f * ratio - p;
+	float part = 6.0f * ratio - static_cast<float>(p);
 
 	glm::vec4 cur(colors[p][0], colors[p][1], colors[p][2], colors[p][3]);
 	glm::vec4 next(colors[p + 1][0], colors[p + 1][1], colors[p + 1][2],

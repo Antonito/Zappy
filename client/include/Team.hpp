@@ -8,6 +8,8 @@ namespace zappy
 {
   struct Team
   {
+    Team();
+
     std::string name;
     glm::vec4   color;
   };

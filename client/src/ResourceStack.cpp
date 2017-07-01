@@ -89,7 +89,7 @@ namespace zappy
   {
     for (std::size_t i = 0; i < m_count; ++i)
       {
-	m_cube.setPosition(m_position + glm::vec3(0, i * 0.07, 0));
+	m_cube.setPosition(m_position + glm::vec3(0, static_cast<float>(i) * 0.07f, 0));
 	win.draw(camera, m_cube);
       }
   }
