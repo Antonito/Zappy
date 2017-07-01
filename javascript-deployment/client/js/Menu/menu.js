@@ -20,29 +20,27 @@ var Menu = {
             // Let us open a web socket
             ws = new WebSocket("ws://" + ip + ":" + port);
 
-            ws.onmessage = function(res) {
-                var data = res.data;
-
-                if (data == 'OK') {
-                    alert("Connection successful !");
-                } else {
-                    console.log(data);
-                }
-
+            ws.onopen = function() {
+                game.state.start('INGAME', true, false, ws);
             };
 
             ws.onclose = function(resp) {
+
+                if (resp.code >= 1000) {
+                    ScaleImage(assets_layer.create(game.world.centerX - 150, game.world.centerY + 50, 'connection_failed'), 300, 45);
+                }
+
                 // websocket is closed.
                 console.log("Connection is closed...");
                 console.log(resp);
             };
 
         } else {
+
             // The browser doesn't support WebSocket
             alert("WebSocket NOT supported by your Browser!");
         }
 
-        ScaleImage(assets_layer.create(game.world.centerX - 150, game.world.centerY + 50, 'connection_failed'), 300, 45);
 
     },
 
@@ -128,22 +126,6 @@ var Menu = {
         myInput.events.onInputUp.add(this.inputFocus, this);
 
         return myInput;
-    },
+    }
 
-    update: function() {
-
-        if (event) {
-            if (event.up.isDown) {
-                clearGroup(background_layer);
-                game.state.start('INGAME');
-            } else if (event.left.isDown) {
-                console.log("touche de gauche pressée");
-            } else if (event.right.isDown) {
-                console.log("touche de droite pressée");
-            } else if (event.down.isDown) {
-                console.log("touche du bas pressée");
-            }
-        }
-
-    },
 };

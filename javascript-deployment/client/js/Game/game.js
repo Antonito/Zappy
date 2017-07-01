@@ -60,81 +60,27 @@ var background_layer;
 var resources_layer;
 var eggs_layer;
 var mobs_layer;
+/* starting positions */
+var startX = 0;
+var startY = 0;
+
 
 /*
  **  Raw Data for the moment
  */
 raw_map_resources = [
-
-    [{
-            food: 3,
-            linemate: 1,
-            deraumere: 1,
-            sibur: 1,
-            mendiane: 1,
-            phiras: 1,
-            thystame: 1
-        },
-        {
-            food: 3,
-            linemate: 0,
-            deraumere: 0,
-            sibur: 1,
-            mendiane: 0,
-            phiras: 1,
-            thystame: 1
-        }
-    ],
-
-    [{
-            food: 3,
-            linemate: 1,
-            deraumere: 1,
-            sibur: 1,
-            mendiane: 1,
-            phiras: 1,
-            thystame: 0
-        },
-        {
-            food: 0,
-            linemate: 1,
-            deraumere: 1,
-            sibur: 1,
-            mendiane: 1,
-            phiras: 1,
-            thystame: 1
-        }
-    ]
+    // food: 3,
+    // linemate: 1,
+    // deraumere: 1,
+    // sibur: 1,
+    // mendiane: 1,
+    // phiras: 1,
+    // thystame: 1
 ];
 
-raw_mobs_list = [
+raw_mobs_list = [];
 
-    {
-        id: 1,
-        pos_x: 0,
-        pos_y: 0,
-        teamId: 0
-    },
-    {
-        id: 2,
-        pos_x: 1,
-        pos_y: 1,
-        teamId: 3
-    }
-];
-
-raw_eggs_list = [
-
-    {
-        pos_x: 0,
-        pos_y: 0,
-    },
-    {
-        pos_x: 1,
-        pos_y: 1
-    }
-]
-
+raw_eggs_list = []
 
 var InGame = {
 
@@ -183,6 +129,16 @@ var InGame = {
 
     },
 
+    init: function(ws) {
+
+        ws.onmessage = function(res) {
+
+            console.log(res.data);
+
+        };
+
+    },
+
     create: function() {
 
 
@@ -190,7 +146,8 @@ var InGame = {
         ScaleImage(this.background, 1000, 1000);
 
         /* for debug */
-        DrawAll();
+        DrawAll(startX, startY);
+
     },
 
     update: function() {
@@ -207,9 +164,6 @@ var InGame = {
                 console.log("touche du bas pressée");
             }
         }
-        /*   RCV HERE   */
-
-        /*   DIPSLAY HERE */
 
     },
 

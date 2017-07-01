@@ -1,9 +1,9 @@
-function DrawAll() {
+function DrawAll(startX, startY) {
 
     /* Draw Resources */
-    for (var y = 0; y < raw_map_resources.length; ++y) {
+    for (var y = startY; y < startY + 10 && y < raw_map_resources.length; ++y) {
 
-        for (var x = 0; x < raw_map_resources[y].length; ++x) {
+        for (var x = startX; x < startX + 10 && x < raw_map_resources[y].length; ++x) {
 
             var cell = raw_map_resources[y][x];
 
