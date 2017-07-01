@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 15:54:46 2017 Antoine Baché
-** Last update Fri Jun 30 16:26:41 2017 Antoine Baché
+** Last update Sat Jul  1 10:46:44 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_EGG_MANAGER_H_
@@ -18,23 +18,30 @@
 */
 typedef struct		s_zappy		t_zappy;
 
+/*
+** Forward declaration of t_zappy
+*/
+typedef struct		s_cqueue	t_cqueue;
+
 typedef struct		s_zappy_egg_manager
 {
-  t_zappy_egg		*eggs;
+  t_cqueue		*eggs;
+  t_cqueue		*hatched;
   int32_t		nb_eggs;
-  uint8_t		padding[4];
+  int32_t		nb_hatched_eggs;
 }			t_zappy_egg_manager;
 
 typedef void (*t_zappy_egg_callback)(t_zappy_egg * const egg,
 				     void * const data);
 
+void			zappy_remove_egg(t_zappy * const data,
+					 t_zappy_egg * const egg);
 t_zappy_egg		*zappy_egg_add(t_zappy * const data,
 				       int32_t const team_id,
 				       uint64_t const now);
-void			zappy_egg_remove(t_zappy_egg_manager * const man,
-					 t_zappy_egg * const egg);
-void			zappy_egg_foreach(t_zappy * const data,
-					  void * const user_data,
-					  t_zappy_egg_callback call);
+int32_t			zappy_get_number_hatched_eggs(t_zappy * const data,
+						      int32_t const team_id);
+t_zappy_egg		*zappy_get_egg_from_team(t_zappy * const data,
+						 int32_t const team_id);
 
 #endif /* !ZAPPY_EGG_MANAGER_H_ */

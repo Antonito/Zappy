@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 12:07:39 2017 Antoine Baché
-** Last update Fri Jun 30 21:16:13 2017 Antoine Baché
+** Last update Sat Jul  1 13:24:16 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -19,6 +19,7 @@
 #include "zappy_client_state.h"
 #include "zappy_graphic.h"
 #include "zappy_message.h"
+#include "zappy_team.h"
 
 static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
 						    t_zappy_message * const
@@ -39,12 +40,47 @@ static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
   cli->state = CLI_AUTHENTICATING;
 }
 
+static void		zappy_cli_state_conn_egg(t_zappy_client * const cli,
+						 t_zappy * const data)
+{
+  t_zappy_egg		*egg;
+  t_zappy_graph_arg	g;
+
+  LOG(LOG_INFO, "Connecting thanks to an egg");
+  egg = zappy_get_egg_from_team(data, cli->game.team_id);
+  assert(egg);
+  if (egg)
+    {
+      cli->game.y = egg->y;
+      cli->game.x = egg->x;
+      --data->egg_manager.nb_eggs;
+      --data->egg_manager.nb_hatched_eggs;
+      g = (t_zappy_graph_arg){ NULL, egg->id, 0 };
+      zappy_graph_send(&g, data, NULL, &zappy_graph_ebo);
+      zappy_remove_egg(data, egg);
+    }
+}
+
+static void		zappy_cli_state_conn_noegg(t_zappy_client * const cli,
+						   t_zappy * const data,
+						   char const * buff)
+{
+  t_zappy_graph_arg	g;
+
+  ++data->map.data[cli->game.y][cli->game.x].nb_players;
+  data->map.data[cli->game.y][cli->game.x].player[cli->id] = &cli->game;
+  LOG(LOG_INFO, "Spawning player at %dx%d", cli->game.x, cli->game.y);
+  g = (t_zappy_graph_arg){ cli, 0, 0 };
+  zappy_graph_send(&g, data, buff, &zappy_graph_pnw);
+  cli->authenticated = true;
+  zappy_has_player(data);
+}
+
 static void		zappy_cli_state_conn_w_(t_zappy_client * const cli,
 						t_zappy * const data,
 						t_zappy_message *cur,
 						int32_t const ret)
 {
-  t_zappy_graph_arg	g;
   char			buff[512];
 
   if (ret != -1)
@@ -55,13 +91,13 @@ static void		zappy_cli_state_conn_w_(t_zappy_client * const cli,
 	cur->msg = strdup(buff);
       if (cur->msg)
 	{
-	  ++data->map.data[cli->game.y][cli->game.x].nb_players;
-	  data->map.data[cli->game.y][cli->game.x].player[cli->id] = &cli->game;
-	  LOG(LOG_INFO, "Spawning player at %dx%d", cli->game.x, cli->game.y);
-	  g = (t_zappy_graph_arg){ cli, 0, 0 };
-	  zappy_graph_send(&g, data, buff, &zappy_graph_pnw);
-	  cli->authenticated = true;
-	  zappy_has_player(data);
+	  if (data->conf.teams.team[cli->game.team_id].nb_players >
+	      data->conf.nb_client_per_team &&
+	      zappy_get_number_hatched_eggs(data, cli->game.team_id) > 0)
+	    {
+	      zappy_cli_state_conn_egg(cli, data);
+	    }
+	  zappy_cli_state_conn_noegg(cli, data, buff);
 	  return ;
 	}
     }

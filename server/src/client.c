@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Fri Jun 30 21:10:06 2017 Antoine Baché
+** Last update Sat Jul  1 17:46:39 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -53,8 +53,8 @@ void		zappy_client_fill(t_zappy_client * const cli,
 void		zappy_client_read(t_zappy_client * const cli,
 				  t_zappy * const data)
 {
-  int32_t		msg_len;
-  char			buff[4096];
+  int32_t	msg_len;
+  char		buff[4096];
 
   assert(cli->state < NB_CLI_STATE);
   if (zappy_message_read(&cli->net, &cli->buff) == MSG_SUCCESS)

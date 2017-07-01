@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Sat Jul  1 01:34:16 2017 Antoine Baché
+** Last update Sat Jul  1 11:20:42 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -16,6 +16,7 @@
 #include "zappy.h"
 #include "zappy_alloc.h"
 #include "zappy_client.h"
+#include "zappy_egg.h"
 #include "zappy_graphic.h"
 #include "zappy_message.h"
 
@@ -23,13 +24,13 @@ static void		zappy_graph_enw_fill(t_zappy_message * const msg,
 					     t_zappy_graph_arg * const g)
 {
   char			buff[4096];
-  t_zappy_client	*cli;
+  t_zappy_egg		*egg;
 
   assert(msg && g && g->ptr);
-  cli = g->ptr;
+  egg = g->ptr;
   msg->len = snprintf(buff, sizeof(buff),
 		      "enw %d %d %d %d\n",
-		      g->res, cli->id, cli->game.x, cli->game.y);
+		      egg->id, egg->player_id, egg->x, egg->y);
   if (msg->len != -1)
     msg->msg = strdup(buff);
 }

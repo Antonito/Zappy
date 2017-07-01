@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:16:39 2017 Antoine Baché
-** Last update Sat Jul  1 01:35:40 2017 Antoine Baché
+** Last update Sat Jul  1 10:27:53 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_GRAPHIC_H_
@@ -59,11 +59,7 @@ typedef struct				s_zappy_graph_callback
   t_zappy_graphic_handle		handle;
 }					t_zappy_graph_callback;
 
-void	zappy_graph_ebo(t_zappy_client * const cli, t_zappy *data,
-			char const * const arg);
 void	zappy_graph_edi(t_zappy_client * const cli, t_zappy *data,
-			char const * const arg);
-void	zappy_graph_eht(t_zappy_client * const cli, t_zappy *data,
 			char const * const arg);
 void	zappy_graph_msz(t_zappy_client * const cli, t_zappy *data,
 			char const * const arg);
@@ -83,7 +79,15 @@ void	zappy_graph_tna(t_zappy_client * const cli, t_zappy *data,
 /*
 ** Eggs commands
 */
+void	zappy_graph_ebo(t_zappy_client * const cli,
+			t_zappy_graph_arg *g,
+			t_zappy *data,
+			char const * const arg);
 void	zappy_graph_enw(t_zappy_client * const cli,
+			t_zappy_graph_arg *g,
+			t_zappy *data,
+			char const * const arg);
+void	zappy_graph_eht(t_zappy_client * const cli,
 			t_zappy_graph_arg *g,
 			t_zappy *data,
 			char const * const arg);

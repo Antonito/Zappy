@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:34:37 2017 Antoine Baché
-** Last update Wed Jun 28 16:41:38 2017 Antoine Baché
+** Last update Sat Jul  1 10:47:42 2017 Antoine Baché
 */
 
 #ifndef CQUEUE_H_
@@ -57,6 +57,7 @@ bool		cqueue_is_empty(t_cqueue const * const self);
 */
 t_cqueue	*cqueue_push(t_cqueue **self, void * const data);
 t_cqueue	*cqueue_pop(t_cqueue **self);
+void		cqueue_remove(t_cqueue **self, t_cqueue * const elem);
 
 void		cqueue_set_allocator(void *(*calloc)(size_t count,
 						     size_t size));
