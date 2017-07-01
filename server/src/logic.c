@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:35:31 2017 Antoine Baché
-** Last update Fri Jun 30 19:36:23 2017 Antoine Baché
+** Last update Sat Jul  1 17:59:05 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -98,6 +98,26 @@ static void		zappy_logic_client_wrap(t_zappy_client * const cli,
     }
 }
 
+static void		zappy_treat_global_events(t_zappy * const data)
+{
+  t_cqueue		*cur;
+  t_zappy_client_serial	*order;
+  uint64_t		cur_time;
+
+  while (!cqueue_is_empty(data->glob_events))
+    {
+      cur_time = zappy_get_cur_time();
+      cur = cqueue_get_front(data->glob_events);
+      order = cur->data;
+      if (order->exec_time > cur_time)
+	break;
+      cqueue_pop(&data->glob_events);
+      order->callback(NULL, data, NULL);
+      zappy_free_serial(order);
+      zappy_free_cqueue(cur);
+    }
+}
+
 bool			zappy_logic(t_zappy * const data)
 {
   uint64_t		cur_time;
@@ -106,6 +126,7 @@ bool			zappy_logic(t_zappy * const data)
     {
       _zappy_for_each_client(&data->clients, data, &zappy_logic_client_wrap);
     }
+  zappy_treat_global_events(data);
   zappy_client_purify_list(&data->clients, data);
   if (data->clients.has_player)
     {

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 12:07:39 2017 Antoine Baché
-** Last update Sat Jul  1 10:44:49 2017 Antoine Baché
+** Last update Sat Jul  1 13:24:16 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -53,6 +53,7 @@ static void		zappy_cli_state_conn_egg(t_zappy_client * const cli,
     {
       cli->game.y = egg->y;
       cli->game.x = egg->x;
+      --data->egg_manager.nb_eggs;
       --data->egg_manager.nb_hatched_eggs;
       g = (t_zappy_graph_arg){ NULL, egg->id, 0 };
       zappy_graph_send(&g, data, NULL, &zappy_graph_ebo);

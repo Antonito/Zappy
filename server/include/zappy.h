@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:55 2017 Antoine Baché
-** Last update Fri Jun 30 16:08:10 2017 Antoine Baché
+** Last update Sat Jul  1 17:58:36 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_H_
@@ -26,6 +26,11 @@
 #endif
 
 /*
+** Forward declaration of t_cqueue
+*/
+typedef struct	s_cqueue	t_cqueue;
+
+/*
 ** Main structure of the server
 ** See the corresponding header files
 */
@@ -36,6 +41,7 @@ typedef struct			s_zappy
   t_zappy_map			map;
   t_zappy_config		conf;
   t_zappy_egg_manager		egg_manager;
+  t_cqueue			*glob_events;
   t_zappy_socket		net;
   t_zappy_admin			admin;
   uint8_t			padding[4];
