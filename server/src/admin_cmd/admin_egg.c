@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 20:57:38 2017 Antoine Baché
-** Last update Sat Jul  1 21:20:14 2017 Antoine Baché
+** Last update Sat Jul  1 22:28:51 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -41,13 +41,15 @@ static void		zappy_admin_cmd_egg_fill(t_zappy * const data,
     }
 }
 
-void			zappy_admin_cmd_egg(t_zappy * const data)
+void			zappy_admin_cmd_egg(t_zappy * const data,
+					    char const * cmd)
 {
   t_zappy_egg		*egg;
   int32_t		team_id;
   uint64_t		now;
   t_zappy_graph_arg	g;
 
+  (void)cmd;
   assert(data && data->admin.authenticated == true);
   LOG(LOG_DEBUG, "Treating Admin command spawn egg");
   now = zappy_get_cur_time();

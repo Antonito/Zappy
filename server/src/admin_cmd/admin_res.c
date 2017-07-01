@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sat Jul  1 20:53:49 2017 Antoine Baché
+** Last update Sat Jul  1 22:27:36 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -43,26 +43,32 @@ void			zappy_admin_cmd_res(t_zappy * const data,
   zappy_admin_update_case(x, y, data);
 }
 
-void			zappy_admin_cmd_res_rand(t_zappy * const data)
+void			zappy_admin_cmd_res_rand(t_zappy * const data,
+						 char const * cmd)
 {
   int32_t		res;
 
+  (void)cmd;
   res = rand() % NB_RESOURCE;
   zappy_admin_cmd_res(data, res);
 }
 
-void			zappy_admin_cmd_res_food(t_zappy * const data)
+void			zappy_admin_cmd_res_food(t_zappy * const data,
+						 char const * cmd)
 {
   int32_t		res;
 
+  (void)cmd;
   res = RES_FOOD;
   zappy_admin_cmd_res(data, res);
 }
 
-void			zappy_admin_cmd_res_linemate(t_zappy * const data)
+void			zappy_admin_cmd_res_linemate(t_zappy * const data,
+						     char const * cmd)
 {
   int32_t		res;
 
+  (void)cmd;
   res = RES_LINEMATE;
   zappy_admin_cmd_res(data, res);
 }

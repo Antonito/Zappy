@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sat Jul  1 18:45:29 2017 Antoine Baché
+** Last update Sat Jul  1 22:27:03 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -32,9 +32,11 @@ void		zappy_admin_cmd_info_team(t_zappy * const data)
     }
 }
 
-void	zappy_admin_cmd_info(t_zappy * const data)
+void	zappy_admin_cmd_info(t_zappy * const data,
+			     char const * cmd)
 {
   assert(data && data->admin.authenticated == true);
+  (void)cmd;
   LOG(LOG_DEBUG, "Treating Admin command info");
   dprintf(data->admin.client.sock,
 	  "Port:      %d\n"

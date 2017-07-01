@@ -90,6 +90,7 @@ SRC_FILES=	admin.c				\
 		time.c				\
 		vision.c			\
 		win.c				\
+		admin_cmd/admin_broadcast.c	\
 		admin_cmd/admin_info.c		\
 		admin_cmd/admin_egg.c		\
 		admin_cmd/admin_res.c		\

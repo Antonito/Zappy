@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 21:50:09 2017 Antoine Baché
-** Last update Sat Jul  1 20:56:28 2017 Antoine Baché
+** Last update Sat Jul  1 22:32:44 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -46,7 +46,9 @@ static t_zappy_admin_cmd const	zappy_admin_commands[] =
     { &zappy_admin_cmd_res_thystame,
       "spawn thystame", sizeof("spawn thystame") },
     { &zappy_admin_cmd_egg,
-      "spawn egg", sizeof("spawn egg") }
+      "spawn egg", sizeof("spawn egg") },
+    { &zappy_admin_cmd_broadcast,
+      "broadcast ", sizeof("broadcast ") - 1 }
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert
@@ -90,7 +92,8 @@ static void		zappy_admin_cmd(t_zappy * const data,
       if (!memcmp(cmd, zappy_admin_commands[i].cmd,
 		  (size_t)zappy_admin_commands[i].len))
 	{
-	  zappy_admin_commands[i].callback(data);
+	  zappy_admin_commands[i].callback(data,
+					   cmd + zappy_admin_commands[i].len);
 	  break;
 	}
       ++i;

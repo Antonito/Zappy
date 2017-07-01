@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Sat Jul  1 18:45:55 2017 Antoine Baché
+** Last update Sat Jul  1 22:29:10 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,6 +18,7 @@
 #include "zappy_network.h"
 #include "zappy_graphic.h"
 
+// TODO: Update
 static char const	*zappy_admin_help_str =
   "Available commands:\n"
   "-> help: display this help\n"
@@ -34,33 +35,41 @@ static size_t const	zappy_admin_help_len =
 	 "-> inc:  increase server frequency\n"
 	 "-> dec:  decrease server frequency\n") - 1;
 
-void	zappy_admin_cmd_help(t_zappy * const data)
+void	zappy_admin_cmd_help(t_zappy * const data,
+			     char const * cmd)
 {
   assert(data && data->admin.authenticated == true);
+  (void)cmd;
   LOG(LOG_DEBUG, "Treating Admin command help");
   zappy_network_write(&data->admin.client, zappy_admin_help_str,
 		      zappy_admin_help_len);
 }
 
 ZAPPY_NORETURN
-void	zappy_admin_cmd_stop(t_zappy * const data)
+void	zappy_admin_cmd_stop(t_zappy * const data,
+			     char const * cmd)
 {
   assert(data && data->admin.authenticated == true);
+  (void)cmd;
   (void)data;
   LOG(LOG_DEBUG, "Treating Admin command stop");
   LOG(LOG_INFO, RED_BOLD_INTENS"Administrator requested system shutdown"CLEAR);
   exit(0);
 }
 
-void	zappy_admin_cmd_reset(t_zappy * const data)
+void	zappy_admin_cmd_reset(t_zappy * const data,
+			      char const * cmd)
 {
+  (void)cmd;
   assert(data && data->admin.authenticated == true);
   LOG(LOG_DEBUG, "Treating Admin command reset");
   data->should_reset = true;
 }
 
-void	zappy_admin_cmd_inc_freq(t_zappy * const data)
+void	zappy_admin_cmd_inc_freq(t_zappy * const data,
+				 char const * cmd)
 {
+  (void)cmd;
   assert(data && data->admin.authenticated == true);
   LOG(LOG_DEBUG, "Treating Admin command inc");
   data->conf.freq += 10;
@@ -69,8 +78,10 @@ void	zappy_admin_cmd_inc_freq(t_zappy * const data)
   zappy_network_write(&data->admin.client, "OK\n", sizeof("OK\n") - 1);
 }
 
-void	zappy_admin_cmd_dec_freq(t_zappy * const data)
+void	zappy_admin_cmd_dec_freq(t_zappy * const data,
+				 char const * cmd)
 {
+  (void)cmd;
   assert(data && data->admin.authenticated == true);
   LOG(LOG_DEBUG, "Treating Admin command dec");
   data->conf.freq -= 10;
