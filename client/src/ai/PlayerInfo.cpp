@@ -15,15 +15,15 @@ namespace ai
           {6, {{2, 2, 2, 2, 2, 1}}},
       }};
 
-  PlayerInfo::PlayerInfo() : m_level(1)
+  PlayerInfo::PlayerInfo(std::queue<std::string> &queue) : m_level(1), m_cmdMSG(queue)
   {
   }
 
-  PlayerInfo::PlayerInfo(PlayerInfo const &that) : m_level(that.m_level)
+  PlayerInfo::PlayerInfo(PlayerInfo const &that) : m_level(that.m_level), m_cmdMSG(that.m_cmdMSG)
   {
   }
 
-  PlayerInfo::PlayerInfo(PlayerInfo &&that) : m_level(std::move(that.m_level))
+  PlayerInfo::PlayerInfo(PlayerInfo &&that) : m_level(std::move(that.m_level)), m_cmdMSG(that.m_cmdMSG)
   {
   }
 
