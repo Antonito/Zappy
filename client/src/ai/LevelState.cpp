@@ -2,8 +2,8 @@
 
 namespace ai
 {
-  LevelState::LevelState(std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states)
+  LevelState::LevelState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player)
   {
   }
 

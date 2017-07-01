@@ -14,7 +14,7 @@ namespace ai
   class FindFoodState final : public AState
   {
   public:
-    FindFoodState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    FindFoodState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     FindFoodState(FindFoodState const &) = delete;
     FindFoodState(FindFoodState &&) = delete;
     virtual ~FindFoodState();

@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  LeftState::LeftState()
+  LeftState::LeftState() : m_value(Value::NO)
   {
   }
 

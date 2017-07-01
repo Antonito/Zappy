@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  ForkState::ForkState()
+  ForkState::ForkState() : m_value(Value::NO)
   {
   }
 

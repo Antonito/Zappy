@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "IState.hpp"
+#include "PlayerInfo.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -31,23 +32,25 @@ namespace ai
   class AState : public IState
   {
   public:
-    AState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    AState(std::map<BasicState, std::unique_ptr<IState>> &states,
+           PlayerInfo &player);
     AState(AState const &);
-    AState(AState &&);
+    AState(AState &&) = delete;
     virtual ~AState();
 
     AState &operator=(AState const &);
-    AState &operator=(AState &&);
+    AState &operator=(AState &&) = delete;
 
     bool canWrite() const;
     void setWrite(bool set);
 
   protected:
     std::map<BasicState, IState *> m_states;
-    State m_curState;
-    Value m_curValue;
-    Value m_retValue;
-    bool  m_canWrite;
+    State       m_curState;
+    Value       m_curValue;
+    Value       m_retValue;
+    bool        m_canWrite;
+    PlayerInfo &m_player;
   };
 }
 

@@ -32,7 +32,6 @@
 #include "Tile.hpp"
 #include "Shader.hpp"
 
-
 #include "ai/AI.hpp"
 #include "ai/AState.hpp"
 #include "ai/ArrivedState.hpp"
@@ -56,6 +55,7 @@
 #include "ai/StarvingState.hpp"
 #include "ai/StoneOnCaseState.hpp"
 #include "ai/TrollState.hpp"
+#include "ai/PlayerInfo.hpp"
 
 #include "ai/basic_state/BroadcastState.hpp"
 #include "ai/basic_state/ConnectnbrState.hpp"

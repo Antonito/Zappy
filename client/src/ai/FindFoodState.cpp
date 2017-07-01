@@ -3,8 +3,8 @@
 namespace ai
 {
   FindFoodState::FindFoodState(
-      std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states), m_lookAround(0), m_goForward(false)
+      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player), m_lookAround(0), m_goForward(false)
   {
   }
 

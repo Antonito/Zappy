@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  ConnectnbrState::ConnectnbrState()
+  ConnectnbrState::ConnectnbrState() : m_value(Value::NO)
   {
   }
 

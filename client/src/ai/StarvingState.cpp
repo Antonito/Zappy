@@ -3,8 +3,8 @@
 namespace ai
 {
   StarvingState::StarvingState(
-      std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states)
+      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player)
   {
     nope::log::Log(Debug) << "Starving State init";
   }

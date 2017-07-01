@@ -14,7 +14,7 @@ namespace ai
   class FixRecipeState final : public AState
   {
   public:
-    FixRecipeState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    FixRecipeState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     FixRecipeState(FixRecipeState const &) = delete;
     FixRecipeState(FixRecipeState &&) = delete;
     virtual ~FixRecipeState();

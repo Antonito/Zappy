@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  EjectState::EjectState()
+  EjectState::EjectState() : m_value(Value::NO)
   {
   }
 

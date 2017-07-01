@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  SetState::SetState()
+  SetState::SetState() : m_value(Value::NO), m_object("")
   {
   }
 

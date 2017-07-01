@@ -3,8 +3,8 @@
 namespace ai
 {
   InitAIConnectState::InitAIConnectState(
-      std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states), m_changeState(false)
+      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player), m_changeState(false)
   {
   }
 

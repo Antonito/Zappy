@@ -75,6 +75,7 @@ SRC_FILES=	main.cpp				\
 		ai/StarvingState.cpp			\
 		ai/StoneOnCaseState.cpp			\
 		ai/TrollState.cpp			\
+		ai/PlayerInfo.cpp			\
 		ai/basic_state/BroadcastState.cpp	\
 		ai/basic_state/ConnectnbrState.cpp	\
 		ai/basic_state/EjectState.cpp		\

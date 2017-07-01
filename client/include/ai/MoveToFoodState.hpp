@@ -14,7 +14,7 @@ namespace ai
   class MoveToFoodState final : public AState
   {
   public:
-    MoveToFoodState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    MoveToFoodState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     MoveToFoodState(MoveToFoodState const &) = delete;
     MoveToFoodState(MoveToFoodState &&) = delete;
     virtual ~MoveToFoodState();
