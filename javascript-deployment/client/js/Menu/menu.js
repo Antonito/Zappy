@@ -5,6 +5,7 @@
 var background_layer;
 var assets_layer;
 var event;
+var data_buffered = "";
 
 var Menu = {
 
@@ -21,8 +22,14 @@ var Menu = {
             ws = new WebSocket("ws://" + ip + ":" + port);
 
             ws.onopen = function() {
-                game.state.start('INGAME', true, false, ws);
+                setTimeout(function() {
+                    game.state.start('INGAME', true, false, ws, data_buffered);
+                }, 500);
             };
+
+            ws.onmessage = function(resp) {
+                data_buffered += resp.data;
+            }
 
             ws.onclose = function(resp) {
 

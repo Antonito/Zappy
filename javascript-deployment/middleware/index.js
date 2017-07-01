@@ -19,7 +19,6 @@ var msz = "msz 10 10";
 var gameMap = [
     []
 ];
-
 var symbolsTab = {
 
     "msz": function(args) {
@@ -98,6 +97,22 @@ var symbolsTab = {
     }
 };
 
+// Send History to new client
+function getHistoryAsString() {
+    var data = "";
+
+    // MSZ
+    data += msz + '\n';
+    // BCT
+    gameMap.forEach((line) => {
+        line.forEach((e) => {
+            data += e + '\n';
+        });
+    });
+
+    return data;
+}
+
 client.connect(ZAPPY_SERVER_PORT, ZAPPY_SERVER_IP, function() {
     console.log('[ZappyServer] Connected');
 
@@ -111,6 +126,8 @@ client.connect(ZAPPY_SERVER_PORT, ZAPPY_SERVER_IP, function() {
 
         // Notify in console that a new customer has logged in
         console.log("New client connected from " + req.connection.remoteAddress);
+
+        ws.send(getHistoryAsString());
 
     });
 
@@ -142,7 +159,6 @@ client.on('data', function(data) {
 
     var datastr = String.fromCharCode.apply(null, new Uint16Array(data));
 
-    console.log(datastr);
     // Parse data
     parseData(datastr);
 

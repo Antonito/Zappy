@@ -22,6 +22,9 @@ Main.prototype = {
         game.load.script('menu', 'js/Menu/menu.js');
         game.load.script('game', 'js/Game/game.js');
 
+
+        game.time.desiredFps = 18;
+
     },
 
     create: function() {

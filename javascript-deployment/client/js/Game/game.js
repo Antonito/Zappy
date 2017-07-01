@@ -52,7 +52,15 @@ var MENU = 0;
 var INGAME = 1;
 var CURRENT_STATE = MENU;
 /* Data */
-var raw_map_resources = [];
+var raw_map_resources = [
+    // food
+    // linemate
+    // deraumere
+    // sibur
+    // mendiane
+    // phiras
+    // thystame
+];
 var raw_mobs_list = [];
 var raw_eggs_list = [];
 /* Layers Groups */
@@ -61,26 +69,10 @@ var resources_layer;
 var eggs_layer;
 var mobs_layer;
 /* starting positions */
+var shiftX = 0;
+var shiftY = 0;
 var startX = 0;
 var startY = 0;
-
-
-/*
- **  Raw Data for the moment
- */
-raw_map_resources = [
-    // food: 3,
-    // linemate: 1,
-    // deraumere: 1,
-    // sibur: 1,
-    // mendiane: 1,
-    // phiras: 1,
-    // thystame: 1
-];
-
-raw_mobs_list = [];
-
-raw_eggs_list = []
 
 var InGame = {
 
@@ -129,11 +121,18 @@ var InGame = {
 
     },
 
-    init: function(ws) {
+    init: function(ws, data_buffered) {
+
+        if (data_buffered) {
+            parseData(data_buffered);
+
+            console.log(raw_map_resources);
+        }
 
         ws.onmessage = function(res) {
 
-            console.log(res.data);
+            console.log("yo bitch");
+            parseData(res.data);
 
         };
 
@@ -141,9 +140,10 @@ var InGame = {
 
     create: function() {
 
-
-        this.background = background_layer.create(0, 0, 'background');
+        // this.background = background_layer.create(0, 0, 'background');
+        this.background = game.add.tileSprite(0, 0, 1000, 1000, 'background');
         ScaleImage(this.background, 1000, 1000);
+        background_layer.add(this.background);
 
         /* for debug */
         DrawAll(startX, startY);
@@ -152,16 +152,39 @@ var InGame = {
 
     update: function() {
 
+        clearGroup(resources_layer);
+        DrawAll(startX, startY);
+
         /* Events */
         if (event) {
             if (event.up.isDown) {
-                clearGroup(resources_layer);
+                shiftY += 10;
+                this.background.tilePosition.y += 10;
+                if (shiftY >= 100) {
+                    startY = startY > 0 ? (startY - 1) % raw_map_resources[0].length : raw_map_resources[0].length;
+                    shiftY = 0;
+                }
             } else if (event.left.isDown) {
-                DrawAll();
+                shiftX += 10;
+                this.background.tilePosition.x += 10;
+                if (shiftX >= 100) {
+                    startX = startX > 0 ? (startX - 1) % raw_map_resources[0].length : raw_map_resources[0].length;
+                    shiftX = 0;
+                }
             } else if (event.right.isDown) {
-                game.state.start('MENU');
+                shiftX -= 10;
+                this.background.tilePosition.x -= 10;
+                if (shiftX <= -100) {
+                    startX = (startX + 1) % raw_map_resources[0].length;
+                    shiftX = 0;
+                }
             } else if (event.down.isDown) {
-                console.log("touche du bas pressée");
+                shiftY -= 10;
+                this.background.tilePosition.y -= 10;
+                if (shiftY <= -100) {
+                    startY = (startY + 1) % raw_map_resources[0].length;
+                    shiftY = 0;
+                }
             }
         }
 

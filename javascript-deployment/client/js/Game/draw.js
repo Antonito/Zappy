@@ -1,11 +1,11 @@
 function DrawAll(startX, startY) {
 
     /* Draw Resources */
-    for (var y = startY; y < startY + 10 && y < raw_map_resources.length; ++y) {
+    for (var y = 0; y < 10 && y < raw_map_resources.length; ++y) {
 
-        for (var x = startX; x < startX + 10 && x < raw_map_resources[y].length; ++x) {
+        for (var x = 0; x < 10 && x < raw_map_resources[(y + startY) % raw_map_resources.length].length; ++x) {
 
-            var cell = raw_map_resources[y][x];
+            var cell = raw_map_resources[(y + startY) % raw_map_resources.length][(x + startX) % raw_map_resources.length];
 
             DrawCellResources(cell, x, y);
 
@@ -30,8 +30,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.food > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.FOOD.X,
-            y * 100 + SPRITES_POSITION.FOOD.Y, 'food');
+            shiftX + x * 100 + SPRITES_POSITION.FOOD.X,
+            shiftY + y * 100 + SPRITES_POSITION.FOOD.Y, 'food');
 
         ScaleImage(
             image,
@@ -44,8 +44,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.linemate > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.LINEMATE.X,
-            y * 100 + SPRITES_POSITION.LINEMATE.Y, 'linemate');
+            shiftX + x * 100 + SPRITES_POSITION.LINEMATE.X,
+            shiftY + y * 100 + SPRITES_POSITION.LINEMATE.Y, 'linemate');
 
         ScaleImage(
             image,
@@ -58,8 +58,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.deraumere > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.DERAUMERE.X,
-            y * 100 + SPRITES_POSITION.DERAUMERE.Y, 'deraumere');
+            shiftX + x * 100 + SPRITES_POSITION.DERAUMERE.X,
+            shiftY + y * 100 + SPRITES_POSITION.DERAUMERE.Y, 'deraumere');
 
         ScaleImage(
             image,
@@ -72,8 +72,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.sibur > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.SIBUR.X,
-            y * 100 + SPRITES_POSITION.SIBUR.Y, 'sibur');
+            shiftX + x * 100 + SPRITES_POSITION.SIBUR.X,
+            shiftY + y * 100 + SPRITES_POSITION.SIBUR.Y, 'sibur');
 
         ScaleImage(
             image,
@@ -86,8 +86,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.mendiane > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.MENDIANE.X,
-            y * 100 + SPRITES_POSITION.MENDIANE.Y, 'mendiane');
+            shiftX + x * 100 + SPRITES_POSITION.MENDIANE.X,
+            shiftY + y * 100 + SPRITES_POSITION.MENDIANE.Y, 'mendiane');
 
         ScaleImage(
             image,
@@ -100,8 +100,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.phiras > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.PHIRAS.X,
-            y * 100 + SPRITES_POSITION.PHIRAS.Y, 'phiras');
+            shiftX + x * 100 + SPRITES_POSITION.PHIRAS.X,
+            shiftY + y * 100 + SPRITES_POSITION.PHIRAS.Y, 'phiras');
 
         ScaleImage(
             image,
@@ -114,8 +114,8 @@ function DrawCellResources(cell_res, x, y) {
     if (cell_res.thystame > 0) {
 
         var image = resources_layer.create(
-            x * 100 + SPRITES_POSITION.THYSTAME.X,
-            y * 100 + SPRITES_POSITION.THYSTAME.Y, 'thystame');
+            shiftX + x * 100 + SPRITES_POSITION.THYSTAME.X,
+            shiftY + y * 100 + SPRITES_POSITION.THYSTAME.Y, 'thystame');
 
         ScaleImage(
             image,
@@ -130,8 +130,8 @@ function DrawCellResources(cell_res, x, y) {
 function DrawCellMob(mob, x, y) {
 
     var image = resources_layer.create(
-        mob.pos_x * 100 + SPRITES_POSITION.MOB.X,
-        mob.pos_y * 100 + SPRITES_POSITION.MOB.Y, MOBS_COLOR[mob.teamId % MOBS_COLOR.length]);
+        shiftX + mob.pos_x * 100 + SPRITES_POSITION.MOB.X,
+        shiftY + mob.pos_y * 100 + SPRITES_POSITION.MOB.Y, MOBS_COLOR[mob.teamId % MOBS_COLOR.length]);
 
     ScaleImage(
         image,
@@ -144,8 +144,8 @@ function DrawCellMob(mob, x, y) {
 function DrawCellEgg(egg, x, y) {
 
     var image = resources_layer.create(
-        egg.pos_x * 100 + SPRITES_POSITION.EGG.X,
-        egg.pos_y * 100 + SPRITES_POSITION.EGG.Y, 'egg');
+        shiftX + egg.pos_x * 100 + SPRITES_POSITION.EGG.X,
+        shiftY + egg.pos_y * 100 + SPRITES_POSITION.EGG.Y, 'egg');
 
     ScaleImage(
         image,
