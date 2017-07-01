@@ -12,13 +12,17 @@ namespace ai
 
   void LookState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "Look[READ]BasicState";
     if (readQueue.empty())
+    {
       return ;
+    }
     std::string iss = readQueue.front();
     readQueue.pop();
     if (iss == "ko\n")
     {
-      nope::log::Log(Debug) << "(WARNING) Right Failed !";
+	nope::log::Log(Debug) << "(WARNING) Write Failed !";
+	m_value = Value::NO;
     }
 
     std::stringstream ss;
@@ -34,20 +38,24 @@ namespace ai
       }
       ss >> res;
     }
+    m_value = Value::YES;
   }
 
   void LookState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "Look[WRITE]BasicState";
     std::string tmp = "Look\n";
     writeQueue.push(tmp);
   }
 
   void LookState::reset(Value value)
   {
+    m_value = value;
   }
 
   Value LookState::getResponse() const
   {
+    return (m_value);
   }
 }
 

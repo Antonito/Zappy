@@ -26,6 +26,11 @@ namespace ai
     virtual void writeState(std::queue<std::string> &writeQueue);
     virtual void reset(Value value);
     virtual Value getResponse() const;
+
+  private:
+    std::pair<std::int32_t, std::int32_t> m_direction;
+    bool m_first;
+    bool m_second;
   };
 }
 

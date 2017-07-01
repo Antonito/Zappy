@@ -14,10 +14,12 @@ namespace ai
 
   void ArrivedState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "Arrived[READ]State";
   }
 
   void ArrivedState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "Arrived[WRITE]State";
   }
 
   void ArrivedState::reset(Value value)

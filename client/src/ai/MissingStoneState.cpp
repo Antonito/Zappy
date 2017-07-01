@@ -14,14 +14,20 @@ namespace ai
 
   void MissingStoneState::readState(std::queue<std::string> &readQueue)
   {
+    nope::log::Log(Debug) << "MissingStone[READ]State";
   }
 
   void MissingStoneState::writeState(std::queue<std::string> &writeQueue)
   {
+    nope::log::Log(Debug) << "MissingStone[WRITE]State";
   }
 
   void MissingStoneState::reset(Value value)
   {
+    nope::log::Log(Debug) << "MissingStoneState reset";
+    m_curValue = Value::LOOP;
+    m_retValue = value;
+    m_canWrite = true;
   }
 
   Value MissingStoneState::getResponse() const

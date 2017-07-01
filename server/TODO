@@ -1,12 +1,10 @@
 ## TODO:
 
--> Gestion ticks (select sleep intelligent)
 -> Fork
 
 -> openSSL
 
 -> graphic:
-pic
 enw
 eht
 ebo
@@ -15,10 +13,7 @@ edi
 -> graphic sheet:
 connexion moniteur // Partially OK
 connexion joueur oeuf
-incantation
-fin incantation
 fork
 fin fork
 eclosion oeuf
-oeuf moisi (mort)
-fin de jeu
+oeuf moisi (mort)u

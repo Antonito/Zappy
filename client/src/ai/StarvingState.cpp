@@ -18,7 +18,9 @@ namespace ai
     nope::log::Log(Debug) << "Starving[READ]State";
     // call inventory state
     m_states[BasicState::INVENTORY]->readState(readQueue);
-    std::int32_t food = static_cast<InventoryState *>(m_states[BasicState::INVENTORY])->getFood() ;
+    std::int32_t food =
+        static_cast<InventoryState *>(m_states[BasicState::INVENTORY])
+            ->getFood();
     nope::log::Log(Debug) << food << " food unit";
     if (food < NB_FOOD_NORMAL)
       {
@@ -33,9 +35,9 @@ namespace ai
 	m_curValue = Value::NO;
       }
     else
-    {
-      m_curValue = m_retValue;
-    }
+      {
+	m_curValue = m_retValue;
+      }
     // or directly read in readQueue
   }
 
@@ -44,7 +46,6 @@ namespace ai
     nope::log::Log(Debug) << "Starving[WRITE]State";
     nope::log::Log(Debug) << "ADDR " << m_states[BasicState::INVENTORY];
     m_states[BasicState::INVENTORY]->writeState(writeQueue);
-    //writeQueue.push("Inventory\n");
     m_canWrite = false;
   }
 

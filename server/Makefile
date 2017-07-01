@@ -76,15 +76,20 @@ SRC_FILES=	admin.c				\
 		network.c			\
 		order.c				\
 		parse.c				\
+		player.c			\
+		reset.c				\
 		resource.c			\
 		ring_buffer.c			\
 		server.c			\
 		socket.c			\
+		team.c				\
 		team_manager.c			\
 		time.c				\
 		vision.c			\
+		win.c				\
 		state/auth.c			\
 		state/connect.c			\
+		state/connect_w.c		\
 		state/resp.c			\
 		client_cmd/forward.c		\
 		client_cmd/broadcast.c		\
@@ -100,6 +105,8 @@ SRC_FILES=	admin.c				\
 		client_cmd/connect_nbr.c	\
 		client_cmd/err.c		\
 		client_cmd/dead.c		\
+		client_cmd/pre_fork.c		\
+		client_cmd/pre_incantation.c	\
 		graphic_cmd/msz.c		\
 		graphic_cmd/bct.c		\
 		graphic_cmd/tna.c		\
