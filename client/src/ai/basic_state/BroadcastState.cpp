@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  BroadcastState::BroadcastState()
+  BroadcastState::BroadcastState() : m_value(Value::NO)
   {
   }
 

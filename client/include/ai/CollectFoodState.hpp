@@ -14,7 +14,7 @@ namespace ai
   class CollectFoodState final : public AState
   {
   public:
-    CollectFoodState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    CollectFoodState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     CollectFoodState(CollectFoodState const &) = delete;
     CollectFoodState(CollectFoodState &&) = delete;
     virtual ~CollectFoodState();

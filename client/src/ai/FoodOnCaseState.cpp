@@ -3,8 +3,8 @@
 namespace ai
 {
   FoodOnCaseState::FoodOnCaseState(
-      std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states)
+      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player)
   {
   }
 

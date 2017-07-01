@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  ForwardState::ForwardState()
+  ForwardState::ForwardState() : m_value(Value::NO)
   {
   }
 

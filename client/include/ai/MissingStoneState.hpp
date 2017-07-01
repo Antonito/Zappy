@@ -14,7 +14,7 @@ namespace ai
   class MissingStoneState final : public AState
   {
   public:
-    MissingStoneState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    MissingStoneState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     MissingStoneState(MissingStoneState const &) = delete;
     MissingStoneState(MissingStoneState &&) = delete;
     virtual ~MissingStoneState();

@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  TakeState::TakeState()
+  TakeState::TakeState() : m_value(Value::NO), m_object("")
   {
   }
 

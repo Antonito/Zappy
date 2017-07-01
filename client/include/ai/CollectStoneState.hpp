@@ -14,7 +14,7 @@ namespace ai
   class CollectStoneState final : public AState
   {
   public:
-    CollectStoneState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    CollectStoneState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     CollectStoneState(CollectStoneState const &) = delete;
     CollectStoneState(CollectStoneState &&) = delete;
     virtual ~CollectStoneState();

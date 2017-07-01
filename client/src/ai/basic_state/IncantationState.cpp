@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  IncantationState::IncantationState()
+  IncantationState::IncantationState() : m_value(Value::NO)
   {
   }
 

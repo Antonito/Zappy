@@ -14,7 +14,7 @@ namespace ai
   class ArrivedState final : public AState
   {
   public:
-    ArrivedState(std::map<BasicState, std::unique_ptr<IState>> &states);
+    ArrivedState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
     ArrivedState(ArrivedState const &) = delete;
     ArrivedState(ArrivedState &&) = delete;
     virtual ~ArrivedState();

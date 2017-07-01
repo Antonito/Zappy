@@ -87,24 +87,12 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
-  static const std::array<std::pair<std::int32_t, std::array<std::int32_t, 6>>,
-                          7>
-      recipes = {{
-          {1, {{1, 0, 0, 0, 0, 0}}},
-          {2, {{1, 1, 1, 0, 0, 0}}},
-          {2, {{2, 0, 1, 0, 2, 0}}},
-          {4, {{1, 1, 2, 0, 1, 0}}},
-          {4, {{1, 2, 1, 3, 0, 0}}},
-          {6, {{1, 2, 3, 0, 1, 0}}},
-          {6, {{2, 2, 2, 2, 2, 1}}},
-      }};
-
   AI::AI(std::string ip, std::uint16_t port)
       : m_foodUnit(0), m_lastUnknownMsg(),
         m_sock(port, ip, true, network::ASocket::BLOCKING), m_cmdToSend(),
         m_cmdToRecv(), m_states(), m_curState(m_states[State::INIT_AI].get()),
         m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1),
-        m_basicStates()
+        m_basicStates(), m_player()
   {
     if (!m_sock.openConnection())
       {
@@ -200,7 +188,7 @@ namespace ai
 	      }
 	  }
 	m_curValue = m_curState->getResponse();
-        nope::log::Log(Debug) << "CurValue = " << m_curValue;
+	nope::log::Log(Debug) << "CurValue = " << m_curValue;
 	if (m_curValue != Value::LOOP)
 	  {
 	    m_curStateName = transitionTable.at(
@@ -254,11 +242,13 @@ namespace ai
   void AI::initBasicState()
   {
     m_basicStates[BasicState::BROADCAST] = std::make_unique<BroadcastState>();
-    m_basicStates[BasicState::CONNECT_NBR] = std::make_unique<ConnectnbrState>();
+    m_basicStates[BasicState::CONNECT_NBR] =
+        std::make_unique<ConnectnbrState>();
     m_basicStates[BasicState::EJECT] = std::make_unique<EjectState>();
     m_basicStates[BasicState::FORK] = std::make_unique<ForkState>();
     m_basicStates[BasicState::FORWARD] = std::make_unique<ForwardState>();
-    m_basicStates[BasicState::INCANTATION] = std::make_unique<IncantationState>();
+    m_basicStates[BasicState::INCANTATION] =
+        std::make_unique<IncantationState>();
     m_basicStates[BasicState::INVENTORY] = std::make_unique<InventoryState>();
     m_basicStates[BasicState::LEFT] = std::make_unique<LeftState>();
     m_basicStates[BasicState::LOOK] = std::make_unique<LookState>();
@@ -270,45 +260,45 @@ namespace ai
   void AI::initState()
   {
     m_states[static_cast<std::size_t>(State::STARVING)] =
-        std::make_unique<StarvingState>(m_basicStates);
+        std::make_unique<StarvingState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::RECEIVE_MSG)] =
-        std::make_unique<CheckMessageState>(m_basicStates);
+        std::make_unique<CheckMessageState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::MISSING_STONE)] =
-        std::make_unique<MissingStoneState>(m_basicStates);
+        std::make_unique<MissingStoneState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::MISSING_PLAYER)] =
-        std::make_unique<MissingPlayerState>(m_basicStates);
+        std::make_unique<MissingPlayerState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::SET_RECIPE)] =
-        std::make_unique<SetRecipeState>(m_basicStates);
+        std::make_unique<SetRecipeState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::INCANT)] =
-        std::make_unique<IncantState>(m_basicStates);
+        std::make_unique<IncantState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
-        std::make_unique<FoodOnCaseState>(m_basicStates);
+        std::make_unique<FoodOnCaseState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::COLLECT_FOOD)] =
-        std::make_unique<CollectFoodState>(m_basicStates);
+        std::make_unique<CollectFoodState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::FIND_FOOD)] =
-        std::make_unique<FindFoodState>(m_basicStates);
+        std::make_unique<FindFoodState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
-        std::make_unique<MoveToFoodState>(m_basicStates);
+        std::make_unique<MoveToFoodState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::LEVEL)] =
-        std::make_unique<LevelState>(m_basicStates);
+        std::make_unique<LevelState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
-        std::make_unique<MoveToTeammateState>(m_basicStates);
+        std::make_unique<MoveToTeammateState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::ARRIVED)] =
-        std::make_unique<ArrivedState>(m_basicStates);
+        std::make_unique<ArrivedState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::FIX_RECIPE)] =
-        std::make_unique<FixRecipeState>(m_basicStates);
+        std::make_unique<FixRecipeState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::STONE_ON_CASE)] =
-        std::make_unique<StoneOnCaseState>(m_basicStates);
+        std::make_unique<StoneOnCaseState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::COLLECT_STONE)] =
-        std::make_unique<CollectStoneState>(m_basicStates);
+        std::make_unique<CollectStoneState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::FIND_STONE)] =
-        std::make_unique<FindStoneState>(m_basicStates);
+        std::make_unique<FindStoneState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
-        std::make_unique<MoveToStoneState>(m_basicStates);
+        std::make_unique<MoveToStoneState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::TROLL)] =
-        std::make_unique<TrollState>(m_basicStates);
+        std::make_unique<TrollState>(m_basicStates, m_player);
     m_states[static_cast<std::size_t>(State::INIT_AI)] =
-        std::make_unique<InitAIConnectState>(m_basicStates);
+        std::make_unique<InitAIConnectState>(m_basicStates, m_player);
   }
 
   void AI::send(std::string const &msg)

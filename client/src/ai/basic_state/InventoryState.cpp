@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  InventoryState::InventoryState()
+  InventoryState::InventoryState() : m_value(Value::NO), m_inventory()
   {
   }
 

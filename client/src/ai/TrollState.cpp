@@ -2,8 +2,8 @@
 
 namespace ai
 {
-  TrollState::TrollState(std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states)
+  TrollState::TrollState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player)
   {
   }
 

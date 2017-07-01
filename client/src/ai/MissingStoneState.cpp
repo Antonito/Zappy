@@ -3,8 +3,8 @@
 namespace ai
 {
   MissingStoneState::MissingStoneState(
-      std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states)
+      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player)
   {
   }
 

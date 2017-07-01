@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  LookState::LookState()
+  LookState::LookState() : m_value(Value::NO)
   {
   }
 

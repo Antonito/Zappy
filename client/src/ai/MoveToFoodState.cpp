@@ -3,8 +3,8 @@
 namespace ai
 {
   MoveToFoodState::MoveToFoodState(
-      std::map<BasicState, std::unique_ptr<IState>> &states)
-      : AState(states), m_direction(), m_first(true), m_second(false)
+      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      : AState(states, player), m_direction(), m_first(true), m_second(false)
   {
   }
 
