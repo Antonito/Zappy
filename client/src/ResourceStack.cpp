@@ -6,7 +6,6 @@ namespace zappy
       : m_position(0, 0, 0), m_count(0),
         m_cube(Model::fromObj("./models/cube.obj"))
   {
-    nope::log::Log(Debug) << "Constructing a resource stack";
     m_cube.scale(0.05);
   }
 

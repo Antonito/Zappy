@@ -3,7 +3,8 @@
 
 namespace zappy
 {
-  Shader::Shader(std::string const &path) : m_program(0), m_shaders()
+  Shader::Shader(std::string const &path)
+      : m_program(0), m_shaders(), m_lights(), m_uniforms()
   {
     // Create the program
     m_program = glCreateProgram();
@@ -20,7 +21,6 @@ namespace zappy
 
     // Bind the differents attributes
     glBindAttribLocation(m_program, 0, "position");
-    // glBindAttribLocation(m_program, 1, "textCoord");
     glBindAttribLocation(m_program, 1, "normale");
 
     // Link the program
@@ -90,6 +90,7 @@ namespace zappy
   {
     std::vector<float> values;
     std::size_t        i = 0;
+    int count = 0;
 
     std::array<glm::vec3, 4> norms = {{glm::vec3(0, 0, 1), glm::vec3(-1, 0, 0),
                                        glm::vec3(0, 0, -1),
@@ -105,22 +106,19 @@ namespace zappy
 	glm::vec3 const &   pos =
 	    player.position() + glm::vec3(0.0, 0.3, 0.0) + 0.1f * norms[dir];
 
-	values.push_back(10.0f);
-	values.push_back(norms[dir].x);
-	values.push_back(norms[dir].y);
-	values.push_back(norms[dir].z);
-	values.push_back(pos.x);
-	values.push_back(pos.y);
-	values.push_back(pos.z);
-	glUniform3f(m_lights[i].position, pos.x, pos.y, pos.z);
-	glUniform1f(m_lights[i].power,
-	            static_cast<float>(power) * 2.0f + 0.5f);
-	glUniform3f(m_lights[i].direction, norms[dir].x, norms[dir].y,
-	            norms[dir].z);
+	if (player.isLightUpToDate(power, dir, pos) == false)
+	  {
+	    glUniform3f(m_lights[i].position, pos.x, pos.y, pos.z);
+	    glUniform1f(m_lights[i].power,
+	                static_cast<float>(power) * 2.0f + 0.5f);
+	    glUniform3f(m_lights[i].direction, norms[dir].x, norms[dir].y,
+	                norms[dir].z);
+	  }
 	++i;
+	count++;
       }
 
-    glUniform1d(m_uniforms[LIGHT_NB_U], static_cast<int>(i));
+    glUniform1f(m_uniforms[LIGHT_NB_U], static_cast<float>(count));
 
     for (; i < m_lights.size(); ++i)
       {

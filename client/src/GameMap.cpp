@@ -62,7 +62,8 @@ namespace zappy
       {
 	for (std::size_t _x = 0; _x < m_x; ++_x)
 	  {
-	    m_tiles[x * _y + _x].setPosition(glm::vec3(-static_cast<float>(_x), 0, _y));
+	    m_tiles[x * _y + _x].setPosition(
+	        glm::vec3(-static_cast<float>(_x), 0, _y));
 	  }
       }
   }
@@ -83,5 +84,41 @@ namespace zappy
                             std::size_t n)
   {
     m_tiles[m_x * y + x].setResource(type, n);
+  }
+
+  void GameMap::fixCamera(Camera &camera) const
+  {
+    constexpr float shift = 0.1f;
+
+    glm::vec3 pos = camera.position();
+
+    if (pos.y < Tile::tileScale / 2.0f + shift)
+      {
+	pos.y = Tile::tileScale / 2.0f + shift;
+      }
+    else if (pos.y > 100.0f)
+      {
+	pos.y = 100.0f;
+      }
+
+    if (pos.x > 10.0f - shift)
+      {
+	pos.x = 10.0f - shift;
+      }
+    else if (pos.x < -static_cast<float>(m_x) - 10.0f + shift)
+      {
+	pos.x = -static_cast<float>(m_x) - 10.0f + shift;
+      }
+
+    if (pos.z < -10.0f + shift)
+      {
+	pos.z = -10.0f + shift;
+      }
+    else if (pos.z > static_cast<float>(m_y) + 10.0f - shift)
+      {
+	pos.z = static_cast<float>(m_y) + 10.0f - shift;
+      }
+
+    camera.setPosition(pos);
   }
 }

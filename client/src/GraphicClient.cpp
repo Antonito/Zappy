@@ -8,12 +8,13 @@ namespace zappy
                                std::string const &machine)
       : m_win(width, height, windowName), m_port(port), m_name(name),
         m_machine(machine), m_map(), m_players(), m_teams(),
-        m_camera(glm::vec3(0, 0, 0), 100,
+        m_camera(glm::vec3(0, 0, 0), 90,
                  static_cast<float>(width) / static_cast<float>(height), 0.01f,
                  10000.0f),
         m_shader("./shaders/test"),
         m_socket(port, machine, false, network::ASocket::SocketType::BLOCKING),
-        m_buffer(), m_connecting(true)
+        m_buffer(), m_connecting(true),
+        m_lastFrame(std::chrono::high_resolution_clock::now())
   {
     if (m_socket.openConnection() == false)
       {
@@ -40,13 +41,22 @@ namespace zappy
 	// Manage user inputs
 	sf::Event event;
 
+	std::chrono::time_point<std::chrono::high_resolution_clock> curFrame =
+	    std::chrono::high_resolution_clock::now();
+
+	std::size_t sinceLast_ =
+	    std::chrono::duration_cast<std::chrono::milliseconds>(curFrame -
+	                                                          m_lastFrame)
+	        .count();
+	double sinceLast = static_cast<double>(sinceLast_) / 1000.0;
+
 	while (m_win.pollEvent(event))
 	  {
 	    this->dispatch(event);
 	  }
 
 	// Execute at most "maxCommand" commands
-	constexpr std::size_t maxCommand = 50;
+	constexpr std::size_t maxCommand = 20;
 	std::size_t           i = 0;
 
 	while (i < maxCommand && this->execCommand())
@@ -56,11 +66,14 @@ namespace zappy
 
 	for (std::pair<const std::size_t, Player> &player : m_players)
 	  {
-	    player.second.updatePosition();
+	    player.second.updatePosition(sinceLast);
 	  }
 
-	m_camera.updatePosition();
+	// Update camera
+	m_camera.updatePosition(sinceLast);
+	m_map.fixCamera(m_camera);
 
+	// Update the player "vision" lights
 	m_shader.updateLight(m_players);
 
 	// Clear the window
@@ -75,6 +88,7 @@ namespace zappy
 
 	// Display the window
 	m_win.display();
+	m_lastFrame = curFrame;
       }
   }
 
@@ -83,7 +97,7 @@ namespace zappy
   //
   void GraphicClient::dispatch(sf::Event const &e)
   {
-    constexpr float movement = 0.05f;
+    constexpr float movement = 5.0f;
 
     if (e.type == sf::Event::Closed)
       {
@@ -105,6 +119,9 @@ namespace zappy
 	    break;
 	  case sf::Keyboard::D:
 	    m_camera.moveSide(movement);
+	    break;
+	  case sf::Keyboard::LShift:
+	    m_camera.moveBoost(2.0f);
 	    break;
 	  case sf::Keyboard::Escape:
 	    m_win.close();
@@ -128,6 +145,9 @@ namespace zappy
 	    break;
 	  case sf::Keyboard::D:
 	    m_camera.moveSide(-movement);
+	    break;
+	  case sf::Keyboard::LShift:
+	    m_camera.moveBoost(1.0f);
 	    break;
 	  case sf::Keyboard::Escape:
 	    m_win.close();

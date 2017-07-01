@@ -37,7 +37,9 @@ namespace zappy
     void moveSide(float move);
     void moveUp(float move);
 
-    void updatePosition();
+    void updatePosition(double sinceLast);
+
+    void moveBoost(float boost);
 
   private:
     void updateForward();
@@ -49,6 +51,7 @@ namespace zappy
     glm::vec3 m_position;
     glm::vec2 m_rotation;
     glm::vec3 m_up;
+    float     m_boost;
 
     glm::vec3 m_speed;
     glm::vec3 m_tryMoving;

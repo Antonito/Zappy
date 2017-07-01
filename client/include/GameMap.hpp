@@ -29,6 +29,8 @@ namespace zappy
     void setResource(std::size_t x, std::size_t y, Resource::Type type,
                      std::size_t n);
 
+    void fixCamera(Camera &camera) const;
+
   private:
     std::vector<Tile> m_tiles;
     float             m_height;

@@ -30,6 +30,8 @@ namespace zappy
     void removeResource(Resource::Type r, std::size_t n = 1);
     void setResource(Resource::Type r, std::size_t n);
 
+    constexpr static float tileScale = 0.97f;
+
   private:
     Mesh m_cube;
 
@@ -39,7 +41,6 @@ namespace zappy
              glm::vec3(0.85, 0.0, 0.85), glm::vec3(0.85, 0.0, 0.65),
              glm::vec3(0.85, 0.0, 0.25), glm::vec3(0.85, 0.0, 0.05),
              glm::vec3(0.65, 0.0, 0.05)}};
-    constexpr static float m_tileScale = 0.97f;
 
     std::array<ResourceStack, Resource::NB_RESOURCE> m_resources;
   };

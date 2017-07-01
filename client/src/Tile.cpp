@@ -3,21 +3,20 @@
 namespace zappy
 {
   constexpr std::array<glm::vec3, Resource::NB_RESOURCE>
-                  Tile::m_resourcePosition;
-  constexpr float Tile::m_tileScale;
+      Tile::m_resourcePosition;
 
   Tile::Tile() : m_cube(Model::fromObj("./models/cube.obj")), m_resources()
   {
     constexpr float coeff = 0.8f;
-    float           r = static_cast<float>(std::rand()) /
-               static_cast<float>(RAND_MAX) * coeff;
-    float g = static_cast<float>(std::rand()) /
-               static_cast<float>(RAND_MAX) * coeff;
-    float b = static_cast<float>(std::rand()) /
-               static_cast<float>(RAND_MAX) * coeff;
+    float           r =
+        static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * coeff;
+    float g =
+        static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * coeff;
+    float b =
+        static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * coeff;
     m_cube.setColor(r, std::min(g + 0.7f, 1.0f), b);
 
-    m_cube.scale(static_cast<double>(m_tileScale));
+    m_cube.scale(static_cast<double>(tileScale));
 
     for (std::size_t i = Resource::FOOD; i < Resource::NB_RESOURCE; ++i)
       {
@@ -67,9 +66,12 @@ namespace zappy
   {
     win.draw(camera, m_cube);
 
-    for (ResourceStack const &res : m_resources)
+    if (glm::length(camera.position() - m_cube.position()) < 15.0f)
       {
-	res.renderOn(win, camera);
+	for (ResourceStack const &res : m_resources)
+	  {
+	    res.renderOn(win, camera);
+	  }
       }
   }
 
@@ -81,7 +83,7 @@ namespace zappy
     for (std::size_t i = 0; i < Resource::NB_RESOURCE; ++i)
       {
 	m_resources[i].setPosition(position +
-	                           m_resourcePosition[i] * m_tileScale +
+	                           m_resourcePosition[i] * tileScale +
 	                           glm::vec3(-0.5, 0.5, -0.5));
       }
   }

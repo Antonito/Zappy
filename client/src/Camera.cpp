@@ -8,17 +8,18 @@ namespace zappy
       : m_perspective(glm::perspective(fov * static_cast<float>(M_PI) / 180.f,
                                        aspect, zNear, zFar)),
         m_forward(0, 0, -1), m_position(pos), m_rotation(0, 0), m_up(0, 1, 0),
-        m_speed(0, 0, 0), m_tryMoving(0, 0, 0), m_aspect(aspect),
-        m_fov(fov * static_cast<float>(M_PI) / 180.f), m_zNear(zNear),
-        m_zFar(zFar)
+        m_boost(1.0f), m_speed(0, 0, 0), m_tryMoving(0, 0, 0),
+        m_aspect(aspect), m_fov(fov * static_cast<float>(M_PI) / 180.f),
+        m_zNear(zNear), m_zFar(zFar)
   {
   }
 
   Camera::Camera(Camera const &that)
       : m_perspective(that.m_perspective), m_forward(that.m_forward),
         m_position(that.m_position), m_rotation(that.m_rotation),
-        m_up(that.m_up), m_speed(that.m_speed), m_tryMoving(that.m_tryMoving), m_aspect(that.m_aspect), m_fov(that.m_fov),
-        m_zNear(that.m_zNear), m_zFar(that.m_zFar)
+        m_up(that.m_up), m_boost(that.m_boost), m_speed(that.m_speed),
+        m_tryMoving(that.m_tryMoving), m_aspect(that.m_aspect),
+        m_fov(that.m_fov), m_zNear(that.m_zNear), m_zFar(that.m_zFar)
   {
   }
 
@@ -27,7 +28,8 @@ namespace zappy
         m_forward(std::move(that.m_forward)),
         m_position(std::move(that.m_position)),
         m_rotation(std::move(that.m_rotation)), m_up(std::move(that.m_up)),
-	m_speed(std::move(that.m_speed)), m_tryMoving(std::move(that.m_tryMoving)),
+        m_boost(std::move(that.m_boost)), m_speed(std::move(that.m_speed)),
+        m_tryMoving(std::move(that.m_tryMoving)),
         m_aspect(std::move(that.m_aspect)), m_fov(std::move(that.m_fov)),
         m_zNear(std::move(that.m_zNear)), m_zFar(std::move(that.m_zFar))
   {
@@ -46,6 +48,7 @@ namespace zappy
     m_position = that.m_position;
     m_rotation = that.m_rotation;
     m_up = that.m_up;
+    m_boost = that.m_boost;
     m_speed = that.m_speed;
     m_tryMoving = that.m_tryMoving;
     m_aspect = that.m_aspect;
@@ -64,6 +67,7 @@ namespace zappy
     m_position = std::move(that.m_position);
     m_rotation = std::move(that.m_rotation);
     m_up = std::move(that.m_up);
+    m_boost = std::move(that.m_boost);
     m_speed = std::move(that.m_speed);
     m_tryMoving = std::move(that.m_tryMoving);
     m_aspect = std::move(that.m_aspect);
@@ -135,7 +139,7 @@ namespace zappy
 
   void Camera::updateForward()
   {
-	  constexpr float max = 89.9f;
+    constexpr float max = 89.9f;
 
     if (m_rotation.y > max)
       {
@@ -170,17 +174,23 @@ namespace zappy
     m_tryMoving.z += move;
   }
 
-  void Camera::updatePosition()
+  void Camera::updatePosition(double sinceLast)
   {
-    constexpr float alpha = 0.1f;
+    constexpr float alpha = 0.05f;
 
     glm::vec3 forward = glm::normalize(m_forward);
     glm::vec3 right = glm::normalize(glm::cross(m_forward, m_up));
     glm::vec3 up = glm::normalize(glm::cross(forward, right));
     glm::vec3 total =
         forward * m_tryMoving.x + right * m_tryMoving.y + up * m_tryMoving.z;
+    // total *= static_cast<float>(sinceLast);
 
     m_speed = alpha * total + (1 - alpha) * m_speed;
-    this->translate(m_speed);
+    this->translate(m_speed * static_cast<float>(sinceLast) * m_boost);
+  }
+
+  void Camera::moveBoost(float boost)
+  {
+    m_boost = boost;
   }
 }

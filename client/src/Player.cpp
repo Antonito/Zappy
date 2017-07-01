@@ -4,7 +4,8 @@ namespace zappy
 {
   Player::Player()
       : m_mesh(Model::fromObj("./models/player.obj")), m_x(0), m_y(0),
-        m_orientation(), m_level(1), m_position(0, 0, 0), m_speed(0, 0, 0)
+        m_orientation(), m_level(1), m_position(0, 0, 0), m_speed(0, 0, 0),
+        m_lastPower(0), m_lastDir(0), m_lastPos(0, 0, 0)
   {
     m_mesh.scale(1.2);
   }
@@ -12,7 +13,7 @@ namespace zappy
   Player::Player(Player const &that)
       : m_mesh(that.m_mesh), m_x(that.m_x), m_y(that.m_y),
         m_orientation(that.m_orientation), m_level(that.m_level),
-        m_position(that.m_position), m_speed(that.m_speed)
+        m_position(that.m_position), m_speed(that.m_speed), m_lastPower(that.m_lastPower), m_lastDir(that.m_lastDir), m_lastPos(that.m_lastPos)
   {
   }
 
@@ -21,7 +22,10 @@ namespace zappy
         m_y(std::move(that.m_y)), m_orientation(std::move(that.m_orientation)),
         m_level(std::move(that.m_level)),
         m_position(std::move(that.m_position)),
-        m_speed(std::move(that.m_speed))
+        m_speed(std::move(that.m_speed)),
+	m_lastPower(std::move(that.m_lastPower)),
+	m_lastDir(std::move(that.m_lastDir)),
+	m_lastPos(std::move(that.m_lastPos))
   {
   }
 
@@ -40,6 +44,9 @@ namespace zappy
     m_level = that.m_level;
     m_position = that.m_position;
     m_speed = that.m_speed;
+    m_lastPower = that.m_lastPower;
+    m_lastDir = that.m_lastDir;
+    m_lastPos = that.m_lastPos;
     return (*this);
   }
 
@@ -54,6 +61,9 @@ namespace zappy
     m_level = std::move(that.m_level);
     m_position = std::move(that.m_position);
     m_speed = std::move(that.m_speed);
+    m_lastPower = std::move(that.m_lastPower);
+    m_lastDir = std::move(that.m_lastDir);
+    m_lastPos = std::move(that.m_lastPos);
     return (*this);
   }
 
@@ -113,7 +123,7 @@ namespace zappy
     m_position = glm::vec3(-static_cast<float>(x), 0.5f, y);
   }
 
-  void Player::updatePosition()
+  void Player::updatePosition(double sinceLast)
   {
     if (glm::length(m_mesh.position() - m_position) < 0.01f)
       {
@@ -122,11 +132,11 @@ namespace zappy
       }
     else
       {
-	constexpr float alpha = 0.1f;
+	constexpr float alpha = 5.0f;
 
 	glm::vec3 diff = m_position - m_mesh.position();
 
-	m_mesh.translate(alpha * diff);
+	m_mesh.translate(alpha * diff * static_cast<float>(sinceLast));
       }
   }
 
@@ -143,6 +153,32 @@ namespace zappy
   void Player::setColor(glm::vec4 const &color)
   {
     m_mesh.setColor(color);
+  }
+
+  bool Player::isLightUpToDate(std::size_t power, std::size_t dir,
+                               glm::vec3 const &pos) const
+  {
+    bool upToDate = true;
+
+    if (power != m_lastPower)
+      {
+	m_lastPower = power;
+	upToDate = false;
+      }
+
+    if (dir != m_lastDir)
+      {
+	m_lastDir = dir;
+	upToDate = false;
+      }
+
+    if (pos != m_lastPos)
+      {
+	m_lastPos = pos;
+	upToDate = false;
+      }
+
+    return (upToDate);
   }
 
   std::ostream &operator<<(std::ostream &os, Player::Orientation const &o)
