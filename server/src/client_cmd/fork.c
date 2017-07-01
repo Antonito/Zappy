@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Sat Jul  1 17:34:01 2017 Antoine Baché
+** Last update Sat Jul  1 21:10:52 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -23,7 +23,7 @@
 #include "zappy_team.h"
 #include "zappy_time.h"
 
-static void		zappy_client_hatch_egg(t_zappy_client * const cli,
+void			zappy_client_hatch_egg(t_zappy_client * const cli,
 					       t_zappy * const data,
 					       char const * const arg)
 {

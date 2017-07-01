@@ -5,12 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:55 2017 Antoine Baché
-** Last update Sat Jul  1 17:58:36 2017 Antoine Baché
+** Last update Sat Jul  1 18:43:43 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_H_
 #define ZAPPY_H_
 
+#include <stdint.h>
+#include <stdbool.h>
 #include "zappy_admin.h"
 #include "zappy_config.h"
 #include "zappy_socket.h"
@@ -44,7 +46,8 @@ typedef struct			s_zappy
   t_cqueue			*glob_events;
   t_zappy_socket		net;
   t_zappy_admin			admin;
-  uint8_t			padding[4];
+  bool				should_reset;
+  uint8_t			padding[3];
 }				t_zappy;
 
 int32_t		zappy_parse_args(int const ac,

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 21:50:09 2017 Antoine Baché
-** Last update Tue Jun 27 09:14:54 2017 Antoine Baché
+** Last update Sat Jul  1 20:56:28 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -17,11 +17,36 @@
 
 static t_zappy_admin_cmd const	zappy_admin_commands[] =
   {
-    { &zappy_admin_cmd_help, "help", sizeof("help") },
-    { &zappy_admin_cmd_stop, "stop", sizeof("stop") },
-    { &zappy_admin_cmd_info, "info", sizeof("info") },
-    { &zappy_admin_cmd_inc_freq, "inc", sizeof("inc") },
-    { &zappy_admin_cmd_dec_freq, "dec", sizeof("dec") }
+    { &zappy_admin_cmd_help,
+      "help", sizeof("help") },
+    { &zappy_admin_cmd_stop,
+      "stop", sizeof("stop") },
+    { &zappy_admin_cmd_info,
+      "info", sizeof("info") },
+    { &zappy_admin_cmd_inc_freq,
+      "inc", sizeof("inc") },
+    { &zappy_admin_cmd_dec_freq,
+      "dec", sizeof("dec") },
+    { &zappy_admin_cmd_reset,
+      "reset", sizeof("reset") },
+    { &zappy_admin_cmd_res_rand,
+      "spawn rand", sizeof("spawn rand") },
+    { &zappy_admin_cmd_res_food,
+      "spawn food", sizeof("spawn food") },
+    { &zappy_admin_cmd_res_linemate,
+      "spawn linemate", sizeof("spawn linemate") },
+    { &zappy_admin_cmd_res_deraumere,
+      "spawn deraumere", sizeof("spawn deraumere") },
+    { &zappy_admin_cmd_res_sibur,
+      "spawn sibur", sizeof("spawn sibur") },
+    { &zappy_admin_cmd_res_mendiane,
+      "spawn mendiane", sizeof("spawn mendiane") },
+    { &zappy_admin_cmd_res_phiras,
+      "spawn phiras", sizeof("spawn phiras") },
+    { &zappy_admin_cmd_res_thystame,
+      "spawn thystame", sizeof("spawn thystame") },
+    { &zappy_admin_cmd_egg,
+      "spawn egg", sizeof("spawn egg") }
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert

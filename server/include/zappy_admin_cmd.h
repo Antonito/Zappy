@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:27:51 2017 Antoine Baché
-** Last update Mon Jun 26 23:35:35 2017 Antoine Baché
+** Last update Sat Jul  1 20:58:48 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_CMD_H_
@@ -25,6 +25,16 @@ typedef enum		e_zappy_admin_cmd_list
     ADM_INFO,
     ADM_INC,
     ADM_DEC,
+    ADM_RESET,
+    ADM_RES_RAND,
+    ADM_RES_FOOD,
+    ADM_RES_LINEMATE,
+    ADM_RES_DERAUMERE,
+    ADM_RES_SIBUR,
+    ADM_RES_MENDIANE,
+    ADM_RES_PHIRAS,
+    ADM_RES_THYSTAME,
+    ADM_SPAWN_EGG,
     NB_ADM_CMD
   }			t_zappy_admin_cmd_list;
 
@@ -47,7 +57,24 @@ typedef struct		s_zappy_admin_cmd
 void			zappy_admin_cmd_help(t_zappy * const data);
 void			zappy_admin_cmd_stop(t_zappy * const data);
 void			zappy_admin_cmd_info(t_zappy * const data);
+void			zappy_admin_cmd_info_team(t_zappy * const data);
+void			zappy_admin_cmd_reset(t_zappy * const data);
 void			zappy_admin_cmd_inc_freq(t_zappy * const data);
 void			zappy_admin_cmd_dec_freq(t_zappy * const data);
+void			zappy_admin_cmd_egg(t_zappy * const data);
+
+/*
+** Resources commands
+*/
+void			zappy_admin_cmd_res(t_zappy * const data,
+					    int32_t const res);
+void			zappy_admin_cmd_res_rand(t_zappy * const data);
+void			zappy_admin_cmd_res_food(t_zappy * const data);
+void			zappy_admin_cmd_res_linemate(t_zappy * const data);
+void			zappy_admin_cmd_res_deraumere(t_zappy * const data);
+void			zappy_admin_cmd_res_sibur(t_zappy * const data);
+void			zappy_admin_cmd_res_mendiane(t_zappy * const data);
+void			zappy_admin_cmd_res_phiras(t_zappy * const data);
+void			zappy_admin_cmd_res_thystame(t_zappy * const data);
 
 #endif /* !ZAPPY_ADMIN_CMD_H_ */

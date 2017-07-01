@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Thu Jun 29 18:28:42 2017 Antoine Baché
+** Last update Sat Jul  1 18:45:55 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -52,18 +52,11 @@ void	zappy_admin_cmd_stop(t_zappy * const data)
   exit(0);
 }
 
-void	zappy_admin_cmd_info(t_zappy * const data)
+void	zappy_admin_cmd_reset(t_zappy * const data)
 {
   assert(data && data->admin.authenticated == true);
-  LOG(LOG_DEBUG, "Treating Admin command info");
-  dprintf(data->admin.client.sock,
-	  "Port:      %d\n"
-	  "Freq:      %d\n"
-	  "Dimension: %dx%d\n"
-	  "%d clients.\n",
-	  data->conf.port, data->conf.freq,
-	  data->conf.world_width, data->conf.world_height,
-	  data->clients.nb_clients);
+  LOG(LOG_DEBUG, "Treating Admin command reset");
+  data->should_reset = true;
 }
 
 void	zappy_admin_cmd_inc_freq(t_zappy * const data)
