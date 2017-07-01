@@ -135,13 +135,15 @@ namespace zappy
 
   void Camera::updateForward()
   {
-    if (m_rotation.y > 90.0f)
+	  constexpr float max = 89.9f;
+
+    if (m_rotation.y > max)
       {
-	m_rotation.y = 89.9f;
+	m_rotation.y = max;
       }
-    else if (m_rotation.y < -90.0f)
+    else if (m_rotation.y < -max)
       {
-	m_rotation.y = -89.9f;
+	m_rotation.y = -max;
       }
 
     glm::vec3 dir = glm::rotate(
@@ -172,9 +174,9 @@ namespace zappy
   {
     constexpr float alpha = 0.1f;
 
-    glm::vec3 forward = m_forward;
-    glm::vec3 right = glm::cross(m_forward, m_up);
-    glm::vec3 up = glm::cross(forward, right);
+    glm::vec3 forward = glm::normalize(m_forward);
+    glm::vec3 right = glm::normalize(glm::cross(m_forward, m_up));
+    glm::vec3 up = glm::normalize(glm::cross(forward, right));
     glm::vec3 total =
         forward * m_tryMoving.x + right * m_tryMoving.y + up * m_tryMoving.z;
 
