@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Fri Jun 30 21:14:48 2017 Antoine Baché
+** Last update Sat Jul  1 11:24:33 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,7 +48,7 @@ void			zappy_graph_pnw(t_zappy_client * const cli,
   (void)data;
   (void)arg;
   p = g->ptr;
-  if (p->graphical)
+  if (p->graphical || !p->game.team_name)
     return ;
   msg = zappy_alloc_message();
   if (msg)

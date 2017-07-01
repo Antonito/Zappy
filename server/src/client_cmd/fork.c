@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Sat Jul  1 11:13:21 2017 Antoine Baché
+** Last update Sat Jul  1 11:20:01 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -65,9 +65,10 @@ static void		zappy_client_post_fork(t_zappy_client * const cli,
   egg = zappy_egg_add(data, cli->game.team_id, now);
   if (egg)
     {
+      egg->player_id = cli->id;
       egg->x = cli->game.x;
       egg->y = cli->game.y;
-      g = (t_zappy_graph_arg){cli, egg->id, 0 };
+      g = (t_zappy_graph_arg){ egg, 0, 0 };
       zappy_graph_send(&g, data, NULL, &zappy_graph_enw);
       resp = zappy_alloc_serial();
       if (resp)
