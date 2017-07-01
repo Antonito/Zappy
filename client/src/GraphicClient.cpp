@@ -146,7 +146,8 @@ namespace zappy
 
 	if (x != _x || y != _y)
 	  {
-	    m_camera.rotate((x - _x) * sensibility, (y - _y) * sensibility);
+	    m_camera.rotate(static_cast<float>(x - _x) * sensibility,
+	                    static_cast<float>(y - _y) * sensibility);
 	    sf::Mouse::setPosition(
 	        sf::Vector2i(static_cast<int>(_x), static_cast<int>(_y)),
 	        m_win.win());
