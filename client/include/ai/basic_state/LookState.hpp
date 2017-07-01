@@ -28,6 +28,10 @@ namespace ai
     virtual void reset(Value value);
     virtual Value getResponse() const;
 
+    std::pair<std::int32_t, std::int32_t> getDirection(std::int32_t) const;
+    std::int32_t findFood() const;
+    std::int32_t findStone() const;
+
     //std::vetor<std::map<std::string, std::int32_t>> &getCases() const;
 
   private:

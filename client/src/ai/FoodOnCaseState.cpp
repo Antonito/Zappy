@@ -19,7 +19,7 @@ namespace ai
     Value ret = m_states[BasicState::LOOK]->getResponse();
     if (ret == Value::YES)
       {
-	if (m_states[BasicState::LOOK]->findFood() == 0)
+	if (static_cast<LookState *>(m_states[BasicState::LOOK])->findFood() == 0)
 	  {
 	    m_curValue = Value::YES;
 	  }

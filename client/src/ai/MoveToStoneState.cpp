@@ -78,8 +78,8 @@ namespace ai
     nope::log::Log(Debug) << "MoveToStoneState reset";
     m_curValue = Value::LOOP;
     m_retValue = value;
-    std::int32_t pos = m_states[BasicState::LOOK]->getStoneCase();
-    m_direction = m_states[BasicState::LOOK]->getDirection(pos);
+    std::int32_t pos = static_cast<LookState *>(m_states[BasicState::LOOK])->findStone();
+    m_direction = static_cast<LookState *>(m_states[BasicState::LOOK])->getDirection(pos);
     m_first = true;
     m_second = false;
     m_canWrite = true;

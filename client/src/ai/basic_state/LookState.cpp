@@ -17,16 +17,16 @@ namespace ai
     {
       return ;
     }
-    std::string iss = readQueue.front();
+    std::string msg = readQueue.front();
     readQueue.pop();
-    if (iss == "ko\n")
+    if (msg == "ko\n")
     {
       nope::log::Log(Debug) << "(WARNING) Write Failed !";
       m_value = Value::NO;
     }
 
     m_cases.clear();
-    std::string res(iss);
+    std::string res(msg);
     std::cout << res << std::endl;
     std::replace(res.begin(), res.end(), '[', ',');
     std::replace(res.begin(), res.end(), ']', ',');
@@ -77,8 +77,39 @@ namespace ai
   {
     return (m_value);
   }
+
+  std::pair<std::int32_t, std::int32_t> LookState::getDirection(std::int32_t pos) const
+  {
+    int32_t x = 0, y = 0, mid = 0;
+
+    for (y = 0; pos > mid + y; ++y)
+      {
+	mid += 2 * y;
+      }
+    x = pos - mid;
+    std::pair<std::int32_t, std::int32_t> res = {x, y};
+    return (res);
+  }
+
+  std::int32_t LookState::findFood() const
+  {
+    for (std::size_t i = 0; i < m_cases.size(); ++i)
+    {
+      if (m_cases[i].at("food") != 0)
+        return (static_cast<std::int32_t>(i));
+    }
+    return (-1);
+  }
+
+  std::int32_t LookState::findStone() const
+  {
+    for (std::size_t i = 0; i < m_cases.size(); ++i)
+    {
+      //TODO : set correct stone
+      if (m_cases[i].at("sibur") != 0)
+        return (static_cast<std::int32_t>(i));
+    }
+    return (-1);
+  }
 }
 
-
-//TODO remove
-//[ player mendiane mendiane,, food, food food linemate phiras
