@@ -229,8 +229,11 @@ namespace ai
         }
         else if (res.find("message") == 0)
         {
-          nope::log::Log(Debug) << "recv Broadcast";
-          m_cmdMSG.push(res);
+          if (res != m_cmdMSG.front())
+          {
+            nope::log::Log(Debug) << "recv Broadcast";
+            m_cmdMSG.push(res);
+          }
         }
         else
         {
