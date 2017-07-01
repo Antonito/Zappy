@@ -2,6 +2,7 @@
 #define LOOKSTATE_HPP_
 
 #include <iostream>
+#include <vector>
 #include "ai/IState.hpp"
 
 #if defined(__clang__)
@@ -31,8 +32,7 @@ namespace ai
 
   private:
     Value m_value;
-    //std::vetor<std::map<std::string, std::int32_t>> m_cases;
-    std::vector<std::vector<std::string>> m_cases;
+    std::vector<std::map<std::string, std::int32_t>> m_cases;
   };
 }
 

@@ -21,22 +21,42 @@ namespace ai
     readQueue.pop();
     if (iss == "ko\n")
     {
-	nope::log::Log(Debug) << "(WARNING) Write Failed !";
-	m_value = Value::NO;
+      nope::log::Log(Debug) << "(WARNING) Write Failed !";
+      m_value = Value::NO;
     }
 
+    m_cases.clear();
+    std::string res(iss);
+    std::cout << res << std::endl;
+    std::replace(res.begin(), res.end(), '[', ',');
+    std::replace(res.begin(), res.end(), ']', ',');
     std::stringstream ss;
-    std::string trash;
-    ss << iss;
-
-    std::string res;
-
-    while (res != "]")
+    ss << res;
+    std::string toto;
+    std::istringstream split(res);
+    std::vector<std::string> tokens;
+    std::vector<std::map<std::string, std::int32_t> > cases;
+    for (std::string each; std::getline(split, each, ','); tokens.push_back(each));
+    for (std::size_t i = 0; i < tokens.size(); ++i)
     {
-      if (res == ",")
+      if (i == 0)
+        continue;
+      std::map<std::string, std::int32_t> mapTemp;
+      mapTemp["player"] = 0;
+      mapTemp["food"] = 0;
+      mapTemp["linemate"] = 0;
+      mapTemp["deraumere"] = 0;
+      mapTemp["sibur"] = 0;
+      mapTemp["mendiane"] = 0;
+      mapTemp["phiras"] = 0;
+      mapTemp["thystame"] = 0;
+      std::stringstream iss(tokens[i]);
+      std::string resource;
+      while (iss >> resource)
       {
+        mapTemp[resource] += 1;
       }
-      ss >> res;
+      m_cases.push_back(std::move(mapTemp));
     }
     m_value = Value::YES;
   }
