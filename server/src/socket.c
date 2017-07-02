@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:07:39 2017 Antoine Baché
-** Last update Fri Jun 23 23:00:39 2017 Antoine Baché
+** Last update Sun Jul  2 20:45:41 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -46,7 +46,7 @@ static int32_t	zappy_socket_host(t_zappy_socket * const data)
 int32_t		zappy_create_socket(uint16_t const port,
 				   t_zappy_socket * const data)
 {
-  int32_t	rc;
+  t_sock	rc;
 
   zappy_socket_init_addr(port, &data->addr);
   data->sock = socket(AF_INET, SOCK_STREAM, 0);
