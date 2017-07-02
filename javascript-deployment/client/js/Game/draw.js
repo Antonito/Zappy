@@ -314,8 +314,8 @@ function DrawCellEgg(egg, x, y) {
         (0 <= pos_y && pos_y < 10)) {
 
         var image = resources_layer.create(
-            shiftX + pos_x * 100 + SPRITES_POSITION.MOB.X,
-            shiftY + pos_y * 100 + SPRITES_POSITION.MOB.Y,
+            shiftX + pos_x * 100 + SPRITES_POSITION.EGG.X,
+            shiftY + pos_y * 100 + SPRITES_POSITION.EGG.Y,
             'egg');
 
         ScaleImage(
