@@ -14,7 +14,10 @@ namespace ai
   {
     nope::log::Log(Debug) << "Right[READ]BasicState";
     if (readQueue.empty())
+    {
+      m_value = Value::NO;
       return;
+    }
     std::string res = readQueue.front();
     if (res != "ok\n")
       {

@@ -14,13 +14,18 @@ namespace ai
   {
     nope::log::Log(Debug) << "Fork[READ]BasicState";
     if (readQueue.empty())
+    {
+      m_value = Value::NO;
       return;
+    }
     std::string res = readQueue.front();
+    readQueue.pop();
     if (res != "ok\n")
       {
 	nope::log::Log(Debug) << "(WARNING) Fork Failed !";
+        m_value = Value::NO;
       }
-    readQueue.pop();
+    m_value = Value::YES;
   }
 
   void ForkState::writeState(std::queue<std::string> &writeQueue)

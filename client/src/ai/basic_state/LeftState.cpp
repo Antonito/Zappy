@@ -14,15 +14,18 @@ namespace ai
   {
     nope::log::Log(Debug) << "Left[READ]BasicState";
     if (readQueue.empty())
+    {
+      m_value = Value::NO;
       return;
+    }
     std::string res = readQueue.front();
+    readQueue.pop();
     if (res != "ok\n")
       {
 	nope::log::Log(Debug) << "(WARNING) Left Failed !";
 	m_value = Value::NO;
       }
     m_value = Value::YES;
-    readQueue.pop();
   }
 
   void LeftState::writeState(std::queue<std::string> &writeQueue)

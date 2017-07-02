@@ -15,6 +15,7 @@ namespace ai
     nope::log::Log(Debug) << "Look[READ]BasicState";
     if (readQueue.empty())
       {
+        m_value = Value::NO;
 	return;
       }
     std::string msg = readQueue.front();

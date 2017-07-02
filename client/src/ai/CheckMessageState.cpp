@@ -16,8 +16,10 @@ namespace ai
   void CheckMessageState::readState(std::queue<std::string> &readQueue)
   {
     nope::log::Log(Debug) << "CheckMessage[READ]State";
+    m_states[BasicState::INVENTORY]->readState(readQueue);
     if (m_player.getMSG().empty())
       {
+        m_curValue = Value::NO;
 	return;
       }
     std::int32_t dir = 0;
@@ -71,12 +73,12 @@ namespace ai
 	  }
 	else
 	  {
-	    m_curValue = Value::NO;
 	    nope::log::Log(Error) << "Wrong message";
 	  }
       }
     else
       {
+        m_curValue = Value::NO;
 	nope::log::Log(Info) << "not a message for me";
       }
   }
@@ -84,6 +86,8 @@ namespace ai
   void CheckMessageState::writeState(std::queue<std::string> &writeQueue)
   {
     nope::log::Log(Debug) << "CheckMessage[WRITE]State";
+    m_states[BasicState::INVENTORY]->writeState(writeQueue);
+    m_canWrite = false;
   }
 
   void CheckMessageState::reset(Value value)

@@ -137,7 +137,7 @@ int main(int ac, char **av, char **env)
 	}
       else
       {
-        ai::AI ai("127.0.0.1", 4242);
+        ai::AI ai(machine, port);
         //ai.run();
       }
     }

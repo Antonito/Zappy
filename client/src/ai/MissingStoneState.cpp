@@ -38,7 +38,7 @@ namespace ai
     nope::log::Log(Debug) << "MissingStone[WRITE]State";
     m_states[BasicState::INVENTORY]->reset(Value::NO);
     m_states[BasicState::INVENTORY]->writeState(writeQueue);
-    m_canWrite = true;
+    m_canWrite = false;
   }
 
   void MissingStoneState::reset(Value value)
