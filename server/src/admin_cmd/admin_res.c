@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sat Jul  1 22:27:36 2017 Antoine Baché
+** Last update Sun Jul  2 03:37:41 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -40,6 +40,7 @@ void			zappy_admin_cmd_res(t_zappy * const data,
   y = rand() % data->map.height;
   dprintf(data->admin.client.sock, "Spawned %s at %dx%d\n",
 	  zappy_get_resource_by_id(res), x, y);
+  ++data->map.data[y][x].content[res];
   zappy_admin_update_case(x, y, data);
 }
 
