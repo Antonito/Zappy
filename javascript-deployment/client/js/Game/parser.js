@@ -39,6 +39,33 @@ var symbolsFunctions = {
         }
     },
 
+    "ppo": function(args) {
+
+        var params = args.split(" ");
+
+        if (raw_mobs_list.find((e) => { return e.id == params[1]; }) == undefined) {
+            console.log("creating mob with id : ", params[1]);
+            raw_mobs_list.push({
+                'id': params[1],
+                'X': params[2],
+                'Y': params[3],
+                'O': params[4],
+                'L': 1,
+                'food': 0,
+                'linemate': 0,
+                'deraumere': 0,
+                'sibur': 0,
+                'mendiane': 0,
+                'phiras': 0,
+                'thystame': 0,
+            });
+        } else {
+            raw_mobs_list.find((e) => { return e.id == params[1]; }).X = params[2];
+            raw_mobs_list.find((e) => { return e.id == params[1]; }).Y = params[3];
+            raw_mobs_list.find((e) => { return e.id == params[1]; }).O = params[4];
+        }
+    },
+
 }
 
 var parseData = function(data) {
