@@ -145,7 +145,7 @@ namespace network
 
     // TODO: Remove useless debug log, do while should be one level above (use
     // header informations)
-    nope::log::Log(Debug) << "recblocking Rlen -> " << rlen;
+    nope::log::Log(Trace) << "recblocking Rlen -> " << rlen;
     do
       {
 #if defined(__linux__) || defined(__APPLE__)
@@ -156,13 +156,13 @@ namespace network
 #endif
       }
     while (*buffLen == -1 && errno == EINTR);
-    nope::log::Log(Debug) << "recblocking BuffLen -> " << *buffLen;
+    nope::log::Log(Trace) << "recblocking BuffLen -> " << *buffLen;
     if (*buffLen <= 0)
       {
-	nope::log::Log(Debug) << "recBlocking -> <= 0 [TCP]";
+	nope::log::Log(Trace) << "recBlocking -> <= 0 [TCP]";
 	return (!*buffLen);
       }
-    nope::log::Log(Debug) << "Read " << *buffLen << "/" << rlen;
+    nope::log::Log(Trace) << "Read " << *buffLen << "/" << rlen;
     return (true);
   }
 

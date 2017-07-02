@@ -282,10 +282,11 @@ namespace ai
 
   Value AI::moveToFood(Value)
   {
-    nope::log::Log(Debug) << "STATE : MoveToFood";
     std::pair<std::int32_t, std::int32_t> dir =
         m_player.getDirection(m_player.getFoodTarget());
 
+    nope::log::Log(Debug) << "STATE : MoveToFood (" << dir.first << ", "
+                          << dir.second << ')';
     if (m_player.moveTo(dir.first, dir.second))
       {
 	m_player.setFoodTarget(0);
