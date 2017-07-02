@@ -12,47 +12,47 @@ class SpawnViewController: UIViewController {
 
     @IBAction func spawnRandomAction(_ sender: Any) {
         print("Spawn random resource")
-        NetworkManager.sharedInstance.send(msg: "spawn rand")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn rand")
     }
 
     @IBAction func spawnLinemateAction(_ sender: Any) {
         print("Spawn linemate resource")
-        NetworkManager.sharedInstance.send(msg: "spawn linemate")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn linemate")
     }
     
     @IBAction func spawnPhirasAction(_ sender: Any) {
         print("Spawn phiras resource")
-        NetworkManager.sharedInstance.send(msg: "spawn phiras")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn phiras")
     }
     
     @IBAction func spawnFoodAction(_ sender: Any) {
         print("Spawn food resource")
-        NetworkManager.sharedInstance.send(msg: "spawn food")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn food")
     }
     
     @IBAction func spawnDeraumereAction(_ sender: Any) {
         print("Spawn deraumere resource")
-        NetworkManager.sharedInstance.send(msg: "spawn deraumere")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn deraumere")
     }
     
     @IBAction func spawnThystameAction(_ sender: Any) {
         print("Spawn thystame resource")
-        NetworkManager.sharedInstance.send(msg: "spawn thystame")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn thystame")
     }
     
     @IBAction func spawnSiburAction(_ sender: Any) {
         print("Spawn sibur resource")
-        NetworkManager.sharedInstance.send(msg: "spawn sibur")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn sibur")
     }
     
     @IBAction func spawnMendianeAction(_ sender: Any) {
         print("Spawn mendiane resource")
-        NetworkManager.sharedInstance.send(msg: "spawn mendiane")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn mendiane")
     }
     
     @IBAction func spawnEggAction(_ sender: Any) {
         print("Spawn egg")
-        NetworkManager.sharedInstance.send(msg: "spawn egg")
+        _ = NetworkManager.sharedInstance.send(msg: "spawn egg")
     }
     
     override func viewDidLoad() {

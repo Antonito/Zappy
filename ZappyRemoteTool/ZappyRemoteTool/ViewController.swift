@@ -20,8 +20,8 @@ class ViewController: UIViewController {
         if zappyServer.text != nil && zappyPort.text != nil && zappyPassword.text != nil {
             print("Server and port OK")
             // TODO: rm
-            //zappyServer.text = "10.10.253.98"
-            //zappyPort.text = "4243"
+            zappyServer.text = "10.10.253.98"
+            zappyPort.text = "4243"
             if NetworkManager.sharedInstance.connect(address: zappyServer.text!, port: UInt16(zappyPort.text!)!) {
                 print("Connected to server.")
                 let password = "aSuperWeakAndUnsafePassword" // zappyPassword.text!

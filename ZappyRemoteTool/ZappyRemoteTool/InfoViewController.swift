@@ -9,6 +9,45 @@
 import UIKit
 
 class InfoViewController: UIViewController {
+    
+    @IBAction func decFreqAction(_ sender: Any) {
+        print("Decreasing server's frequency")
+        _ = NetworkManager.sharedInstance.send(msg: "dec")
+    }
+    
+    @IBAction func incFreqAction(_ sender: Any) {
+        print("Increasing server's frequency")
+        _ = NetworkManager.sharedInstance.send(msg: "inc")
+
+    }
+    
+    @IBOutlet weak var broadcastDistance: UITextField!
+    @IBOutlet weak var broadcastMessage: UITextField!
+    
+    @IBAction func broadcastAction(_ sender: Any) {
+        if broadcastMessage.text != nil && broadcastDistance.text != nil {
+            let msg = broadcastDistance.text! + broadcastMessage.text!;
+            print("Broadcasting to client: " + msg)
+            _ = NetworkManager.sharedInstance.send(msg: "broadcast " + msg)
+            broadcastMessage.text = ""
+            broadcastDistance.text = ""
+        }
+    }
+    
+    @IBAction func resetAction(_ sender: Any) {
+        print("Resetting server")
+        _ = NetworkManager.sharedInstance.send(msg: "reset")
+        NetworkManager.sharedInstance.disconnect()
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "MainMenu") as! ViewController
+        self.present(newViewController, animated: true, completion: nil)
+
+    }
+    
+    @IBAction func stopAction(_ sender: Any) {
+        print("Stopping server")
+        _ = NetworkManager.sharedInstance.send(msg: "stop")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +64,6 @@ class InfoViewController: UIViewController {
         case .failure(let err):
             print(err)
             return ;
-            break;
         }
         let data = NetworkManager.sharedInstance.read(1024 * 10)
         if let d = data {

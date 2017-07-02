@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Sat Jul  1 23:39:17 2017 Antoine Baché
+** Last update Sun Jul  2 04:46:18 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -93,8 +93,8 @@ void	zappy_admin_cmd_inc_freq(t_zappy * const data,
   assert(data && data->admin.authenticated == true);
   LOG(LOG_DEBUG, "Treating Admin command inc");
   data->conf.freq += 10;
-  if (data->conf.freq > 10000)
-    data->conf.freq = 10000;
+  if (data->conf.freq > 1000)
+    data->conf.freq = 1000;
   zappy_network_write(&data->admin.client, "OK\n", sizeof("OK\n") - 1);
 }
 

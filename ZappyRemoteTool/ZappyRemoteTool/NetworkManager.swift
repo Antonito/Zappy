@@ -30,9 +30,9 @@ class NetworkManager {
         return ret
     }
     
-    func disconnected() {
+    func disconnect() {
         client!.close()
-    }
+     }
     
     func read(_ len: Int) -> [Byte]? {
         return client!.read(len)
