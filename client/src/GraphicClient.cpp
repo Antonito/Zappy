@@ -57,10 +57,10 @@ namespace zappy
 	std::chrono::time_point<std::chrono::high_resolution_clock> curFrame =
 	    std::chrono::high_resolution_clock::now();
 
-	std::size_t sinceLast_ =
+	std::size_t sinceLast_ = static_cast<std::size_t>(
 	    std::chrono::duration_cast<std::chrono::milliseconds>(curFrame -
 	                                                          m_lastFrame)
-	        .count();
+	        .count());
 	double sinceLast = static_cast<double>(sinceLast_) / 1000.0;
 
 	while (m_win.pollEvent(event))
@@ -105,20 +105,20 @@ namespace zappy
 	    m_win.draw(m_camera, egg.second);
 	  }
 
-	for (std::size_t i = 0; i < m_players.size(); ++i)
+	for (std::size_t j = 0; j < m_players.size(); ++j)
 	  {
-	    if (m_players[i].get() == nullptr)
+	    if (m_players[j].get() == nullptr)
 	      {
 		continue;
 	      }
 
 	    if (m_camMode == Camera::Mode::FirstPerson &&
-	        static_cast<int>(i) == m_focus)
+	        static_cast<int>(j) == m_focus)
 	      {
 		continue;
 	      }
 
-	    m_players[i]->renderOn(m_win, m_camera);
+	    m_players[j]->renderOn(m_win, m_camera);
 	  }
 
 	// Display the window
@@ -166,12 +166,12 @@ namespace zappy
 	    else
 	      {
 		if (m_focus < static_cast<int>(m_players.size()) &&
-		    m_players[m_focus].get() != nullptr)
+		    m_players[static_cast<std::size_t>(m_focus)].get() != nullptr)
 		  {
 		    m_camera.translate(glm::vec3(0.0f, 0.6f, 0.0f));
 		    m_camera.setAim(m_camera.position() +
 		                    glm::vec3(0.0f, 1.0f, 0.0f) -
-		                    m_players[m_focus]->direction());
+		                    m_players[static_cast<std::size_t>(m_focus)]->direction());
 		  }
 		m_camMode = Camera::Mode::FreeCam;
 	      }
@@ -858,7 +858,7 @@ namespace zappy
       {
 	if (m_eggs[i].first == eggId)
 	  {
-	    m_eggs.erase(m_eggs.begin() + i);
+	    m_eggs.erase(m_eggs.begin() + static_cast<long>(i));
 	    break;
 	  }
       }
@@ -1069,7 +1069,7 @@ namespace zappy
   {
     m_focus = std::max(-1, m_focus - 1);
 
-    while (m_focus >= 0 && m_players[m_focus].get() == nullptr)
+    while (m_focus >= 0 && m_players[static_cast<std::size_t>(m_focus)].get() == nullptr)
       {
 	--m_focus;
       }
@@ -1079,7 +1079,7 @@ namespace zappy
 	m_focus = static_cast<int>(m_players.size()) - 1;
       }
 
-    while (m_focus >= 0 && m_players[m_focus].get() == nullptr)
+    while (m_focus >= 0 && m_players[static_cast<std::size_t>(m_focus)].get() == nullptr)
       {
 	--m_focus;
       }
@@ -1090,7 +1090,7 @@ namespace zappy
       }
     else
       {
-	m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+	m_camera.setCameraFocus(m_players[static_cast<std::size_t>(m_focus)].get(), m_camMode);
       }
   }
 
@@ -1099,7 +1099,7 @@ namespace zappy
     m_focus = std::min(static_cast<int>(m_players.size()), m_focus + 1);
 
     while (m_focus < static_cast<int>(m_players.size()) &&
-           m_players[m_focus].get() == nullptr)
+           m_players[static_cast<std::size_t>(m_focus)].get() == nullptr)
       {
 	++m_focus;
       }
@@ -1110,7 +1110,7 @@ namespace zappy
       }
 
     while (m_focus < static_cast<int>(m_players.size()) &&
-           m_players[m_focus].get() == nullptr)
+           m_players[static_cast<std::size_t>(m_focus)].get() == nullptr)
       {
 	++m_focus;
       }
@@ -1122,7 +1122,7 @@ namespace zappy
       }
     else
       {
-	m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+	m_camera.setCameraFocus(m_players[static_cast<std::size_t>(m_focus)].get(), m_camMode);
       }
   }
 
@@ -1133,9 +1133,9 @@ namespace zappy
 
     for (; m_focus < static_cast<int>(m_players.size()); ++m_focus)
       {
-	if (m_players[m_focus].get() != nullptr)
+	if (m_players[static_cast<std::size_t>(m_focus)].get() != nullptr)
 	  {
-	    m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+	    m_camera.setCameraFocus(m_players[static_cast<std::size_t>(m_focus)].get(), m_camMode);
 	    break;
 	  }
       }
