@@ -68,8 +68,6 @@ namespace ai
     int    ret;
     int    sock = m_sock.getSocket();
 
-    nope::log::Log(Debug) << "Receiving a message";
-
     while (m_buffer.find_first_of('\n') == std::string::npos)
       {
 	do
@@ -99,13 +97,10 @@ namespace ai
 	  }
 	else if (ret && FD_ISSET(sock, &rds))
 	  {
-
-	    nope::log::Log(Debug) << "Receiving on " << sock;
 	    if (m_sock.rec(buf, sizeof(buf), &len) == false)
 	      {
 		throw std::runtime_error("Failed to read from network");
 	      }
-	    nope::log::Log(Debug) << "Passed";
 
 	    if (len == 0)
 	      {
@@ -115,7 +110,6 @@ namespace ai
 
 	    buf[len] = 0;
 	    m_buffer += buf;
-	    nope::log::Log(Debug) << "Character read: " << buf;
 	  }
       }
 
