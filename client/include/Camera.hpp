@@ -26,6 +26,7 @@ namespace zappy
     void setFov(float fov);
 
     glm::vec3 const &position() const;
+    glm::vec3 const &aim() const;
     glm::vec2 const &rotation() const;
 
     void translate(glm::vec3 const &);

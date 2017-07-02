@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 17:31:40 2017 Antoine Baché
-** Last update Thu Jun 29 18:23:27 2017 Antoine Baché
+** Last update Sun Jul  2 20:45:05 2017 Ludovic Petrenko
 */
 
 #include <assert.h>
@@ -34,10 +34,34 @@ static void			zappy_vision_line(t_zappy_map const *
     {
       ndx = off - infos[2] + j;
       LOG(LOG_DEBUG, "=== VISION ===");
-      LOG(LOG_DEBUG, "tile %dx%d", cli->game.x + infos[0] + j,
-	  cli->game.y + infos[1]);
-      map_tile = zappy_get_map_tile(map, cli->game.x + infos[0] + j,
-				    cli->game.y + infos[1]);
+      if (infos[4] == CLI_NORTH)
+	{
+	  LOG(LOG_DEBUG, "tile %dx%d", cli->game.x + infos[0] + j,
+	      cli->game.y + infos[1]);
+	  map_tile = zappy_get_map_tile(map, cli->game.x + infos[0] + j,
+					cli->game.y + infos[1]);
+	}
+      else if (infos[4] == CLI_EAST)
+	{
+	  LOG(LOG_DEBUG, "tile %dx%d", cli->game.x + infos[0],
+	      cli->game.y + infos[1] - j);
+	  map_tile = zappy_get_map_tile(map, cli->game.x + infos[0],
+					cli->game.y + infos[1] - j);
+	}
+      else if (infos[4] == CLI_SOUTH)
+	{
+	  LOG(LOG_DEBUG, "tile %dx%d", cli->game.x + infos[0] - j,
+	      cli->game.y + infos[1]);
+	  map_tile = zappy_get_map_tile(map, cli->game.x + infos[0] - j,
+					cli->game.y + infos[1]);
+	}
+      else
+	{
+	  LOG(LOG_DEBUG, "tile %dx%d", cli->game.x + infos[0],
+	      cli->game.y + infos[1] + j);
+	  map_tile = zappy_get_map_tile(map, cli->game.x + infos[0],
+					cli->game.y + infos[1] + j);
+	}
       memcpy(vis->map[ndx].res, map_tile->content,
 	     sizeof(vis->map[infos[3] + j].res));
       vis->map[ndx].players = map_tile->nb_players;
@@ -69,7 +93,7 @@ void				zappy_vision_exec(t_zappy_map const *
 			(int32_t[]){ off[!(orient == CLI_NORTH ||
 					  orient == CLI_SOUTH)],
 			    off[orient == CLI_NORTH || orient == CLI_SOUTH],
-			    off[2], i });
+			    off[2], i, orient });
       off[0] += (orient == CLI_NORTH || orient == CLI_WEST) ? -1 : 1;
       off[1] += (orient == CLI_NORTH || orient == CLI_EAST) ? 1 : -1;
       off[2] += 2;

@@ -287,12 +287,9 @@ namespace ai
 
     nope::log::Log(Debug) << "STATE : MoveToFood (" << dir.first << ", "
                           << dir.second << ')';
-    if (m_player.moveTo(dir.first, dir.second))
-      {
-	m_player.setFoodTarget(0);
-	return (Value::YES);
-      }
-    return (Value::NO);
+    m_player.moveTo(dir.first, dir.second);
+    m_player.setFoodTarget(0);
+    return (Value::YES);
   }
 
   Value AI::level(Value)

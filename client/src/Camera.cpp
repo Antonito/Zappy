@@ -112,6 +112,11 @@ namespace zappy
     return (m_position);
   }
 
+    glm::vec3 const &Camera::aim() const
+  {
+    return (m_aim);
+  }
+
   glm::vec2 const &Camera::rotation() const
   {
     return (m_rotation);
