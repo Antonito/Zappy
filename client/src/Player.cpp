@@ -103,8 +103,8 @@ namespace zappy
   {
     int dir = static_cast<int>(m_orientation) - 1;
 
-    return (glm::vec3(dir == 1 ? -1 : dir == 3 ? 1 : 0, 0,
-                      dir == 0 ? 1 : dir == 2 ? -1 : 0));
+    return (glm::vec3(dir == 1 ? -1.0f : dir == 3 ? 1.0f : 0.0f, 0.0f,
+                      dir == 0 ? 1.0f : dir == 2 ? -1.0f : 0.0f));
   }
 
   std::size_t Player::level() const

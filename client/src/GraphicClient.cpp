@@ -7,8 +7,8 @@ namespace zappy
                                std::uint16_t port, std::string const &name,
                                std::string const &machine)
       : m_win(width, height, windowName), m_port(port), m_name(name),
-        m_machine(machine), m_map(), m_players(), m_teams(), m_focus(-1),
-        m_camMode(Camera::Mode::FreeCam),
+        m_machine(machine), m_map(), m_players(), m_teams(), m_eggs(),
+        m_focus(-1), m_camMode(Camera::Mode::FreeCam),
         m_camera(glm::vec3(0, 0, 0), 90,
                  static_cast<float>(width) / static_cast<float>(height), 0.01f,
                  10000.0f),
@@ -74,11 +74,6 @@ namespace zappy
 	      }
 	  }
 
-	for (std::pair<std::size_t, Mesh> const &egg : m_eggs)
-	  {
-	    m_win.draw(m_camera, egg.second);
-	  }
-
 	// Update camera
 	m_camera.updatePosition(sinceLast);
 	m_map.fixCamera(m_camera);
@@ -90,6 +85,13 @@ namespace zappy
 	m_win.clear();
 
 	m_map.renderOn(m_win, m_camera);
+
+	for (std::pair<std::size_t, Mesh> &egg : m_eggs)
+	  {
+	    egg.second.rotate(glm::rotate(3.14f * static_cast<float>(sinceLast) / 10.0f,
+	                           glm::vec3(0.0f, 1.0f, 0.0f)));
+	    m_win.draw(m_camera, egg.second);
+	  }
 
 	for (std::size_t i = 0; i < m_players.size(); ++i)
 	  {
@@ -810,8 +812,11 @@ namespace zappy
     nope::log::Log(Debug) << "The egg " << eggId << " was layed by the player "
                           << playerId << " in (" << x << ", " << y << ')';
 
-    m_eggs.emplace_back(eggId, Mesh(Model::fromObj("./models/egg.obj"),
-                                                   glm::vec3(-x, 0.5, y)));
+    m_eggs.emplace_back(eggId,
+                        Mesh(Model::fromObj("./models/egg.obj"),
+                             glm::vec3(-static_cast<double>(x) - 0.3, 0.48f,
+                                       static_cast<double>(y) - 0.3)));
+    m_eggs.back().second.scale(0.1);
   }
 
   void GraphicClient::eggHatching(std::string const &data)

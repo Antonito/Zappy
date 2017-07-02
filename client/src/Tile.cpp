@@ -7,7 +7,7 @@ namespace zappy
 
   Tile::Tile() : m_cube(Model::fromObj("./models/cube.obj")), m_resources()
   {
-    constexpr float coeff = 0.8f;
+    constexpr float coeff = 0.5f;
     float           r =
         static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * coeff;
     float g =
@@ -66,12 +66,9 @@ namespace zappy
   {
     win.draw(camera, m_cube);
 
-    if (glm::length(camera.position() - m_cube.position()) < 15.0f)
+    for (ResourceStack const &res : m_resources)
       {
-	for (ResourceStack const &res : m_resources)
-	  {
-	    res.renderOn(win, camera);
-	  }
+	res.renderOn(win, camera);
       }
   }
 
@@ -84,7 +81,7 @@ namespace zappy
       {
 	m_resources[i].setPosition(position +
 	                           m_resourcePosition[i] * tileScale +
-	                           glm::vec3(-0.5, 0.5, -0.5));
+	                           glm::vec3(-0.5, 0.53, -0.5));
       }
   }
 

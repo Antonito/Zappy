@@ -86,10 +86,30 @@ namespace zappy
 
   void ResourceStack::renderOn(Window &win, Camera const &camera) const
   {
-    for (std::size_t i = 0; i < m_count; ++i)
+    float           dist = glm::length(m_position - camera.position());
+    constexpr float g = 0.07f;
+
+    if (m_count > 0 && glm::length(m_position - camera.position()) < 20.0f)
       {
-	m_cube.setPosition(m_position + glm::vec3(0, static_cast<float>(i) * 0.07f, 0));
-	win.draw(camera, m_cube);
+	if (dist > 8.0f)
+	  {
+	    float s = m_cube.scale().y;
+	    float c = (static_cast<float>(m_count) - 1.0f) * g + s;
+
+	    m_cube.scale(1.0, c / s, 1.0);
+	    m_cube.setPosition(m_position + glm::vec3(0, c / 2.0f - 0.01, 0));
+	    win.draw(camera, m_cube);
+	    m_cube.scale(1.0, 1.0 / c * s, 1.0);
+	  }
+	else
+	  {
+	    for (std::size_t i = 0; i < m_count; ++i)
+	      {
+		m_cube.setPosition(m_position +
+		                   glm::vec3(0, static_cast<float>(i) * g, 0));
+		win.draw(camera, m_cube);
+	      }
+	  }
       }
   }
 }

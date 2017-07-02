@@ -170,7 +170,9 @@ namespace zappy
 
   void Mesh::scale(glm::vec3 const &scale)
   {
-    m_scale = scale;
+    m_scale.x *= scale.x;
+    m_scale.y *= scale.y;
+    m_scale.z *= scale.z;
     m_fullTransformIsUpToDate = false;
   }
 
@@ -181,7 +183,7 @@ namespace zappy
 
   void Mesh::rotate(glm::quat const &rotation)
   {
-    m_rotation = rotation;
+    m_rotation *= rotation;
     m_fullTransformIsUpToDate = false;
   }
 
