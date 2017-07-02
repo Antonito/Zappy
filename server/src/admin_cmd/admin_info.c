@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sun Jul  2 20:15:12 2017 Antoine Baché
+** Last update Sun Jul  2 21:51:15 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -33,8 +33,8 @@ void		zappy_admin_cmd_info_team(t_zappy * const data)
     }
 }
 
-void	zappy_admin_cmd_info(t_zappy * const data,
-			     char const * cmd)
+void		zappy_admin_cmd_info(t_zappy * const data,
+				     char const * cmd)
 {
   assert(data && data->admin.authenticated == true);
   (void)cmd;
