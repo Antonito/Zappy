@@ -85,7 +85,6 @@ var symbolsTab = {
 
         players.find((e) => {
             if (e.id == params[1]) {
-                e.id = params[1];
                 e.X = params[2];
                 e.Y = params[3];
                 e.food = params[4];
@@ -95,6 +94,7 @@ var symbolsTab = {
                 e.mendiane = params[8];
                 e.phiras = params[9];
                 e.thystame = params[10];
+                return true;
             }
         });
     }
@@ -119,6 +119,7 @@ function getHistoryAsString() {
     });
     // PPOS
     players.forEach((e) => {
+
         data += ("pin " +
             e.id + " " +
             e.X + " " +
