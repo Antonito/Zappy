@@ -37,6 +37,11 @@ var MOBS_COLOR = [
 
 ]
 
+/**
+ * Font
+ */
+var font_style = { font: "12px Arial", fill: "#000000" };
+
 /*
  ** Events Management
  */
@@ -68,6 +73,7 @@ var background_layer;
 var resources_layer;
 var eggs_layer;
 var mobs_layer;
+var text_layer;
 /* starting positions */
 var shiftX = 0;
 var shiftY = 0;
@@ -78,21 +84,24 @@ var InGame = {
 
     preload: function() {
 
-        /*
-         **  Load Assets
-         */
-
         background_layer = game.add.group();
         resources_layer = game.add.group();
         mobs_layer = game.add.group();
         eggs_layer = game.add.group();
+        text_layer = game.add.group();
+
         event = game.input.keyboard.createCursorKeys();
 
         /* Clear */
-        clearGroup(background_layer);
-        clearGroup(resources_layer);
-        clearGroup(eggs_layer);
-        clearGroup(mobs_layer);
+        /*        clearGroup(background_layer);
+                clearGroup(resources_layer);
+                clearGroup(eggs_layer);
+                clearGroup(mobs_layer);
+        */
+
+        /*
+         **  Load Assets
+         */
 
         /* Mobs */
         this.load.image('mob_default', 'assets/images/mob_default.png');
@@ -131,7 +140,7 @@ var InGame = {
 
         ws.onmessage = function(res) {
 
-            console.log("yo bitch");
+            console.log("=> " + res.data);
             parseData(res.data);
 
         };
@@ -140,47 +149,47 @@ var InGame = {
 
     create: function() {
 
-        // this.background = background_layer.create(0, 0, 'background');
         this.background = game.add.tileSprite(0, 0, 1000, 1000, 'background');
         ScaleImage(this.background, 1000, 1000);
         background_layer.add(this.background);
-
-        /* for debug */
-        DrawAll(startX, startY);
 
     },
 
     update: function() {
 
+        // Clear
         clearGroup(resources_layer);
+        clearGroup(mobs_layer);
+        clearGroup(text_layer);
+        // Draw
         DrawAll(startX, startY);
 
         /* Events */
         if (event) {
             if (event.up.isDown) {
-                shiftY += 10;
-                this.background.tilePosition.y += 10;
+                shiftY += 5;
+                this.background.tilePosition.y += 5;
                 if (shiftY >= 100) {
-                    startY = startY > 0 ? (startY - 1) % raw_map_resources[0].length : raw_map_resources[0].length;
+                    startY = startY > 0 ? (startY - 1) % raw_map_resources[0].length : raw_map_resources[0].length - 1;
                     shiftY = 0;
                 }
             } else if (event.left.isDown) {
-                shiftX += 10;
-                this.background.tilePosition.x += 10;
+                shiftX += 5;
+                this.background.tilePosition.x += 5;
                 if (shiftX >= 100) {
-                    startX = startX > 0 ? (startX - 1) % raw_map_resources[0].length : raw_map_resources[0].length;
+                    startX = startX > 0 ? (startX - 1) % raw_map_resources[0].length : raw_map_resources[0].length - 1;
                     shiftX = 0;
                 }
             } else if (event.right.isDown) {
-                shiftX -= 10;
-                this.background.tilePosition.x -= 10;
+                shiftX -= 5;
+                this.background.tilePosition.x -= 5;
                 if (shiftX <= -100) {
                     startX = (startX + 1) % raw_map_resources[0].length;
                     shiftX = 0;
                 }
             } else if (event.down.isDown) {
-                shiftY -= 10;
-                this.background.tilePosition.y -= 10;
+                shiftY -= 5;
+                this.background.tilePosition.y -= 5;
                 if (shiftY <= -100) {
                     startY = (startY + 1) % raw_map_resources[0].length;
                     shiftY = 0;
