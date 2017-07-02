@@ -4,12 +4,8 @@ namespace ai
 {
 
   static const std::map<std::int32_t, std::string const> stoneNames = {
-    {0, "linemate"},
-    {1, "deraumere"},
-    {2, "sibur"},
-    {3, "mendiane"},
-    {4, "phiras"},
-    {5, "thystame"},
+      {0, "linemate"}, {1, "deraumere"}, {2, "sibur"},
+      {3, "mendiane"}, {4, "phiras"},    {5, "thystame"},
   };
 
   static const std::array<std::pair<std::int32_t, std::array<std::int32_t, 6>>,
@@ -24,33 +20,27 @@ namespace ai
           {6, {{2, 2, 2, 2, 2, 1}}},
       }};
 
-  PlayerInfo::PlayerInfo(std::queue<std::string> &queue) : m_level(1), m_cmdMSG(queue), m_targetID(-1), m_playerID(std::rand() % 4096), m_direction(0)
+  PlayerInfo::PlayerInfo(NetworkManager &network)
+      : m_inventory(), m_look(), m_level(1), m_foodTarget(-1),
+        m_stoneTarget(-1, ""), m_network(network)
   {
   }
 
-  PlayerInfo::PlayerInfo(PlayerInfo const &that) : m_level(that.m_level), m_cmdMSG(that.m_cmdMSG)
+  PlayerInfo::PlayerInfo(PlayerInfo const &that)
+      : m_inventory(that.m_inventory), m_look(that.m_look),
+        m_level(that.m_level), m_foodTarget(that.m_foodTarget),
+        m_stoneTarget(that.m_stoneTarget), m_network(that.m_network)
   {
   }
 
-  PlayerInfo::PlayerInfo(PlayerInfo &&that) : m_level(std::move(that.m_level)), m_cmdMSG(that.m_cmdMSG)
+  PlayerInfo::PlayerInfo(PlayerInfo &&that)
+      : m_inventory(std::move(that.m_inventory)),
+        m_look(std::move(that.m_look)), m_level(std::move(that.m_level)),
+        m_foodTarget(std::move(that.m_foodTarget)),
+        m_stoneTarget(std::move(that.m_stoneTarget)), m_network(that.m_network)
   {
   }
 
-  PlayerInfo &PlayerInfo::operator=(PlayerInfo const &that)
-  {
-    if (this == &that)
-      return (*this);
-    m_level = that.m_level;
-    return (*this);
-  }
-
-  PlayerInfo &PlayerInfo::operator=(PlayerInfo &&that)
-  {
-    if (this == &that)
-      return (*this);
-    m_level = std::move(that.m_level);
-    return (*this);
-  }
   PlayerInfo::~PlayerInfo()
   {
   }
@@ -67,12 +57,12 @@ namespace ai
 
   std::array<std::int32_t, 6> const PlayerInfo::getRecipe() const
   {
-    return (recipes[m_level].second);
+    return (recipes[static_cast<std::size_t>(m_level)].second);
   }
 
-  std::int32_t PlayerInfo::getNbPlayer() const
+  std::int32_t PlayerInfo::getPlayerNbOnCase() const
   {
-    return (recipes[m_level].first);
+    return (recipes[static_cast<std::size_t>(m_level)].first);
   }
 
   std::array<std::int32_t, 6> const
@@ -93,7 +83,7 @@ namespace ai
     std::array<std::int32_t, 6> res{};
     for (std::size_t i = 0; i < 6; ++i)
       {
-	std::int32_t tmp = recipes[m_level].second[i] - inventory[i];
+	std::int32_t tmp = recipes[static_cast<std::size_t>(m_level)].second[i] - inventory[i];
 	if (tmp < 0)
 	  res[i] = 0;
 	else
@@ -101,40 +91,236 @@ namespace ai
       }
     return (res);
   }
-  
 
-    std::int32_t PlayerInfo::getTargetID() const
-    {
-      return (m_targetID);
-    }
+  bool PlayerInfo::updateLook()
+  {
+    m_network.send("Look");
 
-    void PlayerInfo::setTargetID(std::int32_t target)
-    {
-      m_targetID = target;
-    }
+    std::string res = m_network.receive();
 
-    std::int32_t PlayerInfo::getPlayerID() const
-    {
-      return (m_playerID);
-    }
+    std::replace(res.begin(), res.end(), '[', ',');
+    std::replace(res.begin(), res.end(), ']', ',');
 
-    std::queue<std::string> &PlayerInfo::getMSG()
-    {
-      return (m_cmdMSG);
-    }
+    std::stringstream        ss(res);
+    std::istringstream       split(res);
+    std::vector<std::string> tokens;
+    std::vector<std::map<std::string, std::int32_t>> cases;
 
-    std::int32_t PlayerInfo::getDirection() const
-    {
-      return (m_direction);
-    }
+    for (std::string each; std::getline(split, each, ',');
+         tokens.push_back(each))
+      ;
+    for (std::size_t i = 0; i < tokens.size(); ++i)
+      {
+	if (i == 0)
+	  continue;
+	std::map<std::string, std::int32_t> mapTemp;
+	mapTemp["player"] = 0;
+	mapTemp["food"] = 0;
+	mapTemp["linemate"] = 0;
+	mapTemp["deraumere"] = 0;
+	mapTemp["sibur"] = 0;
+	mapTemp["mendiane"] = 0;
+	mapTemp["phiras"] = 0;
+	mapTemp["thystame"] = 0;
+	std::stringstream iss(tokens[i]);
+	std::string       resource;
+	while (iss >> resource)
+	  {
+	    mapTemp[resource] += 1;
+	  }
+	m_look.push_back(std::move(mapTemp));
+      }
+    return (true);
+  }
 
-    void PlayerInfo::setDirection(std::int32_t dir)
-    {
-      m_direction = dir;
-    }
+  bool PlayerInfo::updateInventory()
+  {
+    m_network.send("Inventory");
 
-    std::string PlayerInfo::getStoneName(std::int32_t i) const
-    {
-      return (stoneNames.at(i));
-    }
+    std::string msg = m_network.receive();
+
+    std::stringstream ss(msg);
+    std::string       trash;
+
+    std::string res;
+
+    for (std::int32_t i = 0; i < 7; ++i)
+      {
+	ss >> trash;
+	ss >> res;
+	ss >> m_inventory[res];
+      }
+
+    return (true);
+  }
+
+  bool PlayerInfo::broadcast(std::string const &)
+  {
+    return (false);
+  }
+
+  bool PlayerInfo::connectNbr()
+  {
+    return (false);
+  }
+
+  bool PlayerInfo::eject()
+  {
+    return (false);
+  }
+
+  bool PlayerInfo::fork()
+  {
+    return (false);
+  }
+
+  bool PlayerInfo::forward()
+  {
+    m_network.send("Forward");
+
+    return (m_network.receive() == "ok");
+  }
+
+  bool PlayerInfo::incant()
+  {
+    return (false);
+  }
+
+  bool PlayerInfo::left()
+  {
+    m_network.send("Left");
+
+    return (m_network.receive() == "ok");
+  }
+
+  bool PlayerInfo::right()
+  {
+    m_network.send("Right");
+
+    return (m_network.receive() == "ok");
+  }
+
+  bool PlayerInfo::set(std::string const &resource)
+  {
+    m_network.send("Set " + resource);
+
+    if (m_network.receive() == "ok")
+      {
+	m_inventory[resource]--;
+	return (true);
+      }
+    else
+      {
+	return (false);
+      }
+  }
+
+  bool PlayerInfo::take(std::string const &resource)
+  {
+    m_network.send("Take " + resource);
+
+    if (m_network.receive() == "ok")
+      {
+	m_inventory[resource]++;
+	return (true);
+      }
+    else
+      {
+	return (false);
+      }
+  }
+
+  std::int32_t PlayerInfo::get(std::string const &res) const
+  {
+    return (m_inventory.at(res));
+  }
+
+  std::int32_t PlayerInfo::find(std::string const &res) const
+  {
+    for (std::size_t i = 0; i < m_look.size(); ++i)
+      {
+	if (m_look[i].at(res) > 0)
+	  {
+	    return (static_cast<std::int32_t>(i));
+	  }
+      }
+    return (-1);
+  }
+
+  bool PlayerInfo::moveTo(std::int32_t x, std::int32_t y)
+  {
+    bool res = true;
+
+    for (std::int32_t i = 0; i < y; ++i)
+      {
+	if (!this->forward())
+	  {
+	    res = false;
+	  }
+      }
+
+    if (x > 0)
+      {
+	if (!this->right())
+	  {
+	    res = false;
+	  }
+      }
+    else
+      {
+	if (!this->left())
+	  {
+	    res = false;
+	  }
+      }
+
+    for (std::int32_t i = 0; i < x; ++i)
+      {
+	if (!this->forward())
+	  {
+	    res = false;
+	  }
+      }
+    return (res);
+  }
+
+  void PlayerInfo::setFoodTarget(std::int32_t target)
+  {
+    m_foodTarget = target;
+  }
+
+  std::int32_t PlayerInfo::getFoodTarget() const
+  {
+    return (m_foodTarget);
+  }
+
+  void PlayerInfo::setStoneTarget(std::int32_t target, std::string const &name)
+  {
+    m_stoneTarget = std::pair<std::int32_t, std::string>(target, name);
+  }
+
+  std::string const &PlayerInfo::getStoneTargetName() const
+  {
+    return (m_stoneTarget.second);
+  }
+
+  std::int32_t PlayerInfo::getStoneTarget() const
+  {
+    return (m_stoneTarget.first);
+  }
+
+  std::pair<std::int32_t, std::int32_t>
+      PlayerInfo::getDirection(std::int32_t pos) const
+  {
+    std::int32_t x = 0;
+    std::int32_t y = 0;
+    std::int32_t mid = 0;
+
+    for (y = 0; mid + y < pos; ++y)
+      {
+	mid += 2 * y;
+      }
+    x = pos - mid;
+    return (std::pair<std::int32_t, std::int32_t>(x, y));
+  }
 }

@@ -87,302 +87,207 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
-  //TODO :set TEAM NAME - ULTRA IMPORTANT
-  AI::AI(std::string ip, std::uint16_t port)
-      : m_foodUnit(0), m_lastUnknownMsg(),
-        m_sock(port, ip, true, network::ASocket::BLOCKING), m_cmdToSend(),
-        m_cmdToRecv(), m_cmdMSG(), m_states(), m_curState(m_states[State::INIT_AI].get()),
-        m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1),
-        m_basicStates(), m_player(m_cmdMSG), m_alive(true)
+  // TODO :set TEAM NAME - ULTRA IMPORTANT
+  AI::AI(std::string const &ip, std::uint16_t port)
+      : m_states(), m_curState(State::STARVING), m_curValue(Value::YES),
+        m_network(ip, port), m_player(m_network), m_alive(true)
   {
-    if (!m_sock.openConnection())
-      {
-	throw std::exception();
-      }
-    nope::log::Log(Debug) << "AI connected to server";
-    initBasicState();
     initState();
-    m_curState = m_states[State::INIT_AI].get();
-    if (m_curState == nullptr)
-      {
-	nope::log::Log(Error) << "Error construct AI, FATAL ERROR";
-      }
-    loop();
   }
 
   AI::~AI()
   {
   }
 
-  std::int32_t AI::checkActivity(fd_set &readfds, fd_set &writefds)
+  void AI::loop()
   {
-    {
-      std::int32_t   rc = -1;
-      struct timeval tv;
-      std::int32_t   maxFd;
+    State oldState;
 
-      // Check file descriptors
-      do
-	{
-	  FD_ZERO(&readfds);
-	  FD_ZERO(&writefds);
-	  tv.tv_sec = 2;
-	  tv.tv_usec = 0;
-
-	  // Add Game Server's socket
-	  maxFd = m_sock.getSocket();
-	  if (m_curState->canWrite())
-	    {
-	      nope::log::Log(Debug) << "FD_SET(write)";
-	      FD_SET(maxFd, &writefds);
-	    }
-	  else
-	    {
-	      nope::log::Log(Debug) << "FD_SET(read)";
-	      FD_SET(maxFd, &readfds);
-	    }
-
-	  // Loop over gameServers
-          // TODO :check timer
-	  nope::log::Log(Debug) << "before select";
-	  rc = select(maxFd + 1, &readfds, &writefds, nullptr, &tv);
-	  nope::log::Log(Debug) << "after select";
-	}
-      while (rc == -1 && errno == EINTR);
-      return (rc);
-    }
-  }
-
-  std::int32_t AI::loop()
-  {
-    // TODO : CHECK DEAD
     while (m_alive)
       {
-	fd_set readfds, writefds;
+	oldState = m_curState;
+	m_curValue = (this->*m_states[static_cast<std::size_t>(m_curState)])(m_curValue);
 
-	std::int32_t const rc = checkActivity(readfds, writefds);
-	if (rc < 0)
+	m_curState = transitionTable.at(m_curState)[m_curValue];
+	if (m_curState == State::NO_CHANGE)
 	  {
-	    nope::log::Log(Error) << "Select failed";
-	    return (1);
-	  }
-	else if (rc > 0)
-	  {
-	    if (FD_ISSET(m_sock.getSocket(), &readfds))
-	      {
-		nope::log::Log(Debug) << "set read fs";
-		// TODO : real check for split \n commands
-		if (treatIncomingData())
-		  return (1);
-		if (m_curState == nullptr)
-		  {
-		    nope::log::Log(Error)
-		        << "NULL pointer AState, FATAL ERROR";
-		  }
-		m_curState->readState(m_cmdToRecv);
-	      }
-	    else if (FD_ISSET(m_sock.getSocket(), &writefds))
-	      {
-		nope::log::Log(Debug) << "set write fs";
-		m_curState->writeState(m_cmdToSend);
-		if (treatOutcomingData())
-		  return (1);
-	      }
-	  }
-	m_curValue = m_curState->getResponse();
-	nope::log::Log(Debug) << "CurValue = " << m_curValue;
-	if (m_curValue != Value::LOOP)
-	  {
-	    m_curStateName = transitionTable.at(
-	        m_curStateName)[static_cast<std::size_t>(m_curValue)];
-	    m_curState =
-	        m_states[static_cast<std::size_t>(m_curStateName)].get();
-	    nope::log::Log(Debug) << "CurStateName = " << m_curStateName;
-	    m_curState->reset(m_curValue);
+	    m_curState = oldState;
 	  }
       }
-  }
-
-  std::int32_t AI::treatIncomingData()
-  {
-    std::array<char, 512> tmp;
-    ssize_t len = 0;
-
-    nope::log::Log(Debug) << "(reading)";
-    len = ::read(m_sock.getSocket(), &tmp, 511);
-    nope::log::Log(Debug) << "(readed)";
-    if (len < 0)
-      {
-        nope::log::Log(Error) << "read failed in select !";
-	return (1);
-      }
-    else if (len == 0)
-      {
-        nope::log::Log(Error) << "No more communication with server";
-      }
-    else
-      {
-        tmp[static_cast<std::size_t>(len)] = 0;
-        std::string res(tmp.data());
-        nope::log::Log(Debug) << "RECV: " << res;
-        if (res == "dead\n")
-        {
-          m_alive = false;
-        }
-        else if (res.find("message") == 0)
-        {
-          if (res != m_cmdMSG.front())
-          {
-            nope::log::Log(Debug) << "recv Broadcast";
-            m_cmdMSG.push(res);
-          }
-        }
-        else
-        {
-          nope::log::Log(Debug) << "recv answer command";
-          m_cmdToRecv.push(res);
-        }
-      }
-    return (0);
-  }
-
-  std::int32_t AI::treatOutcomingData()
-  {
-    while (!m_cmdToSend.empty())
-      {
-	nope::log::Log(Debug) << "SEND: " << m_cmdToSend.front();
-	::write(m_sock.getSocket(), m_cmdToSend.front().c_str(),
-	        std::strlen(m_cmdToSend.front().c_str()));
-	m_cmdToSend.pop();
-      }
-    return (0);
-  }
-
-  void AI::initBasicState()
-  {
-    m_basicStates[BasicState::BROADCAST] = std::make_unique<BroadcastState>();
-    m_basicStates[BasicState::CONNECT_NBR] =
-        std::make_unique<ConnectnbrState>();
-    m_basicStates[BasicState::EJECT] = std::make_unique<EjectState>();
-    m_basicStates[BasicState::FORK] = std::make_unique<ForkState>();
-    m_basicStates[BasicState::FORWARD] = std::make_unique<ForwardState>();
-    m_basicStates[BasicState::INCANTATION] =
-        std::make_unique<IncantationState>();
-    m_basicStates[BasicState::INVENTORY] = std::make_unique<InventoryState>();
-    m_basicStates[BasicState::LEFT] = std::make_unique<LeftState>();
-    m_basicStates[BasicState::LOOK] = std::make_unique<LookState>();
-    m_basicStates[BasicState::RIGHT] = std::make_unique<RightState>();
-    m_basicStates[BasicState::SET] = std::make_unique<SetState>();
-    m_basicStates[BasicState::TAKE] = std::make_unique<TakeState>();
   }
 
   void AI::initState()
   {
-    m_states[static_cast<std::size_t>(State::STARVING)] =
-        std::make_unique<StarvingState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::RECEIVE_MSG)] =
-        std::make_unique<CheckMessageState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::MISSING_STONE)] =
-        std::make_unique<MissingStoneState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::MISSING_PLAYER)] =
-        std::make_unique<MissingPlayerState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::SET_RECIPE)] =
-        std::make_unique<SetRecipeState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::INCANT)] =
-        std::make_unique<IncantState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::FOOD_ON_CASE)] =
-        std::make_unique<FoodOnCaseState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::COLLECT_FOOD)] =
-        std::make_unique<CollectFoodState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::FIND_FOOD)] =
-        std::make_unique<FindFoodState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::MOVE_TO_FOOD)] =
-        std::make_unique<MoveToFoodState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::LEVEL)] =
-        std::make_unique<LevelState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::MOVE_TO_TEAMMATE)] =
-        std::make_unique<MoveToTeammateState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::ARRIVED)] =
-        std::make_unique<ArrivedState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::FIX_RECIPE)] =
-        std::make_unique<FixRecipeState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::STONE_ON_CASE)] =
-        std::make_unique<StoneOnCaseState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::COLLECT_STONE)] =
-        std::make_unique<CollectStoneState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::FIND_STONE)] =
-        std::make_unique<FindStoneState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::MOVE_TO_STONE)] =
-        std::make_unique<MoveToStoneState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::TROLL)] =
-        std::make_unique<TrollState>(m_basicStates, m_player);
-    m_states[static_cast<std::size_t>(State::INIT_AI)] =
-        std::make_unique<InitAIConnectState>(m_basicStates, m_player);
+    // m_states[State::DEAD] = &AI::;
+    m_states[State::STARVING] = &AI::starving;
+    m_states[State::RECEIVE_MSG] = &AI::receiveMessage;
+    m_states[State::MISSING_STONE] = &AI::missingStone;
+    m_states[State::MISSING_PLAYER] = &AI::missingPlayer;
+    m_states[State::SET_RECIPE] = &AI::setRecipe;
+    m_states[State::INCANT] = &AI::incant;
+    m_states[State::FOOD_ON_CASE] = &AI::foodOnCase;
+    m_states[State::COLLECT_FOOD] = &AI::collectFood;
+    m_states[State::FIND_FOOD] = &AI::findFood;
+    m_states[State::MOVE_TO_FOOD] = &AI::moveToFood;
+    m_states[State::LEVEL] = &AI::level;
+    m_states[State::MOVE_TO_TEAMMATE] = &AI::moveToTeammate;
+    m_states[State::ARRIVED] = &AI::arrived;
+    m_states[State::FIX_RECIPE] = &AI::fixRecipe;
+    m_states[State::STONE_ON_CASE] = &AI::stoneOnCase;
+    m_states[State::COLLECT_STONE] = &AI::collectStone;
+    m_states[State::FIND_STONE] = &AI::findStone;
+    m_states[State::MOVE_TO_STONE] = &AI::moveToStone;
+    m_states[State::TROLL] = &AI::troll;
   }
 
-  void AI::send(std::string const &msg)
+  Value AI::starving(Value)
   {
-    // broadcast msg to all player
+    if (m_player.updateInventory())
+      {
+	int food = m_player.get("food");
+
+	if (food < NB_FOOD_NORMAL)
+	  {
+	    return (Value::YES);
+	  }
+	else
+	  {
+	    return (Value::NO);
+	  }
+      }
+    return (Value::NO);
   }
 
-  void AI::move(std::pair<std::int32_t, std::int32_t> coord)
+  Value AI::receiveMessage(Value)
   {
-    for (std::int32_t y = 0; y < coord.second; ++y)
-      {
-	m_cmdToSend.push("Forward\n");
-      }
-    // TODO : check for Y 'ok' from server
-    if (coord.first > 0)
-      {
-	m_cmdToSend.push("Right\n");
-      }
-    else
-      {
-	m_cmdToSend.push("Left\n");
-      }
-    for (std::int32_t x = 0; x < coord.first; ++x)
-      {
-	m_cmdToSend.push("Forward\n");
-      }
-    // TODO : check for X 'ok' from server
+    return (Value::NO);
   }
 
-  std::int32_t AI::look(std::string const &object)
+  Value AI::missingStone(Value)
   {
-    // look
-    // check if object is in vision
-    // return case number of the object , -1 if no object found
+    return (Value::NO);
   }
 
-  void AI::getCurCase()
+  Value AI::missingPlayer(Value)
   {
-    // look
-    // fill m_curCase with the stone there is on case
+    return (Value::NO);
   }
 
-  std::pair<std::int32_t, std::int32_t> const
-      AI::direction(std::int32_t caseNumber)
+  Value AI::setRecipe(Value)
   {
-    int32_t x = 0, y = 0, mid = 0;
+    return (Value::NO);
+  }
 
-    for (y = 0; caseNumber > mid + y; ++y)
+  Value AI::incant(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::foodOnCase(Value)
+  {
+    if (m_player.updateLook())
       {
-	mid += 2 * y;
+	if (m_player.find("food") == 0)
+	  {
+	    return (Value::YES);
+	  }
+	else
+	  {
+	    return (Value::NO);
+	  }
       }
-    x = caseNumber - mid;
-    std::pair<std::int32_t, std::int32_t> res = {x, y};
-    return (res);
+    return (Value::NO);
   }
 
-  std::array<std::int32_t, 6> const
-      AI::diff(std::array<std::int32_t, 6> old,
-               std::array<std::int32_t, 6> newTab)
+  Value AI::collectFood(Value)
   {
-    std::array<std::int32_t, 6> res{};
-    for (std::size_t i = 0; i < 6; ++i)
+    if (m_player.take("food"))
       {
-	res[i] = newTab[i] - old[i];
+	return (Value::YES);
       }
-    return (res);
+    return (Value::NO);
+  }
+
+  Value AI::findFood(Value)
+  {
+    if (m_player.updateLook())
+      {
+	std::int32_t food = m_player.find("food");
+
+	if (food == -1)
+	  {
+	    m_player.right();
+	    return (Value::NO);
+	  }
+	else
+	  {
+	    m_player.setFoodTarget(food);
+	    return (Value::YES);
+	  }
+      }
+    return (Value::NO);
+  }
+
+  Value AI::moveToFood(Value)
+  {
+    std::pair<std::int32_t, std::int32_t> dir =
+        m_player.getDirection(m_player.getFoodTarget());
+
+    if (m_player.moveTo(dir.first, dir.second))
+      {
+	return (Value::YES);
+      }
+
+    return (Value::NO);
+  }
+
+  Value AI::level(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::moveToTeammate(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::arrived(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::fixRecipe(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::stoneOnCase(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::collectStone(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::findStone(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::moveToStone(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::troll(Value)
+  {
+    return (Value::NO);
+  }
+
+  Value AI::initAI(Value)
+  {
+    return (Value::NO);
   }
 }

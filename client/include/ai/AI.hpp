@@ -5,10 +5,9 @@
 #include <map>
 #include <queue>
 #include <array>
-#include "IState.hpp"
 #include "TCPSocket.hpp"
-#include "AState.hpp"
 #include "PlayerInfo.hpp"
+#include "NetworkManager.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -16,14 +15,55 @@
 #endif
 
 #define NB_FOOD_MIN (5)
-#define NB_FOOD_NORMAL (7)
+#define NB_FOOD_NORMAL (70)
 
 namespace ai
 {
+  enum Value : std::size_t
+  {
+    YES = 0,
+    NO,
+    COME,
+    GO_AWAY,
+    SEARCH,
+    WAINTING,
+    READY,
+    END_INCANT,
+    NB_VALUE,
+  };
+
+  enum State : std::int8_t
+  {
+    NO_CHANGE = -1,
+    DEAD,
+    STARVING,
+    RECEIVE_MSG,
+    MISSING_STONE,
+    MISSING_PLAYER,
+    SET_RECIPE,
+    INCANT,
+    FOOD_ON_CASE,
+    COLLECT_FOOD,
+    FIND_FOOD,
+    MOVE_TO_FOOD,
+    LEVEL,
+    MOVE_TO_TEAMMATE,
+    ARRIVED,
+    FIX_RECIPE,
+    STONE_ON_CASE,
+    COLLECT_STONE,
+    FIND_STONE,
+    MOVE_TO_STONE,
+    TROLL,
+    INIT_AI,
+    NB_STATE,
+  };
+
   class AI
   {
   public:
-    explicit AI(std::string ip, std::uint16_t port);
+    AI() = delete;
+    explicit AI(std::string const &ip, std::uint16_t port);
     AI(AI const &) = delete;
     AI(AI const &&) = delete;
     ~AI();
@@ -31,37 +71,39 @@ namespace ai
     AI &operator=(AI const &) = delete;
     AI &operator=(AI const &&) = delete;
 
+    void loop();
+
   private:
-    std::int32_t checkActivity(fd_set &readfds, fd_set &writefds);
-    std::int32_t treatIncomingData();
-    std::int32_t treatOutcomingData();
-    std::int32_t loop();
-
-    void initBasicState();
     void initState();
-    void send(std::string const &msg);
-    void move(std::pair<std::int32_t, std::int32_t> coord);
-    std::int32_t look(std::string const &object);
-    std::pair<std::int32_t, std::int32_t> const
-        direction(std::int32_t caseNumber);
-    std::array<std::int32_t, 6> const diff(std::array<std::int32_t, 6> old,
-                                           std::array<std::int32_t, 6> newTab);
-    void getCurCase();
 
-    std::int32_t m_foodUnit;
-    std::array<char, 512> m_lastUnknownMsg;
-    network::TCPSocket      m_sock;
-    std::queue<std::string> m_cmdToSend;
-    std::queue<std::string> m_cmdToRecv;
-    std::queue<std::string> m_cmdMSG;
-    std::array<std::unique_ptr<AState>, State::NB_STATE> m_states;
-    AState *     m_curState;
-    State        m_curStateName;
-    Value        m_curValue;
-    std::int32_t m_level;
-    std::map<BasicState, std::unique_ptr<IState>> m_basicStates;
-    PlayerInfo m_player;
-    bool        m_alive;
+
+    Value starving(Value v);
+    Value receiveMessage(Value v);
+    Value missingStone(Value v);
+    Value missingPlayer(Value v);
+    Value setRecipe(Value v);
+    Value incant(Value v);
+    Value foodOnCase(Value v);
+    Value collectFood(Value v);
+    Value findFood(Value v);
+    Value moveToFood(Value v);
+    Value level(Value v);
+    Value moveToTeammate(Value v);
+    Value arrived(Value v);
+    Value fixRecipe(Value v);
+    Value stoneOnCase(Value v);
+    Value collectStone(Value v);
+    Value findStone(Value v);
+    Value moveToStone(Value v);
+    Value troll(Value v);
+    Value initAI(Value v);
+
+    std::array<Value (AI::*)(Value), State::NB_STATE> m_states;
+    State          m_curState;
+    Value          m_curValue;
+    NetworkManager m_network;
+    PlayerInfo     m_player;
+    bool           m_alive;
   };
 }
 
