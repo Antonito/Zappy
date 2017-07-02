@@ -284,6 +284,7 @@
     <ClCompile Include="src\time.c" />
     <ClCompile Include="src\vision.c" />
     <ClCompile Include="src\win.c" />
+    <ClCompile Include="src\win_sock.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

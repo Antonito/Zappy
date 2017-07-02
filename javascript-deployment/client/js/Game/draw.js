@@ -1,3 +1,132 @@
+function DrawInventory(mob) {
+
+    var inventory = inventory_layer.create(
+        800,
+        600, 'inventory');
+    ScaleImage(
+        inventory,
+        200,
+        300
+    );
+    inventory_layer.add(inventory);
+
+    // mob id
+    var mob_appearance = inventory_layer.create(
+        810,
+        610,
+        MOBS_COLOR[mob.id % MOBS_COLOR.length]);
+
+    ScaleImage(
+        mob_appearance,
+        64,
+        64
+    );
+    inventory_layer.add(mob_appearance);
+    inventory_layer.add(game.add.text(870, 620, mob.id, inventory_style));
+
+    // Food
+    var food = inventory_layer.create(
+        910,
+        610,
+        'food');
+
+    ScaleImage(
+        food,
+        64,
+        64
+    );
+    inventory_layer.add(food);
+    inventory_layer.add(game.add.text(960, 620, mob.food, inventory_style));
+
+    // Linemate
+    var linemate = inventory_layer.create(
+        810,
+        680,
+        'linemate');
+
+    ScaleImage(
+        linemate,
+        64,
+        64
+    );
+
+    inventory_layer.add(linemate);
+    inventory_layer.add(game.add.text(870, 690, mob.linemate, inventory_style));
+
+    //  Deraumere
+    var deraumere = inventory_layer.create(
+        910,
+        680,
+        'deraumere');
+
+    ScaleImage(
+        deraumere,
+        64,
+        64
+    );
+    inventory_layer.add(deraumere);
+    inventory_layer.add(game.add.text(960, 690, mob.deraumere, inventory_style));
+
+    // Sibur
+    var sibur = inventory_layer.create(
+        810,
+        755,
+        'sibur');
+
+    ScaleImage(
+        sibur,
+        64,
+        64
+    );
+
+    inventory_layer.add(sibur);
+    inventory_layer.add(game.add.text(870, 770, mob.sibur, inventory_style));
+
+    // Mendiane
+    var mendiane = inventory_layer.create(
+        900,
+        755,
+        'mendiane');
+
+    ScaleImage(
+        mendiane,
+        64,
+        64
+    );
+    inventory_layer.add(mendiane);
+    inventory_layer.add(game.add.text(960, 770, mob.mendiane, inventory_style));
+
+    // Phiras
+    var phiras = inventory_layer.create(
+        810,
+        830,
+        'phiras');
+
+    ScaleImage(
+        phiras,
+        64,
+        64
+    );
+
+    inventory_layer.add(phiras);
+    inventory_layer.add(game.add.text(870, 845, mob.phiras, inventory_style));
+
+    // Thystame
+    var thystame = inventory_layer.create(
+        900,
+        830,
+        'thystame');
+
+    ScaleImage(
+        thystame,
+        64,
+        64
+    );
+    inventory_layer.add(thystame);
+    inventory_layer.add(game.add.text(960, 845, mob.thystame, inventory_style));
+
+}
+
 function DrawAll(startX, startY) {
 
     /* Draw Resources */
@@ -178,14 +307,47 @@ function DrawCellMob(mob, x, y) {
 
 function DrawCellEgg(egg, x, y) {
 
-    var image = resources_layer.create(
-        shiftX + egg.pos_x * 100 + SPRITES_POSITION.EGG.X,
-        shiftY + egg.pos_y * 100 + SPRITES_POSITION.EGG.Y, 'egg');
+    var pos_x = egg.X - startX;
+    var pos_y = egg.Y - startY;
 
-    ScaleImage(
-        image,
-        SPRITES_POSITION.EGG.SW,
-        SPRITES_POSITION.EGG.SH
-    );
+    if ((0 <= pos_x && pos_x < 10) &&
+        (0 <= pos_y && pos_y < 10)) {
+
+        var image = resources_layer.create(
+            shiftX + pos_x * 100 + SPRITES_POSITION.EGG.X,
+            shiftY + pos_y * 100 + SPRITES_POSITION.EGG.Y,
+            'egg');
+
+        ScaleImage(
+            image,
+            SPRITES_POSITION.EGG.SW,
+            SPRITES_POSITION.EGG.SH
+        );
+
+    } else if (pos_x < 0 || pos_y < 0) {
+
+        if (pos_x < 0 && (egg.X >= 0 && egg.X < 10)) {
+            pos_x = parseInt(egg.X) + (parseInt(WSZW) - parseInt(startX));
+        }
+        if (pos_y < 0 && (egg.Y >= 0 && egg.Y < 10)) {
+            pos_y = parseInt(egg.Y) + (parseInt(WSZH) - parseInt(startY));
+        }
+
+        if ((0 <= pos_x && pos_x < 10) &&
+            (0 <= pos_y && pos_y < 10)) {
+
+            var image = resources_layer.create(
+                shiftX + pos_x * 100 + SPRITES_POSITION.EGG.X,
+                shiftY + pos_y * 100 + SPRITES_POSITION.EGG.Y,
+                'egg');
+
+            ScaleImage(
+                image,
+                SPRITES_POSITION.EGG.SW,
+                SPRITES_POSITION.EGG.SH
+            );
+
+        }
+    }
 
 }

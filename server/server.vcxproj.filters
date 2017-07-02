@@ -425,5 +425,8 @@
     <ClCompile Include="src\broadcast_calc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\win_sock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -41,6 +41,7 @@ var MOBS_COLOR = [
  * Font
  */
 var font_style = { font: "12px Arial", fill: "#000000" };
+var inventory_style = { font: "22px Arial", fill: "#ffffff" };
 var cell_info_style = { font: "24px Arial", fill: "#ffffff" };
 
 /*
@@ -77,12 +78,17 @@ var mobs_layer;
 var animations_layer;
 var textboxes_layer;
 var infos_layer;
+var inventory_layer;
 var text_layer;
 /* starting positions */
 var shiftX = 0;
 var shiftY = 0;
 var startX = 0;
 var startY = 0;
+/* Sound */
+var fx_theme;
+var fx_broadcast;
+var fx_click;
 
 var InGame = {
 
@@ -96,6 +102,7 @@ var InGame = {
         textboxes_layer = game.add.group();
         text_layer = game.add.group();
         infos_layer = game.add.group();
+        inventory_layer = game.add.group();
 
         event = game.input.keyboard.createCursorKeys();
 
@@ -134,19 +141,24 @@ var InGame = {
         /* TextBox */
         this.load.image('infofield', 'assets/images/infofield.png');
 
+        /* Inventory */
+        this.load.image('inventory', 'assets/images/inventory.png');
+
+        /* Sound */
+        this.load.audio('fx_theme', 'assets/sounds/theme.ogg');
+        this.load.audio('fx_broadcast', 'assets/sounds/broadcast.ogg');
+        this.load.audio('fx_click', 'assets/sounds/click.ogg');
+
     },
 
     init: function(ws, data_buffered) {
 
         if (data_buffered) {
             parseData(data_buffered);
-
-            console.log(raw_map_resources);
         }
 
         ws.onmessage = function(res) {
 
-            console.log("=> " + res.data);
             parseData(res.data);
 
         };
@@ -186,6 +198,12 @@ var InGame = {
         ScaleImage(i_thystame, 32, 32);
         textboxes_layer.add(i_thystame);
 
+        fx_broadcast = game.add.audio('fx_broadcast');
+        fx_theme = game.add.audio('fx_theme');
+        fx_click = game.add.audio('fx_click');
+
+        fx_theme.loopFull();
+        fx_theme.play();
     },
 
     update: function() {
@@ -204,11 +222,14 @@ var InGame = {
             var pos_x = Math.floor(game.input.x / 100);
             var pos_y = Math.floor(game.input.y / 100);
 
-            if (pos_x < WSZW && pos_y < WSZH) {
+            if (pos_x >= 0 && pos_x < 10 &&
+                pos_y >= 0 && pos_y < 10) {
 
+                fx_click.play();
                 clearGroup(infos_layer);
+                clearGroup(inventory_layer);
 
-                var cell = raw_map_resources[startY + pos_y][startX + pos_x];
+                var cell = raw_map_resources[(startY + pos_y) % WSZH][(startX + pos_x) % WSZW];
 
                 if (cell) {
 
@@ -220,6 +241,17 @@ var InGame = {
                     infos_layer.add(game.add.text(710, 950, cell.phiras, cell_info_style));
                     infos_layer.add(game.add.text(810, 950, cell.thystame, cell_info_style));
 
+                }
+
+                for (var i = 0; i < raw_mobs_list.length; ++i) {
+
+                    if (raw_mobs_list[i].X == startX + pos_x &&
+                        (raw_mobs_list[i].Y == (pos_y + startY) || raw_mobs_list[i].Y == (pos_y + startY + 1))) {
+
+                        DrawInventory(raw_mobs_list[i]);
+
+                        break;
+                    }
                 }
 
             }

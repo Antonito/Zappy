@@ -68,6 +68,25 @@ var symbolsFunctions = {
         }
     },
 
+    "pin": function(args) {
+        var params = args.split(" ");
+
+        raw_mobs_list.find((e) => {
+            if (e.id == params[1]) {
+                e.food = params[4];
+                e.linemate = params[5];
+                e.deraumere = params[6];
+                e.sibur = params[7];
+                e.mendiane = params[8];
+                e.phiras = params[9];
+                e.thystame = params[10];
+                return true;
+            }
+            return false;
+        });
+    },
+
+
     "pbc": function(args) {
 
         var params = args.split(" ");
@@ -93,6 +112,8 @@ var symbolsFunctions = {
                         100
                     );
 
+                    fx_broadcast.play();
+
                     setTimeout(function() {
                         animations_layer.remove(image);
                     }, 500);
@@ -102,6 +123,57 @@ var symbolsFunctions = {
             }
             return false;
         })
+    },
+
+    "pdi": function(args) {
+
+        var params = args.split(" ");
+
+        for (var i = 0; i < raw_mobs_list.length; ++i) {
+            if (raw_mobs_list[i].id == params[i]) {
+                raw_mobs_list.splice(i, 1);
+                break;
+            }
+        }
+    },
+
+    "enw": function(args) {
+
+        var params = args.split(" ");
+
+        if (raw_eggs_list.find((e) => { return e.id == params[1]; }) == undefined) {
+            raw_eggs_list.push({
+                'id': params[1],
+                'X': params[2],
+                'Y': params[3]
+            });
+        } else {
+            raw_eggs_list.find((e) => { return e.id == params[1]; }).X = params[2];
+            raw_eggs_list.find((e) => { return e.id == params[1]; }).Y = params[3];
+        }
+    },
+
+    "eht": function(args) {
+        var params = args.split(" ");
+
+        for (var i = 0; i < raw_eggs_list.length; ++i) {
+            if (raw_mobs_list[i] && raw_mobs_list[i].id == params[i]) {
+                raw_eggs_list.splice(i, 1);
+                break;
+            }
+        }
+    },
+
+    "ebo": function(args) {
+        var params = args.split(" ");
+
+        for (var i = 0; i < raw_eggs_list.length; ++i) {
+            if (raw_mobs_list[i] && raw_mobs_list[i].id == params[i]) {
+                raw_eggs_list.splice(i, 1);
+                break;
+            }
+        }
+
     }
 
 }
