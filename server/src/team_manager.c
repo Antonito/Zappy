@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Sun Jul  2 21:07:10 2017 Antoine Baché
+** Last update Sun Jul  2 21:40:23 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -53,8 +53,7 @@ t_zappy_team	*zappy_team_manager_get_team_by_name(char const * const name,
   i = 0;
   while (i < man->nb_teams)
     {
-      if (man->team[i].name &&
-	  !memcmp(name, man->team[i].name, strlen(man->team[i].name)))
+      if (man->team[i].name && !strcmp(name, man->team[i].name))
 	{
 	  return (&man->team[i]);
 	}
