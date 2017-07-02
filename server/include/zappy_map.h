@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 01:22:04 2017 Antoine Baché
-** Last update Sun Jul  2 17:24:57 2017 Ludovic Petrenko
+** Last update Sun Jul  2 22:09:47 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MAP_H_
@@ -19,7 +19,7 @@
 /*
 ** Forward declaration of t_zappy_config
 */
-typedef struct	s_zappy_config	t_zappy_config;
+typedef struct	s_zappy_config		t_zappy_config;
 
 /*
 ** Forward declaration of t_zappy_client_game

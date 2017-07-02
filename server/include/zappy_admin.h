@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:28:17 2017 Antoine Baché
-** Last update Sun Jul  2 19:55:37 2017 Antoine Baché
+** Last update Sun Jul  2 22:46:03 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_H_
@@ -15,6 +15,12 @@
 #include <stdio.h>
 #include "zappy_socket.h"
 #include "zappy_ring_buffer.h"
+
+#if defined(__GNUC__)
+#define ZAPPY_PRINT_ARG __attribute__((__format__ (__printf__, 2, 0)))
+#else
+#define ZAPPY_PRINT_ARG
+#endif
 
 /*
 ** Forward declaration of t_zappy

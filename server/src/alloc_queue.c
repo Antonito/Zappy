@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 18:20:16 2017 Antoine Baché
-** Last update Sun Jun 25 16:42:34 2017 Antoine Baché
+** Last update Sun Jul  2 22:13:03 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,7 +18,7 @@
 
 static t_cmempool	*cqueue_mempool = NULL;
 
-static void     *zappy_alloc_cqueue(size_t count, size_t size)
+static void	*zappy_alloc_cqueue(size_t count, size_t size)
 {
   assert(cqueue_mempool);
   assert(count == 1 && size == sizeof(t_cqueue));
