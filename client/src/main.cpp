@@ -128,7 +128,6 @@ int main(int ac, char **av, char **env)
       nope::log::Log(Info) << "\tmachine\t" << machine;
       nope::log::Log(Info) << "\tno-gui\t" << std::boolalpha << nogui;
 
-      // TODO: LAUNCH AI HERE IN ANOTHER THREAD
       if (nogui == false)
 	{
 	  zappy::GraphicClient graphic(1920, 1080, "Pyzza", port, name,
@@ -141,7 +140,6 @@ int main(int ac, char **av, char **env)
         ai::AI ai(machine, port, name);
 
 	ai.loop();
-        //ai.run();
       }
     }
   catch (std::exception const &e)
