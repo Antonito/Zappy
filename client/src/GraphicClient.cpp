@@ -1,4 +1,5 @@
 #include "zappy_ai_stdafx.hpp"
+#include <SFML/Audio/Music.hpp>
 
 namespace zappy
 {
@@ -7,8 +8,21 @@ namespace zappy
                                std::uint16_t port, std::string const &name,
                                std::string const &machine)
       : m_win(width, height, windowName), m_port(port), m_name(name),
-        m_machine(machine), m_map(), m_players()
+        m_machine(machine), m_map(), m_players(), m_teams(), m_eggs(),
+        m_focus(-1), m_camMode(Camera::Mode::FreeCam),
+        m_camera(glm::vec3(0, 0, 0), 90,
+                 static_cast<float>(width) / static_cast<float>(height), 0.01f,
+                 10000.0f),
+        m_shader("./shaders/test"),
+        m_socket(port, machine, false, network::ASocket::SocketType::BLOCKING),
+        m_buffer(), m_connecting(true),
+        m_lastFrame(std::chrono::high_resolution_clock::now())
   {
+    m_players.emplace_back(nullptr);
+    if (m_socket.openConnection() == false)
+      {
+	throw std::runtime_error("Graphic client connection failed");
+      }
   }
 
   GraphicClient::~GraphicClient()
@@ -17,15 +31,37 @@ namespace zappy
 
   void GraphicClient::launch()
   {
-    Model  test = Model::fromObj("./models/cube.obj");
-    Mesh   cube(test);
-    Shader shader("./shaders/test");
+    m_win.setClearColor(0.1f, 0.1f, 0.2f, 1.0f);
+    m_win.setCursorVisible(false);
 
-    shader.bind();
+    m_win.useShader(m_shader);
+
+    m_camera.setAim(glm::vec3(0.0f, 3.0f, 0.0f));
+    m_camera.setRotation(225, 0);
+
+    sf::Music music;
+
+    if (!music.openFromFile("./musics/unreeeal_superhero3.ogg"))
+      {
+	nope::log::Log(Error) << "Failed to load the music";
+	throw std::runtime_error("Failed to load the music");
+      }
+
+    music.play();
+
     while (m_win.isOpen())
       {
 	// Manage user inputs
 	sf::Event event;
+
+	std::chrono::time_point<std::chrono::high_resolution_clock> curFrame =
+	    std::chrono::high_resolution_clock::now();
+
+	std::size_t sinceLast_ =
+	    std::chrono::duration_cast<std::chrono::milliseconds>(curFrame -
+	                                                          m_lastFrame)
+	        .count();
+	double sinceLast = static_cast<double>(sinceLast_) / 1000.0;
 
 	while (m_win.pollEvent(event))
 	  {
@@ -33,7 +69,7 @@ namespace zappy
 	  }
 
 	// Execute at most "maxCommand" commands
-	constexpr std::size_t maxCommand = 50;
+	constexpr std::size_t maxCommand = 20;
 	std::size_t           i = 0;
 
 	while (i < maxCommand && this->execCommand())
@@ -41,20 +77,53 @@ namespace zappy
 	    ++i;
 	  }
 
+	for (std::unique_ptr<Player> &player : m_players)
+	  {
+	    if (player.get() != nullptr)
+	      {
+		player->updatePosition(sinceLast);
+	      }
+	  }
+
+	// Update camera
+	m_camera.updatePosition(sinceLast);
+	m_map.fixCamera(m_camera);
+
+	// Update the player "vision" lights
+	m_shader.updateLight(m_players);
+
 	// Clear the window
 	m_win.clear();
 
-	m_map.renderOn(m_win);
+	m_map.renderOn(m_win, m_camera);
 
-	for (Player const &player : m_players)
+	for (std::pair<std::size_t, Mesh> &egg : m_eggs)
 	  {
-	    player.renderOn(m_win);
+	    egg.second.rotate(
+	        glm::rotate(3.14f * static_cast<float>(sinceLast) / 10.0f,
+	                    glm::vec3(0.0f, 1.0f, 0.0f)));
+	    m_win.draw(m_camera, egg.second);
 	  }
 
-	m_win.draw(cube);
+	for (std::size_t i = 0; i < m_players.size(); ++i)
+	  {
+	    if (m_players[i].get() == nullptr)
+	      {
+		continue;
+	      }
+
+	    if (m_camMode == Camera::Mode::FirstPerson &&
+	        static_cast<int>(i) == m_focus)
+	      {
+		continue;
+	      }
+
+	    m_players[i]->renderOn(m_win, m_camera);
+	  }
 
 	// Display the window
 	m_win.display();
+	m_lastFrame = curFrame;
       }
   }
 
@@ -63,10 +132,109 @@ namespace zappy
   //
   void GraphicClient::dispatch(sf::Event const &e)
   {
+    constexpr float movement = 5.0f;
+
     if (e.type == sf::Event::Closed)
       {
 	m_win.close();
 	return;
+      }
+    if (e.type == sf::Event::KeyPressed)
+      {
+	switch (e.key.code)
+	  {
+	  case sf::Keyboard::W:
+	    m_camera.moveForward(movement);
+	    break;
+	  case sf::Keyboard::S:
+	    m_camera.moveForward(-movement);
+	    break;
+	  case sf::Keyboard::A:
+	    m_camera.moveSide(-movement);
+	    break;
+	  case sf::Keyboard::D:
+	    m_camera.moveSide(movement);
+	    break;
+	  case sf::Keyboard::LShift:
+	    m_camera.moveBoost(2.0f);
+	    break;
+	  case sf::Keyboard::Space:
+	    if (m_camMode == Camera::Mode::FreeCam)
+	      m_camMode = Camera::Mode::ThirdPerson;
+	    else if (m_camMode == Camera::Mode::ThirdPerson)
+	      m_camMode = Camera::Mode::FirstPerson;
+	    else
+	      {
+		if (m_focus < static_cast<int>(m_players.size()) &&
+		    m_players[m_focus].get() != nullptr)
+		  {
+		    m_camera.translate(glm::vec3(0.0f, 0.6f, 0.0f));
+		    m_camera.setAim(m_camera.position() +
+		                    glm::vec3(0.0f, 1.0f, 0.0f) -
+		                    m_players[m_focus]->direction());
+		  }
+		m_camMode = Camera::Mode::FreeCam;
+	      }
+
+	    this->updateFocus();
+	    break;
+	  case sf::Keyboard::Left:
+	    this->focusPrev();
+	    break;
+	  case sf::Keyboard::Right:
+	    this->focusNext();
+	    break;
+	  case sf::Keyboard::Escape:
+	    m_win.close();
+	    break;
+	  default:
+	    break;
+	  }
+      }
+    else if (e.type == sf::Event::KeyReleased)
+      {
+	switch (e.key.code)
+	  {
+	  case sf::Keyboard::W:
+	    m_camera.moveForward(-movement);
+	    break;
+	  case sf::Keyboard::S:
+	    m_camera.moveForward(movement);
+	    break;
+	  case sf::Keyboard::A:
+	    m_camera.moveSide(movement);
+	    break;
+	  case sf::Keyboard::D:
+	    m_camera.moveSide(-movement);
+	    break;
+	  case sf::Keyboard::LShift:
+	    m_camera.moveBoost(1.0f);
+	    break;
+	  case sf::Keyboard::Escape:
+	    m_win.close();
+	    break;
+	  default:
+	    break;
+	  }
+      }
+    else if (e.type == sf::Event::MouseMoved)
+      {
+	constexpr float sensibility = 0.05f;
+
+	int x = sf::Mouse::getPosition(m_win.win()).x;
+	int y = sf::Mouse::getPosition(m_win.win()).y;
+
+	int _x = m_win.width() / 2;
+	int _y = m_win.height() / 2;
+
+	if (x != _x || y != _y)
+	  {
+	    m_camera.rotate(static_cast<float>(x - _x) * sensibility,
+	                    static_cast<float>(y - _y) * sensibility);
+	    sf::Mouse::setPosition(
+	        sf::Vector2i(static_cast<int>(_x), static_cast<int>(_y)),
+	        m_win.win());
+	  }
       }
   }
 
@@ -83,32 +251,93 @@ namespace zappy
   bool GraphicClient::receiveCommand(std::string &command, std::string &args)
   {
     // TODO: replace this line by the network input
-    std::string cmd = "msz 12 14\n";
+    char    buf[4096];
+    ssize_t len = 0;
+
+    fd_set rds;
+    int    ret;
+    int    sock = m_socket.getSocket();
+
+    do
+      {
+	FD_ZERO(&rds);
+
+	FD_SET(sock, &rds);
+	struct timeval tm;
+
+	tm.tv_usec = 1000;
+	tm.tv_sec = 0;
+
+	ret = select(sock + 1, &rds, nullptr, nullptr, &tm);
+      }
+    while (ret == -1 && errno == EINTR);
+
+    if (ret == -1)
+      {
+	throw std::runtime_error(std::string("Failed to read from network: ") +
+	                         std::strerror(errno));
+      }
+
+    if (ret && FD_ISSET(sock, &rds))
+      {
+
+	if (m_socket.rec(buf, sizeof(buf), &len) == false)
+	  {
+	    throw std::runtime_error("Failed to read from network");
+	  }
+
+	if (len == 0)
+	  {
+	    m_win.close();
+	    return (false);
+	  }
+
+	buf[len] = 0;
+	m_buffer += buf;
+      }
+
+    std::size_t pos = m_buffer.find_first_of('\n');
+
+    if (pos == std::string::npos)
+      {
+	return (false);
+      }
+
+    std::string cmd = m_buffer.substr(0, pos);
+    m_buffer = m_buffer.substr(pos + 1);
 
     if (cmd.length() == 0)
       {
 	return (false);
       }
 
+    nope::log::Log(Info) << "Received command: " << cmd;
+
+    if (m_connecting)
+      {
+	if (cmd != "WELCOME")
+	  {
+	    throw std::runtime_error(
+	        "Did not received Welcome message from the server");
+	  }
+	// TODO: monitor writing
+	if (m_socket.send("GRAPHIC\n", sizeof("GRAPHIC\n") - 1) == false)
+	  {
+	    throw std::runtime_error("Cannot send message to the server");
+	  }
+	m_connecting = false;
+	return (false);
+      }
     // Some validity checks
-    if (cmd.length() < 4)
+    if (cmd.length() < 3)
       {
 	throw std::invalid_argument("Invalid command (command is too short)");
       }
 
-    if (cmd[3] != '\n' && cmd[3] != ' ')
+    if (cmd[3] != ' ')
       {
 	throw std::invalid_argument("Invalid command (invalid character)");
       }
-
-    if (cmd.back() != '\n')
-      {
-	throw std::invalid_argument(
-	    "Invalid command (not terminated by a newline character)");
-      }
-
-    // Remove the '\n'
-    cmd.pop_back();
 
     command = cmd.substr(0, 3);
     args = cmd.substr(4);
@@ -161,17 +390,24 @@ namespace zappy
     std::string command;
     std::string args;
 
-    if (receiveCommand(command, args))
+    try
       {
-	for (std::pair<first_t, second_t> const &p : funcs)
+	if (receiveCommand(command, args))
 	  {
-	    if (command == p.first)
+	    for (std::pair<first_t, second_t> const &p : funcs)
 	      {
-		(this->*p.second)(args);
-		return (true);
+		if (command == p.first)
+		  {
+		    (this->*p.second)(args);
+		    return (true);
+		  }
 	      }
+	    throw std::invalid_argument("Unknown command");
 	  }
-	throw std::invalid_argument("Unknown command");
+      }
+    catch (std::invalid_argument const &e)
+      {
+	nope::log::Log(Warning) << "Failed to execute command: " << e.what();
       }
     return (false);
   }
@@ -265,7 +501,7 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Info) << "Received map size (" << x << ", " << y << ')';
-    // TODO: set the actual values
+    m_map.setSize(x, y);
   }
 
   void GraphicClient::tileContent(std::string const &data)
@@ -289,7 +525,13 @@ namespace zappy
                           << ") [" << food << ", " << linemate << ", "
                           << deraumere << ", " << sibur << ", " << mendiane
                           << ", " << phiras << ", " << thystame << ']';
-    // TODO: set the actual values
+    m_map.setResource(x, y, Resource::FOOD, food);
+    m_map.setResource(x, y, Resource::LINEMATE, linemate);
+    m_map.setResource(x, y, Resource::DERAUMERE, deraumere);
+    m_map.setResource(x, y, Resource::SIBUR, sibur);
+    m_map.setResource(x, y, Resource::MENDIANE, mendiane);
+    m_map.setResource(x, y, Resource::PHIRAS, phiras);
+    m_map.setResource(x, y, Resource::THYSTAME, thystame);
   }
 
   void GraphicClient::teamNames(std::string const &data)
@@ -302,7 +544,9 @@ namespace zappy
 
     nope::log::Log(Info) << "Received a team name: " << name;
 
-    // TODO: set the actual values
+    m_teams.emplace_back();
+    m_teams.back().name = name;
+    m_teams.back().color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
 
   void GraphicClient::newPlayer(std::string const &data)
@@ -327,7 +571,41 @@ namespace zappy
 			 << "\n\tTeam:\t\t" << team;
     // clang-format on
 
-    // TODO: set the actual values
+    bool teamFound = false;
+
+    if (playerId < m_players.size())
+      {
+	m_players[playerId] = std::make_unique<Player>();
+      }
+    else
+      {
+	assert(playerId == m_players.size());
+	m_players.emplace_back(new Player());
+      }
+
+    Player &player = *m_players[playerId];
+
+    for (std::size_t i = 0; i < m_teams.size(); ++i)
+      {
+	if (m_teams[i].name == team)
+	  {
+	    setTeamColor();
+	    player.setColor(m_teams[i].color);
+	    teamFound = true;
+	    break;
+	  }
+      }
+
+    if (!teamFound)
+      {
+	m_players[playerId].reset();
+	throw std::invalid_argument(std::string("Team not found: ") + team +
+	                            ')');
+      }
+
+    player.setPlayerPosition(x, y);
+    player.setOrientation(orientation);
+    player.setLevel(level);
   }
 
   void GraphicClient::playerPosition(std::string const &data)
@@ -344,7 +622,10 @@ namespace zappy
     nope::log::Log(Debug) << "Received player " << playerId << " position: ("
                           << x << ", " << y << ") (" << orientation << ")";
 
-    // TODO: set the actual values
+    Player &player = *m_players[playerId];
+
+    player.setPlayerPosition(x, y);
+    player.setOrientation(orientation);
   }
 
   void GraphicClient::playerLevel(std::string const &data)
@@ -357,7 +638,7 @@ namespace zappy
     nope::log::Log(Debug) << "Received player " << playerId
                           << " level: " << level;
 
-    // TODO: set the actual values
+    m_players[playerId]->setLevel(level);
   }
 
   void GraphicClient::playerInventory(std::string const &data)
@@ -495,7 +776,8 @@ namespace zappy
     nope::log::Log(Debug) << "Player " << playerId << " droped a resource ("
                           << resource << ')';
 
-    // TODO: set the actual values
+    m_players[playerId]->dropResource(m_map,
+                                      static_cast<Resource::Type>(resource));
   }
 
   void GraphicClient::takeResource(std::string const &data)
@@ -510,7 +792,8 @@ namespace zappy
     nope::log::Log(Debug) << "Player " << playerId << " took a resource ("
                           << resource << ')';
 
-    // TODO: set the actual values
+    m_players[playerId]->takeResource(m_map,
+                                      static_cast<Resource::Type>(resource));
   }
 
   void GraphicClient::starved(std::string const &data)
@@ -523,7 +806,8 @@ namespace zappy
 
     nope::log::Log(Info) << "Player " << playerId << " starved";
 
-    // TODO: set the actual values
+    m_players[playerId].reset();
+    this->updateFocus();
   }
 
   void GraphicClient::eggLayed(std::string const &data)
@@ -540,7 +824,11 @@ namespace zappy
     nope::log::Log(Debug) << "The egg " << eggId << " was layed by the player "
                           << playerId << " in (" << x << ", " << y << ')';
 
-    // TODO: set the actual values
+    m_eggs.emplace_back(eggId,
+                        Mesh(Model::fromObj("./models/egg.obj"),
+                             glm::vec3(-static_cast<double>(x) - 0.3, 0.48f,
+                                       static_cast<double>(y) - 0.3)));
+    m_eggs.back().second.scale(0.1);
   }
 
   void GraphicClient::eggHatching(std::string const &data)
@@ -566,7 +854,14 @@ namespace zappy
 
     nope::log::Log(Info) << "A player connected for the egg " << eggId;
 
-    // TODO: set the actual values
+    for (std::size_t i = 0; i < m_eggs.size(); ++i)
+      {
+	if (m_eggs[i].first == eggId)
+	  {
+	    m_eggs.erase(m_eggs.begin() + i);
+	    break;
+	  }
+      }
   }
 
   void GraphicClient::hatchedEggStarved(std::string const &data)
@@ -591,8 +886,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Info) << "The time unit is now " << unit;
-
-    // TODO: set the actual values
   }
 
   void GraphicClient::endOfGame(std::string const &data)
@@ -603,9 +896,8 @@ namespace zappy
 
     checkEmpty(is);
 
-    nope::log::Log(Info) << "End of the game, winner team is " << winner;
-
-    // TODO: set the actual values
+    nope::log::Log(Info) << "End of the game, winner team is "
+                         << m_teams[winner].name;
   }
 
   void GraphicClient::serverMessage(std::string const &data)
@@ -617,8 +909,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Info) << "Server message: " << message;
-
-    // TODO: set the actual values
   }
 
   void GraphicClient::unknownCommand(std::string const &data)
@@ -628,8 +918,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Warning) << "The server received an unknown command";
-
-    // TODO: set the actual values
   }
 
   void GraphicClient::badParameter(std::string const &data)
@@ -639,8 +927,6 @@ namespace zappy
     checkEmpty(is);
 
     nope::log::Log(Warning) << "The server received a bad command parameter";
-
-    // TODO: set the actual values
   }
 
   //
@@ -654,7 +940,9 @@ namespace zappy
 
     if (!is || is.peek() == ' ')
       {
-	throw std::invalid_argument("Invalid character (expected a digit)");
+	throw std::invalid_argument(
+	    std::string("Invalid character (expected a digit) (1) got '") +
+	    static_cast<char>(is.peek()) + "'");
       }
 
     while (is.get(c) && c != ' ')
@@ -662,7 +950,7 @@ namespace zappy
 	if (std::isdigit(c) == false)
 	  {
 	    throw std::invalid_argument(
-	        "Invalid character (expected a digit)");
+	        "Invalid character (expected a digit) (2)");
 	  }
 	res = 10 * res + static_cast<std::size_t>(c - '0');
       }
@@ -671,29 +959,31 @@ namespace zappy
 
   std::size_t GraphicClient::parsePlayerId(std::istringstream &is)
   {
-    std::size_t res = 0;
-    char        c;
+    return (parseInt(is));
 
-    if (!is || !is.get(c) || c != '#')
-      {
-	throw std::invalid_argument("Invalid character (expected a '#')");
-      }
+    //     std::size_t res = 0;
+    //     char        c;
 
-    while (is.get(c) && c != ' ')
-      {
-	if (std::isdigit(c) == false)
-	  {
-	    throw std::invalid_argument(
-	        "Invalid character (expected a digit)");
-	  }
-	res = 10 * res + static_cast<std::size_t>(c - '0');
-      }
+    //     if (!is || !is.get(c) || c != '#')
+    //       {
+    // 	throw std::invalid_argument("Invalid character (expected a '#')");
+    //       }
 
-    if (c == ' ')
-      {
-	is.unget();
-      }
-    return (res);
+    //     while (is.get(c) && c != ' ')
+    //       {
+    // 	if (std::isdigit(c) == false)
+    // 	  {
+    // 	    throw std::invalid_argument(
+    // 	        "Invalid character (expected a digit) (3)");
+    // 	  }
+    // 	res = 10 * res + static_cast<std::size_t>(c - '0');
+    //       }
+
+    //     if (c == ' ')
+    //       {
+    // 	is.unget();
+    //       }
+    //     return (res);
   }
 
   Player::Orientation GraphicClient::parseOrientation(std::istringstream &is)
@@ -714,7 +1004,7 @@ namespace zappy
 
     if (!is || is.peek() == ' ')
       {
-	throw std::invalid_argument("Invalid character (expected a digit)");
+	throw std::invalid_argument("Invalid character");
       }
 
     while (is.get(c) && c != ' ')
@@ -735,6 +1025,119 @@ namespace zappy
     if (is)
       {
 	throw std::invalid_argument("Too many argument for this command");
+      }
+  }
+
+  void GraphicClient::setTeamColor()
+  {
+    if (m_teams[0].color != glm::vec4(0.0, 0.0, 0.0, 0.0))
+      {
+	return;
+      }
+
+    constexpr std::array<std::array<float, 4>, 7> colors = {
+        {{{1.0f, 0.0f, 0.0f, 1.0f}},
+         {{1.0f, 1.0f, 0.0f, 1.0f}},
+         {{0.0f, 1.0f, 0.0f, 1.0f}},
+         {{0.0f, 1.0f, 1.0f, 1.0f}},
+         {{0.0f, 0.0f, 1.0f, 1.0f}},
+         {{1.0f, 0.0f, 1.0f, 1.0f}},
+         {{1.0f, 0.0f, 0.0f, 1.0f}}}};
+
+    for (std::size_t i = 0; i < m_teams.size(); ++i)
+      {
+	float ratio =
+	    static_cast<float>(i) / static_cast<float>(m_teams.size());
+	std::size_t p = static_cast<std::size_t>(ratio * 6);
+
+	float part = 6.0f * ratio - static_cast<float>(p);
+
+	glm::vec4 cur(colors[p][0], colors[p][1], colors[p][2], colors[p][3]);
+	glm::vec4 next(colors[p + 1][0], colors[p + 1][1], colors[p + 1][2],
+	               colors[p + 1][3]);
+
+	m_teams[i].color = cur * (1.0f - part) + next * part;
+
+	nope::log::Log(Debug)
+	    << "Team " << m_teams[i].name << ": (" << m_teams[i].color.r
+	    << ", " << m_teams[i].color.g << ", " << m_teams[i].color.b << ", "
+	    << m_teams[i].color.a << ')';
+      }
+  }
+
+  void GraphicClient::focusPrev()
+  {
+    m_focus = std::max(-1, m_focus - 1);
+
+    while (m_focus >= 0 && m_players[m_focus].get() == nullptr)
+      {
+	--m_focus;
+      }
+
+    if (m_focus == -1)
+      {
+	m_focus = static_cast<int>(m_players.size()) - 1;
+      }
+
+    while (m_focus >= 0 && m_players[m_focus].get() == nullptr)
+      {
+	--m_focus;
+      }
+
+    if (m_focus == -1)
+      {
+	m_camera.setCameraFocus(nullptr, m_camMode);
+      }
+    else
+      {
+	m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+      }
+  }
+
+  void GraphicClient::focusNext()
+  {
+    m_focus = std::min(static_cast<int>(m_players.size()), m_focus + 1);
+
+    while (m_focus < static_cast<int>(m_players.size()) &&
+           m_players[m_focus].get() == nullptr)
+      {
+	++m_focus;
+      }
+
+    if (m_focus == static_cast<int>(m_players.size()))
+      {
+	m_focus = 0;
+      }
+
+    while (m_focus < static_cast<int>(m_players.size()) &&
+           m_players[m_focus].get() == nullptr)
+      {
+	++m_focus;
+      }
+
+    if (m_focus == static_cast<int>(m_players.size()))
+      {
+	m_focus = -1;
+	m_camera.setCameraFocus(nullptr, m_camMode);
+      }
+    else
+      {
+	m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+      }
+  }
+
+  void GraphicClient::updateFocus()
+  {
+    if (m_focus == -1)
+      m_focus = 0;
+
+    for (; m_focus < static_cast<int>(m_players.size()); ++m_focus)
+      {
+	if (m_players[m_focus].get() != nullptr)
+	  {
+	    m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+	    break;
+	  }
       }
   }
 }

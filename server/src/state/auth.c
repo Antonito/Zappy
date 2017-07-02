@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:19:33 2017 Antoine Baché
-** Last update Thu Jun 29 01:04:25 2017 Antoine Baché
+** Last update Fri Jun 30 21:17:13 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -23,8 +23,9 @@ void			zappy_cli_state_auth_r(t_zappy_client * const cli,
 {
   (void)data;
   cli->game.team_name = strdup(msg);
-  if (!cli)
+  if (!cli->game.team_name)
     {
+      cli->authenticated = false;
       cli->connected = false;
       return ;
     }
@@ -50,7 +51,6 @@ void			zappy_cli_state_auth_w(t_zappy_client * const cli,
 	  cli->can_write = false;
 	  return ;
 	}
-      free(cur->msg);
       zappy_free_message(cur);
     }
   cli->connected = false;

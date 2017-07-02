@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 01:22:04 2017 Antoine Baché
-** Last update Wed Jun 28 02:43:33 2017 Antoine Baché
+** Last update Sun Jul  2 04:23:22 2017 Ludovic Petrenko
 */
 
 #ifndef ZAPPY_MAP_H_
@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include "zappy_resource.h"
 
-#define ZAPPY_MAP_MAX_RESSOURCE	3
+#define ZAPPY_MAP_MAX_RESSOURCE	5
 
 /*
 ** Forward declaration of t_zappy_config

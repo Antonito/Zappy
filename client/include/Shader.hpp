@@ -2,7 +2,13 @@
 #define ZAPPY_SHADER_HPP_
 
 #include <string>
+#include <vector>
+#include <memory>
+#include <map>
+#include <cstdint>
 #include <GL/gl.h>
+#include <glm/glm.hpp>
+#include "Player.hpp"
 
 namespace zappy
 {
@@ -20,6 +26,11 @@ namespace zappy
 
     void bind();
 
+    void updateTransform(glm::mat4 const &transform);
+    void updateShadowMat(glm::mat4 const &transform);
+    void updateColor(glm::vec4 const &color);
+    void updateLight(std::vector<std::unique_ptr<Player>> const &players);
+
   private:
     static constexpr std::uint32_t numShader = 2;
 
@@ -27,8 +38,27 @@ namespace zappy
     static void checkError(GLuint shader, GLuint flag, bool isProgram,
                            std::string const &errorMessage);
 
+    struct Light
+    {
+      GLint position;
+      GLint power;
+      GLint direction;
+    };
+
+    enum
+    {
+      TRANSFORM_U,
+      SHADOW_MAT_U,
+      LIGHT_NB_U,
+      COLOR_U,
+
+      NB_UNIFORMS
+    };
+
     GLuint m_program;
     GLuint m_shaders[numShader];
+    std::array<Light, 16> m_lights;
+    GLint m_uniforms[NB_UNIFORMS];
   };
 }
 

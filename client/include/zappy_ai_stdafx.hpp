@@ -15,9 +15,13 @@
 #include <utility>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
+#include <random>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/transform.hpp>
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <cctype>
@@ -31,6 +35,8 @@
 #include "GameMap.hpp"
 #include "Tile.hpp"
 #include "Shader.hpp"
+#include "Camera.hpp"
+#include "ResourceStack.hpp"
 
 #include "ai/AI.hpp"
 #include "ai/PlayerInfo.hpp"

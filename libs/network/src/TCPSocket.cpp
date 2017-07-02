@@ -142,7 +142,6 @@ namespace network
                               ssize_t *buffLen) const
   {
     assert(getType() == ASocket::BLOCKING);
-    std::size_t off = 0;
 
     // TODO: Remove useless debug log, do while should be one level above (use
     // header informations)
@@ -150,22 +149,19 @@ namespace network
     do
       {
 #if defined(__linux__) || defined(__APPLE__)
-	*buffLen =
-	    ::recv(m_socket, static_cast<char *>(buffer) + off, rlen - off, 0);
+	*buffLen = ::recv(m_socket, static_cast<char *>(buffer), rlen, 0);
 #elif defined(_WIN32)
-	*buffLen = ::recv(m_socket, static_cast<char *>(buffer) + off,
-	                  static_cast<std::int32_t>(rlen - off), 0);
+	*buffLen = ::recv(m_socket, static_cast<char *>(buffer),
+	                  static_cast<std::int32_t>(rlen), 0);
 #endif
-	nope::log::Log(Debug) << "recblocking BuffLen -> " << *buffLen;
-	if (*buffLen <= 0)
-	  {
-	    nope::log::Log(Debug) << "recBlocking -> <= 0 [TCP]";
-	    return (!*buffLen);
-	  }
-	off += static_cast<std::size_t>(*buffLen);
       }
-    while (off != rlen);
-    *buffLen = static_cast<ssize_t>(off);
+    while (*buffLen == -1 && errno == EINTR);
+    nope::log::Log(Debug) << "recblocking BuffLen -> " << *buffLen;
+    if (*buffLen <= 0)
+      {
+	nope::log::Log(Debug) << "recBlocking -> <= 0 [TCP]";
+	return (!*buffLen);
+      }
     nope::log::Log(Debug) << "Read " << *buffLen << "/" << rlen;
     return (true);
   }

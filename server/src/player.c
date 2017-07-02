@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 13:28:54 2017 Antoine Baché
-** Last update Thu Jun 29 19:10:03 2017 Antoine Baché
+** Last update Fri Jun 30 18:32:43 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -67,7 +67,6 @@ void			zappy_has_player(t_zappy * const data)
       data->multiplex.tv_ref.tv_sec = 0;
       data->multiplex.tv_ref.tv_usec = 0;
     }
-  LOG(LOG_DEBUG, "Checked players : %d", data->clients.has_player);
 }
 
 int32_t		zappy_get_max_player_c(t_zappy_config const * const data)

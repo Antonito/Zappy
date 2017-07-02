@@ -11,6 +11,8 @@ int main(int ac, char **av, char **env)
       return (EXIT_FAILURE);
     }
 
+  std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
   //
   // Launch the logger
   //
@@ -127,10 +129,9 @@ int main(int ac, char **av, char **env)
       nope::log::Log(Info) << "\tno-gui\t" << std::boolalpha << nogui;
 
       // TODO: LAUNCH AI HERE IN ANOTHER THREAD
-
       if (nogui == false)
 	{
-	  zappy::GraphicClient graphic(1280, 720, "Pyzza", port, name,
+	  zappy::GraphicClient graphic(1920, 1080, "Pyzza", port, name,
 	                               machine);
 
 	  graphic.launch();

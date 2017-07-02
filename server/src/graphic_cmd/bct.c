@@ -5,13 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Thu Jun 29 18:09:55 2017 Antoine Baché
+** Last update Sat Jul  1 02:37:36 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "cqueue.h"
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_alloc.h"
@@ -55,7 +56,6 @@ void			zappy_graph_bct(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }

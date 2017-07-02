@@ -5,13 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 12:41:21 2017 Antoine Baché
+** Last update Fri Jun 30 21:11:38 2017 Antoine Baché
 */
 
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include "cqueue.h"
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_alloc.h"
@@ -31,7 +32,6 @@ static void		zappy_client_elevation_msg(t_zappy_client * const cli,
   msg = zappy_alloc_message();
   if (msg)
     {
-      zappy_elevation_end_inv(&cli->game);
       zappy_player_level_up(&cli->game, data);
       msg->len = snprintf(buff, sizeof(buff), "Current level: %d\n",
 			  cli->game.level);
@@ -43,7 +43,6 @@ static void		zappy_client_elevation_msg(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }
@@ -59,6 +58,7 @@ static bool		zappy_client_elevation(t_zappy_client * const cli,
 
   if (!zappy_elevation_check(cli, data))
     return (false);
+  zappy_elevation_end_inv(&cli->game, data);
   max = zappy_get_max_player(data);
   g = (t_zappy_graph_arg){ cli, 0, true };
   zappy_graph_send(&g, data, NULL, &zappy_graph_pie);
@@ -101,7 +101,6 @@ void			zappy_client_cmd_incantation(t_zappy_client *
 	      cli->can_write = true;
 	      return ;
 	    }
-	  free(msg->msg);
 	  zappy_free_message(msg);
 	}
     }

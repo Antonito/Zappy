@@ -5,9 +5,14 @@ MK_COMMON_DIR=	./../mk/
 # Definitions for Makefile
 NAME=		$(ROOT_DIR)/zappy_ai
 
+<<<<<<< HEAD
 LOCAL_COMP_FLAGS=	-Wno-exit-time-destructors		\
 			-Wno-global-constructors		\
 			-I/opt/X11/include/
+=======
+LOCAL_COMP_FLAGS=	-Wno-padded		\
+			-Wno-switch-enum
+>>>>>>> graphic
 
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\
@@ -17,7 +22,11 @@ LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lsfml-graphics				\
 			-lsfml-window				\
 			-lsfml-system				\
-			-lGLEW
+			-lsfml-audio				\
+			-lGLEW					\
+			-lGL					\
+			-lglut					\
+			-lGLU
 
 LOCAL_DEBUG_FLAGS=
 
@@ -53,6 +62,10 @@ SRC_FILES=	main.cpp				\
 		Model.cpp				\
 		Window.cpp				\
 		Shader.cpp				\
+		Camera.cpp				\
+		Resource.cpp				\
+		ResourceStack.cpp			\
+		Team.cpp				\
 		ai/AI.cpp				\
 		ai/PlayerInfo.cpp			\
 		ai/NetworkManager.cpp

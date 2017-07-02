@@ -2,11 +2,19 @@
 
 namespace zappy
 {
+  Mesh::Mesh()
+      : m_model(nullptr), m_position(0, 0, 0), m_scale(1, 1, 1), m_rotation(),
+        m_fullTransform(), m_fullTransformIsUpToDate(false),
+        m_color(1, 1, 1, 1)
+  {
+	  nope::log::Log(Debug) << "Constructing a mesh";
+  }
+
   Mesh::Mesh(Model const &model, glm::vec3 const &position,
              glm::vec3 const &scale, glm::quat const &rotation)
-      : m_model(model), m_position(position), m_scale(scale),
+      : m_model(&model), m_position(position), m_scale(scale),
         m_rotation(rotation), m_fullTransform(),
-        m_fullTransformIsUpToDate(false)
+        m_fullTransformIsUpToDate(false), m_color(1.0, 1.0, 1.0, 1.0)
   {
   }
 
@@ -14,16 +22,19 @@ namespace zappy
       : m_model(that.m_model), m_position(that.m_position),
         m_scale(that.m_scale), m_rotation(that.m_rotation),
         m_fullTransform(that.m_fullTransform),
-        m_fullTransformIsUpToDate(that.m_fullTransformIsUpToDate)
+        m_fullTransformIsUpToDate(that.m_fullTransformIsUpToDate),
+        m_color(that.m_color)
   {
   }
 
   Mesh::Mesh(Mesh &&that)
-      : m_model(that.m_model), m_position(std::move(that.m_position)),
+      : m_model(std::move(that.m_model)),
+        m_position(std::move(that.m_position)),
         m_scale(std::move(that.m_scale)),
         m_rotation(std::move(that.m_rotation)),
         m_fullTransform(std::move(that.m_fullTransform)),
-        m_fullTransformIsUpToDate(std::move(that.m_fullTransformIsUpToDate))
+        m_fullTransformIsUpToDate(std::move(that.m_fullTransformIsUpToDate)),
+        m_color(std::move(that.m_color))
   {
   }
 
@@ -31,9 +42,37 @@ namespace zappy
   {
   }
 
+  Mesh &Mesh::operator=(Mesh const &that)
+  {
+    if (this == &that)
+      return (*this);
+    m_model = that.m_model;
+    m_position = that.m_position;
+    m_scale = that.m_scale;
+    m_rotation = that.m_rotation;
+    m_fullTransform = that.m_fullTransform;
+    m_fullTransformIsUpToDate = that.m_fullTransformIsUpToDate;
+    m_color = that.m_color;
+    return (*this);
+  }
+
+  Mesh &Mesh::operator=(Mesh &&that)
+  {
+    if (this == &that)
+      return (*this);
+    m_model = std::move(that.m_model);
+    m_position = std::move(that.m_position);
+    m_scale = std::move(that.m_scale);
+    m_rotation = std::move(that.m_rotation);
+    m_fullTransform = std::move(that.m_fullTransform);
+    m_fullTransformIsUpToDate = std::move(that.m_fullTransformIsUpToDate);
+    m_color = std::move(that.m_color);
+    return (*this);
+  }
+
   Model const &Mesh::model() const
   {
-    return (m_model);
+    return (*m_model);
   }
 
   glm::vec3 const &Mesh::position() const
@@ -55,12 +94,17 @@ namespace zappy
   {
     if (m_fullTransformIsUpToDate == false)
       {
-	m_fullTransform = glm::translate(
-	    glm::scale(glm::mat4_cast(m_rotation), m_scale),
-	    m_position);
+	m_fullTransform = glm::translate(m_position);
+	m_fullTransform *= glm::scale(m_scale);
+	m_fullTransform *= glm::mat4_cast(m_rotation);
 	m_fullTransformIsUpToDate = true;
       }
     return (m_fullTransform);
+  }
+
+  glm::vec4 const &Mesh::color() const
+  {
+    return (m_color);
   }
 
   void Mesh::setPosition(double x, double y, double z)
@@ -98,6 +142,16 @@ namespace zappy
     m_fullTransformIsUpToDate = true;
   }
 
+  void Mesh::setColor(glm::vec4 const &color)
+  {
+    m_color = color;
+  }
+
+  void Mesh::setColor(float r, float g, float b, float a)
+  {
+    m_color = glm::vec4(r, g, b, a);
+  }
+
   void Mesh::translate(double x, double y, double z)
   {
     this->translate(glm::vec3(x, y, z));
@@ -116,13 +170,20 @@ namespace zappy
 
   void Mesh::scale(glm::vec3 const &scale)
   {
-    m_scale = scale;
+    m_scale.x *= scale.x;
+    m_scale.y *= scale.y;
+    m_scale.z *= scale.z;
     m_fullTransformIsUpToDate = false;
+  }
+
+  void Mesh::scale(double scale)
+  {
+    this->scale(glm::vec3(scale, scale, scale));
   }
 
   void Mesh::rotate(glm::quat const &rotation)
   {
-    m_rotation = rotation;
+    m_rotation *= rotation;
     m_fullTransformIsUpToDate = false;
   }
 

@@ -2,11 +2,12 @@
 #define ZAPPY_GAMEMAP_HPP_
 
 #include <vector>
-#include "Window.hpp"
 #include "Tile.hpp"
 
 namespace zappy
 {
+  class Window;
+
   class GameMap
   {
   public:
@@ -18,10 +19,23 @@ namespace zappy
     GameMap &operator=(GameMap const &);
     GameMap &operator=(GameMap &&);
 
-    void renderOn(Window &window) const;
+    void renderOn(Window &window, Camera const &camera) const;
+    void setSize(std::size_t x, std::size_t y);
+
+    void addResource(std::size_t x, std::size_t y, Resource::Type type,
+                     std::size_t n = 1);
+    void removeResource(std::size_t x, std::size_t y, Resource::Type type,
+                        std::size_t n = 1);
+    void setResource(std::size_t x, std::size_t y, Resource::Type type,
+                     std::size_t n);
+
+    void fixCamera(Camera &camera) const;
 
   private:
     std::vector<Tile> m_tiles;
+    float             m_height;
+    std::size_t       m_x;
+    std::size_t       m_y;
   };
 }
 

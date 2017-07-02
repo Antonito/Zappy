@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:44:36 2017 Antoine Baché
-** Last update Thu Jun 29 16:53:52 2017 Antoine Baché
+** Last update Sat Jul  1 18:44:21 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -42,7 +42,7 @@ int32_t		zappy_server(t_zappy * const data)
 {
   int32_t	rc;
 
-  while (1)
+  while (!data->should_reset)
     {
       rc = zappy_multiplexer(data->net.sock, &data->admin,
 			     &data->clients, &data->multiplex);

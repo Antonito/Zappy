@@ -5,12 +5,13 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Thu Jun 29 18:24:12 2017 Antoine Baché
+** Last update Fri Jun 30 21:12:02 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include "cqueue.h"
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_alloc.h"
@@ -22,7 +23,8 @@
 static void		zappy_client_look_add_res(t_zappy_client_vision
 						  const * const vision,
 						  int32_t const i,
-						  char buff[4096])
+						  char *buff,
+						  size_t const len)
 {
   char const		*res;
   int32_t		j;
@@ -35,8 +37,8 @@ static void		zappy_client_look_add_res(t_zappy_client_vision
       l = 0;
       while (l < vision->map[i].res[j])
 	{
-	  strncat(buff, " ", (4096 * 3) - 1);
-	  strncat(buff, res, (4096 * 3) - 1);
+	  strncat(buff, " ", len - 1);
+	  strncat(buff, res, len - 1);
 	  ++l;
 	}
       ++j;
@@ -49,7 +51,7 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
 {
   int32_t		i;
   int32_t		max;
-  char			buff[4096 * 3];
+  char			buff[4096 * 4];
   int32_t		j;
 
   assert(msg && vision && vision->nb_lines > 0);
@@ -67,7 +69,7 @@ static void		zappy_client_look_build(t_zappy_message * const msg,
 	  strncat(buff, " player", sizeof(buff) - 1);
 	  ++j;
 	}
-      zappy_client_look_add_res(vision, i, buff);
+      zappy_client_look_add_res(vision, i, buff, sizeof(buff));
     }
   strncat(buff, "]\n", sizeof(buff) - 1);
   msg->len = (int32_t)strlen(buff);
@@ -95,7 +97,6 @@ void			zappy_client_cmd_look(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }

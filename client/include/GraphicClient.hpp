@@ -5,6 +5,10 @@
 #include "GameMap.hpp"
 #include "Player.hpp"
 #include "Window.hpp"
+#include "Camera.hpp"
+#include "Shader.hpp"
+#include "TCPSocket.hpp"
+#include "Team.hpp"
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -93,6 +97,11 @@ namespace zappy
     static std::string parseMessage(std::istringstream &is);
     static void checkEmpty(std::istringstream const &is);
 
+    void setTeamColor();
+    void focusPrev();
+    void focusNext();
+    void updateFocus();
+
     // Window
     Window m_win;
 
@@ -102,8 +111,24 @@ namespace zappy
     std::string   m_machine;
 
     // Game data
-    GameMap             m_map;
-    std::vector<Player> m_players;
+    GameMap                              m_map;
+    std::vector<std::unique_ptr<Player>> m_players;
+    std::vector<Team>                    m_teams;
+    std::vector<std::pair<std::size_t, Mesh>> m_eggs;
+    int          m_focus;
+    Camera::Mode m_camMode;
+
+    // 3d data
+    Camera m_camera;
+    Shader m_shader;
+
+    // Network
+    network::TCPSocket m_socket;
+    std::string        m_buffer;
+    bool               m_connecting;
+
+    // Time info
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_lastFrame;
   };
 }
 

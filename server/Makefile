@@ -35,7 +35,8 @@ INCLUDE_DIR=	./include/
 DIR_LIST=	$(SRC_DIR)		\
 		$(SRC_DIR)state		\
 		$(SRC_DIR)client_cmd	\
-		$(SRC_DIR)graphic_cmd
+		$(SRC_DIR)graphic_cmd	\
+		$(SRC_DIR)admin_cmd
 
 HEADER=
 
@@ -57,6 +58,7 @@ SRC_FILES=	admin.c				\
 		cleanup_client.c		\
 		cleanup_map.c			\
 		cleanup_admin.c			\
+		cleanup_eggs.c			\
 		client.c			\
 		client_for_each.c		\
 		client_game.c			\
@@ -64,6 +66,7 @@ SRC_FILES=	admin.c				\
 		client_move.c			\
 		client_rotate.c			\
 		elevation.c			\
+		egg_manager.c			\
 		graphic_cmd.c			\
 		graphic_monitor.c		\
 		io.c				\
@@ -87,6 +90,12 @@ SRC_FILES=	admin.c				\
 		time.c				\
 		vision.c			\
 		win.c				\
+		admin_cmd/admin_broadcast.c	\
+		admin_cmd/admin_info.c		\
+		admin_cmd/admin_egg.c		\
+		admin_cmd/admin_map.c		\
+		admin_cmd/admin_res.c		\
+		admin_cmd/admin_res_dsmpt.c	\
 		state/auth.c			\
 		state/connect.c			\
 		state/connect_w.c		\
