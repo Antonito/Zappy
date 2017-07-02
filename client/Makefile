@@ -19,11 +19,16 @@ LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lsfml-graphics				\
 			-lsfml-window				\
 			-lsfml-system				\
-			-lsfml-audio				\
-			-lGLEW					\
+			-lsfml-audio
+
+ifeq ($(shell uname -s),Darwin)
+LOCAL_LINK_FLAGS+=	-framework OpenGL -lglfw -lglew
+else
+LOCAL_LINK_FLAGS+=	-lGLEW					\
 			-lGL					\
 			-lglut					\
 			-lGLU
+endif
 
 LOCAL_DEBUG_FLAGS=
 
