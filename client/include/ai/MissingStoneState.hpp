@@ -14,7 +14,8 @@ namespace ai
   class MissingStoneState final : public AState
   {
   public:
-    MissingStoneState(std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player);
+    MissingStoneState(std::map<BasicState, std::unique_ptr<IState>> &states,
+                      PlayerInfo &player);
     MissingStoneState(MissingStoneState const &) = delete;
     MissingStoneState(MissingStoneState &&) = delete;
     virtual ~MissingStoneState();
@@ -26,6 +27,9 @@ namespace ai
     virtual void writeState(std::queue<std::string> &writeQueue);
     virtual void reset(Value value);
     virtual Value getResponse() const;
+
+  private:
+    bool enoughStone(std::array<std::int32_t, 6> const) const;
   };
 }
 

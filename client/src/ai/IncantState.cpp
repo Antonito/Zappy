@@ -3,7 +3,8 @@
 namespace ai
 {
   IncantState::IncantState(
-      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      std::map<BasicState, std::unique_ptr<IState>> &states,
+      PlayerInfo &player)
       : AState(states, player)
   {
   }
@@ -20,7 +21,7 @@ namespace ai
     if (ret == Value::YES)
       {
 	m_curValue = Value::YES;
-	// Update level
+	m_player.setLevel(m_player.getLevel() + 1);
       }
     else
       m_curValue = Value::NO;

@@ -35,6 +35,7 @@ namespace ai
     std::int32_t getMendiane() const;
     std::int32_t getPhiras() const;
     std::int32_t getThystame() const;
+    std::array<std::int32_t, 6> const getInventory() const;
 
   private:
     Value m_value;

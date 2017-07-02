@@ -91,4 +91,18 @@ namespace ai
   {
     return (m_inventory.at("thystame"));
   }
+
+  std::array<std::int32_t, 6> const InventoryState::getInventory() const
+  {
+    std::array<std::int32_t, 6> tmp;
+
+    tmp[0] = m_inventory.at("linemate");
+    tmp[1] = m_inventory.at("deraumere");
+    tmp[2] = m_inventory.at("sibur");
+    tmp[3] = m_inventory.at("mendiane");
+    tmp[4] = m_inventory.at("phiras");
+    tmp[5] = m_inventory.at("thystame");
+
+    return (tmp);
+  }
 }
