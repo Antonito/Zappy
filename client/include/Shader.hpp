@@ -29,7 +29,7 @@ namespace zappy
     void updateTransform(glm::mat4 const &transform);
     void updateShadowMat(glm::mat4 const &transform);
     void updateColor(glm::vec4 const &color);
-    void updateLight(std::map<std::size_t, Player> const &players);
+    void updateLight(std::vector<std::unique_ptr<Player>> const &players);
 
   private:
     static constexpr std::uint32_t numShader = 2;

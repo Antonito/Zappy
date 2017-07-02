@@ -5,6 +5,8 @@
 
 namespace zappy
 {
+  class Player;
+
   class Camera
   {
   public:
@@ -30,6 +32,7 @@ namespace zappy
     void rotate(float x, float y);
 
     void setPosition(glm::vec3 const &position);
+    void setAim(glm::vec3 const &aim);
     void setRotation(float x, float y);
     void reset();
 
@@ -41,6 +44,15 @@ namespace zappy
 
     void moveBoost(float boost);
 
+    enum class Mode
+    {
+      FreeCam,
+      FirstPerson,
+      ThirdPerson
+    };
+
+    void setCameraFocus(Player const *player, Mode mode = Mode::FreeCam);
+
   private:
     void updateForward();
 
@@ -48,6 +60,7 @@ namespace zappy
 
     glm::mat4 m_perspective;
     glm::vec3 m_forward;
+    glm::vec3 m_aim;
     glm::vec3 m_position;
     glm::vec2 m_rotation;
     glm::vec3 m_up;
@@ -60,6 +73,9 @@ namespace zappy
     float m_fov;
     float m_zNear;
     float m_zFar;
+
+    Player const *m_focus;
+    Mode  m_mode;
   };
 }
 

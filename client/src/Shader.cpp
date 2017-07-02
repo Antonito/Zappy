@@ -86,27 +86,30 @@ namespace zappy
     glUniform4f(m_uniforms[COLOR_U], color.r, color.g, color.b, color.a);
   }
 
-  void Shader::updateLight(std::map<std::size_t, Player> const &players)
+  void Shader::updateLight(std::vector<std::unique_ptr<Player>> const &players)
   {
     std::vector<float> values;
     std::size_t        i = 0;
-    int count = 0;
+    int                count = 0;
 
     std::array<glm::vec3, 4> norms = {{glm::vec3(0, 0, 1), glm::vec3(-1, 0, 0),
                                        glm::vec3(0, 0, -1),
                                        glm::vec3(1, 0, 0)}};
 
-    for (std::pair<std::size_t, Player> const &player_ : players)
+    for (std::unique_ptr<Player> const &player : players)
       {
-	Player const &player = player_.second;
-
-	std::size_t         power = player.level();
-	Player::Orientation orientation = player.orientation();
+	if (player.get() == nullptr)
+	  {
+	    continue;
+	  }
+	  
+	std::size_t         power = player->level();
+	Player::Orientation orientation = player->orientation();
 	std::size_t         dir = static_cast<std::size_t>(orientation) - 1;
 	glm::vec3 const &   pos =
-	    player.position() + glm::vec3(0.0, 0.3, 0.0) + 0.1f * norms[dir];
+	    player->position() + glm::vec3(0.0, 0.3, 0.0) + 0.1f * norms[dir];
 
-	if (player.isLightUpToDate(power, dir, pos) == false)
+	if (player->isLightUpToDate(power, dir, pos) == false)
 	  {
 	    glUniform3f(m_lights[i].position, pos.x, pos.y, pos.z);
 	    glUniform1f(m_lights[i].power,

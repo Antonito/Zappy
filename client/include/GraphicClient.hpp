@@ -98,6 +98,9 @@ namespace zappy
     static void checkEmpty(std::istringstream const &is);
 
     void setTeamColor();
+    void focusPrev();
+    void focusNext();
+    void updateFocus();
 
     // Window
     Window m_win;
@@ -109,8 +112,10 @@ namespace zappy
 
     // Game data
     GameMap m_map;
-    std::map<std::size_t, Player> m_players;
+    std::vector<std::unique_ptr<Player>> m_players;
     std::vector<Team> m_teams;
+    int               m_focus;
+    Camera::Mode      m_camMode;
 
     // 3d data
     Camera m_camera;

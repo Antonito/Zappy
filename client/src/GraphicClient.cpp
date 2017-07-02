@@ -7,7 +7,8 @@ namespace zappy
                                std::uint16_t port, std::string const &name,
                                std::string const &machine)
       : m_win(width, height, windowName), m_port(port), m_name(name),
-        m_machine(machine), m_map(), m_players(), m_teams(),
+        m_machine(machine), m_map(), m_players(), m_teams(), m_focus(-1),
+        m_camMode(Camera::Mode::FreeCam),
         m_camera(glm::vec3(0, 0, 0), 90,
                  static_cast<float>(width) / static_cast<float>(height), 0.01f,
                  10000.0f),
@@ -16,6 +17,7 @@ namespace zappy
         m_buffer(), m_connecting(true),
         m_lastFrame(std::chrono::high_resolution_clock::now())
   {
+    m_players.emplace_back(nullptr);
     if (m_socket.openConnection() == false)
       {
 	throw std::runtime_error("Graphic client connection failed");
@@ -33,7 +35,7 @@ namespace zappy
 
     m_win.useShader(m_shader);
 
-    m_camera.setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
+    m_camera.setAim(glm::vec3(0.0f, 3.0f, 0.0f));
     m_camera.setRotation(225, 0);
 
     while (m_win.isOpen())
@@ -64,9 +66,12 @@ namespace zappy
 	    ++i;
 	  }
 
-	for (std::pair<const std::size_t, Player> &player : m_players)
+	for (std::unique_ptr<Player> &player : m_players)
 	  {
-	    player.second.updatePosition(sinceLast);
+	    if (player.get() != nullptr)
+	      {
+		player->updatePosition(sinceLast);
+	      }
 	  }
 
 	// Update camera
@@ -81,9 +86,20 @@ namespace zappy
 
 	m_map.renderOn(m_win, m_camera);
 
-	for (std::pair<std::size_t, Player> const &player : m_players)
+	for (std::size_t i = 0; i < m_players.size(); ++i)
 	  {
-	    player.second.renderOn(m_win, m_camera);
+	    if (m_players[i].get() == nullptr)
+	      {
+		continue;
+	      }
+
+	    if (m_camMode == Camera::Mode::FirstPerson &&
+	        static_cast<int>(i) == m_focus)
+	      {
+		continue;
+	      }
+
+	    m_players[i]->renderOn(m_win, m_camera);
 	  }
 
 	// Display the window
@@ -122,6 +138,30 @@ namespace zappy
 	    break;
 	  case sf::Keyboard::LShift:
 	    m_camera.moveBoost(2.0f);
+	    break;
+	  case sf::Keyboard::Space:
+	    if (m_camMode == Camera::Mode::FreeCam)
+	      m_camMode = Camera::Mode::ThirdPerson;
+	    else if (m_camMode == Camera::Mode::ThirdPerson)
+	      m_camMode = Camera::Mode::FirstPerson;
+	    else
+	      {
+		if (m_focus < static_cast<int>(m_players.size()) &&
+		    m_players[m_focus].get() != nullptr)
+		  {
+		    m_camera.translate(glm::vec3(0.0f, 0.6f, 0.0f));
+		    m_camera.setAim(m_camera.position() + glm::vec3(0.0f, 1.0f, 0.0f) - m_players[m_focus]->direction());
+		  }
+		m_camMode = Camera::Mode::FreeCam;
+	      }
+
+	    this->updateFocus();
+	    break;
+	  case sf::Keyboard::Left:
+	    this->focusPrev();
+	    break;
+	  case sf::Keyboard::Right:
+	    this->focusNext();
 	    break;
 	  case sf::Keyboard::Escape:
 	    m_win.close();
@@ -512,7 +552,17 @@ namespace zappy
 
     bool teamFound = false;
 
-    Player &player = m_players[playerId];
+    if (playerId < m_players.size())
+      {
+	m_players[playerId] = std::make_unique<Player>();
+      }
+    else
+      {
+	assert(playerId == m_players.size());
+	m_players.emplace_back(new Player());
+      }
+
+    Player &player = *m_players[playerId];
 
     for (std::size_t i = 0; i < m_teams.size(); ++i)
       {
@@ -527,7 +577,7 @@ namespace zappy
 
     if (!teamFound)
       {
-	m_players.erase(playerId);
+	m_players[playerId].reset();
 	throw std::invalid_argument(std::string("Team not found: ") + team +
 	                            ')');
       }
@@ -551,7 +601,7 @@ namespace zappy
     nope::log::Log(Debug) << "Received player " << playerId << " position: ("
                           << x << ", " << y << ") (" << orientation << ")";
 
-    Player &player = m_players[playerId];
+    Player &player = *m_players[playerId];
 
     player.setPlayerPosition(x, y);
     player.setOrientation(orientation);
@@ -567,7 +617,7 @@ namespace zappy
     nope::log::Log(Debug) << "Received player " << playerId
                           << " level: " << level;
 
-    m_players[playerId].setLevel(level);
+    m_players[playerId]->setLevel(level);
   }
 
   void GraphicClient::playerInventory(std::string const &data)
@@ -705,8 +755,8 @@ namespace zappy
     nope::log::Log(Debug) << "Player " << playerId << " droped a resource ("
                           << resource << ')';
 
-    m_players[playerId].dropResource(m_map,
-                                     static_cast<Resource::Type>(resource));
+    m_players[playerId]->dropResource(m_map,
+                                      static_cast<Resource::Type>(resource));
   }
 
   void GraphicClient::takeResource(std::string const &data)
@@ -721,8 +771,8 @@ namespace zappy
     nope::log::Log(Debug) << "Player " << playerId << " took a resource ("
                           << resource << ')';
 
-    m_players[playerId].takeResource(m_map,
-                                     static_cast<Resource::Type>(resource));
+    m_players[playerId]->takeResource(m_map,
+                                      static_cast<Resource::Type>(resource));
   }
 
   void GraphicClient::starved(std::string const &data)
@@ -735,7 +785,8 @@ namespace zappy
 
     nope::log::Log(Info) << "Player " << playerId << " starved";
 
-    m_players.erase(playerId);
+    m_players[playerId].reset();
+    this->updateFocus();
   }
 
   void GraphicClient::eggLayed(std::string const &data)
@@ -979,6 +1030,82 @@ namespace zappy
 	    << "Team " << m_teams[i].name << ": (" << m_teams[i].color.r
 	    << ", " << m_teams[i].color.g << ", " << m_teams[i].color.b << ", "
 	    << m_teams[i].color.a << ')';
+      }
+  }
+
+  void GraphicClient::focusPrev()
+  {
+    m_focus = std::max(-1, m_focus - 1);
+
+    while (m_focus >= 0 && m_players[m_focus].get() == nullptr)
+      {
+	--m_focus;
+      }
+
+    if (m_focus == -1)
+      {
+	m_focus = static_cast<int>(m_players.size()) - 1;
+      }
+
+    while (m_focus >= 0 && m_players[m_focus].get() == nullptr)
+      {
+	--m_focus;
+      }
+
+    if (m_focus == -1)
+      {
+	m_camera.setCameraFocus(nullptr, m_camMode);
+      }
+    else
+      {
+	m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+      }
+  }
+
+  void GraphicClient::focusNext()
+  {
+    m_focus = std::min(static_cast<int>(m_players.size()), m_focus + 1);
+
+    while (m_focus < static_cast<int>(m_players.size()) &&
+           m_players[m_focus].get() == nullptr)
+      {
+	++m_focus;
+      }
+
+    if (m_focus == static_cast<int>(m_players.size()))
+      {
+	m_focus = 0;
+      }
+
+    while (m_focus < static_cast<int>(m_players.size()) &&
+           m_players[m_focus].get() == nullptr)
+      {
+	++m_focus;
+      }
+
+    if (m_focus == static_cast<int>(m_players.size()))
+      {
+	m_focus = -1;
+	m_camera.setCameraFocus(nullptr, m_camMode);
+      }
+    else
+      {
+	m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+      }
+  }
+
+  void GraphicClient::updateFocus()
+  {
+    if (m_focus == -1)
+      m_focus = 0;
+
+    for (; m_focus < static_cast<int>(m_players.size()); ++m_focus)
+      {
+	if (m_players[m_focus].get() != nullptr)
+	  {
+	    m_camera.setCameraFocus(m_players[m_focus].get(), m_camMode);
+	    break;
+	  }
       }
   }
 }

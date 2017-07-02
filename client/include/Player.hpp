@@ -36,6 +36,7 @@ namespace zappy
     std::size_t        getX() const;
     std::size_t        getY() const;
     Orientation const &orientation() const;
+    glm::vec3          direction() const;
     std::size_t        level() const;
 
     void setOrientation(Orientation orientation);

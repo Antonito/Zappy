@@ -13,7 +13,9 @@ namespace zappy
   Player::Player(Player const &that)
       : m_mesh(that.m_mesh), m_x(that.m_x), m_y(that.m_y),
         m_orientation(that.m_orientation), m_level(that.m_level),
-        m_position(that.m_position), m_speed(that.m_speed), m_lastPower(that.m_lastPower), m_lastDir(that.m_lastDir), m_lastPos(that.m_lastPos)
+        m_position(that.m_position), m_speed(that.m_speed),
+        m_lastPower(that.m_lastPower), m_lastDir(that.m_lastDir),
+        m_lastPos(that.m_lastPos)
   {
   }
 
@@ -23,9 +25,9 @@ namespace zappy
         m_level(std::move(that.m_level)),
         m_position(std::move(that.m_position)),
         m_speed(std::move(that.m_speed)),
-	m_lastPower(std::move(that.m_lastPower)),
-	m_lastDir(std::move(that.m_lastDir)),
-	m_lastPos(std::move(that.m_lastPos))
+        m_lastPower(std::move(that.m_lastPower)),
+        m_lastDir(std::move(that.m_lastDir)),
+        m_lastPos(std::move(that.m_lastPos))
   {
   }
 
@@ -95,6 +97,14 @@ namespace zappy
   Player::Orientation const &Player::orientation() const
   {
     return (m_orientation);
+  }
+
+  glm::vec3 Player::direction() const
+  {
+    int dir = static_cast<int>(m_orientation) - 1;
+
+    return (glm::vec3(dir == 1 ? -1 : dir == 3 ? 1 : 0, 0,
+                      dir == 0 ? 1 : dir == 2 ? -1 : 0));
   }
 
   std::size_t Player::level() const
