@@ -134,8 +134,10 @@ function DrawCellMob(mob, x, y) {
     var pos_x = mob.X - startX;
     var pos_y = mob.Y - startY;
 
-    if ((0 <= pos_x && pos_x <= 10) &&
-        (0 <= pos_y && pos_y <= 10)) {
+    if ((0 <= pos_x && pos_x < 10) &&
+        (0 <= pos_y && pos_y < 10)) {
+
+        console.log("drawwww ");
 
         var image = resources_layer.create(
             shiftX + pos_x * 100 + SPRITES_POSITION.MOB.X,
@@ -148,8 +150,29 @@ function DrawCellMob(mob, x, y) {
             SPRITES_POSITION.MOB.SH
         );
 
-    }
+    } else if (pos_x < 0 || pos_y < 0) {
 
+        if (pos_x < 0 && (mob.X >= 0 && mob.X < 10))
+            pos_x = mob.X + (WSZW - startX);
+        if (pos_y < 0 && (mob.Y >= 0 && mob.Y < 10))
+            pos_y = mob.Y + (WSZH - startY);
+
+        if ((0 <= pos_x && pos_x < 10) &&
+            (0 <= pos_y && pos_y < 10)) {
+
+            var image = resources_layer.create(
+                shiftX + pos_x * 100 + SPRITES_POSITION.MOB.X,
+                shiftY + pos_y * 100 + SPRITES_POSITION.MOB.Y,
+                MOBS_COLOR[mob.id % MOBS_COLOR.length]);
+
+            ScaleImage(
+                image,
+                SPRITES_POSITION.MOB.SW,
+                SPRITES_POSITION.MOB.SH
+            );
+
+        }
+    }
 
 }
 
