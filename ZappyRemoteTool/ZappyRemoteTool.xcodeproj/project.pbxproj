@@ -16,6 +16,7 @@
 		27408AD11F085DC4002D0D6D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408AD01F085DC4002D0D6D /* NetworkManager.swift */; };
 		27408AD31F08765B002D0D6D /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408AD21F08765B002D0D6D /* InfoViewController.swift */; };
 		27408AD51F08812F002D0D6D /* SpawnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27408AD41F08812F002D0D6D /* SpawnViewController.swift */; };
+		27561C101F089BAB000533FC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27561C0F1F089BAB000533FC /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		27408AD01F085DC4002D0D6D /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		27408AD21F08765B002D0D6D /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		27408AD41F08812F002D0D6D /* SpawnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpawnViewController.swift; sourceTree = "<group>"; };
+		27561C0F1F089BAB000533FC /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3B879C6A8F41FB0C6E360520 /* Pods-ZappyRemoteTool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZappyRemoteTool.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZappyRemoteTool/Pods-ZappyRemoteTool.release.xcconfig"; sourceTree = "<group>"; };
 		5B2F4133DA7BAD53E8A9D53A /* Pods-ZappyRemoteTool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZappyRemoteTool.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZappyRemoteTool/Pods-ZappyRemoteTool.debug.xcconfig"; sourceTree = "<group>"; };
 		AF2536C17E3B806F94E510CB /* Pods_ZappyRemoteTool.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZappyRemoteTool.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +86,7 @@
 				27408ABF1F08594A002D0D6D /* ViewController.swift */,
 				27408AD21F08765B002D0D6D /* InfoViewController.swift */,
 				27408AD41F08812F002D0D6D /* SpawnViewController.swift */,
+				27561C0F1F089BAB000533FC /* MapViewController.swift */,
 			);
 			name = VC;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27408AD11F085DC4002D0D6D /* NetworkManager.swift in Sources */,
+				27561C101F089BAB000533FC /* MapViewController.swift in Sources */,
 				27408AD51F08812F002D0D6D /* SpawnViewController.swift in Sources */,
 				27408AC01F08594A002D0D6D /* ViewController.swift in Sources */,
 				27408AD31F08765B002D0D6D /* InfoViewController.swift in Sources */,
