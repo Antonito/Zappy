@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Sun Jul  2 18:18:29 2017 Antoine Baché
+** Last update Sun Jul  2 21:04:36 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -72,6 +72,8 @@ static int32_t	zappy_setup(void)
       atexit(zappy_exit_cleanup) == -1 ||
 #if defined(__linux__) || defined (__APPLE__)
       signal(SIGPIPE, SIG_IGN) == SIG_ERR ||
+#else
+      !zappy_winsock_init() ||
 #endif
       signal(SIGINT, &zappy_signal_handler) == SIG_ERR)
     {
@@ -98,6 +100,7 @@ int		main(int ac, char **av)
     }
 #if defined(_WIN32)
   system("pause");
+  zappy_winsock_deinit();
 #endif
   return (ret);
 }
