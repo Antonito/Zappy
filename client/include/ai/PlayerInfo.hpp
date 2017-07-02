@@ -40,6 +40,9 @@ namespace ai
 
     std::int32_t getDirection() const;
     void setDirection(std::int32_t dir);
+
+    std::string getStoneName(std::int32_t i) const;
+
   private:
     std::int32_t m_level;
     std::queue<std::string> &m_cmdMSG;

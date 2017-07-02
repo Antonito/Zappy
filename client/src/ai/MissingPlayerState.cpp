@@ -46,17 +46,15 @@ namespace ai
     m_states[BasicState::LOOK]->writeState(writeQueue);
     if (m_help == true)
       {
-	// TODO: change message
 	static_cast<BroadcastState *>(m_states[BasicState::BROADCAST])
-	    ->setMsg("help");
+	    ->setMsg("EmBsTf COME " + std::to_string(m_player.getPlayerID()) + " " + std::to_string(m_player.getLevel()));
 	m_states[BasicState::BROADCAST]->writeState(writeQueue);
 	m_help = false;
       }
-    else if (m_goAway = true)
+    else if (m_goAway == true)
       {
-	// TODO: change message
 	static_cast<BroadcastState *>(m_states[BasicState::BROADCAST])
-	    ->setMsg("goAway");
+	    ->setMsg("EmBsTf GO_AWAY " + std::to_string(m_player.getPlayerID()));
 	m_states[BasicState::BROADCAST]->writeState(writeQueue);
 	m_goAway = false;
 	m_curValue = Value::NO;

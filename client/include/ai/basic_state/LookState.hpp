@@ -33,11 +33,14 @@ namespace ai
     std::int32_t findStone() const;
     std::int32_t getNbPlayer() const;
 
+    void setStone(std::string);
+
     // std::vetor<std::map<std::string, std::int32_t>> &getCases() const;
 
   private:
     Value m_value;
     std::vector<std::map<std::string, std::int32_t>> m_cases;
+    std::string m_stoneName;
   };
 }
 

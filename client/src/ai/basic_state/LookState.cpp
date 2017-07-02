@@ -2,7 +2,7 @@
 
 namespace ai
 {
-  LookState::LookState() : m_value(Value::NO)
+  LookState::LookState() : m_value(Value::NO), m_cases(), m_stoneName("")
   {
   }
 
@@ -109,7 +109,7 @@ namespace ai
     for (std::size_t i = 0; i < m_cases.size(); ++i)
       {
 	// TODO : set correct stone
-	if (m_cases[i].at("sibur") != 0)
+	if (m_cases[i].at(m_stoneName) != 0)
 	  return (static_cast<std::int32_t>(i));
       }
     return (-1);
@@ -118,5 +118,10 @@ namespace ai
   std::int32_t LookState::getNbPlayer() const
   {
     return (m_cases[0].at("player"));
+  }
+
+  void LookState::setStone(std::string stoneName)
+  {
+    m_stoneName = stoneName;
   }
 }

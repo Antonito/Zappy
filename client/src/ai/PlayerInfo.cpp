@@ -3,6 +3,15 @@
 namespace ai
 {
 
+  static const std::map<std::int32_t, std::string const> stoneNames = {
+    {0, "linemate"},
+    {1, "deraumere"},
+    {2, "sibur"},
+    {3, "mendiane"},
+    {4, "phiras"},
+    {5, "thystame"},
+  };
+
   static const std::array<std::pair<std::int32_t, std::array<std::int32_t, 6>>,
                           7>
       recipes = {{
@@ -122,5 +131,10 @@ namespace ai
     void PlayerInfo::setDirection(std::int32_t dir)
     {
       m_direction = dir;
+    }
+
+    std::string PlayerInfo::getStoneName(std::int32_t i) const
+    {
+      return (stoneNames.at(i));
     }
 }

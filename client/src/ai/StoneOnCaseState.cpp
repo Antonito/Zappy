@@ -17,6 +17,18 @@ namespace ai
     nope::log::Log(Debug) << "StoneOnCase[READ]State";
     m_states[BasicState::LOOK]->readState(readQueue);
     // TODO: set the stone to find
+    
+    std::array<std::int32_t, 6> diff = m_player.missingStone(static_cast<InventoryState *>(m_states[BasicState::INVENTORY])->getInventory());
+
+    for (std::int32_t i = 0; i < 6; ++i)
+    {
+      if (diff[static_cast<std::size_t>(i)] > 0)
+      {
+        static_cast<LookState *>(m_states[BasicState::LOOK])->setStone(m_player.getStoneName(i));
+        break;
+      }
+    }
+
     Value ret = m_states[BasicState::LOOK]->getResponse();
     if (ret == Value::YES)
       {
