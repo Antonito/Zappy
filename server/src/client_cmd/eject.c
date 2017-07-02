@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 16:36:19 2017 Antoine Baché
+** Last update Fri Jun 30 21:11:07 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -40,7 +40,6 @@ static void			zappy_client_eject_msg(t_zappy_client *
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }
@@ -101,7 +100,6 @@ void			zappy_client_cmd_eject(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }

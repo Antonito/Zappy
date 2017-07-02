@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:25:22 2017 Antoine Baché
-** Last update Fri Jun 30 17:02:06 2017 Antoine Baché
+** Last update Sat Jul  1 12:34:01 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -68,7 +68,8 @@ static bool		zappy_elevation_check_lvl(int32_t const cur_lvl,
   found = 0;
   while (i < nb_players)
     {
-      if (players[i] && players[i] != cli && players[i]->level == cur_lvl)
+      if (players &&
+	  players[i] && players[i] != cli && players[i]->level == cur_lvl)
 	{
 	  ++found;
 	}

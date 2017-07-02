@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 16:36:04 2017 Antoine Baché
+** Last update Sat Jul  1 03:02:39 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -42,7 +42,6 @@ static void		zappy_client_broadcast_msg(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }
@@ -54,7 +53,7 @@ static void		zappy_client_broadcast(t_zappy_client * const cli,
   int32_t		from;
 
   bd = _data;
-  if (cli->graphical || bd->cli == cli)
+  if (cli->graphical || bd->cli == cli || !cli->authenticated)
     return ;
   from = zappy_broadcast_calc(bd->cli, cli, bd->data->map.width,
 			      bd->data->map.height);
@@ -96,7 +95,6 @@ void			zappy_client_cmd_broadcast(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }

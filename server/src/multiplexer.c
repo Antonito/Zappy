@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:50:48 2017 Antoine Baché
-** Last update Thu Jun 29 12:13:38 2017 Antoine Baché
+** Last update Fri Jun 30 18:32:27 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -37,7 +37,6 @@ static void	zappy_multiplexer_add_client_wrap(t_zappy_client const *
 						  void * const data)
 {
   assert(cli && data);
-  LOG(LOG_DEBUG, "Monitoring client #%d", cli->id);
   zappy_multiplexer_add_client(cli, (t_zappy_multiplexer * const)data);
 }
 

@@ -5,29 +5,34 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 16:32:46 2017 Antoine Baché
-** Last update Fri Jun 30 16:48:30 2017 Antoine Baché
+** Last update Sat Jul  1 02:56:31 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <stdlib.h>
 #include "clogger.h"
+#include "cqueue.h"
+#include "zappy_alloc.h"
 #include "zappy_cleanup.h"
 
 void			zappy_cleanup_eggs(t_zappy_egg_manager * const man)
 {
-  int32_t		i;
-  t_zappy_egg		*cur;
-  t_zappy_egg		*tmp;
+  t_cqueue		*cur;
 
   assert(man);
   LOG(LOG_DEBUG, "Cleaning eggs");
-  i = 0;
-  cur = man->eggs;
-  while (i < man->nb_eggs)
+  while (!cqueue_is_empty(man->eggs))
     {
-      tmp = cur;
-      cur = cur->next;
-      free(tmp);
-      ++i;
+      cur = cqueue_get_front(man->eggs);
+      cqueue_pop(&man->eggs);
+      free(cur->data);
+      zappy_free_cqueue(cur);
+    }
+  while (!cqueue_is_empty(man->hatched))
+    {
+      cur = cqueue_get_front(man->hatched);
+      cqueue_pop(&man->hatched);
+      free(cur->data);
+      zappy_free_cqueue(cur);
     }
 }
