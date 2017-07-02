@@ -239,8 +239,17 @@ namespace ai
     return (msg);
   }
 
-  bool NetworkManager::isTeam(std::string const &) const
+  bool NetworkManager::isTeam(std::string const &msg) const
   {
+    if (msg.substr(0, 8) != "message ")
+      {
+	return (false);
+      }
+
+    if (msg.substr(11, 6) != "EmBsTf")
+      {
+	return (false);
+      }
     return (true);
   }
 }
