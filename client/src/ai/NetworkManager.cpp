@@ -30,8 +30,8 @@ namespace ai
 	    FD_SET(sock, &wfds);
 	    struct timeval tm;
 
-	    tm.tv_usec = 3000;
-	    tm.tv_sec = 0;
+	    tm.tv_usec = 0;
+	    tm.tv_sec = 3;
 
 	    ret = select(sock + 1, nullptr, &wfds, nullptr, &tm);
 	  }
@@ -79,8 +79,8 @@ namespace ai
 	    FD_SET(sock, &rds);
 	    struct timeval tm;
 
-	    tm.tv_usec = 3000;
-	    tm.tv_sec = 0;
+	    tm.tv_usec = 0;
+	    tm.tv_sec = 3;
 
 	    ret = select(sock + 1, &rds, nullptr, nullptr, &tm);
 	  }
@@ -97,7 +97,7 @@ namespace ai
 	  {
 	    throw std::runtime_error("Connection timed out");
 	  }
-	else if (FD_ISSET(sock, &rds))
+	else if (ret && FD_ISSET(sock, &rds))
 	  {
 
 	    nope::log::Log(Debug) << "Receiving on " << sock;
