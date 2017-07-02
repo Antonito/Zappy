@@ -35,7 +35,7 @@ static bool		zappy_elevation_check_table(t_zappy_client_game
 						    const *cli,
 						    t_zappy * const data)
 {
-  t_zappy_map_case	*cur;
+  t_zappy_map_tile	*cur;
   int32_t		cur_lvl;
 
   cur = &data->map.data[cli->y][cli->x];
@@ -105,7 +105,7 @@ void			zappy_elevation_end_inv(t_zappy_client_game *
 						const cli,
 						t_zappy * const data)
 {
-  t_zappy_map_case	*cur;
+  t_zappy_map_tile	*cur;
 
   cur = &data->map.data[cli->y][cli->x];
   cur->content[RES_LINEMATE] -= elevation_table[cli->level - 1].linemate;

@@ -21,7 +21,7 @@
 #include "zappy_message.h"
 
 static void		zappy_graph_bct_fill(t_zappy_message * const msg,
-					     t_zappy_map_case * const c)
+					     t_zappy_map_tile * const c)
 {
   char			buff[4096];
 

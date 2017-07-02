@@ -32,7 +32,7 @@ typedef struct	s_zappy_team		t_zappy_team;
 /*
 ** Forward declaration of t_zappy
 */
-typedef struct	s_zappy_map_case	t_zappy_map_case;
+typedef struct	s_zappy_map_tile	t_zappy_map_tile;
 
 /*
 ** Forward declaration of t_zappy

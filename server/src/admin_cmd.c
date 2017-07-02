@@ -26,14 +26,14 @@ static char const	*zappy_admin_help_str =
   "-> inc:               increase server frequency\n"
   "-> dec:               decrease server frequency\n"
   "-> reset:             restarts the server, starting a new game\n"
-  "-> spawn rand:        spwans a random resource on a random case.\n"
+  "-> spawn rand:        spwans a random resource on a random tile.\n"
   "                      The following spawns are available: rand, food\n"
   "                      , linemate, deraumere, sibur, mendiane, phiras\n"
   "                      , thystame, egg\n"
   "-> broadcast nb msg:  broadcast a message to all players, \n"
-  "                      coming from nb case\n"
-  "-> map add X Y res:   add an element of res type to map case X Y\n"
-  "-> map rm X Y res:    remove an element of res type from map case X Y\n";
+  "                      coming from nb tile\n"
+  "-> map add X Y res:   add an element of res type to map tile X Y\n"
+  "-> map rm X Y res:    remove an element of res type from map tile X Y\n";
 
 static size_t const	zappy_admin_help_len =
   sizeof("Available commands:\n"
@@ -43,17 +43,17 @@ static size_t const	zappy_admin_help_len =
 	 "-> inc:               increase server frequency\n"
 	 "-> dec:               decrease server frequency\n"
 	 "-> reset:             restarts the server, starting a new game\n"
-	 "-> spawn rand:        spwans a random resource on a random case.\n"
+	 "-> spawn rand:        spwans a random resource on a random tile.\n"
 	 "                      The following spawns are available: rand, "
 	 "food\n"
 	 "                      , linemate, deraumere, sibur, mendiane, "
 	 "phiras\n"
 	 "                      , thystame, egg\n"
 	 "-> broadcast nb msg:  broadcast a message to all players, \n"
-	 "                      coming from nb case\n"
-	 "-> map add X Y res:   add an element of res type to map case X Y\n"
+	 "                      coming from nb tile\n"
+	 "-> map add X Y res:   add an element of res type to map tile X Y\n"
 	 "-> map rm X Y res:    remove an element of res type from map "
-	 "case X Y\n") - 1;
+	 "tile X Y\n") - 1;
 
 void	zappy_admin_cmd_help(t_zappy * const data,
 			     char const * cmd)
