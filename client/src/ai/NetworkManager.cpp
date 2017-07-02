@@ -4,7 +4,7 @@ namespace ai
 {
   NetworkManager::NetworkManager(std::string const &machine,
                                  std::uint16_t      port)
-      : m_sock(port, machine, false, network::ASocket::SocketType::BLOCKING),
+      : m_response(), m_message(), m_sock(port, machine, false, network::ASocket::SocketType::BLOCKING),
         m_buffer("")
   {
     if (m_sock.openConnection() == false)
