@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:55 2017 Antoine Baché
-** Last update Sat Jul  1 18:43:43 2017 Antoine Baché
+** Last update Sun Jul  2 17:51:42 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_H_
@@ -13,6 +13,11 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+
+#if defined(_WIN32)
+#include "zappy_windows.h"
+#endif
+
 #include "zappy_admin.h"
 #include "zappy_config.h"
 #include "zappy_socket.h"

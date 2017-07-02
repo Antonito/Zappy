@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:22:18 2017 Antoine Baché
-** Last update Thu Jun 29 16:42:45 2017 Antoine Baché
+** Last update Sun Jul  2 18:18:29 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -59,11 +59,8 @@ static int32_t	zappy(t_zappy * const data)
   return (rc);
 }
 
-int		main(int ac, char **av)
+static int32_t	zappy_setup(void)
 {
-  int		ret;
-
-  ret = 0;
   clogger_init(&g_log);
 #if defined DEBUG
   g_log.set_level(&g_log, LOG_DEBUG);
@@ -71,18 +68,36 @@ int		main(int ac, char **av)
   g_log.set_level(&g_log, LOG_INFO);
 #endif
   memset(&zap, 0, sizeof(zap));
-  LOG(LOG_INFO, "Starting Zappy server");
   if (zappy_alloc_init() ||
       atexit(zappy_exit_cleanup) == -1 ||
+#if defined(__linux__) || defined (__APPLE__)
       signal(SIGPIPE, SIG_IGN) == SIG_ERR ||
+#endif
       signal(SIGINT, &zappy_signal_handler) == SIG_ERR)
     {
       return (84);
     }
+  return (0);
+}
+
+int		main(int ac, char **av)
+{
+  int		ret;
+
+  ret = 0;
+  if (zappy_setup())
+    {
+      LOG(LOG_ERROR, "Cannot start Zappy server");
+      return (84);
+    }
+  LOG(LOG_INFO, "Starting Zappy server");
   while (!ret && zappy_parse_args(ac, (char const * const *)av, &zap.conf))
     {
       LOG(LOG_DEBUG, "Argument parsed, starting network");
       ret = zappy(&zap);
     }
+#if defined(_WIN32)
+  system("pause");
+#endif
   return (ret);
 }

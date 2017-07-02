@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 22:05:34 2017 Antoine Baché
-** Last update Sat Jul  1 17:46:39 2017 Antoine Baché
+** Last update Sun Jul  2 18:05:08 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -70,7 +70,7 @@ void		zappy_client_read(t_zappy_client * const cli,
 	      buff[msg_len - 1] = '\0';
 	      if (msg_len - 2 > 0 && buff[msg_len - 2] == '\r')
 		buff[msg_len - 2] = '\0';
-	      zappy_state_hand[cli->state].read(cli, data, buff);
+	      zappy_state_hand[cli->state].r(cli, data, buff);
 	    }
 	}
       return ;
@@ -85,7 +85,7 @@ void		zappy_client_write(t_zappy_client * const cli,
 
   assert(cli->state < NB_CLI_STATE);
   assert(cli->can_write);
-  zappy_state_hand[cli->state].write(cli, data);
+  zappy_state_hand[cli->state].w(cli, data);
   while (!cqueue_is_empty(cli->output_queue))
     {
       to_send = cqueue_get_front(cli->output_queue);

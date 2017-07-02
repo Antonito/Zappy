@@ -5,10 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Thu Jun 29 00:31:46 2017 Antoine Baché
-** Last update Thu Jun 29 00:39:09 2017 Antoine Baché
+** Last update Sun Jul  2 17:39:34 2017 Antoine Baché
 */
 
+#if defined(__linux__) || defined(__APPLE__)
 #include <sys/time.h>
+#else
+#include <windows.h>
+#endif
 #include <string.h>
 #include <errno.h>
 #include "clogger.h"
