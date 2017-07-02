@@ -43,7 +43,10 @@ namespace ai
           if (level == m_player.getLevel())
           {
             m_player.setTargetID(id);
-            m_player.setDirection(dir);
+            if (dir >= 0 && dir <= 8)
+            {
+              m_player.setDirection(dir);
+            }
           }
         }
       }
