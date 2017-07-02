@@ -65,7 +65,8 @@ SRC_FILES=	main.cpp				\
 		Team.cpp				\
 		ai/AI.cpp				\
 		ai/PlayerInfo.cpp			\
-		ai/NetworkManager.cpp
+		ai/NetworkManager.cpp			\
+		ai/Message.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILES))
 

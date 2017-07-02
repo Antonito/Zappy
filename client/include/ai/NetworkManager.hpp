@@ -3,6 +3,7 @@
 
 #include <string>
 #include "TCPSocket.hpp"
+#include "Message.hpp"
 
 namespace ai
 {
@@ -20,9 +21,15 @@ namespace ai
     void send(std::string const &message);
     std::string receive();
 
+    Message getMessage();
+
   private:
-    network::TCPSocket m_sock;
-    std::string        m_buffer;
+    bool isTeam(std::string const &message) const;
+
+    std::queue<std::string> m_response;
+    std::queue<Message>     m_message;
+    network::TCPSocket      m_sock;
+    std::string             m_buffer;
   };
 }
 
