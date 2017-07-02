@@ -14,15 +14,17 @@ function DrawAll(startX, startY) {
     }
 
     /* Draw Mobs */
-    for (var i = 0; i < raw_mobs_list.length; ++i) {
-        DrawCellMob(raw_mobs_list[i]);
-    }
+    raw_mobs_list.forEach((e) => {
+        DrawCellMob(e);
+    });
 
     /* Draw Eggs */
-    for (var i = 0; i < raw_eggs_list.length; ++i) {
-        DrawCellEgg(raw_eggs_list[i]);
-    }
+    raw_eggs_list.forEach((e) => {
+        DrawCellEgg(e);
+    });
 
+    var pos_info = game.add.text(10, 10, "POS : (" + startX + ", " + startY + ")", font_style);
+    text_layer.add(pos_info);
 }
 
 function DrawCellResources(cell_res, x, y) {
@@ -129,15 +131,25 @@ function DrawCellResources(cell_res, x, y) {
 
 function DrawCellMob(mob, x, y) {
 
-    var image = resources_layer.create(
-        shiftX + mob.pos_x * 100 + SPRITES_POSITION.MOB.X,
-        shiftY + mob.pos_y * 100 + SPRITES_POSITION.MOB.Y, MOBS_COLOR[mob.teamId % MOBS_COLOR.length]);
+    var pos_x = mob.X - startX;
+    var pos_y = mob.Y - startY;
 
-    ScaleImage(
-        image,
-        SPRITES_POSITION.MOB.SW,
-        SPRITES_POSITION.MOB.SH
-    );
+    if ((0 <= pos_x && pos_x <= 10) &&
+        (0 <= pos_y && pos_y <= 10)) {
+
+        var image = resources_layer.create(
+            shiftX + pos_x * 100 + SPRITES_POSITION.MOB.X,
+            shiftY + pos_y * 100 + SPRITES_POSITION.MOB.Y,
+            MOBS_COLOR[mob.id % MOBS_COLOR.length]);
+
+        ScaleImage(
+            image,
+            SPRITES_POSITION.MOB.SW,
+            SPRITES_POSITION.MOB.SH
+        );
+
+    }
+
 
 }
 
