@@ -87,11 +87,21 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
-  // TODO :set TEAM NAME - ULTRA IMPORTANT
-  AI::AI(std::string const &ip, std::uint16_t port)
+  AI::AI(std::string const &ip, std::uint16_t port, std::string const &teamname)
       : m_states(), m_curState(State::STARVING), m_curValue(Value::YES),
         m_network(ip, port), m_player(m_network), m_alive(true)
   {
+    if (m_network.receive() != "WELCOME")
+      {
+	throw std::runtime_error("Failed to communicate with the server");
+      }
+
+    m_network.send(teamname);
+
+    nope::log::Log(Debug) << "Client slot remaining for team " << teamname
+                          << ": " << m_network.receive();
+    nope::log::Log(Debug) << "Map size: " << m_network.receive();
+
     initState();
   }
 
@@ -106,7 +116,8 @@ namespace ai
     while (m_alive)
       {
 	oldState = m_curState;
-	m_curValue = (this->*m_states[static_cast<std::size_t>(m_curState)])(m_curValue);
+	m_curValue = (this->*m_states[static_cast<std::size_t>(m_curState)])(
+	    m_curValue);
 
 	m_curState = transitionTable.at(m_curState)[m_curValue];
 	if (m_curState == State::NO_CHANGE)

@@ -137,7 +137,9 @@ int main(int ac, char **av, char **env)
 	}
       else
       {
-        ai::AI ai(machine, port);
+        ai::AI ai(machine, port, name);
+
+	ai.loop();
         //ai.run();
       }
     }

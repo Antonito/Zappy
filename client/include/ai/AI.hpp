@@ -63,7 +63,8 @@ namespace ai
   {
   public:
     AI() = delete;
-    explicit AI(std::string const &ip, std::uint16_t port);
+    explicit AI(std::string const &ip, std::uint16_t port,
+                std::string const &teamname);
     AI(AI const &) = delete;
     AI(AI const &&) = delete;
     ~AI();
@@ -75,7 +76,6 @@ namespace ai
 
   private:
     void initState();
-
 
     Value starving(Value v);
     Value receiveMessage(Value v);

@@ -2,6 +2,7 @@
 #define ZAPPY_NETWORKMANAGER_HPP_
 
 #include <string>
+#include "TCPSocket.hpp"
 
 namespace ai
 {
@@ -20,6 +21,8 @@ namespace ai
     std::string receive();
 
   private:
+    network::TCPSocket m_sock;
+    std::string        m_buffer;
   };
 }
 
