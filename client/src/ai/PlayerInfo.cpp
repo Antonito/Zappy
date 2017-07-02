@@ -15,15 +15,15 @@ namespace ai
           {6, {{2, 2, 2, 2, 2, 1}}},
       }};
 
-  PlayerInfo::PlayerInfo() : m_level(1)
+  PlayerInfo::PlayerInfo(std::queue<std::string> &queue) : m_level(1), m_cmdMSG(queue), m_targetID(-1), m_playerID(std::rand() % 4096)
   {
   }
 
-  PlayerInfo::PlayerInfo(PlayerInfo const &that) : m_level(that.m_level)
+  PlayerInfo::PlayerInfo(PlayerInfo const &that) : m_level(that.m_level), m_cmdMSG(that.m_cmdMSG)
   {
   }
 
-  PlayerInfo::PlayerInfo(PlayerInfo &&that) : m_level(std::move(that.m_level))
+  PlayerInfo::PlayerInfo(PlayerInfo &&that) : m_level(std::move(that.m_level)), m_cmdMSG(that.m_cmdMSG)
   {
   }
 
@@ -48,6 +48,7 @@ namespace ai
 
   std::int32_t PlayerInfo::getLevel() const
   {
+    return (m_level);
   }
 
   void PlayerInfo::setLevel(std::int32_t level)
@@ -91,4 +92,25 @@ namespace ai
       }
     return (res);
   }
+  
+
+    std::int32_t PlayerInfo::getTargetID() const
+    {
+      return (m_targetID);
+    }
+
+    void PlayerInfo::setTargetID(std::int32_t target)
+    {
+      m_targetID = target;
+    }
+
+    std::int32_t PlayerInfo::getPlayerID() const
+    {
+      return (m_playerID);
+    }
+
+    std::queue<std::string> &PlayerInfo::getMSG()
+    {
+      return (m_cmdMSG);
+    }
 }

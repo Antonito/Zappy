@@ -33,7 +33,7 @@ namespace ai
     Value ret = m_states[BasicState::LOOK]->getResponse();
     if (ret == Value::YES)
       {
-	if (m_states[BasicState::LOOK]->findStone() == -1)
+	if (static_cast<LookState *>(m_states[BasicState::LOOK])->findStone() == -1)
 	  {
 	    m_curValue = Value::LOOP;
 	    m_canWrite = true;

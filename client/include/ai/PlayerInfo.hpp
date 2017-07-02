@@ -2,6 +2,7 @@
 #define PLAYERINFO_HPP_
 
 #include <iostream>
+#include <queue>
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -13,7 +14,7 @@ namespace ai
   class PlayerInfo
   {
   public:
-    PlayerInfo();
+    PlayerInfo(std::queue<std::string> &queue);
     PlayerInfo(PlayerInfo const &);
     PlayerInfo(PlayerInfo &&);
     ~PlayerInfo();
@@ -31,8 +32,17 @@ namespace ai
     std::array<std::int32_t, 6> const
         missingStone(std::array<std::int32_t, 6> const inventory) const;
 
+    std::int32_t getTargetID() const;
+    void setTargetID(std::int32_t);
+
+    std::int32_t getPlayerID() const;
+    std::queue<std::string> &getMSG();
+
   private:
     std::int32_t m_level;
+    std::queue<std::string> &m_cmdMSG;
+    std::int32_t m_targetID;
+    std::int32_t m_playerID;
   };
 }
 

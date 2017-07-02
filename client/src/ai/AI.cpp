@@ -90,9 +90,9 @@ namespace ai
   AI::AI(std::string ip, std::uint16_t port)
       : m_foodUnit(0), m_lastUnknownMsg(),
         m_sock(port, ip, true, network::ASocket::BLOCKING), m_cmdToSend(),
-        m_cmdToRecv(), m_states(), m_curState(m_states[State::INIT_AI].get()),
+        m_cmdToRecv(), m_cmdMSG(), m_states(), m_curState(m_states[State::INIT_AI].get()),
         m_curStateName(State::INIT_AI), m_curValue(Value::YES), m_level(1),
-        m_basicStates(), m_player()
+        m_basicStates(), m_player(m_cmdMSG), m_alive(true)
   {
     if (!m_sock.openConnection())
       {
@@ -154,7 +154,7 @@ namespace ai
   std::int32_t AI::loop()
   {
     // TODO : CHECK DEAD
-    while (1)
+    while (m_alive)
       {
 	fd_set readfds, writefds;
 
@@ -211,18 +211,35 @@ namespace ai
     nope::log::Log(Debug) << "(readed)";
     if (len < 0)
       {
-	std::cerr << "log -> read failed" << std::endl;
+        nope::log::Log(Error) << "read failed in select !";
 	return (1);
       }
     else if (len == 0)
       {
-	std::cerr << "No more communication with the server :/" << std::endl;
+        nope::log::Log(Error) << "No more communication with server";
       }
     else
       {
-	tmp[static_cast<std::size_t>(len)] = 0;
-	m_cmdToRecv.push(std::string(tmp.data()));
-	nope::log::Log(Debug) << "RECV: " << m_cmdToRecv.front();
+        tmp[static_cast<std::size_t>(len)] = 0;
+        std::string res(tmp.data());
+        nope::log::Log(Debug) << "RECV: " << res;
+        if (res == "dead\n")
+        {
+          m_alive = false;
+        }
+        else if (res.find("message") == 0)
+        {
+          if (res != m_cmdMSG.front())
+          {
+            nope::log::Log(Debug) << "recv Broadcast";
+            m_cmdMSG.push(res);
+          }
+        }
+        else
+        {
+          nope::log::Log(Debug) << "recv answer command";
+          m_cmdToRecv.push(res);
+        }
       }
     return (0);
   }

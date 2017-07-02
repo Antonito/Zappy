@@ -53,6 +53,7 @@ namespace ai
     network::TCPSocket      m_sock;
     std::queue<std::string> m_cmdToSend;
     std::queue<std::string> m_cmdToRecv;
+    std::queue<std::string> m_cmdMSG;
     std::array<std::unique_ptr<AState>, State::NB_STATE> m_states;
     AState *     m_curState;
     State        m_curStateName;
@@ -60,6 +61,7 @@ namespace ai
     std::int32_t m_level;
     std::map<BasicState, std::unique_ptr<IState>> m_basicStates;
     PlayerInfo m_player;
+    bool        m_alive;
   };
 }
 
