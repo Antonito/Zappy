@@ -87,6 +87,7 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
+  //TODO :set TEAM NAME - ULTRA IMPORTANT
   AI::AI(std::string ip, std::uint16_t port)
       : m_foodUnit(0), m_lastUnknownMsg(),
         m_sock(port, ip, true, network::ASocket::BLOCKING), m_cmdToSend(),
