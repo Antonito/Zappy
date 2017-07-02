@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:36:44 2017 Antoine Baché
-** Last update Sun Jul  2 15:04:12 2017 Antoine Baché
+** Last update Sun Jul  2 19:56:09 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -24,6 +24,15 @@ void			zappy_admin_disconnect(t_zappy_admin * const adm)
     }
   adm->client.sock = -1;
   LOG(LOG_INFO, CYAN_BOLD_INTENS"Administrator disconnected"CLEAR);
+}
+
+static void		zappy_admin_stream(t_zappy * const data)
+{
+  data->admin.sock_stream = fdopen(data->admin.sock.sock, "w");
+  if (!data->admin.sock_stream)
+    {
+      LOG(LOG_WARNING, "Cannot create sock stream");
+    }
 }
 
 void			zappy_admin_accept(t_zappy * const data)
@@ -52,6 +61,7 @@ void			zappy_admin_accept(t_zappy * const data)
     }
   else if (sock->sock != -1)
     closesocket(rc);
+  zappy_admin_stream(data);
 }
 
 int32_t			zappy_start_admin(t_zappy * const data)
@@ -64,6 +74,7 @@ int32_t			zappy_start_admin(t_zappy * const data)
     {
       LOG(LOG_ERROR, "Cannot create administration socket");
     }
+  data->admin.sock_stream = NULL;
   data->admin.client.sock = -1;
   return (0);
 }

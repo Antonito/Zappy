@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:55 2017 Antoine Baché
-** Last update Sun Jul  2 17:51:42 2017 Antoine Baché
+** Last update Sun Jul  2 19:55:56 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_H_
@@ -48,9 +48,9 @@ typedef struct			s_zappy
   t_zappy_map			map;
   t_zappy_config		conf;
   t_zappy_egg_manager		egg_manager;
+  t_zappy_admin			admin;
   t_cqueue			*glob_events;
   t_zappy_socket		net;
-  t_zappy_admin			admin;
   bool				should_reset;
   uint8_t			padding[3];
 }				t_zappy;
