@@ -6,7 +6,7 @@
 #ifndef NOPE_OPTION_STDAFX_HPP_
 #define NOPE_OPTION_STDAFX_HPP_
 
-#include "option_targetver.h"
+#include "option_targetver.hpp"
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 
