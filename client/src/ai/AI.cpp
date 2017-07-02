@@ -143,6 +143,7 @@ namespace ai
 	    }
 
 	  // Loop over gameServers
+          // TODO :check timer
 	  nope::log::Log(Debug) << "before select";
 	  rc = select(maxFd + 1, &readfds, &writefds, nullptr, &tv);
 	  nope::log::Log(Debug) << "after select";

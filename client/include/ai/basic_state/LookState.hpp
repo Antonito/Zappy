@@ -35,6 +35,8 @@ namespace ai
 
     void setStone(std::string);
 
+    std::array<std::int32_t, 6> const getCurStones() const;
+
     // std::vetor<std::map<std::string, std::int32_t>> &getCases() const;
 
   private:

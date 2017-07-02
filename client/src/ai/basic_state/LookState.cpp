@@ -124,4 +124,16 @@ namespace ai
   {
     m_stoneName = stoneName;
   }
+
+  std::array<std::int32_t, 6> const LookState::getCurStones() const
+  {
+    std::array<std::int32_t, 6> res;
+    res[0] = m_cases[0].at("linemate");
+    res[1] = m_cases[0].at("deraumere");
+    res[2] = m_cases[0].at("sibur");
+    res[3] = m_cases[0].at("mendiane");
+    res[4] = m_cases[0].at("phiras");
+    res[5] = m_cases[0].at("thystame");
+    return (res);
+  }
 }
