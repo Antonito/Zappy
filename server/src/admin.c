@@ -5,15 +5,34 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:36:44 2017 Antoine Baché
-** Last update Sun Jul  2 22:16:00 2017 Antoine Baché
+** Last update Sun Jul  2 22:47:54 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include "clogger.h"
 #include "zappy.h"
 #include "zappy_color.h"
+#include "zappy_admin_cmd.h"
+
+ZAPPY_PRINT_ARG
+int32_t		zappy_adm_send(t_zappy *data, char const * fmt, ...)
+{
+  int32_t	ret;
+  va_list	ap;
+
+  va_start(ap, fmt);
+#if defined(__linux__) || defined(__APPLE__)
+  ret = vdprintf(data->admin.client.sock, fmt, ap);
+#else
+  ret = vfprintf(data->admin.sock_stream, fmt, ap);
+#endif
+  va_end(ap);
+  return (ret);
+}
 
 void			zappy_admin_disconnect(t_zappy_admin * const adm)
 {
