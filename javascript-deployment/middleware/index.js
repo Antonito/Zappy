@@ -57,7 +57,7 @@ var symbolsTab = {
     "ppo": function(args) {
         var params = args.split(" ");
 
-        if (!players.find((e) => { e.id == params[1]; })) {
+        if (!players.find((e) => { return e.id == params[1]; })) {
             players.push({
                 'id': params[1],
                 'X': params[2],
@@ -73,9 +73,9 @@ var symbolsTab = {
                 'thystame': 0,
             });
         } else {
-            players.find((e) => { e.id == params[1]; }).X = params[2];
-            players.find((e) => { e.id == params[1]; }).Y = params[3];
-            players.find((e) => { e.id == params[1]; }).O = params[4];
+            players.find((e) => { return e.id == params[1]; }).X = params[2];
+            players.find((e) => { return e.id == params[1]; }).Y = params[3];
+            players.find((e) => { return e.id == params[1]; }).O = params[4];
         }
     },
 
@@ -83,19 +83,22 @@ var symbolsTab = {
 
         var params = args.split(" ");
 
-        if (players.indexOf(params[1]) > -1) {
-            players[params[1]].X = params[2];
-            players[params[1]].Y = params[3];
-            players[params[1]].food = params[4];
-            players[params[1]].linemate = params[5];
-            players[params[1]].deraumere = params[6];
-            players[params[1]].sibur = params[7];
-            players[params[1]].mendiane = params[8];
-            players[params[1]].phiras = params[9];
-            players[params[1]].thystame = params[10];
-
-        }
+        players.find((e) => {
+            if (e.id == params[1]) {
+                e.id = params[1];
+                e.X = params[2];
+                e.Y = params[3];
+                e.food = params[4];
+                e.linemate = params[5];
+                e.deraumere = params[6];
+                e.sibur = params[7];
+                e.mendiane = params[8];
+                e.phiras = params[9];
+                e.thystame = params[10];
+            }
+        });
     }
+
 };
 
 // Send History to new client
@@ -110,7 +113,24 @@ function getHistoryAsString() {
             data += e + '\n';
         });
     });
-
+    // TNA
+    tnas.forEach((e) => {
+        data += e + '\n';
+    });
+    // PPOS
+    players.forEach((e) => {
+        data += ("pin " +
+            e.id + " " +
+            e.X + " " +
+            e.Y + " " +
+            e.food + " " +
+            e.linemate + " " +
+            e.deraumere + " " +
+            e.sibur + " " +
+            e.mendiane + " " +
+            e.phiras + " " +
+            e.thystame + '\n');
+    });
     return data;
 }
 
