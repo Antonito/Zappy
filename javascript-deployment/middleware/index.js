@@ -14,11 +14,12 @@ var wss;
 
 // History Management
 var tnas = [];
-var players = {};
+var players = [{}];
 var msz = "msz 10 10";
 var gameMap = [
     []
 ];
+
 var symbolsTab = {
 
     "msz": function(args) {
@@ -56,7 +57,7 @@ var symbolsTab = {
     "ppo": function(args) {
         var params = args.split(" ");
 
-        if (players.indexOf(params[1]) < 0) {
+        if (!players.find((e) => { e.id == params[1]; })) {
             players.push({
                 'id': params[1],
                 'X': params[2],
@@ -72,9 +73,9 @@ var symbolsTab = {
                 'thystame': 0,
             });
         } else {
-            players[params[1]].X = params[2];
-            players[params[1]].Y = params[3];
-            players[params[1]].O = params[4];
+            players.find((e) => { e.id == params[1]; }).X = params[2];
+            players.find((e) => { e.id == params[1]; }).Y = params[3];
+            players.find((e) => { e.id == params[1]; }).O = params[4];
         }
     },
 
