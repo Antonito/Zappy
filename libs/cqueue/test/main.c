@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Wed Jun 28 16:36:21 2017 Antoine Baché
-** Last update Fri Jun 30 19:33:57 2017 Antoine Baché
+** Last update Sun Jul  2 15:16:19 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -41,7 +41,6 @@ int		main()
   cqueue_push(&list , (void *)-98);
   cqueue_push(&list , (void *)1238);
   cqueue_push(&list , (void *)0);
-  cqueue_push(&list , (void *)-98);
   cqueue_push(&list , (void *)-2);
   printf("Is list sorted -> %d\n", cqueue_is_sorted(list, &cmp_min));
   printf("Sorting list...");
