@@ -1,11 +1,11 @@
 /*
-** broadcast.c for zappy in PSU_2016_zappy/server/src
+** broadcast_calc.c for zappy in PSU_2016_zappy/server/src
 **
 ** Made by Antoine Baché
 ** Login   <antoinebache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:38:56 2017 Antoine Baché
-** Last update Sun Jul  2 14:57:33 2017 Antoine Baché
+** Last update Sun Jul  2 17:28:37 2017 Antoine Baché
 */
 
 #include <assert.h>

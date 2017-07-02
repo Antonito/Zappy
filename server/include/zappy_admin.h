@@ -5,13 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:28:17 2017 Antoine Baché
-** Last update Sun Jul  2 14:07:39 2017 Antoine Baché
+** Last update Sun Jul  2 19:55:37 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_H_
 #define ZAPPY_ADMIN_H_
 
 #include <stdbool.h>
+#include <stdio.h>
 #include "zappy_socket.h"
 #include "zappy_ring_buffer.h"
 
@@ -25,6 +26,7 @@ typedef struct		s_zappy_admin
   t_zappy_ring_buffer	buff;
   t_zappy_socket	sock;
   t_zappy_socket	client;
+  FILE			*sock_stream;
   bool			can_write;
   bool			authenticated;
   uint8_t		padding[6];

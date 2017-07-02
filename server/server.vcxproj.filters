@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\admin_cmd">
+      <UniqueIdentifier>{df325ed6-180e-46f0-b367-83bf4eafa729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\client_cmd">
+      <UniqueIdentifier>{704f7df7-ee1b-4c5c-8aa1-885b32f4dbbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphic_cmd">
+      <UniqueIdentifier>{e871962b-fd90-4636-b7da-9a3e499f2469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\state">
+      <UniqueIdentifier>{4054aa8f-6ef1-494e-9ae1-a2ce0cc2a6ee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\zappy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_admin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_admin_cmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_argv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_broadcast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_cleanup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client_cmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client_serial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_client_vision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_egg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_egg_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_elevation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_graphic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_logic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_multiplexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_network.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_network_gen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_ring_buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_team.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_team_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zappy_windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\admin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_auth.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_io.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\alloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\alloc_message.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\alloc_queue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\alloc_serial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\argvs_func.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\argvs_func_freq.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cleanup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cleanup_admin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cleanup_client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cleanup_eggs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cleanup_map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_for_each.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_move.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_rotate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\egg_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\elevation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_monitor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map_tile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\message.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\multiplexer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\order.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\reset.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ring_buffer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\server.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\socket.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\team.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\team_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\time.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vision.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\state\auth.c">
+      <Filter>Source Files\state</Filter>
+    </ClCompile>
+    <ClCompile Include="src\state\connect.c">
+      <Filter>Source Files\state</Filter>
+    </ClCompile>
+    <ClCompile Include="src\state\connect_w.c">
+      <Filter>Source Files\state</Filter>
+    </ClCompile>
+    <ClCompile Include="src\state\resp.c">
+      <Filter>Source Files\state</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\bct.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\ebo.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\edi.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\eht.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\enw.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\msz.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pbc.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pdi.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pdr.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pex.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pfk.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pgt.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pic.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pie.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pin.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\plv.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\pnw.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\ppo.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\sbp.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\seg.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\sgt.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\smg.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\suc.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic_cmd\tna.c">
+      <Filter>Source Files\graphic_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\broadcast.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\connect_nbr.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\dead.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\eject.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\err.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\fork.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\forward.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\incantation.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\inventory.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\left.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\look.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\pre_fork.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\pre_incantation.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\right.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\set.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client_cmd\take.c">
+      <Filter>Source Files\client_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd\admin_broadcast.c">
+      <Filter>Source Files\admin_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd\admin_egg.c">
+      <Filter>Source Files\admin_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd\admin_info.c">
+      <Filter>Source Files\admin_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd\admin_map.c">
+      <Filter>Source Files\admin_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd\admin_res.c">
+      <Filter>Source Files\admin_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_cmd\admin_res_dsmpt.c">
+      <Filter>Source Files\admin_cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\broadcast_calc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
