@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Sat Jul  1 23:39:17 2017 Antoine Baché
+** Last update Sun Jul  2 14:53:22 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -26,14 +26,14 @@ static char const	*zappy_admin_help_str =
   "-> inc:               increase server frequency\n"
   "-> dec:               decrease server frequency\n"
   "-> reset:             restarts the server, starting a new game\n"
-  "-> spawn rand:        spwans a random resource on a random case.\n"
+  "-> spawn rand:        spwans a random resource on a random tile.\n"
   "                      The following spawns are available: rand, food\n"
   "                      , linemate, deraumere, sibur, mendiane, phiras\n"
   "                      , thystame, egg\n"
   "-> broadcast nb msg:  broadcast a message to all players, \n"
-  "                      coming from nb case\n"
-  "-> map add X Y res:   add an element of res type to map case X Y\n"
-  "-> map rm X Y res:    remove an element of res type from map case X Y\n";
+  "                      coming from nb tile\n"
+  "-> map add X Y res:   add an element of res type to map tile X Y\n"
+  "-> map rm X Y res:    remove an element of res type from map tile X Y\n";
 
 static size_t const	zappy_admin_help_len =
   sizeof("Available commands:\n"
@@ -43,17 +43,17 @@ static size_t const	zappy_admin_help_len =
 	 "-> inc:               increase server frequency\n"
 	 "-> dec:               decrease server frequency\n"
 	 "-> reset:             restarts the server, starting a new game\n"
-	 "-> spawn rand:        spwans a random resource on a random case.\n"
+	 "-> spawn rand:        spwans a random resource on a random tile.\n"
 	 "                      The following spawns are available: rand, "
 	 "food\n"
 	 "                      , linemate, deraumere, sibur, mendiane, "
 	 "phiras\n"
 	 "                      , thystame, egg\n"
 	 "-> broadcast nb msg:  broadcast a message to all players, \n"
-	 "                      coming from nb case\n"
-	 "-> map add X Y res:   add an element of res type to map case X Y\n"
+	 "                      coming from nb tile\n"
+	 "-> map add X Y res:   add an element of res type to map tile X Y\n"
 	 "-> map rm X Y res:    remove an element of res type from map "
-	 "case X Y\n") - 1;
+	 "tile X Y\n") - 1;
 
 void	zappy_admin_cmd_help(t_zappy * const data,
 			     char const * cmd)
@@ -73,7 +73,8 @@ void	zappy_admin_cmd_stop(t_zappy * const data,
   (void)cmd;
   (void)data;
   LOG(LOG_DEBUG, "Treating Admin command stop");
-  LOG(LOG_INFO, RED_BOLD_INTENS"Administrator requested system shutdown"CLEAR);
+  LOG(LOG_INFO,
+      RED_BOLD_INTENS"Administrator requested system shutdown"CLEAR);
   exit(0);
 }
 
@@ -93,8 +94,8 @@ void	zappy_admin_cmd_inc_freq(t_zappy * const data,
   assert(data && data->admin.authenticated == true);
   LOG(LOG_DEBUG, "Treating Admin command inc");
   data->conf.freq += 10;
-  if (data->conf.freq > 10000)
-    data->conf.freq = 10000;
+  if (data->conf.freq > 1000)
+    data->conf.freq = 1000;
   zappy_network_write(&data->admin.client, "OK\n", sizeof("OK\n") - 1);
 }
 

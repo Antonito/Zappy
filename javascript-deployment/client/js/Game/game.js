@@ -37,6 +37,12 @@ var MOBS_COLOR = [
 
 ]
 
+/**
+ * Font
+ */
+var font_style = { font: "12px Arial", fill: "#000000" };
+var cell_info_style = { font: "24px Arial", fill: "#ffffff" };
+
 /*
  ** Events Management
  */
@@ -45,8 +51,8 @@ var event;
 /*
  ** Game Environnement Variable
  */
-var WORLD_WIDTH = 10;
-var WORLD_HEIGHT = 10;
+var WSZW = 0;
+var WSZH = 0;
 /* GameState */
 var MENU = 0;
 var INGAME = 1;
@@ -68,6 +74,10 @@ var background_layer;
 var resources_layer;
 var eggs_layer;
 var mobs_layer;
+var animations_layer;
+var textboxes_layer;
+var infos_layer;
+var text_layer;
 /* starting positions */
 var shiftX = 0;
 var shiftY = 0;
@@ -78,21 +88,20 @@ var InGame = {
 
     preload: function() {
 
-        /*
-         **  Load Assets
-         */
-
         background_layer = game.add.group();
         resources_layer = game.add.group();
         mobs_layer = game.add.group();
         eggs_layer = game.add.group();
+        animations_layer = game.add.group();
+        textboxes_layer = game.add.group();
+        text_layer = game.add.group();
+        infos_layer = game.add.group();
+
         event = game.input.keyboard.createCursorKeys();
 
-        /* Clear */
-        clearGroup(background_layer);
-        clearGroup(resources_layer);
-        clearGroup(eggs_layer);
-        clearGroup(mobs_layer);
+        /*
+         **  Load Assets
+         */
 
         /* Mobs */
         this.load.image('mob_default', 'assets/images/mob_default.png');
@@ -119,6 +128,12 @@ var InGame = {
         this.load.image('mendiane', 'assets/images/mendiane.png');
         this.load.image('thystame', 'assets/images/thystame.png');
 
+        /* Effects */
+        this.load.image('broadcast', 'assets/images/broadcast.png');
+
+        /* TextBox */
+        this.load.image('infofield', 'assets/images/infofield.png');
+
     },
 
     init: function(ws, data_buffered) {
@@ -131,7 +146,7 @@ var InGame = {
 
         ws.onmessage = function(res) {
 
-            console.log("yo bitch");
+            console.log("=> " + res.data);
             parseData(res.data);
 
         };
@@ -140,47 +155,103 @@ var InGame = {
 
     create: function() {
 
-        // this.background = background_layer.create(0, 0, 'background');
         this.background = game.add.tileSprite(0, 0, 1000, 1000, 'background');
         ScaleImage(this.background, 1000, 1000);
         background_layer.add(this.background);
 
-        /* for debug */
-        DrawAll(startX, startY);
+        // Info Box
+        this.infofield = game.add.sprite(100, 900, 'infofield')
+        ScaleImage(this.infofield, 800, 100);
+        textboxes_layer.add(this.infofield);
+
+        var i_food = game.add.sprite(160, 940, 'food');
+        ScaleImage(i_food, 32, 32);
+        textboxes_layer.add(i_food);
+        var i_linemate = game.add.sprite(260, 940, 'linemate');
+        ScaleImage(i_linemate, 32, 32);
+        textboxes_layer.add(i_linemate);
+        var i_deraumere = game.add.sprite(360, 940, 'deraumere');
+        ScaleImage(i_deraumere, 32, 32);
+        textboxes_layer.add(i_deraumere);
+        var i_sibur = game.add.sprite(460, 940, 'sibur');
+        ScaleImage(i_sibur, 32, 32);
+        textboxes_layer.add(i_sibur);
+        var i_mendiane = game.add.sprite(560, 940, 'mendiane');
+        ScaleImage(i_mendiane, 32, 32);
+        textboxes_layer.add(i_mendiane);
+        var i_phiras = game.add.sprite(660, 940, 'phiras');
+        ScaleImage(i_phiras, 32, 32);
+        textboxes_layer.add(i_phiras);
+        var i_thystame = game.add.sprite(760, 940, 'thystame');
+        ScaleImage(i_thystame, 32, 32);
+        textboxes_layer.add(i_thystame);
 
     },
 
     update: function() {
 
+        // Clear
         clearGroup(resources_layer);
+        clearGroup(mobs_layer);
+        clearGroup(text_layer);
+        // Draw
         DrawAll(startX, startY);
 
         /* Events */
+        // Mouse
+        if (game.input.mousePointer.isDown) {
+
+            var pos_x = Math.floor(game.input.x / 100);
+            var pos_y = Math.floor(game.input.y / 100);
+
+            if (pos_x < WSZW && pos_y < WSZH) {
+
+                clearGroup(infos_layer);
+
+                var cell = raw_map_resources[startY + pos_y][startX + pos_x];
+
+                if (cell) {
+
+                    infos_layer.add(game.add.text(210, 950, cell.food, cell_info_style));
+                    infos_layer.add(game.add.text(310, 950, cell.linemate, cell_info_style));
+                    infos_layer.add(game.add.text(410, 950, cell.deraumere, cell_info_style));
+                    infos_layer.add(game.add.text(510, 950, cell.sibur, cell_info_style));
+                    infos_layer.add(game.add.text(610, 950, cell.mendiane, cell_info_style));
+                    infos_layer.add(game.add.text(710, 950, cell.phiras, cell_info_style));
+                    infos_layer.add(game.add.text(810, 950, cell.thystame, cell_info_style));
+
+                }
+
+            }
+        }
+
+        // Keyboard
         if (event) {
+
             if (event.up.isDown) {
-                shiftY += 10;
-                this.background.tilePosition.y += 10;
+                shiftY += 5;
+                this.background.tilePosition.y += 5;
                 if (shiftY >= 100) {
-                    startY = startY > 0 ? (startY - 1) % raw_map_resources[0].length : raw_map_resources[0].length;
+                    startY = startY > 0 ? (startY - 1) % raw_map_resources[0].length : raw_map_resources[0].length - 1;
                     shiftY = 0;
                 }
             } else if (event.left.isDown) {
-                shiftX += 10;
-                this.background.tilePosition.x += 10;
+                shiftX += 5;
+                this.background.tilePosition.x += 5;
                 if (shiftX >= 100) {
-                    startX = startX > 0 ? (startX - 1) % raw_map_resources[0].length : raw_map_resources[0].length;
+                    startX = startX > 0 ? (startX - 1) % raw_map_resources[0].length : raw_map_resources[0].length - 1;
                     shiftX = 0;
                 }
             } else if (event.right.isDown) {
-                shiftX -= 10;
-                this.background.tilePosition.x -= 10;
+                shiftX -= 5;
+                this.background.tilePosition.x -= 5;
                 if (shiftX <= -100) {
                     startX = (startX + 1) % raw_map_resources[0].length;
                     shiftX = 0;
                 }
             } else if (event.down.isDown) {
-                shiftY -= 10;
-                this.background.tilePosition.y -= 10;
+                shiftY -= 5;
+                this.background.tilePosition.y -= 5;
                 if (shiftY <= -100) {
                     startY = (startY + 1) % raw_map_resources[0].length;
                     shiftY = 0;

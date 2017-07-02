@@ -7,7 +7,7 @@
 #define ZAPPY_AI_STDAFX_HPP_
 
 #ifdef _WIN32
-#include "targetver.h"
+#include "targetver.hpp"
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #endif                      // !_WIN32
 

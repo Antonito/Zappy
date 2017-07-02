@@ -5,7 +5,7 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:49:08 2017 Lucas Troncy
-** Last update Thu Jun 29 18:22:16 2017 Antoine Baché
+** Last update Sun Jul  2 14:54:28 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -48,7 +48,8 @@ int32_t		argv_help(int32_t i, char const * const * const av,
 	 "height      is the height of the world\n"
 	 "nameX       is the name of the team X\n"
 	 "clientsNb   is the number of authorized clients per team\n"
-	 "freq        is the reciprocal of time unit for execution of actions\n"
+	 "freq        "
+	 "is the reciprocal of time unit for execution of actions\n"
 	);
   return (0);
 }

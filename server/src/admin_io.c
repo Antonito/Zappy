@@ -49,9 +49,9 @@ static t_zappy_admin_cmd const	zappy_admin_commands[] =
       "spawn egg", sizeof("spawn egg") },
     { &zappy_admin_cmd_broadcast,
       "broadcast ", sizeof("broadcast ") - 1 },
-    { &zappy_admin_add_case,
+    { &zappy_admin_add_tile,
       "map add ", sizeof("map add ") - 1},
-    { &zappy_admin_rm_case,
+    { &zappy_admin_rm_tile,
       "map rm ", sizeof("map rm ") - 1}
   };
 

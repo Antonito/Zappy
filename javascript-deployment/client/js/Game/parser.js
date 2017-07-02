@@ -5,6 +5,9 @@ var symbolsFunctions = {
         var sizeX = params[1];
         var sizeY = params[2];
 
+        WSZW = sizeX;
+        WSZH = sizeY;
+
         // Re-init the game map
         raw_map_resources = [];
         for (var y = 0; y < sizeY; ++y) {
@@ -38,6 +41,68 @@ var symbolsFunctions = {
             };
         }
     },
+
+    "ppo": function(args) {
+
+        var params = args.split(" ");
+
+        if (raw_mobs_list.find((e) => { return e.id == params[1]; }) == undefined) {
+            raw_mobs_list.push({
+                'id': params[1],
+                'X': params[2],
+                'Y': params[3],
+                'O': params[4],
+                'L': 1,
+                'food': 0,
+                'linemate': 0,
+                'deraumere': 0,
+                'sibur': 0,
+                'mendiane': 0,
+                'phiras': 0,
+                'thystame': 0,
+            });
+        } else {
+            raw_mobs_list.find((e) => { return e.id == params[1]; }).X = params[2];
+            raw_mobs_list.find((e) => { return e.id == params[1]; }).Y = params[3];
+            raw_mobs_list.find((e) => { return e.id == params[1]; }).O = params[4];
+        }
+    },
+
+    "pbc": function(args) {
+
+        var params = args.split(" ");
+
+        raw_mobs_list.find((e) => {
+
+            if (e.id == params[1]) {
+
+                var pos_x = e.X - startX;
+                var pos_y = e.Y - startY;
+
+                if ((0 <= pos_x && pos_x <= 10) &&
+                    (0 <= pos_y && pos_y <= 10)) {
+
+                    var image = animations_layer.create(
+                        shiftX + pos_x * 100,
+                        shiftY + pos_y * 100,
+                        'broadcast');
+
+                    ScaleImage(
+                        image,
+                        100,
+                        100
+                    );
+
+                    setTimeout(function() {
+                        animations_layer.remove(image);
+                    }, 500);
+
+                }
+                return true;
+            }
+            return false;
+        })
+    }
 
 }
 

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:28:17 2017 Antoine Baché
-** Last update Tue Jun 27 09:26:18 2017 Antoine Baché
+** Last update Sun Jul  2 14:07:39 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_H_
@@ -27,7 +27,7 @@ typedef struct		s_zappy_admin
   t_zappy_socket	client;
   bool			can_write;
   bool			authenticated;
-  uint8_t	        padding[6];
+  uint8_t		padding[6];
 }			t_zappy_admin;
 
 int32_t			zappy_start_admin(t_zappy * const data);

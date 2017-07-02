@@ -15,7 +15,7 @@
 #include "zappy_config.h"
 #include "zappy_client_game.h"
 
-static int32_t		zappy_fill_map(t_zappy_map_case * const map,
+static int32_t		zappy_fill_map(t_zappy_map_tile * const map,
 				       int32_t const x,
 				       int32_t const y,
 				       t_zappy_config const *
@@ -46,14 +46,14 @@ static int32_t		zappy_fill_map(t_zappy_map_case * const map,
   return (0);
 }
 
-static t_zappy_map_case	**zappy_create_map_case(int32_t const x,
+static t_zappy_map_tile	**zappy_create_map_tile(int32_t const x,
 						int32_t const y,
 						t_zappy_config const *
 						const conf)
 {
   int32_t		_y;
   int32_t		i;
-  t_zappy_map_case	**map;
+  t_zappy_map_tile	**map;
 
   _y = 0;
   map = calloc((size_t)y + 1, sizeof(*map));
@@ -83,6 +83,6 @@ int32_t			zappy_create_map(t_zappy_map * const map,
   map->width = conf->world_width;
   map->height = conf->world_height;
   LOG(LOG_INFO, "Generating resources...");
-  map->data = zappy_create_map_case(map->width, map->height, conf);
+  map->data = zappy_create_map_tile(map->width, map->height, conf);
   return (!map->data);
 }

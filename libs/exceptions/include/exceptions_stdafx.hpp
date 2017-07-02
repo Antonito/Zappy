@@ -6,7 +6,7 @@
 #ifndef EXCEPTIONS_STDAFX_HPP_
 #define EXCEPTIONS_STDAFX_HPP_
 
-#include "exceptions_targetver.h"
+#include "exceptions_targetver.hpp"
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 

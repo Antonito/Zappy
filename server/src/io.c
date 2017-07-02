@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:40:19 2017 Antoine Baché
-** Last update Sat Jul  1 00:28:16 2017 Antoine Baché
+** Last update Sun Jul  2 15:06:25 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,7 +14,7 @@
 #include "zappy_server.h"
 #include "zappy_multiplexer.h"
 
-static void     zappy_io_client(t_zappy_client * const cli,
+static void	zappy_io_client(t_zappy_client * const cli,
 				void *_data)
 {
   t_zappy	*data;
@@ -51,7 +51,8 @@ void		zappy_io(t_zappy * const data)
 	{
 	  zappy_admin_read(data);
 	}
-      if (FD_ISSET(data->admin.client.sock, &data->multiplex.writefds))
+      if (data->admin.client.sock != -1 &&
+	  FD_ISSET(data->admin.client.sock, &data->multiplex.writefds))
 	{
 	  zappy_admin_write(data);
 	}

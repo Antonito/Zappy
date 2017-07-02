@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 16:03:29 2017 Antoine Baché
-** Last update Sat Jul  1 11:06:37 2017 Antoine Baché
+** Last update Sun Jul  2 15:05:48 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -60,7 +60,7 @@ t_zappy_egg	*zappy_get_egg_from_team(t_zappy * const data,
   return (NULL);
 }
 
-int32_t	        zappy_get_number_hatched_eggs(t_zappy * const data,
+int32_t		zappy_get_number_hatched_eggs(t_zappy * const data,
 					      int32_t const team_id)
 {
   int32_t	count;

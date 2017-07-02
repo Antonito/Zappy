@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:36:44 2017 Antoine Baché
-** Last update Tue Jun 27 09:29:14 2017 Antoine Baché
+** Last update Sun Jul  2 15:04:12 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -54,9 +54,9 @@ void			zappy_admin_accept(t_zappy * const data)
     closesocket(rc);
 }
 
-int32_t		zappy_start_admin(t_zappy * const data)
+int32_t			zappy_start_admin(t_zappy * const data)
 {
-  int32_t	rc;
+  int32_t		rc;
 
   assert(data);
   rc = zappy_create_socket(data->conf.port + 1, &data->admin.sock);

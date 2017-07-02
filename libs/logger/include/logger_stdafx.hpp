@@ -6,7 +6,7 @@
 #ifndef NOPE_LOGGER_STDAFX_HPP_
 #define NOPE_LOGGER_STDAFX_HPP_
 
-#include "logger_targetver.h"
+#include "logger_targetver.hpp"
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 

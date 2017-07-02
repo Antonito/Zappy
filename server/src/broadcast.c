@@ -5,7 +5,7 @@
 ** Login   <antoinebache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:38:56 2017 Antoine Baché
-** Last update Wed Jun 28 18:19:43 2017 Antoine Baché
+** Last update Sun Jul  2 14:57:33 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -40,7 +40,7 @@ static int32_t	zappy_broadcast_get_shortest(int32_t const a,
   return (min_tmp);
 }
 
-static int32_t	zappy_broadcast_case(int32_t x, int32_t y,
+static int32_t	zappy_broadcast_tile(int32_t x, int32_t y,
 				     t_zappy_client const * const to)
 {
   int32_t	val;
@@ -63,7 +63,8 @@ static int32_t	zappy_broadcast_case(int32_t x, int32_t y,
 
 int32_t		zappy_broadcast_calc(t_zappy_client const * const from,
 				     t_zappy_client const * const to,
-				     int32_t const width, int32_t const height)
+				     int32_t const width,
+				     int32_t const height)
 {
   int32_t	shortest[2];
   double	dir;
@@ -71,11 +72,13 @@ int32_t		zappy_broadcast_calc(t_zappy_client const * const from,
   double	r[2];
   double	v[2];
 
-  shortest[0] = zappy_broadcast_get_shortest(from->game.x, to->game.x, width);
-  shortest[1] = zappy_broadcast_get_shortest(from->game.y, to->game.y, height);
+  shortest[0] = zappy_broadcast_get_shortest(from->game.x, to->game.x,
+					     width);
+  shortest[1] = zappy_broadcast_get_shortest(from->game.y, to->game.y,
+					     height);
   LOG(LOG_DEBUG, "a: %d | b %d", shortest[0], shortest[1]);
   if (!shortest[0] || !shortest[1])
-    return (zappy_broadcast_case(shortest[0], shortest[1], to));
+    return (zappy_broadcast_tile(shortest[0], shortest[1], to));
   dir = (double)shortest[1] / (double)shortest[0];
   u[0] = (shortest[0] > 0) ? 3.0 : 0.0;
   u[1] = (shortest[1] > 0) ? 3.0 : 0.0;
@@ -86,6 +89,6 @@ int32_t		zappy_broadcast_calc(t_zappy_client const * const from,
   v[0] = sqrt(ZAPPY_LEN((u[0] - 1.5), (r[0] - 1.5)));
   v[1] = sqrt(ZAPPY_LEN((r[1] - 1.5), (u[1] - 1.5)));
   if (v[0] < v[1])
-    return (zappy_broadcast_case((int32_t)u[0], (int32_t)r[0], to));
-  return (zappy_broadcast_case((int32_t)r[1], (int32_t)u[1], to));
+    return (zappy_broadcast_tile((int32_t)u[0], (int32_t)r[0], to));
+  return (zappy_broadcast_tile((int32_t)r[1], (int32_t)u[1], to));
 }

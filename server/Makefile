@@ -73,7 +73,7 @@ SRC_FILES=	admin.c				\
 		logic.c				\
 		main.c				\
 		map.c				\
-		map_case.c			\
+		map_tile.c			\
 		message.c			\
 		multiplexer.c			\
 		network.c			\

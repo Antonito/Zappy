@@ -23,7 +23,7 @@ Main.prototype = {
         game.load.script('game', 'js/Game/game.js');
 
 
-        game.time.desiredFps = 18;
+        game.time.desiredFps = 30;
 
     },
 

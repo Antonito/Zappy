@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:41:24 2017 Antoine Baché
-** Last update Sat Jul  1 09:24:31 2017 Antoine Baché
+** Last update Sun Jul  2 14:49:55 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_TEAM_MANAGER_H_
@@ -39,8 +39,8 @@ int32_t			zappy_team_manager_add_team(char const * const name,
 						    const man);
 void			zappy_team_manager_delete_client(char const *
 							 const name,
-							 t_zappy_team_manager *
-							 const man);
+							 t_zappy_team_manager
+							 * const man);
 int32_t			zappy_team_manager_add_client(char const * const team,
 						      t_zappy_client *
 						      const cli,
@@ -49,7 +49,8 @@ int32_t			zappy_team_manager_add_client(char const * const team,
 int32_t			zappy_team_manager_get_space(int32_t const ndx,
 						     t_zappy_team_manager
 						     const * const man);
-void			zappy_team_set_max_players(t_zappy_team_manager * team,
+void			zappy_team_set_max_players(t_zappy_team_manager
+						   * team,
 						   int32_t const max);
 
 #endif /* !ZAPPY_TEAM_MANAGER */

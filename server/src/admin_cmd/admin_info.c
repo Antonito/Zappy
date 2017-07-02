@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sat Jul  1 22:27:03 2017 Antoine Baché
+** Last update Sun Jul  2 14:47:09 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -27,7 +27,8 @@ void		zappy_admin_cmd_info_team(t_zappy * const data)
       team = &data->conf.teams.team[i];
       dprintf(data->admin.client.sock, "[%d] Team %s %d/%d {%d}\n",
 	      team->id, team->name,
-	      team->nb_players, team->nb_players_max, team->nb_player_lvl_max);
+	      team->nb_players, team->nb_players_max,
+	      team->nb_player_lvl_max);
       ++i;
     }
 }

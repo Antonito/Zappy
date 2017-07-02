@@ -23,7 +23,7 @@ static void			zappy_vision_line(t_zappy_map const *
 						  const vis,
 						  int32_t infos[])
 {
-  t_zappy_map_case const	*map_case;
+  t_zappy_map_tile const	*map_tile;
   int32_t			j;
   int32_t			ndx;
   int32_t			off;
@@ -34,13 +34,13 @@ static void			zappy_vision_line(t_zappy_map const *
     {
       ndx = off - infos[2] + j;
       LOG(LOG_DEBUG, "=== VISION ===");
-      LOG(LOG_DEBUG, "Case %dx%d", cli->game.x + infos[0] + j,
+      LOG(LOG_DEBUG, "tile %dx%d", cli->game.x + infos[0] + j,
 	  cli->game.y + infos[1]);
-      map_case = zappy_get_map_case(map, cli->game.x + infos[0] + j,
+      map_tile = zappy_get_map_tile(map, cli->game.x + infos[0] + j,
 				    cli->game.y + infos[1]);
-      memcpy(vis->map[ndx].res, map_case->content,
+      memcpy(vis->map[ndx].res, map_tile->content,
 	     sizeof(vis->map[infos[3] + j].res));
-      vis->map[ndx].players = map_case->nb_players;
+      vis->map[ndx].players = map_tile->nb_players;
       ++j;
     }
 }
