@@ -1,4 +1,5 @@
 #include "zappy_ai_stdafx.hpp"
+#include <SFML/Audio/Music.hpp>
 
 namespace zappy
 {
@@ -37,6 +38,16 @@ namespace zappy
 
     m_camera.setAim(glm::vec3(0.0f, 3.0f, 0.0f));
     m_camera.setRotation(225, 0);
+
+    sf::Music music;
+
+    if (!music.openFromFile("./musics/unreeeal_superhero3.ogg"))
+      {
+	nope::log::Log(Error) << "Failed to load the music";
+	throw std::runtime_error("Failed to load the music");
+      }
+
+    music.play();
 
     while (m_win.isOpen())
       {
@@ -88,8 +99,9 @@ namespace zappy
 
 	for (std::pair<std::size_t, Mesh> &egg : m_eggs)
 	  {
-	    egg.second.rotate(glm::rotate(3.14f * static_cast<float>(sinceLast) / 10.0f,
-	                           glm::vec3(0.0f, 1.0f, 0.0f)));
+	    egg.second.rotate(
+	        glm::rotate(3.14f * static_cast<float>(sinceLast) / 10.0f,
+	                    glm::vec3(0.0f, 1.0f, 0.0f)));
 	    m_win.draw(m_camera, egg.second);
 	  }
 

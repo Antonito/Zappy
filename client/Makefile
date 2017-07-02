@@ -12,10 +12,11 @@ LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\
 			-lzappy_option				\
 			-lzappy_network				\
-			-lzappy_exceptions				\
+			-lzappy_exceptions			\
 			-lsfml-graphics				\
 			-lsfml-window				\
 			-lsfml-system				\
+			-lsfml-audio				\
 			-lGLEW					\
 			-lGL					\
 			-lglut					\
