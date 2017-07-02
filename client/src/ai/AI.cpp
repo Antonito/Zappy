@@ -234,13 +234,13 @@ namespace ai
 	    if (m_loop < 4)
 	      {
 		m_player.right();
+		++m_loop;
 	      }
 	    else
 	      {
 		m_player.forward();
 		m_loop = 0;
 	      }
-	    ++m_loop;
 	    return (Value::NO);
 	  }
 	else
