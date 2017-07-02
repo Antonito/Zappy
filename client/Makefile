@@ -5,14 +5,11 @@ MK_COMMON_DIR=	./../mk/
 # Definitions for Makefile
 NAME=		$(ROOT_DIR)/zappy_ai
 
-<<<<<<< HEAD
 LOCAL_COMP_FLAGS=	-Wno-exit-time-destructors		\
 			-Wno-global-constructors		\
-			-I/opt/X11/include/
-=======
-LOCAL_COMP_FLAGS=	-Wno-padded		\
+			-I/opt/X11/include/			\
+			-Wno-padded				\
 			-Wno-switch-enum
->>>>>>> graphic
 
 LOCAL_LINK_FLAGS=	-lstdc++ -L $(ROOT_DIR)/build		\
 			-lzappy_logger				\

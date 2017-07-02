@@ -19,19 +19,10 @@ namespace ai
     int    ret;
     int    sock = m_sock.getSocket();
 
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_start =
-        std::chrono::high_resolution_clock::now();
-    std::chrono::seconds timeout(5);
-
     nope::log::Log(Debug) << "Sending: " << msg;
 
     for (;;)
       {
-	if (std::chrono::high_resolution_clock::now() - m_start > timeout)
-	  {
-	    throw std::runtime_error("Connection timed out");
-	  }
-
 	do
 	  {
 	    FD_ZERO(&wfds);
@@ -39,7 +30,7 @@ namespace ai
 	    FD_SET(sock, &wfds);
 	    struct timeval tm;
 
-	    tm.tv_usec = 1000;
+	    tm.tv_usec = 3000;
 	    tm.tv_sec = 0;
 
 	    ret = select(sock + 1, nullptr, &wfds, nullptr, &tm);
@@ -53,9 +44,13 @@ namespace ai
 	        std::strerror(errno));
 	  }
 
-	if (ret && FD_ISSET(sock, &wfds))
+	if (ret == 0)
 	  {
-	    if (m_sock.send((msg + '\n').c_str(), msg.length()) == false)
+	    throw std::runtime_error("Connection timed out");
+	  }
+	else if (FD_ISSET(sock, &wfds))
+	  {
+	    if (m_sock.send((msg + '\n').c_str(), msg.length() + 1) == false)
 	      {
 		throw std::runtime_error("Failed to write to network");
 	      }
