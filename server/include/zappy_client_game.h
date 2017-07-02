@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 23:47:31 2017 Antoine Baché
-** Last update Thu Jun 29 17:52:40 2017 Antoine Baché
+** Last update Sun Jul  2 22:03:36 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_GAME_H_
@@ -64,10 +64,10 @@ typedef struct			s_zappy_client_game
 void				zappy_client_game_init(t_zappy * const,
 						       t_zappy_client *
 						       const cli);
-void				zappy_client_rotate_left(t_zappy_client_game *
-							 const);
-void				zappy_client_rotate_right(t_zappy_client_game *
-							  const);
+void				zappy_client_rotate_left(t_zappy_client_game
+							 * const);
+void				zappy_client_rotate_right(t_zappy_client_game
+							  * const);
 void				zappy_client_forward(t_zappy_client_game *
 						     const cli,
 						     int32_t const id,

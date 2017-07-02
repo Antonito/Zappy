@@ -21,7 +21,8 @@ namespace ai
     void send(std::string const &message);
     std::string receive();
 
-    Message getMessage();
+    Message      getMessage();
+    std::int32_t getPlayerId() const;
 
   private:
     bool isTeam(std::string const &message) const;
@@ -30,6 +31,7 @@ namespace ai
     std::queue<Message>     m_message;
     network::TCPSocket      m_sock;
     std::string             m_buffer;
+    std::int32_t            m_id;
   };
 }
 

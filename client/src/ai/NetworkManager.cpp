@@ -4,8 +4,10 @@ namespace ai
 {
   NetworkManager::NetworkManager(std::string const &machine,
                                  std::uint16_t      port)
-      : m_sock(port, machine, false, network::ASocket::SocketType::BLOCKING),
-        m_buffer("")
+      : m_response(), m_message(),
+        m_sock(port, machine, false, network::ASocket::SocketType::BLOCKING),
+        m_buffer(""),
+        m_id(std::rand() % std::numeric_limits<std::int32_t>::max())
   {
     if (m_sock.openConnection() == false)
       {
@@ -239,8 +241,22 @@ namespace ai
     return (msg);
   }
 
-  bool NetworkManager::isTeam(std::string const &) const
+  std::int32_t NetworkManager::getPlayerId() const
   {
+    return (m_id);
+  }
+
+  bool NetworkManager::isTeam(std::string const &msg) const
+  {
+    if (msg.substr(0, 8) != "message ")
+      {
+	return (false);
+      }
+
+    if (msg.substr(11, 6) != "EmBsTf")
+      {
+	return (false);
+      }
     return (true);
   }
 }

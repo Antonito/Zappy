@@ -96,6 +96,7 @@ var symbolsTab = {
                 e.thystame = params[10];
                 return true;
             }
+            return false;
         });
     }
 

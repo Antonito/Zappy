@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 17:21:14 2017 Antoine Baché
-** Last update Fri Jun 30 15:27:29 2017 Antoine Baché
+** Last update Sun Jul  2 22:09:22 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ELEVATION_H_
@@ -17,7 +17,7 @@
 /*
 ** Forward declaration of t_zappy
 */
-typedef struct		s_zappy		t_zappy;
+typedef struct		s_zappy			t_zappy;
 
 /*
 ** Forward declaration of t_zappy_client
