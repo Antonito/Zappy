@@ -137,8 +137,6 @@ function DrawCellMob(mob, x, y) {
     if ((0 <= pos_x && pos_x < 10) &&
         (0 <= pos_y && pos_y < 10)) {
 
-        console.log("drawwww ");
-
         var image = resources_layer.create(
             shiftX + pos_x * 100 + SPRITES_POSITION.MOB.X,
             shiftY + pos_y * 100 + SPRITES_POSITION.MOB.Y,
@@ -152,10 +150,12 @@ function DrawCellMob(mob, x, y) {
 
     } else if (pos_x < 0 || pos_y < 0) {
 
-        if (pos_x < 0 && (mob.X >= 0 && mob.X < 10))
-            pos_x = mob.X + (WSZW - startX);
-        if (pos_y < 0 && (mob.Y >= 0 && mob.Y < 10))
-            pos_y = mob.Y + (WSZH - startY);
+        if (pos_x < 0 && (mob.X >= 0 && mob.X < 10)) {
+            pos_x = parseInt(mob.X) + (parseInt(WSZW) - parseInt(startX));
+        }
+        if (pos_y < 0 && (mob.Y >= 0 && mob.Y < 10)) {
+            pos_y = parseInt(mob.Y) + (parseInt(WSZH) - parseInt(startY));
+        }
 
         if ((0 <= pos_x && pos_x < 10) &&
             (0 <= pos_y && pos_y < 10)) {
