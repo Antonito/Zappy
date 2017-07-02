@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:36:44 2017 Antoine Baché
-** Last update Sun Jul  2 19:56:09 2017 Antoine Baché
+** Last update Sun Jul  2 20:16:38 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -28,10 +28,15 @@ void			zappy_admin_disconnect(t_zappy_admin * const adm)
 
 static void		zappy_admin_stream(t_zappy * const data)
 {
-  data->admin.sock_stream = fdopen(data->admin.sock.sock, "w");
-  if (!data->admin.sock_stream)
+  if (data->admin.client.sock != -1)
     {
-      LOG(LOG_WARNING, "Cannot create sock stream");
+      data->admin.sock_stream = fdopen(data->admin.client.sock, "w");
+      if (!data->admin.sock_stream)
+	{
+	  LOG(LOG_WARNING, "Cannot create sock stream");
+	  closesocket(data->admin.client.sock);
+	  data->admin.client.sock = -1;
+	}
     }
 }
 
