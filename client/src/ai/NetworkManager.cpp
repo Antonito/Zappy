@@ -31,7 +31,7 @@ namespace ai
 	    struct timeval tm;
 
 	    tm.tv_usec = 0;
-	    tm.tv_sec = 3;
+	    tm.tv_sec = 600;
 
 	    ret = select(sock + 1, nullptr, &wfds, nullptr, &tm);
 	  }
@@ -78,7 +78,7 @@ namespace ai
 	    struct timeval tm;
 
 	    tm.tv_usec = 0;
-	    tm.tv_sec = 3;
+	    tm.tv_sec = 600;
 
 	    ret = select(sock + 1, &rds, nullptr, nullptr, &tm);
 	  }

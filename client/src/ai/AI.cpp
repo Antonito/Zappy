@@ -26,7 +26,7 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE}}},
           {State::INCANT,
-           {{State::STARVING, State::MISSING_STONE, State::NO_CHANGE,
+           {{State::STARVING, State::STARVING, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE}}},
           {State::FOOD_ON_CASE,
@@ -79,10 +79,6 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE}}},
           {State::TROLL,
            {{State::MISSING_STONE, State::MISSING_STONE, State::NO_CHANGE,
-             State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
-             State::NO_CHANGE, State::NO_CHANGE}}},
-          {State::INIT_AI,
-           {{State::STARVING, State::NO_CHANGE, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE, State::NO_CHANGE,
              State::NO_CHANGE, State::NO_CHANGE}}},
   };
@@ -152,13 +148,24 @@ namespace ai
     m_states[State::TROLL] = &AI::troll;
   }
 
-  Value AI::starving(Value)
+  Value AI::starving(Value value)
   {
     nope::log::Log(Debug) << "STATE : Starving";
     if (m_player.updateInventory())
       {
 	int food = m_player.get("food");
-
+	if (value == Value::READY || value == Value::SEARCH ||
+	    value == WAITING)
+	  {
+	    if (food < NB_FOOD_MIN)
+	      {
+		return (Value::YES);
+	      }
+	    else
+	      {
+		return (value);
+	      }
+	  }
 	if (food < NB_FOOD_NORMAL)
 	  {
 	    return (Value::YES);
@@ -180,31 +187,67 @@ namespace ai
   Value AI::missingStone(Value)
   {
     nope::log::Log(Debug) << "STATE : MissingStone";
-    //     if (m_player.updateInventory())
-    //       {
-    // 	std::array<std::int32_t, 6> stoneTab =
-    // 	    m_player.missingStone(m_player.getInventory());
-    // 	for (std::int32_t i = 0; i < 6; ++i)
-    // 	  {
-    // 	    if (stoneTab[static_cast<std::size_t>(i)] > 0)
-    // 	      {
-    // 		m_player.setStoneName(m_player.getNameForIdStone(i));
-    // 		return (Value::YES);
-    // 	      }
-    // 	  }
-    //       }
+    if (m_player.updateInventory())
+      {
+	std::array<std::int32_t, 6> stoneTab =
+	    m_player.missingStone(m_player.getInventory());
+	for (std::int32_t i = 0; i < 6; ++i)
+	  {
+	    if (stoneTab[static_cast<std::size_t>(i)] > 0)
+	      {
+		m_player.setStoneName(m_player.getNameForIdStone(i));
+		return (Value::YES);
+	      }
+	  }
+      }
     return (Value::NO);
   }
 
   Value AI::missingPlayer(Value)
   {
     nope::log::Log(Debug) << "STATE : MissingPlayer";
+    if (m_player.updateLook())
+      {
+	std::int32_t needed = m_player.getNbPlayerForRecipe();
+	if (m_player.getNbPlayerOnCase() < needed)
+	  {
+	    m_player.broadcast("EmbsTf COME " +
+	                       std::to_string(m_network.getPlayerId()) + " " +
+	                       std::to_string(m_player.getLevel()));
+	    return (Value::YES);
+	  }
+	else
+	  {
+	    m_player.broadcast("EmbsTf GO_AWAY " +
+	                       std::to_string(m_network.getPlayerId()));
+	    return (Value::NO);
+	  }
+      }
     return (Value::NO);
   }
 
   Value AI::setRecipe(Value)
   {
     nope::log::Log(Debug) << "STATE : SetRecipe";
+    if (m_player.updateLook())
+      {
+	std::array<std::int32_t, 6> diffTab =
+	    m_player.diff(m_player.getRecipe(), m_player.getCurCase());
+	for (std::int32_t i = 0; i < 6; ++i)
+	  {
+	    if (diffTab[i] > 0)
+	      {
+		for (std::int32_t t = 0; t < diffTab[i]; ++t)
+		  m_player.take(m_player.getNameForIdStone(i));
+	      }
+	    else if (diffTab[i] < 0)
+	      {
+		for (std::int32_t s = 0; s > diffTab[i]; --s)
+		  m_player.set(m_player.getNameForIdStone(i));
+	      }
+	  }
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
@@ -213,8 +256,10 @@ namespace ai
     nope::log::Log(Debug) << "STATE : Incant";
     if (m_player.incant())
       {
-	// TODO: wait for second OK
-	return (Value::YES);
+	nope::log::Log(Debug) << "INCANT: OK";
+	if (m_network.receive() != "ko")
+	  return (Value::YES);
+	return (Value::NO);
       }
     return (Value::NO);
   }
@@ -298,25 +343,45 @@ namespace ai
   Value AI::level(Value)
   {
     nope::log::Log(Debug) << "STATE : Level";
+    if (m_player.getLevel() == m_network.getrequiredLevel())
+      {
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
   Value AI::moveToTeammate(Value)
   {
     nope::log::Log(Debug) << "STATE : MoveToTeammate";
+    Message msg = m_network().getMessage();
+    if (m_player.moveTo(msg.first, msg.second))
+      {
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
   Value AI::arrived(Value)
   {
     nope::log::Log(Debug) << "STATE : Arrived";
+    Message msg = m_network().getMessage();
+    if (msg.x == 0 && msg.y == 0)
+      {
+	if (m_loop == 4)
+	  {
+	    m_loop = 0;
+	    return (Value::READY);
+	  }
+	++m_loop;
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
   Value AI::fixRecipe(Value)
   {
     nope::log::Log(Debug) << "STATE : fixRecipe";
-    return (Value::NO);
+    return (Value::YES);
   }
 
   Value AI::stoneOnCase(Value)
@@ -383,12 +448,6 @@ namespace ai
   Value AI::troll(Value)
   {
     nope::log::Log(Debug) << "STATE : troll";
-    return (Value::NO);
-  }
-
-  Value AI::initAI(Value)
-  {
-    nope::log::Log(Debug) << "STATE : initAI";
     return (Value::NO);
   }
 }

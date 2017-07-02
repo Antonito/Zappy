@@ -39,7 +39,7 @@ namespace ai
         m_look(std::move(that.m_look)), m_level(std::move(that.m_level)),
         m_foodTarget(std::move(that.m_foodTarget)),
         m_stoneTarget(std::move(that.m_stoneTarget)),
-        m_stoneName(std::move(that.m_stoneName)), m_network(that.m_network)
+        m_stoneName(std::move(that.m_stoneName)), m_network(that.m_network),
   {
   }
 
@@ -59,14 +59,17 @@ namespace ai
 
   std::array<std::int32_t, 6> const PlayerInfo::getRecipe() const
   {
-    return (recipes[static_cast<std::size_t>(m_level)].second);
+    return (recipes[static_cast<std::size_t>(m_level - 1)].second);
   }
 
-  std::int32_t PlayerInfo::getPlayerNbOnCase() const
+  std::int32_t PlayerInfo::getNbPlayerForRecipe() const
   {
-    return (recipes[static_cast<std::size_t>(m_level)].first);
+    return (recipes[static_cast<std::size_t>(m_level - 1)].first);
   }
-
+  std::int32_t PlayerInfo::getNbPlayerOnCase() const
+  {
+    return (m_look[0].at("player"));
+  }
   std::array<std::int32_t, 6> const
       PlayerInfo::diff(std::array<std::int32_t, 6> const old,
                        std::array<std::int32_t, 6> const newTab) const
@@ -86,7 +89,7 @@ namespace ai
     for (std::size_t i = 0; i < 6; ++i)
       {
 	std::int32_t tmp =
-	    recipes[static_cast<std::size_t>(m_level)].second[i] -
+	    recipes[static_cast<std::size_t>(m_level - 1)].second[i] -
 	    inventory[i];
 	if (tmp < 0)
 	  res[i] = 0;
@@ -136,23 +139,23 @@ namespace ai
 	m_look.push_back(std::move(mapTemp));
       }
 
-      // TODO: remove
-//     {
-//       nope::log::LogMessage msg = nope::log::Log(Debug);
-//       msg << "[";
-//       for (std::map<std::string, std::int32_t> &tile : m_look)
-// 	{
-// 	  for (std::pair<const std::string, std::int32_t> &r : tile)
-// 	    {
-// 	      for (std::int32_t i = 0; i < r.second; ++i)
-// 		{
-// 		  msg << ' ' << r.first;
-// 		}
-// 	    }
-// 	  msg << ", ";
-// 	}
-//       msg << "]";
-//     }
+    // TODO: remove
+    //     {
+    //       nope::log::LogMessage msg = nope::log::Log(Debug);
+    //       msg << "[";
+    //       for (std::map<std::string, std::int32_t> &tile : m_look)
+    // 	{
+    // 	  for (std::pair<const std::string, std::int32_t> &r : tile)
+    // 	    {
+    // 	      for (std::int32_t i = 0; i < r.second; ++i)
+    // 		{
+    // 		  msg << ' ' << r.first;
+    // 		}
+    // 	    }
+    // 	  msg << ", ";
+    // 	}
+    //       msg << "]";
+    //     }
     return (true);
   }
 
@@ -206,7 +209,8 @@ namespace ai
 
   bool PlayerInfo::incant()
   {
-    return (false);
+    m_network.send("Incantation");
+    return (m_network.receive() == "Elevation underway");
   }
 
   bool PlayerInfo::left()
@@ -349,12 +353,39 @@ namespace ai
 	mid += 2 * (y + 1);
       }
     x = pos - mid;
-    nope::log::Log(Debug) << "Direction of " << pos << ": " << x << ' ' << y << "(" << mid << ")";
+    nope::log::Log(Debug) << "Direction of " << pos << ": " << x << ' ' << y
+                          << "(" << mid << ")";
     return (std::pair<std::int32_t, std::int32_t>(x, y));
   }
 
   std::string const PlayerInfo::getNameForIdStone(std::int32_t id) const
   {
     return (stoneNames.at(id));
+  }
+
+  std::array<std::int32_t, 6> PlayerInfo::getInventory() const
+  {
+    std::array<std::int32_t, 6> res;
+
+    res[0] = m_inventory.at("linemate");
+    res[1] = m_inventory.at("deraumere");
+    res[2] = m_inventory.at("sibur");
+    res[3] = m_inventory.at("mendiane");
+    res[4] = m_inventory.at("phiras");
+    res[5] = m_inventory.at("thystame");
+    return (res);
+  }
+
+  std::array<std::int32_t, 6> const PlayerInfo::getCurCase() const
+  {
+    std::array<std::int32_t, 6> res;
+
+    res[0] = m_look[0].at("linemate");
+    res[1] = m_look[0].at("deraumere");
+    res[2] = m_look[0].at("sibur");
+    res[3] = m_look[0].at("mendiane");
+    res[4] = m_look[0].at("phiras");
+    res[5] = m_look[0].at("thystame");
+    return (res);
   }
 }

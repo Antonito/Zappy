@@ -30,7 +30,9 @@ namespace ai
 
     std::array<std::int32_t, 6> const getRecipe() const;
 
-    std::int32_t getPlayerNbOnCase() const;
+    std::int32_t getNbPlayerForRecipe() const;
+
+    std::int32_t getNbPlayerOnCase() const;
 
     std::array<std::int32_t, 6> const
         diff(std::array<std::int32_t, 6> const old,
@@ -67,6 +69,13 @@ namespace ai
     std::pair<std::int32_t, std::int32_t> getDirection(std::int32_t) const;
 
     std::string const getNameForIdStone(std::int32_t id) const;
+
+    std::array<std::int32_t, 6> getInventory() const;
+
+    void         setPlayerId(std::int32_t);
+    std::int32_t getPlayerId() const;
+
+    std::array<std::int32_t, 6> const getCurCase() const;
 
   private:
     std::map<std::string, std::int32_t>              m_inventory;

@@ -15,7 +15,7 @@
 #endif
 
 #define NB_FOOD_MIN (5)
-#define NB_FOOD_NORMAL (70)
+#define NB_FOOD_NORMAL (15)
 
 namespace ai
 {
@@ -26,7 +26,7 @@ namespace ai
     COME,
     GO_AWAY,
     SEARCH,
-    WAINTING,
+    WAITING,
     READY,
     END_INCANT,
     NB_VALUE,
@@ -96,7 +96,6 @@ namespace ai
     Value findStone(Value v);
     Value moveToStone(Value v);
     Value troll(Value v);
-    Value initAI(Value v);
 
     std::array<Value (AI::*)(Value), State::NB_STATE> m_states;
     State          m_curState;
