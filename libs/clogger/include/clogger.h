@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 18:02:48 2017 Antoine Baché
-** Last update Sat Jun 24 21:25:40 2017 Antoine Baché
+** Last update Sun Jul  2 13:50:15 2017 Antoine Baché
 */
 
 #ifndef CLOGGER_H_
@@ -29,7 +29,7 @@
 #pragma clang diagnostic pop
 #endif
 
-typedef struct s_logger	t_logger;
+typedef struct	s_logger	t_logger;
 
 typedef enum		e_clogger_level
   {

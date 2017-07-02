@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:40:19 2017 Antoine Baché
-** Last update Sun Jul  2 02:10:43 2017 Antoine Baché
+** Last update Sun Jul  2 15:06:25 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -14,7 +14,7 @@
 #include "zappy_server.h"
 #include "zappy_multiplexer.h"
 
-static void     zappy_io_client(t_zappy_client * const cli,
+static void	zappy_io_client(t_zappy_client * const cli,
 				void *_data)
 {
   t_zappy	*data;

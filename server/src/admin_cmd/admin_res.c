@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sun Jul  2 03:37:41 2017 Antoine Baché
+** Last update Sun Jul  2 20:14:38 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,7 +18,7 @@
 #include "zappy_team.h"
 #include "zappy_resource.h"
 
-static void		zappy_admin_update_case(int32_t const x,
+static void		zappy_admin_update_tile(int32_t const x,
 						int32_t const y,
 						t_zappy * const data)
 {
@@ -38,10 +38,10 @@ void			zappy_admin_cmd_res(t_zappy * const data,
   LOG(LOG_DEBUG, "Treating Admin command resource");
   x = rand() % data->map.width;
   y = rand() % data->map.height;
-  dprintf(data->admin.client.sock, "Spawned %s at %dx%d\n",
+  fprintf(data->admin.sock_stream, "Spawned %s at %dx%d\n",
 	  zappy_get_resource_by_id(res), x, y);
   ++data->map.data[y][x].content[res];
-  zappy_admin_update_case(x, y, data);
+  zappy_admin_update_tile(x, y, data);
 }
 
 void			zappy_admin_cmd_res_rand(t_zappy * const data,

@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{C10F2F69-477A-487F-9129-4A34F432A89E}</ProjectGuid>
+    <RootNamespace>server</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)include\;$(ProjectDir)..\libs\clogger\include\;$(ProjectDir)..\libs\cqueue\include\;$(ProjectDir)..\libs\cmempool\include\;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)include\;$(ProjectDir)..\libs\clogger\include\;$(ProjectDir)..\libs\cqueue\include\;$(ProjectDir)..\libs\cmempool\include\;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)include\;$(ProjectDir)..\libs\clogger\include\;$(ProjectDir)..\libs\cqueue\include\;$(ProjectDir)..\libs\cmempool\include\;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)include\;$(ProjectDir)..\libs\clogger\include\;$(ProjectDir)..\libs\cqueue\include\;$(ProjectDir)..\libs\cmempool\include\;</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DEBUG; _CRT_SECURE_NO_WARNINGS; _WINSOCK_DEPRECATED_NO_WARNINGS;</PreprocessorDefinitions>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libzappy_clogger.lib;libzappy_cmempool.lib;libzappy_cqueue.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)build/;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DEBUG; _CRT_SECURE_NO_WARNINGS; _WINSOCK_DEPRECATED_NO_WARNINGS;</PreprocessorDefinitions>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libzappy_clogger.lib;libzappy_cmempool.lib;libzappy_cqueue.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)build/;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG; _CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>libzappy_clogger.lib;libzappy_cmempool.lib;libzappy_cqueue.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)build/;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG; _CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>libzappy_clogger.lib;libzappy_cmempool.lib;libzappy_cqueue.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)build/;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\zappy.h" />
+    <ClInclude Include="include\zappy_admin.h" />
+    <ClInclude Include="include\zappy_admin_cmd.h" />
+    <ClInclude Include="include\zappy_alloc.h" />
+    <ClInclude Include="include\zappy_argv.h" />
+    <ClInclude Include="include\zappy_broadcast.h" />
+    <ClInclude Include="include\zappy_cleanup.h" />
+    <ClInclude Include="include\zappy_client.h" />
+    <ClInclude Include="include\zappy_client_cmd.h" />
+    <ClInclude Include="include\zappy_client_game.h" />
+    <ClInclude Include="include\zappy_client_list.h" />
+    <ClInclude Include="include\zappy_client_serial.h" />
+    <ClInclude Include="include\zappy_client_state.h" />
+    <ClInclude Include="include\zappy_client_vision.h" />
+    <ClInclude Include="include\zappy_color.h" />
+    <ClInclude Include="include\zappy_config.h" />
+    <ClInclude Include="include\zappy_egg.h" />
+    <ClInclude Include="include\zappy_egg_manager.h" />
+    <ClInclude Include="include\zappy_elevation.h" />
+    <ClInclude Include="include\zappy_graphic.h" />
+    <ClInclude Include="include\zappy_logic.h" />
+    <ClInclude Include="include\zappy_map.h" />
+    <ClInclude Include="include\zappy_math.h" />
+    <ClInclude Include="include\zappy_message.h" />
+    <ClInclude Include="include\zappy_multiplexer.h" />
+    <ClInclude Include="include\zappy_network.h" />
+    <ClInclude Include="include\zappy_network_gen.h" />
+    <ClInclude Include="include\zappy_resource.h" />
+    <ClInclude Include="include\zappy_ring_buffer.h" />
+    <ClInclude Include="include\zappy_server.h" />
+    <ClInclude Include="include\zappy_socket.h" />
+    <ClInclude Include="include\zappy_team.h" />
+    <ClInclude Include="include\zappy_team_manager.h" />
+    <ClInclude Include="include\zappy_time.h" />
+    <ClInclude Include="include\zappy_windows.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\admin.c" />
+    <ClCompile Include="src\admin_auth.c" />
+    <ClCompile Include="src\admin_cmd.c" />
+    <ClCompile Include="src\admin_cmd\admin_broadcast.c" />
+    <ClCompile Include="src\admin_cmd\admin_egg.c" />
+    <ClCompile Include="src\admin_cmd\admin_info.c" />
+    <ClCompile Include="src\admin_cmd\admin_map.c" />
+    <ClCompile Include="src\admin_cmd\admin_res.c" />
+    <ClCompile Include="src\admin_cmd\admin_res_dsmpt.c" />
+    <ClCompile Include="src\admin_io.c" />
+    <ClCompile Include="src\alloc.c" />
+    <ClCompile Include="src\alloc_message.c" />
+    <ClCompile Include="src\alloc_queue.c" />
+    <ClCompile Include="src\alloc_serial.c" />
+    <ClCompile Include="src\argvs_func.c" />
+    <ClCompile Include="src\argvs_func_freq.c" />
+    <ClCompile Include="src\broadcast_calc.c" />
+    <ClCompile Include="src\cleanup.c" />
+    <ClCompile Include="src\cleanup_admin.c" />
+    <ClCompile Include="src\cleanup_client.c" />
+    <ClCompile Include="src\cleanup_eggs.c" />
+    <ClCompile Include="src\cleanup_map.c" />
+    <ClCompile Include="src\client.c" />
+    <ClCompile Include="src\client_cmd\broadcast.c" />
+    <ClCompile Include="src\client_cmd\connect_nbr.c" />
+    <ClCompile Include="src\client_cmd\dead.c" />
+    <ClCompile Include="src\client_cmd\eject.c" />
+    <ClCompile Include="src\client_cmd\err.c" />
+    <ClCompile Include="src\client_cmd\fork.c" />
+    <ClCompile Include="src\client_cmd\forward.c" />
+    <ClCompile Include="src\client_cmd\incantation.c" />
+    <ClCompile Include="src\client_cmd\inventory.c" />
+    <ClCompile Include="src\client_cmd\left.c" />
+    <ClCompile Include="src\client_cmd\look.c" />
+    <ClCompile Include="src\client_cmd\pre_fork.c" />
+    <ClCompile Include="src\client_cmd\pre_incantation.c" />
+    <ClCompile Include="src\client_cmd\right.c" />
+    <ClCompile Include="src\client_cmd\set.c" />
+    <ClCompile Include="src\client_cmd\take.c" />
+    <ClCompile Include="src\client_for_each.c" />
+    <ClCompile Include="src\client_game.c" />
+    <ClCompile Include="src\client_manager.c" />
+    <ClCompile Include="src\client_move.c" />
+    <ClCompile Include="src\client_rotate.c" />
+    <ClCompile Include="src\egg_manager.c" />
+    <ClCompile Include="src\elevation.c" />
+    <ClCompile Include="src\graphic_cmd.c" />
+    <ClCompile Include="src\graphic_cmd\bct.c" />
+    <ClCompile Include="src\graphic_cmd\ebo.c" />
+    <ClCompile Include="src\graphic_cmd\edi.c" />
+    <ClCompile Include="src\graphic_cmd\eht.c" />
+    <ClCompile Include="src\graphic_cmd\enw.c" />
+    <ClCompile Include="src\graphic_cmd\msz.c" />
+    <ClCompile Include="src\graphic_cmd\pbc.c" />
+    <ClCompile Include="src\graphic_cmd\pdi.c" />
+    <ClCompile Include="src\graphic_cmd\pdr.c" />
+    <ClCompile Include="src\graphic_cmd\pex.c" />
+    <ClCompile Include="src\graphic_cmd\pfk.c" />
+    <ClCompile Include="src\graphic_cmd\pgt.c" />
+    <ClCompile Include="src\graphic_cmd\pic.c" />
+    <ClCompile Include="src\graphic_cmd\pie.c" />
+    <ClCompile Include="src\graphic_cmd\pin.c" />
+    <ClCompile Include="src\graphic_cmd\plv.c" />
+    <ClCompile Include="src\graphic_cmd\pnw.c" />
+    <ClCompile Include="src\graphic_cmd\ppo.c" />
+    <ClCompile Include="src\graphic_cmd\sbp.c" />
+    <ClCompile Include="src\graphic_cmd\seg.c" />
+    <ClCompile Include="src\graphic_cmd\sgt.c" />
+    <ClCompile Include="src\graphic_cmd\smg.c" />
+    <ClCompile Include="src\graphic_cmd\suc.c" />
+    <ClCompile Include="src\graphic_cmd\tna.c" />
+    <ClCompile Include="src\graphic_monitor.c" />
+    <ClCompile Include="src\io.c" />
+    <ClCompile Include="src\logic.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\map.c" />
+    <ClCompile Include="src\map_tile.c" />
+    <ClCompile Include="src\message.c" />
+    <ClCompile Include="src\multiplexer.c" />
+    <ClCompile Include="src\network.c" />
+    <ClCompile Include="src\order.c" />
+    <ClCompile Include="src\parse.c" />
+    <ClCompile Include="src\player.c" />
+    <ClCompile Include="src\reset.c" />
+    <ClCompile Include="src\resource.c" />
+    <ClCompile Include="src\ring_buffer.c" />
+    <ClCompile Include="src\server.c" />
+    <ClCompile Include="src\socket.c" />
+    <ClCompile Include="src\state\auth.c" />
+    <ClCompile Include="src\state\connect.c" />
+    <ClCompile Include="src\state\connect_w.c" />
+    <ClCompile Include="src\state\resp.c" />
+    <ClCompile Include="src\team.c" />
+    <ClCompile Include="src\team_manager.c" />
+    <ClCompile Include="src\time.c" />
+    <ClCompile Include="src\vision.c" />
+    <ClCompile Include="src\win.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

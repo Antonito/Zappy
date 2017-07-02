@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 15:12:38 2017 Antoine Baché
-** Last update Thu Jun 29 18:21:54 2017 Antoine Baché
+** Last update Sun Jul  2 18:13:24 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_NETWORK_GEN_H_
@@ -47,10 +47,11 @@ typedef ssize_t			t_ssize;
 #define _WINSOCKAPI_
 #endif
 
-#include <windows.h>
 #include <winsock2.h>
+#include <windows.h>
 #include <Ws2tcpip.h>
 #include <io.h>
+#include "zappy_windows.h"
 
 /*
 ** Link with ws2_32.lib
@@ -60,12 +61,12 @@ typedef ssize_t			t_ssize;
 /*
 ** Uniform type declarations
 */
-typedef SOCKET		t_sock;
-typedef SOCKADDR_IN	t_sockaddr_in;
-typedef SOCKADDR	t_sockaddr;
-typedef IN_ADDR		t_in_addr;
-typedef SSIZE_T		t_ssize;
-typedef struct addrinfo	t_addrinfo;
+typedef SOCKET			t_sock;
+typedef SOCKADDR_IN		t_sockaddr_in;
+typedef SOCKADDR		t_sockaddr;
+typedef IN_ADDR			t_in_addr;
+typedef SSIZE_T			t_ssize;
+typedef struct	addrinfo	t_addrinfo;
 
 #else
 

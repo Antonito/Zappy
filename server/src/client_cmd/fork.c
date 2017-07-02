@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Sat Jul  1 21:10:52 2017 Antoine Baché
+** Last update Sun Jul  2 14:45:24 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -42,7 +42,8 @@ void			zappy_client_hatch_egg(t_zappy_client * const cli,
       egg->hatched = 1;
       if (cqueue_push(&data->egg_manager.hatched, egg))
 	{
-	  if (!zappy_team_add_slot(&data->conf.teams.team[egg->team_id], data))
+	  if (!zappy_team_add_slot(&data->conf.teams.team[egg->team_id],
+				   data))
 	    {
 	      LOG(LOG_DEBUG, "The egg %d has hatched", egg->id);
 	      g = (t_zappy_graph_arg){ NULL, egg->id, 0 };

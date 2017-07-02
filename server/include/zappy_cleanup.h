@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 21:02:59 2017 Antoine Baché
-** Last update Fri Jun 30 21:35:43 2017 Antoine Baché
+** Last update Sun Jul  2 14:09:10 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLEANUP_H_
@@ -33,7 +33,7 @@ void	zappy_cleanup_teams(t_zappy_team_manager * const teams);
 void	zappy_cleanup_map(t_zappy_map * const map);
 void	zappy_cleanup_admin(t_zappy_admin * const admin);
 void	zappy_cleanup_eggs(t_zappy_egg_manager * const man);
-void    zappy_cleanup_client(t_zappy_client * const cli,
+void	zappy_cleanup_client(t_zappy_client * const cli,
 			     t_zappy * const data);
 void	zappy_cleanup_cqueue(t_cqueue **queue);
 

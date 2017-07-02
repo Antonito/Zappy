@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 19:43:18 2017 Antoine Baché
-** Last update Sat Jul  1 02:46:22 2017 Antoine Baché
+** Last update Sun Jul  2 19:57:51 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -48,14 +48,12 @@ t_zappy_team	*zappy_team_manager_get_team_by_name(char const * const name,
 						     const man)
 {
   int32_t	i;
-  size_t	len;
 
   assert(name && man);
   i = 0;
-  len = strlen(name);
   while (i < man->nb_teams)
     {
-      if (!memcmp(name, man->team[i].name, len))
+      if (!memcmp(name, man->team[i].name, strlen(man->team[i].name)))
 	{
 	  return (&man->team[i]);
 	}

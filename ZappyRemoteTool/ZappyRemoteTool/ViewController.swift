@@ -19,19 +19,20 @@ class ViewController: UIViewController {
     @IBAction func zappyConnection(_ sender: Any) {
         if zappyServer.text != nil && zappyPort.text != nil && zappyPassword.text != nil {
             print("Server and port OK")
-
-            if NetworkManager.sharedInstance.connect(address: zappyServer.text!, port: UInt16(zappyPort.text!)!) {
-                print("Connected to server.")
-                let password = "aSuperWeakAndUnsafePassword" // zappyPassword.text!
-                let ret = NetworkManager.sharedInstance.authenticate(passwd: password)
-                switch ret {
-                case .success:
-                    print("Authenticated !")
-                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let newViewController = storyBoard.instantiateViewController(withIdentifier: "InfoViewController") as! InfoViewController
-                    self.present(newViewController, animated: true, completion: nil)
-                case .failure(let err):
-                    print(err)
+            if let port = UInt16(zappyPort.text!) {
+                if NetworkManager.sharedInstance.connect(address: zappyServer.text!, port: port) {
+                    print("Connected to server.")
+                    let password = "aSuperWeakAndUnsafePassword" // zappyPassword.text!
+                    let ret = NetworkManager.sharedInstance.authenticate(passwd: password)
+                    switch ret {
+                    case .success:
+                        print("Authenticated !")
+                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let newViewController = storyBoard.instantiateViewController(withIdentifier: "InfoViewController")  as! InfoViewController
+                        self.present(newViewController, animated: true, completion: nil)
+                    case .failure(let err):
+                        print(err)
+                    }
                 }
             }
         }

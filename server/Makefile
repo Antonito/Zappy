@@ -53,7 +53,7 @@ SRC_FILES=	admin.c				\
 		alloc_serial.c			\
 		argvs_func.c			\
 		argvs_func_freq.c		\
-		broadcast.c			\
+		broadcast_calc.c		\
 		cleanup.c			\
 		cleanup_client.c		\
 		cleanup_map.c			\
@@ -73,7 +73,7 @@ SRC_FILES=	admin.c				\
 		logic.c				\
 		main.c				\
 		map.c				\
-		map_case.c			\
+		map_tile.c			\
 		message.c			\
 		multiplexer.c			\
 		network.c			\

@@ -36,8 +36,8 @@ typedef enum		e_zappy_admin_cmd_list
     ADM_RES_THYSTAME,
     ADM_SPAWN_EGG,
     ADM_BROADCAST,
-    ADM_ADD_CASE,
-    ADM_RM_CASE,
+    ADM_ADD_tile,
+    ADM_RM_tile,
     NB_ADM_CMD
   }			t_zappy_admin_cmd_list;
 
@@ -99,11 +99,11 @@ void			zappy_admin_cmd_res_thystame(t_zappy * const data,
 						     char const * cmd);
 
 /*
-** Map case commands
+** Map tile commands
 */
-void			zappy_admin_add_case(t_zappy * const data,
+void			zappy_admin_add_tile(t_zappy * const data,
 					     char const *cmd);
-void			zappy_admin_rm_case(t_zappy * const data,
+void			zappy_admin_rm_tile(t_zappy * const data,
 					    char const *cmd);
 
 #endif /* !ZAPPY_ADMIN_CMD_H_ */

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 00:46:54 2017 Antoine Baché
-** Last update Sat Jul  1 17:30:20 2017 Antoine Baché
+** Last update Sun Jul  2 14:40:33 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -33,7 +33,8 @@ static t_zappy_client_cmd const	zappy_client_commands[] =
   {
     { &zappy_client_cmd_connect_nbr, NULL, "Connect_nbr", 0,
       sizeof("Connect_nbr") - 1},
-    { &zappy_client_cmd_inventory, NULL, "Inventory", 1, sizeof("Inventory") },
+    { &zappy_client_cmd_inventory, NULL,
+      "Inventory", 1, sizeof("Inventory") },
     { &zappy_client_cmd_forward, NULL, "Forward", 7, sizeof("Forward") },
     { &zappy_client_cmd_broadcast, NULL, "Broadcast %[^\n]", 7,
       sizeof("Broadcast ") - 1 },
@@ -52,14 +53,16 @@ static t_zappy_client_cmd const	zappy_client_commands[] =
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert
-_Static_assert(sizeof(zappy_client_commands) / sizeof(zappy_client_commands[0])
+_Static_assert(sizeof(zappy_client_commands) /
+	       sizeof(zappy_client_commands[0])
 	       == NB_CLIENT_CMD, "Invalid number of client commands");
 #endif
 
 static void		zappy_conn_treat_cmd(t_zappy_client * const cli,
 					     t_zappy * const data,
 					     char const * const buff,
-					     t_zappy_client_serial * const res)
+					     t_zappy_client_serial *
+					     const res)
 {
   int32_t		i;
 

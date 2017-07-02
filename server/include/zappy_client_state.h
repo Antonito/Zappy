@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 23:57:00 2017 Antoine Baché
-** Last update Sun Jun 25 16:23:04 2017 Antoine Baché
+** Last update Sun Jul  2 18:04:34 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_STATE_H_
@@ -26,10 +26,10 @@ typedef struct		s_zappy_client	t_zappy_client;
 */
 typedef struct		s_zappy_client_state_handle
 {
-  void			(*read)(t_zappy_client * const cli,
-				t_zappy * const data, char const * const);
-  void			(*write)(t_zappy_client * const cli,
-				 t_zappy * const data);
+  void			(*r)(t_zappy_client * const cli,
+			     t_zappy * const data, char const * const);
+  void			(*w)(t_zappy_client * const cli,
+			     t_zappy * const data);
 }			t_zappy_client_state_handle;
 
 /*

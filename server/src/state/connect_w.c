@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 30 12:07:39 2017 Antoine Baché
-** Last update Sat Jul  1 13:24:16 2017 Antoine Baché
+** Last update Sun Jul  2 14:39:29 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -21,7 +21,8 @@
 #include "zappy_message.h"
 #include "zappy_team.h"
 
-static void		zappy_cli_state_conn_w_fail(t_zappy_client * const cli,
+static void		zappy_cli_state_conn_w_fail(t_zappy_client *
+						    const cli,
 						    t_zappy_message * const
 						    data,
 						    t_zappy * zap)

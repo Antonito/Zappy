@@ -5,11 +5,14 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 00:19:33 2017 Antoine Baché
-** Last update Fri Jun 30 21:17:13 2017 Antoine Baché
+** Last update Sun Jul  2 17:53:46 2017 Antoine Baché
 */
 
 #include <stdlib.h>
 #include <string.h>
+#if defined(_WIN32)
+#include "zappy_windows.h"
+#endif
 #include "clogger.h"
 #include "cqueue.h"
 #include "zappy_alloc.h"
@@ -45,7 +48,7 @@ void			zappy_cli_state_auth_w(t_zappy_client * const cli,
   if (cur)
     {
       cur->len = sizeof("WELCOME\n") - 1;
-      cur->msg = strndup("WELCOME\n", (size_t)cur->len + 1);
+      cur->msg = strdup("WELCOME\n");
       if (cur->msg && cqueue_push(&cli->output_queue, cur))
 	{
 	  cli->can_write = false;

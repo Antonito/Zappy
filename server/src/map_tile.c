@@ -1,5 +1,5 @@
 /*
-** map_case.c for zappy in PSU_2016_zappy/server/src
+** map_tile.c for zappy in PSU_2016_zappy/server/src
 **
 ** Made by Antoine Baché
 ** Login   <antoine.bache@epitech.net>
@@ -12,7 +12,7 @@
 #include "clogger.h"
 #include "zappy_map.h"
 
-t_zappy_map_case const	*zappy_get_map_case(t_zappy_map const * const map,
+t_zappy_map_tile const	*zappy_get_map_tile(t_zappy_map const * const map,
 					    int32_t x, int32_t y)
 {
   int32_t		real_x;

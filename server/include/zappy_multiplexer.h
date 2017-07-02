@@ -5,15 +5,17 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 16:46:10 2017 Antoine Baché
-** Last update Mon Jun 26 19:49:17 2017 Antoine Baché
+** Last update Sun Jul  2 18:16:22 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_MULTIPLEXER_H_
 #define ZAPPY_MULTIPLEXER_H_
 
 #include <stdint.h>
+#if defined (__linux__) || defined (__APPLE__)
 #include <sys/time.h>
 #include <sys/select.h>
+#endif
 #include "zappy_network_gen.h"
 #include "zappy_client_list.h"
 
