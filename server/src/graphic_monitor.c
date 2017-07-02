@@ -5,11 +5,12 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 23:18:36 2017 Antoine Baché
-** Last update Wed Jun 28 00:25:30 2017 Antoine Baché
+** Last update Sat Jul  1 11:22:26 2017 Antoine Baché
 */
 
 #include <assert.h>
 #include "clogger.h"
+#include "cqueue.h"
 #include "zappy.h"
 #include "zappy_graphic.h"
 
@@ -55,6 +56,10 @@ static void		zappy_graph_co_map(t_zappy_client *cli,
 void			zappy_graph_connect(t_zappy_client *cli,
 					    t_zappy * data)
 {
+  int32_t		i;
+  t_cqueue		*egg;
+  t_zappy_graph_arg	g;
+
   assert(cli && data && cli->graphical == true);
   LOG(LOG_INFO, "Connecting GRAPHICAL client");
   zappy_graph_msz(cli, data, NULL);
@@ -62,5 +67,13 @@ void			zappy_graph_connect(t_zappy_client *cli,
   zappy_graph_co_map(cli, data);
   zappy_graph_tna(cli, data, NULL);
   zappy_graph_co_client(cli, data);
-  // TODO: send eggs (enw)
+  i = 0;
+  egg = data->egg_manager.hatched;
+  while (i < data->egg_manager.nb_hatched_eggs)
+    {
+      g = (t_zappy_graph_arg){ egg->data, 0, 0};
+      zappy_graph_send(&g, data, NULL, &zappy_graph_enw);
+      egg = egg->next;
+      ++i;
+    }
 }

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 18:20:16 2017 Antoine Baché
-** Last update Sun Jun 25 16:42:27 2017 Antoine Baché
+** Last update Fri Jun 30 21:09:17 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -27,6 +27,7 @@ void		*zappy_alloc_message(void)
 void		zappy_free_message(t_zappy_message *ptr)
 {
   assert(message_mempool);
+  zappy_message_clean(ptr);
   message_mempool->free(message_mempool, ptr);
 }
 

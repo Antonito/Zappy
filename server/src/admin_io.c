@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 21:50:09 2017 Antoine Baché
-** Last update Tue Jun 27 09:14:54 2017 Antoine Baché
+** Last update Sat Jul  1 23:19:56 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -17,11 +17,42 @@
 
 static t_zappy_admin_cmd const	zappy_admin_commands[] =
   {
-    { &zappy_admin_cmd_help, "help", sizeof("help") },
-    { &zappy_admin_cmd_stop, "stop", sizeof("stop") },
-    { &zappy_admin_cmd_info, "info", sizeof("info") },
-    { &zappy_admin_cmd_inc_freq, "inc", sizeof("inc") },
-    { &zappy_admin_cmd_dec_freq, "dec", sizeof("dec") }
+    { &zappy_admin_cmd_help,
+      "help", sizeof("help") },
+    { &zappy_admin_cmd_stop,
+      "stop", sizeof("stop") },
+    { &zappy_admin_cmd_info,
+      "info", sizeof("info") },
+    { &zappy_admin_cmd_inc_freq,
+      "inc", sizeof("inc") },
+    { &zappy_admin_cmd_dec_freq,
+      "dec", sizeof("dec") },
+    { &zappy_admin_cmd_reset,
+      "reset", sizeof("reset") },
+    { &zappy_admin_cmd_res_rand,
+      "spawn rand", sizeof("spawn rand") },
+    { &zappy_admin_cmd_res_food,
+      "spawn food", sizeof("spawn food") },
+    { &zappy_admin_cmd_res_linemate,
+      "spawn linemate", sizeof("spawn linemate") },
+    { &zappy_admin_cmd_res_deraumere,
+      "spawn deraumere", sizeof("spawn deraumere") },
+    { &zappy_admin_cmd_res_sibur,
+      "spawn sibur", sizeof("spawn sibur") },
+    { &zappy_admin_cmd_res_mendiane,
+      "spawn mendiane", sizeof("spawn mendiane") },
+    { &zappy_admin_cmd_res_phiras,
+      "spawn phiras", sizeof("spawn phiras") },
+    { &zappy_admin_cmd_res_thystame,
+      "spawn thystame", sizeof("spawn thystame") },
+    { &zappy_admin_cmd_egg,
+      "spawn egg", sizeof("spawn egg") },
+    { &zappy_admin_cmd_broadcast,
+      "broadcast ", sizeof("broadcast ") - 1 },
+    { &zappy_admin_add_case,
+      "map add ", sizeof("map add ") - 1},
+    { &zappy_admin_rm_case,
+      "map rm ", sizeof("map rm ") - 1}
   };
 
 #if (__STDC_VERSION__ >= 201112L) && defined static_assert
@@ -65,7 +96,8 @@ static void		zappy_admin_cmd(t_zappy * const data,
       if (!memcmp(cmd, zappy_admin_commands[i].cmd,
 		  (size_t)zappy_admin_commands[i].len))
 	{
-	  zappy_admin_commands[i].callback(data);
+	  zappy_admin_commands[i].callback(data,
+					   cmd + zappy_admin_commands[i].len);
 	  break;
 	}
       ++i;

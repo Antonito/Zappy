@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Tue Jun 27 20:01:51 2017 Antoine Baché
-** Last update Fri Jun 30 16:37:32 2017 Antoine Baché
+** Last update Sat Jul  1 02:37:36 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -56,7 +56,6 @@ void			zappy_graph_bct(t_zappy_client * const cli,
 	  cli->can_write = true;
 	  return ;
 	}
-      free(msg->msg);
       zappy_free_message(msg);
     }
 }

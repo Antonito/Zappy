@@ -5,7 +5,7 @@
 ## Login   <antoine.bache@epitech.net>
 ##
 ## Started on  Fri Jun 23 14:04:56 2017 Antoine Baché
-## Last update Sat Jun 24 15:03:51 2017 Antoine Baché
+## Last update Sat Jul  1 15:17:12 2017 Antoine Baché
 ##
 
 # Commands definitions
@@ -48,7 +48,7 @@ endif
 ifeq ($(DEBUG), yes)
 CFLAGS=		-g -DDEBUG -O0 $(LOCAL_DEBUG_CFLAGS)
 CXXFLAGS=	-g -DDEBUG -O0 $(LOCAL_DEBUG_FLAGS)
-LDFLAGS=	-g -rdynamic -fsanitize=undefined -fsanitize=address
+LDFLAGS=	-g -rdynamic #-fsanitize=undefined -fsanitize=address
 else
 CXXFLAGS=	-DNDEBUG -fomit-frame-pointer -march=native -Werror
 CFLAGS=		-DNDEBUG -fomit-frame-pointer -march=native -Werror

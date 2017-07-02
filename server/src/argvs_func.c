@@ -5,7 +5,7 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:30:51 2017 Lucas Troncy
-** Last update Thu Jun 29 14:26:16 2017 Antoine Baché
+** Last update Sat Jul  1 00:43:08 2017 Antoine Baché
 */
 
 #include <stdio.h>
@@ -110,9 +110,9 @@ int32_t		argv_clientsNb(int32_t i, char const * const * const av,
       return (1);
     }
   data->nb_client_per_team = (int32_t)strtol(av[i + 1], NULL, 10);
-  if (data->nb_client_per_team < 6)
+  if (data->nb_client_per_team < 3)
     {
-      LOG(LOG_ERROR, "Invalid number of client per team (must be at least 6)");
+      LOG(LOG_ERROR, "Invalid number of client per team (must be at least 3)");
       return (1);
     }
   LOG(LOG_DEBUG, "Found %d", data->nb_client_per_team);

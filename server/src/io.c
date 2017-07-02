@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 17:40:19 2017 Antoine Baché
-** Last update Mon Jun 26 21:44:50 2017 Antoine Baché
+** Last update Sat Jul  1 00:28:16 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -20,7 +20,6 @@ static void     zappy_io_client(t_zappy_client * const cli,
   t_zappy	*data;
 
   assert(cli && _data);
-  LOG(LOG_DEBUG, "Checking I/O of client #%d", cli->id);
   data = _data;
   if (cli->connected && FD_ISSET(cli->net.sock, &data->multiplex.readfds))
     {

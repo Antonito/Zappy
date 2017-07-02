@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 11:54:37 2017 Antoine Baché
-** Last update Mon Jun 26 10:11:05 2017 Antoine Baché
+** Last update Fri Jun 30 22:28:35 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -31,6 +31,8 @@ t_zappy_message_action		zappy_message_read(t_zappy_socket const *
     {
       zappy_ring_buffer_write(ring, (uint8_t const *)buff, rc);
     }
+  else
+    ret = MSG_DISCONNECT;
   return (ret);
 }
 
