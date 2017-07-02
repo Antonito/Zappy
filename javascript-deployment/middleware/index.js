@@ -183,6 +183,7 @@ client.on('data', function(data) {
     var datastr = String.fromCharCode.apply(null, new Uint16Array(data));
 
     // Parse data
+    console.log("data: " + datastr);
     parseData(datastr);
 
     // Send data to all clients

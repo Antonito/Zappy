@@ -138,6 +138,9 @@ var symbolsFunctions = {
     },
 
     "enw": function(args) {
+
+        var params = args.split(" ");
+
         if (raw_eggs_list.find((e) => { return e.id == params[1]; }) == undefined) {
             raw_eggs_list.push({
                 'id': params[1],
@@ -154,7 +157,7 @@ var symbolsFunctions = {
         var params = args.split(" ");
 
         for (var i = 0; i < raw_eggs_list.length; ++i) {
-            if (raw_mobs_list[i].id == params[i]) {
+            if (raw_mobs_list[i] && raw_mobs_list[i].id == params[i]) {
                 raw_eggs_list.splice(i, 1);
                 break;
             }
@@ -165,7 +168,7 @@ var symbolsFunctions = {
         var params = args.split(" ");
 
         for (var i = 0; i < raw_eggs_list.length; ++i) {
-            if (raw_mobs_list[i].id == params[i]) {
+            if (raw_mobs_list[i] && raw_mobs_list[i].id == params[i]) {
                 raw_eggs_list.splice(i, 1);
                 break;
             }

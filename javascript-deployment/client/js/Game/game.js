@@ -243,10 +243,10 @@ var InGame = {
 
                 }
 
-
                 for (var i = 0; i < raw_mobs_list.length; ++i) {
 
-                    if (raw_mobs_list[i].X == startX + pos_x && raw_mobs_list[i].Y == pos_y + startY) {
+                    if (raw_mobs_list[i].X == startX + pos_x &&
+                        (raw_mobs_list[i].Y == (pos_y + startY) || raw_mobs_list[i].Y == (pos_y + startY + 1))) {
 
                         DrawInventory(raw_mobs_list[i]);
 
