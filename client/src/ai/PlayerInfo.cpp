@@ -22,7 +22,8 @@ namespace ai
 
   PlayerInfo::PlayerInfo(NetworkManager &network)
       : m_inventory(), m_look(), m_level(1), m_foodTarget(-1),
-        m_stoneTarget(-1), m_stoneName(""), m_network(network)
+        m_stoneTarget(-1), m_stoneName(""), m_network(network), m_targetId(-1),
+        m_targetDir(0, 0)
   {
   }
 
@@ -30,7 +31,8 @@ namespace ai
       : m_inventory(that.m_inventory), m_look(that.m_look),
         m_level(that.m_level), m_foodTarget(that.m_foodTarget),
         m_stoneTarget(that.m_stoneTarget), m_stoneName(that.m_stoneName),
-        m_network(that.m_network)
+        m_network(that.m_network), m_targetId(that.m_targetId),
+        m_targetDir(that.m_targetDir)
   {
   }
 
@@ -40,6 +42,8 @@ namespace ai
         m_foodTarget(std::move(that.m_foodTarget)),
         m_stoneTarget(std::move(that.m_stoneTarget)),
         m_stoneName(std::move(that.m_stoneName)), m_network(that.m_network),
+        m_targetId(std::move(that.m_targetId)),
+        m_targetDir(std::move(that.m_targetDir))
   {
   }
 
@@ -387,5 +391,25 @@ namespace ai
     res[4] = m_look[0].at("phiras");
     res[5] = m_look[0].at("thystame");
     return (res);
+  }
+
+  std::int32_t PlayerInfo::getTargetId() const
+  {
+    return (m_targetId);
+  }
+
+  std::pair<std::int32_t, std::int32_t> PlayerInfo::getTargetDir() const
+  {
+    return (m_targetDir);
+  }
+
+  void PlayerInfo::setTargetDir(std::int32_t x, std::int32_t y)
+  {
+    m_targetDir = std::pair<std::int32_t, std::int32_t>(x, y);
+  }
+
+  void PlayerInfo::setTargetId(std::int32_t id)
+  {
+    m_targetId = id;
   }
 }

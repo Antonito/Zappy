@@ -5,25 +5,26 @@
 ** Login   <lucas.troncy@epitech.eu>
 **
 ** Started on  Fri Jun 23 16:10:50 2017 Lucas Troncy
-** Last update Sun Jul  2 14:08:34 2017 Antoine Baché
+** Last update Sun Jul  2 17:57:47 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ARGV_H_
 # define ZAPPY_ARGV_H_
-# define NB_ARGVS 7
 
 # include <stdint.h>
 # include <stdlib.h>
 # include "zappy.h"
 
-typedef struct		s_argv
+# define NB_ARGVS 7
+
+typedef struct		s_zappy_argv
 {
-  char			*small;
-  char			*fat;
+  char			*arg_s;
+  char			*arg_l;
   int			(*f)(int32_t ndx,
 			     char const * const * const av,
-			    t_zappy_config * const data);
-}			t_argv;
+			     t_zappy_config * const data);
+}			t_zappy_argv;
 
 int32_t		argv_port(int32_t i, char const * const * const av,
 			  t_zappy_config * const data);

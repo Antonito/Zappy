@@ -181,6 +181,49 @@ namespace ai
   Value AI::receiveMessage(Value)
   {
     nope::log::Log(Debug) << "STATE : ReceiveMessage";
+    Message msg = m_network.getMessage();
+
+    if (msg.type == Message::Type::COME)
+      {
+	if (m_player.getTargetId() == -1)
+	  {
+	    m_player.setTargetId(msg.id);
+	  }
+	if (msg.id == m_player.getTargetId() &&
+	    std::stoi(msg.opt[0]) == m_player.getLevel())
+	  {
+	    m_player.setTargetDir(msg.x, msg.y);
+	    return (Value::COME);
+	  }
+	else
+	  {
+	    return (Value::NO);
+	  }
+      }
+    else if (msg.type == Message::Type::GO_AWAY)
+      {
+	if (msg.id == m_player.getTargetId())
+	  {
+	    m_player.setTargetId(-1);
+	    return (Value::GO_AWAY);
+	  }
+	else
+	  {
+	    return (Value::NO);
+	  }
+      }
+    else if (msg.type == Message::Type::END_INCANT)
+      {
+	if (msg.id == m_player.getTargetId())
+	  {
+	    m_player.setTargetId(-1);
+	    return (Value::END_INCANT);
+	  }
+	else
+	  {
+	    return (Value::NO);
+	  }
+      }
     return (Value::NO);
   }
 
@@ -332,29 +375,22 @@ namespace ai
 
     nope::log::Log(Debug) << "STATE : MoveToFood (" << dir.first << ", "
                           << dir.second << ')';
-    if (m_player.moveTo(dir.first, dir.second))
-      {
-	m_player.setFoodTarget(0);
-	return (Value::YES);
-      }
-    return (Value::NO);
+    m_player.moveTo(dir.first, dir.second);
+    m_player.setFoodTarget(0);
+    return (Value::YES);
   }
 
   Value AI::level(Value)
   {
     nope::log::Log(Debug) << "STATE : Level";
-    if (m_player.getLevel() == m_network.getrequiredLevel())
-      {
-	return (Value::YES);
-      }
-    return (Value::NO);
+    return (Value::YES);
   }
 
   Value AI::moveToTeammate(Value)
   {
     nope::log::Log(Debug) << "STATE : MoveToTeammate";
-    Message msg = m_network().getMessage();
-    if (m_player.moveTo(msg.first, msg.second))
+    if (m_player.moveTo(m_player.getTargetDir().first,
+                        m_player.getTargetDir().second))
       {
 	return (Value::YES);
       }
@@ -364,8 +400,8 @@ namespace ai
   Value AI::arrived(Value)
   {
     nope::log::Log(Debug) << "STATE : Arrived";
-    Message msg = m_network().getMessage();
-    if (msg.x == 0 && msg.y == 0)
+    if (m_player.getTargetDir().first == 0 &&
+        m_player.getTargetDir().second == 0)
       {
 	if (m_loop == 4)
 	  {

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 14:46:00 2017 Antoine Baché
-** Last update Thu Jun 29 14:44:09 2017 Antoine Baché
+** Last update Sun Jul  2 17:57:36 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -13,7 +13,7 @@
 #include "zappy.h"
 #include "zappy_argv.h"
 
-static t_argv const argvs[] =
+static t_zappy_argv const	argvs[] =
   {
     { "-p", "--port", &argv_port },
     { "-x", "--width", &argv_width },
@@ -36,8 +36,8 @@ static int32_t		check_argvs(int const ac,
       j = 0;
       while (j < NB_ARGVS)
 	{
-	  if (strcmp(av[i], argvs[j].small) == 0 ||
-	      strcmp(av[i], argvs[j].fat) == 0)
+	  if (strcmp(av[i], argvs[j].arg_s) == 0 ||
+	      strcmp(av[i], argvs[j].arg_l) == 0)
 	    {
 	      if (argvs[j].f(i, av, data))
 		return (1);

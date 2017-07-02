@@ -77,6 +77,11 @@ namespace ai
 
     std::array<std::int32_t, 6> const getCurCase() const;
 
+    std::int32_t getTargetId() const;
+    std::pair<std::int32_t, std::int32_t> getTargetDir() const;
+    void setTargetDir(std::int32_t x, std::int32_t y);
+    void setTargetId(std::int32_t id);
+
   private:
     std::map<std::string, std::int32_t>              m_inventory;
     std::vector<std::map<std::string, std::int32_t>> m_look;
@@ -88,6 +93,9 @@ namespace ai
     std::string  m_stoneName;
 
     NetworkManager &m_network;
+
+    std::int32_t m_targetId;
+    std::pair<std::int32_t, std::int32_t> m_targetDir;
   };
 }
 

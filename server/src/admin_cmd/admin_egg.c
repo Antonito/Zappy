@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 20:57:38 2017 Antoine Baché
-** Last update Sun Jul  2 14:46:41 2017 Antoine Baché
+** Last update Sun Jul  2 20:13:39 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -65,7 +65,7 @@ void			zappy_admin_cmd_egg(t_zappy * const data,
       g = (t_zappy_graph_arg){ egg, 0, 0 };
       zappy_graph_send(&g, data, NULL, &zappy_graph_enw);
       zappy_admin_cmd_egg_fill(data, now);
-      dprintf(data->admin.client.sock,
+      fprintf(data->admin.sock_stream,
 	      "Spawned an egg at %dx%d for team %d\n",
 	      egg->x, egg->y, team_id);
     }

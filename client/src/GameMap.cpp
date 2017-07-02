@@ -120,5 +120,36 @@ namespace zappy
       }
 
     camera.setPosition(pos);
+
+       glm::vec3 aim = camera.aim();
+
+    if (aim.y < Tile::tileScale / 2.0f + shift)
+      {
+	aim.y = Tile::tileScale / 2.0f + shift;
+      }
+    else if (aim.y > 100.0f)
+      {
+	aim.y = 100.0f;
+      }
+
+    if (aim.x > 10.0f - shift)
+      {
+	aim.x = 10.0f - shift;
+      }
+    else if (aim.x < -static_cast<float>(m_x) - 10.0f + shift)
+      {
+	aim.x = -static_cast<float>(m_x) - 10.0f + shift;
+      }
+
+    if (aim.z < -10.0f + shift)
+      {
+	aim.z = -10.0f + shift;
+      }
+    else if (aim.z > static_cast<float>(m_y) + 10.0f - shift)
+      {
+	aim.z = static_cast<float>(m_y) + 10.0f - shift;
+      }
+
+    camera.setAim(aim);
   }
 }
