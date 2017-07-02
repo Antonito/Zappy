@@ -38,11 +38,14 @@ namespace ai
     std::int32_t getPlayerID() const;
     std::queue<std::string> &getMSG();
 
+    std::int32_t getDirection() const;
+    void setDirection(std::int32_t dir);
   private:
     std::int32_t m_level;
     std::queue<std::string> &m_cmdMSG;
     std::int32_t m_targetID;
     std::int32_t m_playerID;
+    std::int32_t m_direction;
   };
 }
 

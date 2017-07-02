@@ -13,12 +13,14 @@ namespace ai
 
   void LevelState::readState(std::queue<std::string> &readQueue)
   {
+    m_curValue = Value::YES;
     nope::log::Log(Debug) << "Level[READ]State";
   }
 
   void LevelState::writeState(std::queue<std::string> &writeQueue)
   {
     nope::log::Log(Debug) << "Level[WRITE]State";
+    m_curValue = Value::YES;
   }
 
   void LevelState::reset(Value value)

@@ -20,11 +20,15 @@ namespace ai
       {
 	return;
       }
-    std::string get = m_player.getMSG().front();
+    std::int32_t dir = 0;
+    std::string  get = m_player.getMSG().front();
     m_player.getMSG().pop();
     std::stringstream ss;
     ss << get;
     std::string res;
+    ss >> res;
+    ss >> dir;
+    ss >> res;
     ss >> res;
     if (res == "EmBsTf")
       {
@@ -40,9 +44,12 @@ namespace ai
 		if (level == m_player.getLevel())
 		  {
 		    m_player.setTargetID(id);
+		    if (dir >= 0 && dir <= 8)
+		      {
+			m_player.setDirection(dir);
+		      }
 		  }
 	      }
-	    m_curValue = Value::COME;
 	  }
 	else if (res == "GO_AWAY")
 	  {
@@ -52,7 +59,6 @@ namespace ai
 	      {
 		m_player.setTargetID(-1);
 	      }
-	    m_curValue = Value::GO_AWAY;
 	  }
 	else if (res == "END_INCANT")
 	  {
@@ -62,10 +68,10 @@ namespace ai
 	      {
 		m_player.setTargetID(-1);
 	      }
-	    m_curValue = Value::END_INCANT;
 	  }
 	else
 	  {
+	    m_curValue = Value::NO;
 	    nope::log::Log(Error) << "Wrong message";
 	  }
       }

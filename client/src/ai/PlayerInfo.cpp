@@ -15,7 +15,7 @@ namespace ai
           {6, {{2, 2, 2, 2, 2, 1}}},
       }};
 
-  PlayerInfo::PlayerInfo(std::queue<std::string> &queue) : m_level(1), m_cmdMSG(queue), m_targetID(-1), m_playerID(std::rand() % 4096)
+  PlayerInfo::PlayerInfo(std::queue<std::string> &queue) : m_level(1), m_cmdMSG(queue), m_targetID(-1), m_playerID(std::rand() % 4096), m_direction(0)
   {
   }
 
@@ -112,5 +112,15 @@ namespace ai
     std::queue<std::string> &PlayerInfo::getMSG()
     {
       return (m_cmdMSG);
+    }
+
+    std::int32_t PlayerInfo::getDirection() const
+    {
+      return (m_direction);
+    }
+
+    void PlayerInfo::setDirection(std::int32_t dir)
+    {
+      m_direction = dir;
     }
 }
