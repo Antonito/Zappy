@@ -159,7 +159,6 @@ var InGame = {
 
         ws.onmessage = function(res) {
 
-            console.log("=>" + res.data);
             parseData(res.data);
 
         };
