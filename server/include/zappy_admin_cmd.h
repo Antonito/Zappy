@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:27:51 2017 Antoine Baché
-** Last update Sun Jul  2 22:47:11 2017 Antoine Baché
+** Last update Sun Jul  2 23:15:59 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_ADMIN_CMD_H_
@@ -105,6 +105,9 @@ void			zappy_admin_add_tile(t_zappy * const data,
 					     char const *cmd);
 void			zappy_admin_rm_tile(t_zappy * const data,
 					    char const *cmd);
+void			zappy_admin_update_tile(int32_t const x,
+						int32_t const y,
+						t_zappy * const data);
 
 /*
 ** Output

@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 18:32:27 2017 Antoine Baché
-** Last update Sun Jul  2 22:49:17 2017 Antoine Baché
+** Last update Sun Jul  2 23:14:41 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -18,7 +18,7 @@
 #include "zappy_team.h"
 #include "zappy_resource.h"
 
-static void		zappy_admin_update_tile(int32_t const x,
+void			zappy_admin_update_tile(int32_t const x,
 						int32_t const y,
 						t_zappy * const data)
 {

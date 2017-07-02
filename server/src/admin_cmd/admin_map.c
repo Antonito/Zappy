@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jul  1 23:26:56 2017 Antoine Baché
-** Last update Sat Jul  1 23:44:11 2017 Antoine Baché
+** Last update Sun Jul  2 23:14:57 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -38,6 +38,7 @@ void			zappy_admin_add_tile(t_zappy * const data,
 	      buff, x, y);
 	  map = &data->map.data[y][x];
 	  ++map->content[res];
+	  zappy_admin_update_tile(x, y, data);
 	}
     }
 }
@@ -65,6 +66,7 @@ void			zappy_admin_rm_tile(t_zappy * const data,
 	  map = &data->map.data[y][x];
 	  if (map->content[res] > 0)
 	    --map->content[res];
+	  zappy_admin_update_tile(x, y, data);
 	}
     }
 }
