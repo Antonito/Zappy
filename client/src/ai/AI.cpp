@@ -284,12 +284,14 @@ namespace ai
 	  {
 	    if (diffTab[static_cast<std::size_t>(i)] > 0)
 	      {
-		for (std::int32_t t = 0; t < diffTab[static_cast<std::size_t>(i)]; ++t)
+		for (std::int32_t t = 0;
+		     t < diffTab[static_cast<std::size_t>(i)]; ++t)
 		  m_player.take(m_player.getNameForIdStone(i));
 	      }
 	    else if (diffTab[static_cast<std::size_t>(i)] < 0)
 	      {
-		for (std::int32_t s = 0; s > diffTab[static_cast<std::size_t>(i)]; --s)
+		for (std::int32_t s = 0;
+		     s > diffTab[static_cast<std::size_t>(i)]; --s)
 		  m_player.set(m_player.getNameForIdStone(i));
 	      }
 	  }
@@ -305,7 +307,10 @@ namespace ai
       {
 	nope::log::Log(Debug) << "INCANT: OK";
 	if (m_network.receive() != "ko")
-	  return (Value::YES);
+	  {
+	    m_player.setLevel(m_player.getLevel() + 1);
+	    return (Value::YES);
+	  }
 	return (Value::NO);
       }
     return (Value::NO);
