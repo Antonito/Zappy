@@ -4,8 +4,12 @@ namespace ai
 {
   SetRecipeState::SetRecipeState(
       std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
-      : AState(states, player)
+      : AState(states, player), m_fixTab()
   {
+    for (std::size_t i = 0; i < 6; ++i)
+    {
+      m_fixTab[i] = 0;
+    }
   }
 
   SetRecipeState::~SetRecipeState()
@@ -66,6 +70,10 @@ namespace ai
   void SetRecipeState::reset(Value value)
   {
     nope::log::Log(Debug) << "SetRecipeState reset";
+    for (std::size_t i = 0; i < 6; ++i)
+    {
+      m_fixTab[i] = 0;
+    }
     m_curValue = Value::LOOP;
     m_retValue = value;
     m_canWrite = true;
