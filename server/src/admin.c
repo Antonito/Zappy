@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 19:36:44 2017 Antoine Baché
-** Last update Sun Jul  2 20:16:38 2017 Antoine Baché
+** Last update Sun Jul  2 22:16:00 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -23,6 +23,7 @@ void			zappy_admin_disconnect(t_zappy_admin * const adm)
       closesocket(adm->client.sock);
     }
   adm->client.sock = -1;
+  adm->sock_stream = NULL;
   LOG(LOG_INFO, CYAN_BOLD_INTENS"Administrator disconnected"CLEAR);
 }
 
