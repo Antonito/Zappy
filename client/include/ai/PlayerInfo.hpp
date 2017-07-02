@@ -59,20 +59,24 @@ namespace ai
     void setFoodTarget(std::int32_t target);
     std::int32_t getFoodTarget() const;
 
-    void setStoneTarget(std::int32_t target, std::string const &name);
-    std::string const &getStoneTargetName() const;
+    void setStoneTarget(std::int32_t target);
+    void setStoneName(std::string const &name);
+    std::string const &getStoneName() const;
     std::int32_t       getStoneTarget() const;
 
     std::pair<std::int32_t, std::int32_t> getDirection(std::int32_t) const;
+
+    std::string const getNameForIdStone(std::int32_t id) const;
 
   private:
     std::map<std::string, std::int32_t>              m_inventory;
     std::vector<std::map<std::string, std::int32_t>> m_look;
 
-    std::int32_t             m_level;
+    std::int32_t m_level;
 
     std::int32_t m_foodTarget;
-    std::pair<std::int32_t, std::string> m_stoneTarget;
+    std::int32_t m_stoneTarget;
+    std::string  m_stoneName;
 
     NetworkManager &m_network;
   };

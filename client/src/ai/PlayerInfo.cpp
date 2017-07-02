@@ -22,14 +22,15 @@ namespace ai
 
   PlayerInfo::PlayerInfo(NetworkManager &network)
       : m_inventory(), m_look(), m_level(1), m_foodTarget(-1),
-        m_stoneTarget(-1, ""), m_network(network)
+        m_stoneTarget(-1), m_stoneName(""), m_network(network)
   {
   }
 
   PlayerInfo::PlayerInfo(PlayerInfo const &that)
       : m_inventory(that.m_inventory), m_look(that.m_look),
         m_level(that.m_level), m_foodTarget(that.m_foodTarget),
-        m_stoneTarget(that.m_stoneTarget), m_network(that.m_network)
+        m_stoneTarget(that.m_stoneTarget), m_stoneName(that.m_stoneName),
+        m_network(that.m_network)
   {
   }
 
@@ -37,7 +38,8 @@ namespace ai
       : m_inventory(std::move(that.m_inventory)),
         m_look(std::move(that.m_look)), m_level(std::move(that.m_level)),
         m_foodTarget(std::move(that.m_foodTarget)),
-        m_stoneTarget(std::move(that.m_stoneTarget)), m_network(that.m_network)
+        m_stoneTarget(std::move(that.m_stoneTarget)),
+        m_stoneName(std::move(that.m_stoneName)), m_network(that.m_network)
   {
   }
 
@@ -315,19 +317,24 @@ namespace ai
     return (m_foodTarget);
   }
 
-  void PlayerInfo::setStoneTarget(std::int32_t target, std::string const &name)
+  void PlayerInfo::setStoneTarget(std::int32_t target)
   {
-    m_stoneTarget = std::pair<std::int32_t, std::string>(target, name);
+    m_stoneTarget = target;
   }
 
-  std::string const &PlayerInfo::getStoneTargetName() const
+  void PlayerInfo::setStoneName(std::string const &name)
   {
-    return (m_stoneTarget.second);
+    m_stoneName = name;
+  }
+
+  std::string const &PlayerInfo::getStoneName() const
+  {
+    return (m_stoneName);
   }
 
   std::int32_t PlayerInfo::getStoneTarget() const
   {
-    return (m_stoneTarget.first);
+    return (m_stoneTarget);
   }
 
   std::pair<std::int32_t, std::int32_t>
@@ -344,5 +351,10 @@ namespace ai
     x = pos - mid;
     nope::log::Log(Debug) << "Direction of " << pos << ": " << x << ' ' << y << "(" << mid << ")";
     return (std::pair<std::int32_t, std::int32_t>(x, y));
+  }
+
+  std::string const PlayerInfo::getNameForIdStone(std::int32_t id) const
+  {
+    return (stoneNames.at(id));
   }
 }

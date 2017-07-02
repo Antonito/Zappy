@@ -154,6 +154,7 @@ namespace ai
 
   Value AI::starving(Value)
   {
+    nope::log::Log(Debug) << "STATE : Starving";
     if (m_player.updateInventory())
       {
 	int food = m_player.get("food");
@@ -172,31 +173,55 @@ namespace ai
 
   Value AI::receiveMessage(Value)
   {
+    nope::log::Log(Debug) << "STATE : ReceiveMessage";
     return (Value::NO);
   }
 
   Value AI::missingStone(Value)
   {
+    nope::log::Log(Debug) << "STATE : MissingStone";
+    //     if (m_player.updateInventory())
+    //       {
+    // 	std::array<std::int32_t, 6> stoneTab =
+    // 	    m_player.missingStone(m_player.getInventory());
+    // 	for (std::int32_t i = 0; i < 6; ++i)
+    // 	  {
+    // 	    if (stoneTab[static_cast<std::size_t>(i)] > 0)
+    // 	      {
+    // 		m_player.setStoneName(m_player.getNameForIdStone(i));
+    // 		return (Value::YES);
+    // 	      }
+    // 	  }
+    //       }
     return (Value::NO);
   }
 
   Value AI::missingPlayer(Value)
   {
+    nope::log::Log(Debug) << "STATE : MissingPlayer";
     return (Value::NO);
   }
 
   Value AI::setRecipe(Value)
   {
+    nope::log::Log(Debug) << "STATE : SetRecipe";
     return (Value::NO);
   }
 
   Value AI::incant(Value)
   {
+    nope::log::Log(Debug) << "STATE : Incant";
+    if (m_player.incant())
+      {
+	// TODO: wait for second OK
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
   Value AI::foodOnCase(Value)
   {
+    nope::log::Log(Debug) << "STATE : FoodOnCase";
     if (m_player.updateLook())
       {
 	std::int32_t find = m_player.find("food");
@@ -216,6 +241,7 @@ namespace ai
 
   Value AI::collectFood(Value)
   {
+    nope::log::Log(Debug) << "STATE : CollectFood";
     if (m_player.take("food"))
       {
 	return (Value::YES);
@@ -225,6 +251,7 @@ namespace ai
 
   Value AI::findFood(Value)
   {
+    nope::log::Log(Debug) << "STATE : FindFood";
     if (m_player.updateLook())
       {
 	std::int32_t food = m_player.find("food");
@@ -255,6 +282,7 @@ namespace ai
 
   Value AI::moveToFood(Value)
   {
+    nope::log::Log(Debug) << "STATE : MoveToFood";
     std::pair<std::int32_t, std::int32_t> dir =
         m_player.getDirection(m_player.getFoodTarget());
 
@@ -263,57 +291,103 @@ namespace ai
 	m_player.setFoodTarget(0);
 	return (Value::YES);
       }
-
     return (Value::NO);
   }
 
   Value AI::level(Value)
   {
+    nope::log::Log(Debug) << "STATE : Level";
     return (Value::NO);
   }
 
   Value AI::moveToTeammate(Value)
   {
+    nope::log::Log(Debug) << "STATE : MoveToTeammate";
     return (Value::NO);
   }
 
   Value AI::arrived(Value)
   {
+    nope::log::Log(Debug) << "STATE : Arrived";
     return (Value::NO);
   }
 
   Value AI::fixRecipe(Value)
   {
+    nope::log::Log(Debug) << "STATE : fixRecipe";
     return (Value::NO);
   }
 
   Value AI::stoneOnCase(Value)
   {
+    nope::log::Log(Debug) << "STATE : stoneOnCase";
+    if (m_player.updateLook())
+      {
+	if (m_player.find(m_player.getStoneName()) == 0)
+	  {
+	    return (Value::YES);
+	  }
+	else
+	  {
+	    return (Value::NO);
+	  }
+      }
     return (Value::NO);
   }
 
   Value AI::collectStone(Value)
   {
+    nope::log::Log(Debug) << "STATE : CollectStone";
+    if (m_player.take(m_player.getStoneName()))
+      {
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
   Value AI::findStone(Value)
   {
+    nope::log::Log(Debug) << "STATE : FindStone";
+    if (m_player.updateLook())
+      {
+	std::int32_t stone = m_player.find(m_player.getStoneName());
+
+	if (stone == -1)
+	  {
+	    m_player.right();
+	    return (Value::NO);
+	  }
+	else
+	  {
+	    m_player.setStoneTarget(stone);
+	    return (Value::YES);
+	  }
+      }
     return (Value::NO);
   }
 
   Value AI::moveToStone(Value)
   {
+    nope::log::Log(Debug) << "STATE : moveToStone";
+    std::pair<std::int32_t, std::int32_t> dir =
+        m_player.getDirection(m_player.getStoneTarget());
+
+    if (m_player.moveTo(dir.first, dir.second))
+      {
+	return (Value::YES);
+      }
     return (Value::NO);
   }
 
   Value AI::troll(Value)
   {
+    nope::log::Log(Debug) << "STATE : troll";
     return (Value::NO);
   }
 
   Value AI::initAI(Value)
   {
+    nope::log::Log(Debug) << "STATE : initAI";
     return (Value::NO);
   }
 }
