@@ -111,11 +111,12 @@ namespace zappy
     std::string   m_machine;
 
     // Game data
-    GameMap m_map;
+    GameMap                              m_map;
     std::vector<std::unique_ptr<Player>> m_players;
-    std::vector<Team> m_teams;
-    int               m_focus;
-    Camera::Mode      m_camMode;
+    std::vector<Team>                    m_teams;
+    std::vector<std::pair<std::size_t, Mesh>> m_eggs;
+    int          m_focus;
+    Camera::Mode m_camMode;
 
     // 3d data
     Camera m_camera;

@@ -74,6 +74,11 @@ namespace zappy
 	      }
 	  }
 
+	for (std::pair<std::size_t, Mesh> const &egg : m_eggs)
+	  {
+	    m_win.draw(m_camera, egg.second);
+	  }
+
 	// Update camera
 	m_camera.updatePosition(sinceLast);
 	m_map.fixCamera(m_camera);
@@ -150,7 +155,9 @@ namespace zappy
 		    m_players[m_focus].get() != nullptr)
 		  {
 		    m_camera.translate(glm::vec3(0.0f, 0.6f, 0.0f));
-		    m_camera.setAim(m_camera.position() + glm::vec3(0.0f, 1.0f, 0.0f) - m_players[m_focus]->direction());
+		    m_camera.setAim(m_camera.position() +
+		                    glm::vec3(0.0f, 1.0f, 0.0f) -
+		                    m_players[m_focus]->direction());
 		  }
 		m_camMode = Camera::Mode::FreeCam;
 	      }
@@ -803,7 +810,8 @@ namespace zappy
     nope::log::Log(Debug) << "The egg " << eggId << " was layed by the player "
                           << playerId << " in (" << x << ", " << y << ')';
 
-    // TODO: set the actual values
+    m_eggs.emplace_back(eggId, Mesh(Model::fromObj("./models/egg.obj"),
+                                                   glm::vec3(-x, 0.5, y)));
   }
 
   void GraphicClient::eggHatching(std::string const &data)
@@ -829,7 +837,14 @@ namespace zappy
 
     nope::log::Log(Info) << "A player connected for the egg " << eggId;
 
-    // TODO: set the actual values
+    for (std::size_t i = 0; i < m_eggs.size(); ++i)
+      {
+	if (m_eggs[i].first == eggId)
+	  {
+	    m_eggs.erase(m_eggs.begin() + i);
+	    break;
+	  }
+      }
   }
 
   void GraphicClient::hatchedEggStarved(std::string const &data)
