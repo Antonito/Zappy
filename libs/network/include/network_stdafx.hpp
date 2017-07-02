@@ -6,7 +6,7 @@
 #ifndef NETWORK_STDAFX_HPP_
 #define NETWORK_STDAFX_HPP_
 
-#include "network_targetver.h"
+#include "network_targetver.hpp"
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 
