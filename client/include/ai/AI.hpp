@@ -104,6 +104,8 @@ namespace ai
     NetworkManager m_network;
     PlayerInfo     m_player;
     bool           m_alive;
+
+    std::int32_t m_loop;
   };
 }
 

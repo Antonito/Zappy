@@ -83,7 +83,9 @@ namespace ai
     std::array<std::int32_t, 6> res{};
     for (std::size_t i = 0; i < 6; ++i)
       {
-	std::int32_t tmp = recipes[static_cast<std::size_t>(m_level)].second[i] - inventory[i];
+	std::int32_t tmp =
+	    recipes[static_cast<std::size_t>(m_level)].second[i] -
+	    inventory[i];
 	if (tmp < 0)
 	  res[i] = 0;
 	else
@@ -109,6 +111,7 @@ namespace ai
     for (std::string each; std::getline(split, each, ',');
          tokens.push_back(each))
       ;
+    m_look.clear();
     for (std::size_t i = 0; i < tokens.size(); ++i)
       {
 	if (i == 0)
@@ -130,6 +133,24 @@ namespace ai
 	  }
 	m_look.push_back(std::move(mapTemp));
       }
+
+      // TODO: remove
+//     {
+//       nope::log::LogMessage msg = nope::log::Log(Debug);
+//       msg << "[";
+//       for (std::map<std::string, std::int32_t> &tile : m_look)
+// 	{
+// 	  for (std::pair<const std::string, std::int32_t> &r : tile)
+// 	    {
+// 	      for (std::int32_t i = 0; i < r.second; ++i)
+// 		{
+// 		  msg << ' ' << r.first;
+// 		}
+// 	    }
+// 	  msg << ", ";
+// 	}
+//       msg << "]";
+//     }
     return (true);
   }
 
@@ -266,7 +287,7 @@ namespace ai
 	    res = false;
 	  }
       }
-    else
+    else if (x < 0)
       {
 	if (!this->left())
 	  {
@@ -316,11 +337,12 @@ namespace ai
     std::int32_t y = 0;
     std::int32_t mid = 0;
 
-    for (y = 0; mid + y < pos; ++y)
+    for (y = 0; pos > mid + y; ++y)
       {
-	mid += 2 * y;
+	mid += 2 * (y + 1);
       }
     x = pos - mid;
+    nope::log::Log(Debug) << "Direction of " << pos << ": " << x << ' ' << y << "(" << mid << ")";
     return (std::pair<std::int32_t, std::int32_t>(x, y));
   }
 }

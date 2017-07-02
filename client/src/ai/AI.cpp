@@ -87,9 +87,10 @@ namespace ai
              State::NO_CHANGE, State::NO_CHANGE}}},
   };
 
-  AI::AI(std::string const &ip, std::uint16_t port, std::string const &teamname)
+  AI::AI(std::string const &ip, std::uint16_t port,
+         std::string const &teamname)
       : m_states(), m_curState(State::STARVING), m_curValue(Value::YES),
-        m_network(ip, port), m_player(m_network), m_alive(true)
+        m_network(ip, port), m_player(m_network), m_alive(true), m_loop(0)
   {
     if (m_network.receive() != "WELCOME")
       {
@@ -198,7 +199,10 @@ namespace ai
   {
     if (m_player.updateLook())
       {
-	if (m_player.find("food") == 0)
+	std::int32_t find = m_player.find("food");
+
+	nope::log::Log(Debug) << "Found food on " << find;
+	if (find == 0)
 	  {
 	    return (Value::YES);
 	  }
@@ -227,12 +231,22 @@ namespace ai
 
 	if (food == -1)
 	  {
-	    m_player.right();
+	    if (m_loop < 4)
+	      {
+		m_player.right();
+	      }
+	    else
+	      {
+		m_player.forward();
+		m_loop = 0;
+	      }
+	    ++m_loop;
 	    return (Value::NO);
 	  }
 	else
 	  {
 	    m_player.setFoodTarget(food);
+	    m_loop = 0;
 	    return (Value::YES);
 	  }
       }
@@ -246,6 +260,7 @@ namespace ai
 
     if (m_player.moveTo(dir.first, dir.second))
       {
+	m_player.setFoodTarget(0);
 	return (Value::YES);
       }
 
