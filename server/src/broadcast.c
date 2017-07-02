@@ -5,7 +5,7 @@
 ** Login   <antoinebache@epitech.net>
 **
 ** Started on  Wed Jun 28 02:38:56 2017 Antoine Baché
-** Last update Wed Jun 28 18:19:43 2017 Antoine Baché
+** Last update Sun Jul  2 14:57:33 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -63,7 +63,8 @@ static int32_t	zappy_broadcast_case(int32_t x, int32_t y,
 
 int32_t		zappy_broadcast_calc(t_zappy_client const * const from,
 				     t_zappy_client const * const to,
-				     int32_t const width, int32_t const height)
+				     int32_t const width,
+				     int32_t const height)
 {
   int32_t	shortest[2];
   double	dir;
@@ -71,8 +72,10 @@ int32_t		zappy_broadcast_calc(t_zappy_client const * const from,
   double	r[2];
   double	v[2];
 
-  shortest[0] = zappy_broadcast_get_shortest(from->game.x, to->game.x, width);
-  shortest[1] = zappy_broadcast_get_shortest(from->game.y, to->game.y, height);
+  shortest[0] = zappy_broadcast_get_shortest(from->game.x, to->game.x,
+					     width);
+  shortest[1] = zappy_broadcast_get_shortest(from->game.y, to->game.y,
+					     height);
   LOG(LOG_DEBUG, "a: %d | b %d", shortest[0], shortest[1]);
   if (!shortest[0] || !shortest[1])
     return (zappy_broadcast_case(shortest[0], shortest[1], to));

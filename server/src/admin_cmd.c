@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 22:35:04 2017 Antoine Baché
-** Last update Sun Jul  2 04:46:18 2017 Antoine Baché
+** Last update Sun Jul  2 14:53:22 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -73,7 +73,8 @@ void	zappy_admin_cmd_stop(t_zappy * const data,
   (void)cmd;
   (void)data;
   LOG(LOG_DEBUG, "Treating Admin command stop");
-  LOG(LOG_INFO, RED_BOLD_INTENS"Administrator requested system shutdown"CLEAR);
+  LOG(LOG_INFO,
+      RED_BOLD_INTENS"Administrator requested system shutdown"CLEAR);
   exit(0);
 }
 

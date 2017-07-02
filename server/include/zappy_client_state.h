@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 23:57:00 2017 Antoine Baché
-** Last update Sun Jun 25 16:23:04 2017 Antoine Baché
+** Last update Sun Jul  2 14:27:01 2017 Antoine Baché
 */
 
 #ifndef ZAPPY_CLIENT_STATE_H_

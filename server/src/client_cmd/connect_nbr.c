@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Mon Jun 26 09:42:07 2017 Antoine Baché
-** Last update Fri Jun 30 21:10:37 2017 Antoine Baché
+** Last update Sun Jul  2 14:42:25 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -20,8 +20,10 @@
 #include "zappy_message.h"
 #include "zappy_team_manager.h"
 
-static void	zappy_client_cmd_cnbr_fill(t_zappy_client * const cli,
-					   t_zappy_message * const msg)
+static void		zappy_client_cmd_cnbr_fill(t_zappy_client *
+						   const cli,
+						   t_zappy_message *
+						   const msg)
 {
   if (msg->msg && cqueue_push(&cli->output_queue, msg))
     {
@@ -47,7 +49,8 @@ void			zappy_client_cmd_connect_nbr(t_zappy_client *
   msg = zappy_alloc_message();
   if (msg)
     {
-      rem = zappy_team_manager_get_space(cli->game.team_id, &data->conf.teams);
+      rem =
+	zappy_team_manager_get_space(cli->game.team_id, &data->conf.teams);
       assert(rem >= 0);
       msg->msg = NULL;
       msg->len = snprintf(buff, sizeof(buff), "%d\n", rem);

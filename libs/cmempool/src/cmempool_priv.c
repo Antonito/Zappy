@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sat Jun 24 17:30:07 2017 Antoine Baché
-** Last update Sat Jun 24 18:00:17 2017 Antoine Baché
+** Last update Sun Jul  2 13:55:13 2017 Antoine Baché
 */
 
 #include <stddef.h>
@@ -54,7 +54,8 @@ void		*cmempool_malloc(t_cmempool_priv * const self)
       if (--self->free_block_nb)
 	{
 	  self->next =
-	    (uint8_t *)cmempool_get_addr(self, *(uint32_t *)(uintptr_t)self->next);
+	    (uint8_t *)cmempool_get_addr(self,
+					 *(uint32_t *)(uintptr_t)self->next);
 	}
       else
 	{

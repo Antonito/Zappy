@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Fri Jun 23 18:08:11 2017 Antoine Baché
-** Last update Sat Jun 24 15:11:30 2017 Antoine Baché
+** Last update Sun Jul  2 13:51:13 2017 Antoine Baché
 */
 
 #include <assert.h>
@@ -43,7 +43,7 @@ static int32_t	clogger_print_msg(FILE * const stream,
     }
   else
     {
-      strftime(buffer, 80, "%x - %I:%M%p", loctime);
+      strftime(buffer, sizeof(buffer), "%x - %I:%M%p", loctime);
       ret = fprintf(stream, "{ %s | %s } - ",
 		    buffer, level_str[level]);
       ret += vfprintf(stream, fmt, ap);

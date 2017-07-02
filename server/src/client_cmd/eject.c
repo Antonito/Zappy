@@ -5,7 +5,7 @@
 ** Login   <antoine.bache@epitech.net>
 **
 ** Started on  Sun Jun 25 12:29:34 2017 Antoine Baché
-** Last update Fri Jun 30 21:11:07 2017 Antoine Baché
+** Last update Sun Jul  2 14:34:51 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -75,12 +75,13 @@ static void			zappy_client_eject_all(t_zappy_client *
     }
 }
 
-void			zappy_client_cmd_eject(t_zappy_client * const cli,
-					       t_zappy * const data,
-					       char const * const arg)
+void				zappy_client_cmd_eject(t_zappy_client *
+						       const cli,
+						       t_zappy * const data,
+						       char const * const arg)
 {
-  t_zappy_message	*msg;
-  t_zappy_graph_arg	g;
+  t_zappy_message		*msg;
+  t_zappy_graph_arg		g;
 
   LOG(LOG_DEBUG, "Treating eject command");
   msg = zappy_alloc_message();
