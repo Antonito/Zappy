@@ -89,26 +89,13 @@ namespace zappy
     float           dist = glm::length(m_position - camera.position());
     constexpr float g = 0.07f;
 
-    if (m_count > 0 && glm::length(m_position - camera.position()) < 20.0f)
+    if (m_count > 0 && dist < 20.0f)
       {
-	if (dist > 8.0f)
+	for (std::size_t i = 0; i < m_count; ++i)
 	  {
-	    float s = m_cube.scale().y;
-	    float c = (static_cast<float>(m_count) - 1.0f) * g + s;
-
-	    m_cube.scale(1.0, static_cast<double>(c / s), 1.0);
-	    m_cube.setPosition(m_position + glm::vec3(0, static_cast<double>(c) / 2.0 - 0.01, 0));
+	    m_cube.setPosition(m_position +
+	                       glm::vec3(0, static_cast<float>(i) * g, 0));
 	    win.draw(camera, m_cube);
-	    m_cube.scale(1.0, 1.0 / static_cast<double>(c * s), 1.0);
-	  }
-	else
-	  {
-	    for (std::size_t i = 0; i < m_count; ++i)
-	      {
-		m_cube.setPosition(m_position +
-		                   glm::vec3(0, static_cast<float>(i) * g, 0));
-		win.draw(camera, m_cube);
-	      }
 	  }
       }
   }
