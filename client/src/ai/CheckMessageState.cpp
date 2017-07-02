@@ -3,7 +3,8 @@
 namespace ai
 {
   CheckMessageState::CheckMessageState(
-      std::map<BasicState, std::unique_ptr<IState>> &states, PlayerInfo &player)
+      std::map<BasicState, std::unique_ptr<IState>> &states,
+      PlayerInfo &player)
       : AState(states, player)
   {
   }
@@ -16,9 +17,9 @@ namespace ai
   {
     nope::log::Log(Debug) << "CheckMessage[READ]State";
     if (m_player.getMSG().empty())
-    {
-      return ;
-    }
+      {
+	return;
+      }
     std::string get = m_player.getMSG().front();
     m_player.getMSG().pop();
     std::stringstream ss;
@@ -26,49 +27,52 @@ namespace ai
     std::string res;
     ss >> res;
     if (res == "EmBsTf")
-    {
-      ss >> res;
-      if (res == "COME")
       {
-        std::int32_t id;
-        std::int32_t level;
-        ss >> id;
-        ss >> level;
-        if (id != m_player.getPlayerID() && id != m_player.getTargetID())
-        {
-          if (level == m_player.getLevel())
-          {
-            m_player.setTargetID(id);
-          }
-        }
+	ss >> res;
+	if (res == "COME")
+	  {
+	    std::int32_t id;
+	    std::int32_t level;
+	    ss >> id;
+	    ss >> level;
+	    if (id != m_player.getPlayerID() && id != m_player.getTargetID())
+	      {
+		if (level == m_player.getLevel())
+		  {
+		    m_player.setTargetID(id);
+		  }
+	      }
+	    m_curValue = Value::COME;
+	  }
+	else if (res == "GO_AWAY")
+	  {
+	    std::int32_t id;
+	    ss >> id;
+	    if (id == m_player.getTargetID())
+	      {
+		m_player.setTargetID(-1);
+	      }
+	    m_curValue = Value::GO_AWAY;
+	  }
+	else if (res == "END_INCANT")
+	  {
+	    std::int32_t id;
+	    ss >> id;
+	    if (id == m_player.getTargetID())
+	      {
+		m_player.setTargetID(-1);
+	      }
+	    m_curValue = Value::END_INCANT;
+	  }
+	else
+	  {
+	    nope::log::Log(Error) << "Wrong message";
+	  }
       }
-      else if (res == "GO_AWAY")
-      {
-        std::int32_t id;
-        ss >> id;
-        if (id == m_player.getTargetID())
-        {
-          m_player.setTargetID(-1);
-        }
-      }
-      else if (res == "END_INCANT")
-      {
-        std::int32_t id;
-        ss >> id;
-        if (id == m_player.getTargetID())
-        {
-          m_player.setTargetID(-1);
-        }
-      }
-      else
-      {
-        nope::log::Log(Error) << "Wrong message";
-      }
-    }
     else
-    {
-      nope::log::Log(Info) << "not a message for me";
-    }
+      {
+	nope::log::Log(Info) << "not a message for me";
+      }
   }
 
   void CheckMessageState::writeState(std::queue<std::string> &writeQueue)

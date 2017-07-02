@@ -31,8 +31,9 @@ namespace ai
     std::pair<std::int32_t, std::int32_t> getDirection(std::int32_t) const;
     std::int32_t findFood() const;
     std::int32_t findStone() const;
+    std::int32_t getNbPlayer() const;
 
-    //std::vetor<std::map<std::string, std::int32_t>> &getCases() const;
+    // std::vetor<std::map<std::string, std::int32_t>> &getCases() const;
 
   private:
     Value m_value;
@@ -45,4 +46,3 @@ namespace ai
 #endif
 
 #endif // !LOOKSTATE_HPP_
-
