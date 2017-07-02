@@ -465,7 +465,16 @@ namespace ai
 
 	if (stone == -1)
 	  {
-	    m_player.right();
+	    if (m_loop < 4)
+	      {
+		m_player.right();
+		++m_loop;
+	      }
+	    else
+	      {
+		m_player.forward();
+		m_loop = 0;
+	      }
 	    return (Value::NO);
 	  }
 	else
