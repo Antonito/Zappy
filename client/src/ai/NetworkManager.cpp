@@ -176,8 +176,8 @@ namespace ai
 		FD_SET(sock, &rds);
 		struct timeval tm;
 
-		tm.tv_usec = 0;
-		tm.tv_sec = 600;
+		tm.tv_usec = 1000;
+		tm.tv_sec = 0;
 
 		ret = select(sock + 1, &rds, nullptr, nullptr, &tm);
 	      }
@@ -192,7 +192,8 @@ namespace ai
 
 	    if (ret == 0)
 	      {
-		throw std::runtime_error("Connection timed out");
+		msg.type = Message::Type::NONE;
+		return (msg);
 	      }
 	    else if (ret && FD_ISSET(sock, &rds))
 	      {

@@ -183,7 +183,11 @@ namespace ai
     nope::log::Log(Debug) << "STATE : ReceiveMessage";
     Message msg = m_network.getMessage();
 
-    if (msg.type == Message::Type::COME)
+    if (msg.type == Message::Type::NONE)
+      {
+	return (Value::NO);
+      }
+    else if (msg.type == Message::Type::COME)
       {
 	if (m_player.getTargetId() == -1)
 	  {
@@ -278,14 +282,14 @@ namespace ai
 	    m_player.diff(m_player.getRecipe(), m_player.getCurCase());
 	for (std::int32_t i = 0; i < 6; ++i)
 	  {
-	    if (diffTab[i] > 0)
+	    if (diffTab[static_cast<std::size_t>(i)] > 0)
 	      {
-		for (std::int32_t t = 0; t < diffTab[i]; ++t)
+		for (std::int32_t t = 0; t < diffTab[static_cast<std::size_t>(i)]; ++t)
 		  m_player.take(m_player.getNameForIdStone(i));
 	      }
-	    else if (diffTab[i] < 0)
+	    else if (diffTab[static_cast<std::size_t>(i)] < 0)
 	      {
-		for (std::int32_t s = 0; s > diffTab[i]; --s)
+		for (std::int32_t s = 0; s > diffTab[static_cast<std::size_t>(i)]; --s)
 		  m_player.set(m_player.getNameForIdStone(i));
 	      }
 	  }

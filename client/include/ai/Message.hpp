@@ -11,6 +11,7 @@ namespace ai
   {
     enum class Type
     {
+      NONE = -1,
       COME,
       GO_AWAY,
       END_INCANT
